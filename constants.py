@@ -9,7 +9,11 @@ SQL_CREATE_TABLE_GARAGE = 'CREATE TABLE "garage_obj" ( ' \
                           '	"arendator_id"	INTEGER,' \
                           '	"size_type_id"	INTEGER NOT NULL,' \
                           '	"create_year"	TEXT,' \
-                          '	"electro_id"	INTEGER' \
+                          '	"electro_id"	INTEGER,' \
+                          'FOREIGN KEY("owner_id") REFERENCES "garage_member"("id"),' \
+                          'FOREIGN KEY("arendator_id") REFERENCES "garage_member"("id"),' \
+                          'FOREIGN KEY("size_type_id") REFERENCES "type_size"("id"),' \
+                          'FOREIGN KEY("electro_id") REFERENCES "electric_meter"("id")' \
                           ');'
 
 SQL_CREATE_TABLE_GARGE_MEMBER = 'CREATE TABLE "garage_member" (' \
@@ -58,5 +62,7 @@ SQL_CREATE_TABLE_CONTRIBUTION = 'CREATE TABLE "contribution" (' \
                                 '	"pay_date"	TEXT NOT NULL,' \
                                 '	"period_pay"	TEXT NOT NULL,' \
                                 '	"value"	REAL,' \
+                                'FOREIGN KEY("id_garage") REFERENCES "garage_obj"("id"),' \
+                                'FOREIGN KEY("id_cont_type") REFERENCES "contribution_type"("id"),' \
                                 ');'
 

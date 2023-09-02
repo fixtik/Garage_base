@@ -25,7 +25,7 @@ def create_db(path: str, db_name: str = DEFAULT_BD_NAME) -> bool:
 # Запросы на электросчетчик
 def sql_add_electric_meter(num_meter: str, cur_day: int, cur_night: int = 0, pr_day: int = 0 , pr_night: int = 0) -> str:
     """
-    Запрос на добалвление нового электросчетчика
+    Запрос на добавление нового электросчетчика
     :param num_meter: номер электросчетчика
     :param cur_day: текущие дневные показания показания
     :param cur_night: текущие ночные показания (по умолчанию 0)
@@ -92,8 +92,37 @@ def get_type_size_id_by_size(width: float, len:float, height: float) -> str:
     return f"SELECT id FROM type_size WHERE width = {width}, len = {len}, height = {height};"
 
 
+# запросы на тип взноса
+def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = '') -> str:
+    """
+    добавление нового типа взноса
+    :param contrib_name: название взноса
+    :param value: размер взноса
+    :param comment: комментарий
+    :return: sql-запрос
+    """
+    return f"INSERT INTO contribution_type (name, value) VALUES ({contrib_name}, {value}, {comment});"
 
 
+# запросы по членам кооператива
+def sql_add_new_member(surname: str, first_name: str, birth_date: str, phone_main: str, voa: str,
+                       second_name:str ='', adress: str = '', second_phone:str = '',
+                       email:str = '', photo ='') -> str:
+    """
+    Добавление нового члена кооператива или арендатора
+    :param surname: фамилия
+    :param first_name: имя
+    :param birth_date: дата рождения
+    :param phone_main: основной номер телефона
+    :param voa: направление ВОА
+    :param second_name: отчество (необязательно)
+    :param adress: адрес проживания (необязательно)
+    :param second_phone: запасной телефон (необязательно)
+    :param email: адрес электронной почты (необязательно)
+    :param photo: фотография (необязательно)
+    :return: sql-запрос
+    """
+    return ""
 
 
 #универсальные запросы
