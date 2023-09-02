@@ -11,11 +11,12 @@ SQL_CREATE_TABLE_GARAGE = 'CREATE TABLE "garage_obj" ( ' \
                           '	"create_year"	TEXT,' \
                           '	"electro_id"	INTEGER' \
                           ');'
+
 SQL_CREATE_TABLE_GARGE_MEMBER = 'CREATE TABLE "garage_member" (' \
                                 'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
                                 '	"surname"	TEXT NOT NULL,' \
                                 '	"first_name"	TEXT NOT NULL,' \
-                                '	"second_name"	TEXT NOT NULL,' \
+                                '	"second_name"	TEXT,' \
                                 '	"birth_date"	TEXT NOT NULL,' \
                                 '	"adress"	TEXT,' \
                                 '	"phone_main"	TEXT NOT NULL,' \
@@ -25,27 +26,31 @@ SQL_CREATE_TABLE_GARGE_MEMBER = 'CREATE TABLE "garage_member" (' \
                                 '	"active"	INTEGER NOT NULL,' \
                                 '	"photo"	BLOB' \
                                 ');'
+
 SQL_CREATE_TABLE_ELECTRIC_METER = 'CREATE TABLE "electric_meter" (' \
                                   'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
                                   '	"num_meter"	TEXT NOT NULL,' \
-                                  '	"prev_day"	INTEGER,' \
-                                  '	"prev_night"	INTEGER,' \
-                                  '	"day"	INTEGER,' \
-                                  '	"night"	INTEGER' \
+                                  '	"prev_day"	INTEGER DEFAULT 0,' \
+                                  '	"prev_night"	INTEGER DEFAULT 0,' \
+                                  '	"day"	INTEGER INTEGER DEFAULT 0,' \
+                                  '	"night"	INTEGER INTEGER DEFAULT 0' \
                                   ');'
+
 SQL_CREATE_TABLE_TYPE_SIZE = 'CREATE TABLE "type_size" (' \
                              'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
-                             '	"width"	REAL,' \
-                             '	"length"	REAL,' \
-                             '	"hight"	REAL,' \
+                             '	"width"	REAL NOT NULL,' \
+                             '	"len" REAL NOT NULL,' \
+                             '	"hight"	REAL NOT NULL,' \
                              '	"comment"	TEXT' \
                              ');'
+
 SQL_CREATE_TABLE_CONTRIBUTION_TYPE = 'CREATE TABLE "contribution_type" (' \
                                      'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
                                      '	"name"	TEXT,' \
                                      '	"value"	REAL,' \
                                      '	"comment"	TEXT' \
                                      ');'
+
 SQL_CREATE_TABLE_CONTRIBUTION = 'CREATE TABLE "contribution" (' \
                                 'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
                                 '	"id_garage"	INTEGER NOT NULL,' \
@@ -53,6 +58,5 @@ SQL_CREATE_TABLE_CONTRIBUTION = 'CREATE TABLE "contribution" (' \
                                 '	"pay_date"	TEXT NOT NULL,' \
                                 '	"period_pay"	TEXT NOT NULL,' \
                                 '	"value"	REAL,' \
-                                '	FOREIGN KEY("id_cont_type") REFERENCES "contribution_type",' \
-                                '	FOREIGN KEY("id_garage") REFERENCES "garage_obj"' \
                                 ');'
+
