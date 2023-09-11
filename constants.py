@@ -65,4 +65,10 @@ SQL_CREATE_TABLE_CONTRIBUTION = 'CREATE TABLE "contribution" (' \
                                 'FOREIGN KEY("id_garage") REFERENCES "garage_obj"("id"),' \
                                 'FOREIGN KEY("id_cont_type") REFERENCES "contribution_type"("id"),' \
                                 ');'
-
+SQL_CREATE_TABLE_AUTOMOBILE = 'CREATE TABLE "automobile" ( ' \
+                          'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
+                          '	"mark"	TEXT NOT NULL,' \
+                          '	"gos_num"	TEXT NOT NULL,' \
+                          '	"owner_id"	INTEGER NOT NULL,' \
+                          'FOREIGN KEY("owner_id") REFERENCES "garage_member"("id")' \
+                              ');' \
