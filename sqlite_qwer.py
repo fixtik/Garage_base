@@ -146,3 +146,46 @@ def sql_delete_rec_by_table_name_and_id(table_name: str, rec_id: int) -> str:
     :return: sql-запрос
     """
     return f'DELETE FROM {table_name} WHERE id = {rec_id};'
+
+
+#автомобильные запросы
+def sql_add_new_car(mark: str, gos_num: str, owner_id: int) -> str:
+    """
+    Добавление нового автомобиля привязанного к id владельца
+    :param mark: марка автомобиля
+    :param gos_num: номер автомобиля
+    :param owner_id: id влядельца автомобиля
+    :return: sql-запрос
+    """
+    return f'INSERT INTO automobile (mark, gos_num, owner_id) VALUES ({mark}, {gos_num}, {owner_id});'
+
+
+def sql_update_car(gos_num: str, new_mark: str, new_gos_num: str) -> str:
+    """
+    Обновление марки и номера машины по id владельца
+    :param gos_num: номер владельца автомобиля
+    :param new_mark: новая марка автомобиля
+    :param new_gos_num: новый гос номер автомобиля
+    :return: sql-запрос
+    """
+    return f'UPDATE automobile SET mark = {new_mark}, gos_num = {new_gos_num}' \
+           f'WHERE id = (SELECT id FROM automobile WHERE gos_num = {gos_num});'
+
+
+def sql_delete_car(gos_num: str) -> str:
+    """
+    Удаление автомобиля
+    :param gos_num: номер владельца автомобиля
+    :return: sql-запрос
+    """
+    return f'DELETE FROM  automobile' \
+           f'WHERE id = (SELECT id FROM automobile WHERE gos_num = {gos_num});'
+
+
+def sql_get_car(gos_num: str) -> str:
+    """
+    Поиск id владельца по номеру автомобиля
+    :param gos_num: гос номер автомобиля
+    :return: sql-запрос
+    """
+    return f'SELECT owner_id FROM automobile WHERE gos_num = {gos_num});'
