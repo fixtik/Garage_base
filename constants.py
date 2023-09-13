@@ -5,6 +5,7 @@ SQL_CREATE_TABLE_GARAGE = 'CREATE TABLE "garage_obj" ( ' \
                           'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
                           '	"num_row"	INTEGER NOT NULL,' \
                           '	"num_bild"	INTEGER NOT NULL,' \
+                          '	"kadastr_num" TEXT NOT NULL,' \
                           '	"owner_id"	INTEGER NOT NULL,' \
                           '	"arendator_id"	INTEGER,' \
                           '	"size_type_id"	INTEGER NOT NULL,' \
