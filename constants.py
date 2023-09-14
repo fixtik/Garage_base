@@ -72,6 +72,7 @@ SQL_CREATE_TABLE_AUTOMOBILE = 'CREATE TABLE IF NOT EXISTS "automobile" ( ' \
                           '	"mark"	TEXT NOT NULL,' \
                           '	"gos_num"	TEXT NOT NULL,' \
                           '	"owner_id"	INTEGER NOT NULL,' \
+                          '	"active"	INTEGER NOT NULL,' \
                           'FOREIGN KEY("owner_id") REFERENCES "garage_member"("id")' \
                               ');'
 
