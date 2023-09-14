@@ -72,9 +72,13 @@ SQL_CREATE_TABLE_AUTOMOBILE = 'CREATE TABLE IF NOT EXISTS "automobile" ( ' \
                           '	"mark"	TEXT NOT NULL,' \
                           '	"gos_num"	TEXT NOT NULL,' \
                           '	"owner_id"	INTEGER NOT NULL,' \
+                          '	"active"	INTEGER DEFAULT 1,' \
                           'FOREIGN KEY("owner_id") REFERENCES "garage_member"("id")' \
                               ');'
 
 BD_SQL_CREATOR = [SQL_CREATE_TABLE_GARGE_MEMBER, SQL_CREATE_TABLE_ELECTRIC_METER, SQL_CREATE_TABLE_TYPE_SIZE,
                   SQL_CREATE_TABLE_CONTRIBUTION_TYPE, SQL_CREATE_TABLE_GARAGE, SQL_CREATE_TABLE_CONTRIBUTION,
                   SQL_CREATE_TABLE_AUTOMOBILE]
+
+TABALE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
+                'contribution_type', 'electric_meter', 'type_size']

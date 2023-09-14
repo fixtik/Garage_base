@@ -8,7 +8,7 @@ import constants
 import db_work
 import ui.dialogs
 
-class Form_backend(QtWidgets.QMainWindow):
+class Form_frontend(QtWidgets.QMainWindow):
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -18,6 +18,10 @@ class Form_backend(QtWidgets.QMainWindow):
         self.db = db_work.Garage_DB()
 
         self.initUi()
+
+        self.showStatusBarMessage(self.db.autoConnectBD()[1])  # пробуем подключиться к БД по умолчанию
+
+
         # self.initThread
 
 
@@ -25,15 +29,21 @@ class Form_backend(QtWidgets.QMainWindow):
         """Инициализация объектов интерфейса"""
         # слоты
         self.ui.createBD_action.triggered.connect(self.db.create_db)   # создание новой бд
-        self.ui.chooseBD_action.triggered.connect(self.openDB)                    # выбор существующей бд
+        self.ui.chooseBD_action.triggered.connect(self.openDB)         # выбор существующей бд
 
     def openDB(self):
-        new_name = ui.dialogs.open_file_dialog()
+        new_name = ui.dialogs.open_file_dialog()[0]
         if new_name:
-            if self.db:
-                self.db = None
-            self.db = db_work.Garage_DB()
-            self.ui.statusbar.showMessage("БД открыта")
+            if self.db.choose_db(new_name):
+                if not self.db:
+                    self.db = db_work.Garage_DB(new_name)
+                else:
+                    self.db.choose_db(new_name)
+                self.showStatusBarMessage(f"Файл БД {new_name} открыт")
+
+    def showStatusBarMessage(self, msg: str):
+        """вывод сообщения в статус бар"""
+        self.ui.statusbar.showMessage(msg)
 # Press the green button in the gutter to run the script.
 
 
@@ -41,7 +51,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication()  # Создаем  объект приложения
     # app = QtWidgets.QApplication(sys.argv)  # Если PyQt
 
-    myWindow = Form_backend()  # Создаём объект окна
+    myWindow = Form_frontend()  # Создаём объект окна
     myWindow.show()  # Показываем окно
 
     sys.exit(app.exec())  # Если exit, то код дальше не исполняется

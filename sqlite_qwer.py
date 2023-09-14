@@ -7,12 +7,12 @@ from constants import *
 
 
 
-def search_db(path: str, db_name: str = DEFAULT_BD_NAME) -> bool:
+def search_db(path: str, db_name: str = DEFAULT_DB_NAME) -> bool:
     """проверка наличия файла бд по заднному пути"""
     return os.path.isfile(f'{path}{db_name}')
 
 
-def create_db(path: str, db_name: str = DEFAULT_BD_NAME) -> bool:
+def create_db(path: str, db_name: str = DEFAULT_DB_NAME) -> bool:
     """создает БД по заданному пути"""
     try:
         conn = sqlite3.connect(f'{path}{db_name}')
@@ -146,6 +146,14 @@ def sql_delete_rec_by_table_name_and_id(table_name: str, rec_id: int) -> str:
     :return: sql-запрос
     """
     return f'DELETE FROM {table_name} WHERE id = {rec_id};'
+
+def drop_table_by_name(table_name: str) -> str:
+    """
+    Удаление таблицы по имени
+    :param table_name: имя таблицы
+    :return: sql-запрос
+    """
+    return f'DROP TABLE IF EXISTS {table_name};'
 
 
 #автомобильные запросы

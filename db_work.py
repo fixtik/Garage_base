@@ -3,7 +3,7 @@ import os
 
 
 from constants import *
-
+import sqlite_qwer
 
 class Garage_DB:
     """Класс для работы с БД"""
@@ -25,6 +25,8 @@ class Garage_DB:
         try:
             self.connect = sqlite3.connect(self.db_name)
             self.cursor = self.connect.cursor()
+            for table_name in TABALE_NAMES:
+                self.drop_table(table_name)
             for item in BD_SQL_CREATOR:
                 try:
                     self.cursor.execute(item)
@@ -45,24 +47,50 @@ class Garage_DB:
         """
         if os.path.isfile(new_name):
             try:
-                con = sqlite3.connect('file:aaa.db?mode=rw', uri=True)
+                con = sqlite3.connect(f'file:{new_name}?mode=rw', uri=True)
                 con.close()
                 return True
-            except Exception:
+            except Exception as e:
+                print(e)
                 return False
         return False
 
-    def choose_db(self, new_db: str) -> bool:
+    def choose_db(self, new_db: str) -> (bool, str):
         """
         смена имени БД
         :param new_db: имя новой БД
         :return: истина, подключена новая БД
         """
-        if self.check_base(new_db):
-            self.db_name = new_db
-            if self.connect:
-                self.connect.close()
+        self.db_name = new_db
+        if self.connect:
+            self.connect.close()
+        try:
             self.connect = sqlite3.connect(self.db_name)
-            return True
+            return (True, f'БД {new_db} успешно подключена')
+        except Exception as e:
+            return (False, f'Ошибка подключения файла {new_db}. Ошибка: {e}')
+
+    def drop_table(self, table_name: str) -> bool:
+        """
+        удаление таблицы по имени
+        :param table_name: имя удаляемой таблицы
+        :return: истина, если все ок
+        """
+        if self.cursor:
+            try:
+                self.cursor.execute(sqlite_qwer.drop_table_by_name(table_name))
+                return True
+            except Exception as e:
+                print(e)
+                return False
         return False
+
+    def autoConnectBD(self) -> (bool, str):
+        if self.check_base(DEFAULT_DB_NAME):
+            return self.choose_db(DEFAULT_DB_NAME)
+        return (False, f'Файл {DEFAULT_DB_NAME} не найден')
+
+
+
+
 
