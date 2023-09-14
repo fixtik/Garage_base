@@ -165,7 +165,7 @@ def sql_add_new_car(mark: str, gos_num: str, owner_id: int) -> str:
     :param owner_id: id влядельца автомобиля
     :return: sql-запрос
     """
-    return f'INSERT INTO automobile (mark, gos_num, owner_id) VALUES ({mark}, {gos_num}, {owner_id});'
+    return f'INSERT INTO automobile (mark, gos_num, owner_id, active) VALUES ({mark}, {gos_num}, {owner_id}, "1");'
 
 
 def sql_update_car(gos_num: str, new_mark: str, new_gos_num: str) -> str:
@@ -180,14 +180,15 @@ def sql_update_car(gos_num: str, new_mark: str, new_gos_num: str) -> str:
            f'WHERE id = (SELECT id FROM automobile WHERE gos_num = {gos_num});'
 
 
-def sql_delete_car(gos_num: str) -> str:
+def sql_set_inactive_car(gos_num: str) -> str:
     """
-    Удаление автомобиля
+    Перевод в неактивное состояние автомобиля
     :param gos_num: номер владельца автомобиля
     :return: sql-запрос
     """
-    return f'DELETE FROM  automobile' \
-           f'WHERE id = (SELECT id FROM automobile WHERE gos_num = {gos_num});'
+    return f'UPDATE  automobile' \
+           f'SET active = 0 ' \
+           f'WHERE id = (SELECT id FROM automobile WHERE gos_num = {gos_num});' \
 
 
 def sql_get_car(gos_num: str) -> str:
