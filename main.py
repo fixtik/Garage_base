@@ -7,6 +7,7 @@ from ui.main_window import Ui_MainWindow
 import constants
 import db_work
 import ui.dialogs
+import ui.cart_functions
 
 class Form_frontend(QtWidgets.QMainWindow):
 
@@ -16,6 +17,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
 
         self.db = db_work.Garage_DB()
+        self.cartObj = None                 # для отображения формы с карточкой объекта
 
         self.initUi()
 
@@ -30,6 +32,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         # слоты
         self.ui.createBD_action.triggered.connect(self.db.create_db)   # создание новой бд
         self.ui.chooseBD_action.triggered.connect(self.openDB)         # выбор существующей бд
+        self.ui.search_action.triggered.connect(self.showCartObject)
 
     def openDB(self):
         new_name = ui.dialogs.open_file_dialog()[0]
@@ -44,6 +47,10 @@ class Form_frontend(QtWidgets.QMainWindow):
     def showStatusBarMessage(self, msg: str):
         """вывод сообщения в статус бар"""
         self.ui.statusbar.showMessage(msg)
+
+    def showCartObject(self):
+        self.cartObj = ui.cart_functions.Cart_frontend()
+        self.cartObj.show()
 # Press the green button in the gutter to run the script.
 
 
