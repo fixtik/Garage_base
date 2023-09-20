@@ -35,7 +35,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.search_action.triggered.connect(self.showCartObject)
 
     def openDB(self):
-        new_name = ui.dialogs.open_file_dialog()[0]
+        new_name = ui.dialogs.open_file_dialog("Выберите файл БД", '*.db')[0]
         if new_name:
             if self.db.choose_db(new_name):
                 if not self.db:
