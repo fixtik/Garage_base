@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string> Всеволожский Р.С. ВОА</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="defaultUp">
+    <bool>false</bool>
+   </property>
+   <widget class="QMenu" name="operation_menu">
+    <property name="title">
+     <string>Операции</string>
+    </property>
+    <addaction name="search_action"/>
+    <addaction name="add_action"/>
+    <addaction name="separator"/>
+    <addaction name="exit_action"/>
+   </widget>
+   <widget class="QMenu" name="settings_menu">
+    <property name="title">
+     <string>Настройки</string>
+    </property>
+    <addaction name="chooseBD_action"/>
+    <addaction name="createBD_action"/>
+   </widget>
+   <widget class="QMenu" name="about_menu">
+    <property name="title">
+     <string>О программе</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Работа с БД</string>
+    </property>
+    <addaction name="kindPay_action"/>
+    <addaction name="member_action"/>
+    <addaction name="garage_action"/>
+    <addaction name="electric_action"/>
+   </widget>
+   <addaction name="operation_menu"/>
+   <addaction name="settings_menu"/>
+   <addaction name="about_menu"/>
+   <addaction name="menu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="search_action">
+   <property name="text">
+    <string>Поиск</string>
+   </property>
+  </action>
+  <action name="add_action">
+   <property name="text">
+    <string>Добавить</string>
+   </property>
+  </action>
+  <action name="chooseBD_action">
+   <property name="text">
+    <string>Выбор БД</string>
+   </property>
+  </action>
+  <action name="createBD_action">
+   <property name="text">
+    <string>Создать БД</string>
+   </property>
+  </action>
+  <action name="exit_action">
+   <property name="text">
+    <string>Выход</string>
+   </property>
+  </action>
+  <action name="kindPay_action">
+   <property name="text">
+    <string>Тип платежа</string>
+   </property>
+  </action>
+  <action name="member_action">
+   <property name="text">
+    <string>Член кооператива</string>
+   </property>
+  </action>
+  <action name="garage_action">
+   <property name="text">
+    <string>Гараж</string>
+   </property>
+  </action>
+  <action name="electric_action">
+   <property name="text">
+    <string>Электросчетчик</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
