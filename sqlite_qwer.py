@@ -203,8 +203,22 @@ def sql_set_inactive_car(gos_num: str) -> str:
     :return: sql-запрос
     """
     return f'UPDATE  automobile' \
-           f'SET active = 0 ' \
-           f'WHERE id = (SELECT id FROM automobile WHERE gos_num = {gos_num});' \
+           f'SET active = 0, inactive_date = date() ' \
+           f'WHERE id = (SELECT id FROM automobile WHERE gos_num = {gos_num});'
+
+
+def sql_set_inactive_garage_member(surname: str, first_name: str, second_name: str, phone_main: str) -> str:
+    """
+    Перевод в неактивное состояние пользователя
+    :param surname: фамилия пользователя
+    :param first_name: имя пользователя
+    :param second_name: отчество пользователя
+    :param phone_main: телефон пользователя
+    :return: sql-запрос
+    """
+    return f'UPDATE  GARGE_MEMBER' \
+           f'SET active = 0, inactive_date = date() ' \
+           f'WHERE id = (SELECT id FROM GARGE_MEMBER WHERE surname = {surname}), first_name = {first_name}), second_name = {second_name}, phone_main = {phone_main};'
 
 
 def sql_get_car(gos_num: str) -> str:

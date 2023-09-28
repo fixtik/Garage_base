@@ -29,7 +29,8 @@ SQL_CREATE_TABLE_GARGE_MEMBER = 'CREATE TABLE IF NOT EXISTS "garage_member" (' \
                                 '	"phone_sec"	TEXT,' \
                                 '	"email"	TEXT,' \
                                 '	"voa"	TEXT,' \
-                                '	"active"	INTEGER NOT NULL,' \
+                                '	"active"	INTEGER DEFAULT 1,' \
+                                '   "inactive_date"	TEXT DEFAULT 0,' \
                                 '	"photo"	BLOB' \
                                 ');'
 
@@ -46,7 +47,7 @@ SQL_CREATE_TABLE_TYPE_SIZE = 'CREATE TABLE IF NOT EXISTS "type_size" (' \
                              'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
                              '	"width"	REAL NOT NULL,' \
                              '	"len" REAL NOT NULL,' \
-                             '	"hight"	REAL NOT NULL,' \
+                             '	"height"	REAL NOT NULL,' \
                              '	"comment"	TEXT' \
                              ');'
 
@@ -67,12 +68,14 @@ SQL_CREATE_TABLE_CONTRIBUTION = 'CREATE TABLE IF NOT EXISTS "contribution" (' \
                                 'FOREIGN KEY("id_garage") REFERENCES "garage_obj"("id"),' \
                                 'FOREIGN KEY("id_cont_type") REFERENCES "contribution_type"("id")' \
                                 ');'
+
 SQL_CREATE_TABLE_AUTOMOBILE = 'CREATE TABLE IF NOT EXISTS "automobile" ( ' \
                           'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
                           '	"mark"	TEXT NOT NULL,' \
                           '	"gos_num"	TEXT NOT NULL,' \
                           '	"owner_id"	INTEGER NOT NULL,' \
                           '	"active"	INTEGER DEFAULT 1,' \
+                          '	"inactive_date"	TEXT DEFAULT 0,' \
                           'FOREIGN KEY("owner_id") REFERENCES "garage_member"("id")' \
                               ');'
 
