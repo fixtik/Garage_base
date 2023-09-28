@@ -8,6 +8,8 @@ import constants
 import db_work
 import ui.dialogs
 import ui.cart_functions
+import ui.contribute_functions
+
 
 class Form_frontend(QtWidgets.QMainWindow):
 
@@ -18,6 +20,7 @@ class Form_frontend(QtWidgets.QMainWindow):
 
         self.db = db_work.Garage_DB()
         self.cartObj = None                 # для отображения формы с карточкой объекта
+        self.typePay = None                 # для отображения формы редактирования видов платежей
 
         self.initUi()
 
@@ -32,7 +35,8 @@ class Form_frontend(QtWidgets.QMainWindow):
         # слоты
         self.ui.createBD_action.triggered.connect(self.db.create_db)   # создание новой бд
         self.ui.chooseBD_action.triggered.connect(self.openDB)         # выбор существующей бд
-        self.ui.search_action.triggered.connect(self.showCartObject)
+        self.ui.search_action.triggered.connect(self.showCartObject)   # отображение главной карточки объекта
+        self.ui.kindPay_action.triggered.connect(self.showKindPayWindow) #отображение окна редактирования типов платежей
 
     def openDB(self):
         new_name = ui.dialogs.open_file_dialog("Выберите файл БД", '*.db')[0]
@@ -50,8 +54,16 @@ class Form_frontend(QtWidgets.QMainWindow):
 
     def showCartObject(self):
         self.cartObj = ui.cart_functions.Cart_frontend()
+        self.cartObj.db = self.db
         self.cartObj.show()
-# Press the green button in the gutter to run the script.
+
+
+    def showKindPayWindow(self):
+        self.typePay = ui.contribute_functions.AddContrib_front()
+        self.typePay.db = self.db
+        self.typePay.updateDataFromDB()
+        self.typePay.hideDateField(False)
+        self.typePay.show()
 
 
 if __name__ == "__main__":

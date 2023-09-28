@@ -17,6 +17,21 @@ class Garage_DB:
         if self.connect:
             self.connect.close()
 
+    def execute(self, sql:str):
+        """выполнение sql запроса"""
+        if not self.connect:
+            self.connect = sqlite3.connect(self.db_name)
+        self.cursor = self.connect.cursor()
+        try:
+            self.cursor.execute(sql)
+            self.connect.commit()
+        except Exception as e:
+            print(e)
+            self.connect.close()
+            return False
+        return True
+
+
     def create_db(self) -> bool:
         """
         создание новой БД с именем, заданным при создании экземпляра класса

@@ -93,7 +93,7 @@ def get_type_size_id_by_size(width: float, len:float, height: float) -> str:
 
 
 # запросы на тип взноса
-def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = '') -> str:
+def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = ' ') -> str:
     """
     добавление нового типа взноса
     :param contrib_name: название взноса
@@ -101,8 +101,20 @@ def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = '')
     :param comment: комментарий
     :return: sql-запрос
     """
-    return f"INSERT INTO contribution_type (name, value) VALUES ({contrib_name}, {value}, {comment});"
 
+    return f"INSERT INTO contribution_type (name, value, comment) VALUES ('{contrib_name}', {value}, '{comment}');"
+
+def sql_update_contrib_type(contrib_id: int, value: float, comment: str = ' ') -> str:
+    """
+    обновление заначений полей по id
+    """
+    return f"UPDATE contribution_type SET value = {value}, comment = '{comment}' WHERE id = {contrib_id};"
+
+def sql_get_one_record_by_id(table_name: str, id: int) -> str:
+    """
+    возвращает одну запись по id
+    """
+    return f"SELECT * FROM {table_name} WHERE id = {id};"
 
 # запросы по членам кооператива
 def sql_add_new_member(surname: str, first_name: str, birth_date: str, phone_main: str, voa: str,
@@ -126,6 +138,10 @@ def sql_add_new_member(surname: str, first_name: str, birth_date: str, phone_mai
 
 
 #универсальные запросы
+def sql_select_all_from_table(table_name: str) -> str:
+    """выбор всех значений в таблице table_name"""
+    return f"SELECT * FROM {table_name};"
+
 def sql_update_field_by_table_name_and_id(table_name: str, rec_id: int, field: str, new_value) -> str:
     """
     Обновление значения любого из полей по id-записи

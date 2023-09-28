@@ -7,6 +7,7 @@ import constants
 import db_work
 import ui.dialogs
 import ui.car_functions
+import ui.contribute_functions
 
 PHOTO_H = 100
 PHOTO_W = 100
@@ -22,9 +23,11 @@ class Cart_frontend(QtWidgets.QWidget):
         self.initUi()
 
         #переменные класса
+        self.db = None
         self.photoPath = None
         self.addCar_form = None
         self.addContrib_form = None
+
 
     def initUi(self):
         """Инициализация интерфейса"""
@@ -33,12 +36,15 @@ class Cart_frontend(QtWidgets.QWidget):
         #авто табличка
         self.carModel = CarTableViewModel()
         self.ui.auto_tableView.setModel(self.carModel)
+        #платежная табличка
+        self.contribModel = ContribTableViewModel()
+        self.ui.contrib_tableView.setModel(self.contribModel)
 
         # слоты кнопок
         self.ui.close_pushButton.clicked.connect(self.closeForm)
         self.ui.image_pushButton.clicked.connect(self.choosePhoto)
         self.ui.carAdd_pushButton.clicked.connect(self.showAddCarForm)
-
+        self.ui.conribAdd_pushButton.clicked.connect(self.showAddContribForm)
 
 
 
@@ -60,6 +66,15 @@ class Cart_frontend(QtWidgets.QWidget):
         self.addCar_form = ui.car_functions.Car_frontend()
         self.addCar_form.mainForm = self
         self.addCar_form.show()
+
+    def showAddContribForm(self):
+        """открытие формы добавления платежа"""
+        self.addContrib_form = ui.contribute_functions.AddContrib_front()
+        self.addContrib_form.mainForm = self
+        self.addContrib_form.db = self.db
+        self.addContrib_form.updateDataFromDB()
+        self.addContrib_form.show()
+
 
     def clearForm(self):
         """удаление текста в EditLine"""
@@ -137,4 +152,52 @@ class CarTableViewModel(QtCore.QAbstractTableModel):
                 1: 'Марка',
                 2: 'Гос. номер'
             }.get(section)
+
+class ContribTableViewModel(QtCore.QAbstractTableModel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.items = []
+
+    def setItems(self, items):
+        self.beginResetModel()
+        self.items.append(items)
+        self.endResetModel()
+
+    def rowCount(self, *args, **kwargs) -> int:
+        return len(self.items)
+
+    def columnCount(self, *args, **kwargs) -> int:
+        return 5
+
+    def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
+        if not index.isValid():
+            return
+        if role == QtCore.Qt.ItemDataRole.DisplayRole:
+            pay_info = self.items[index.row()]
+            col = index.column()
+            if col == 0:
+                return f'{pay_info.id}'
+            if col == 1:
+                return f'{pay_info.payDate}'
+            if col == 2:
+                return f'{pay_info.kindPay}'
+            if col == 3:
+                return f'{pay_info.value}'
+            if col == 4:
+                return f'{pay_info.payPeriod}'
+
+
+    def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: QtCore.Qt.ItemDataRole):
+        """Заголовок таблицы: Марка Номер"""
+        if role == QtCore.Qt.ItemDataRole.DisplayRole and orientation == QtCore.Qt.Orientation.Horizontal:
+
+            return {
+                0: 'id',
+                1: 'Дата платежа',
+                2: 'Вид платежа',
+                3: 'Сумма платежа',
+                4: 'Период оплаты',
+            }.get(section)
+
 
