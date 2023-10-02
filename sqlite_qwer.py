@@ -134,7 +134,9 @@ def sql_add_new_member(surname: str, first_name: str, birth_date: str, phone_mai
     :param photo: фотография (необязательно)
     :return: sql-запрос
     """
-    return ""
+    return f"INSERT INTO garage_member (surname, first_name, second_name, birth_date, phone_main," \
+           f" phone_sec, adress, email, voa, photo) VALUES ('{surname}', '{first_name}', '{second_name}', {birth_date}," \
+           f"'{phone_main}', '{second_phone}', '{adress}', '{email}', {photo};"
 
 
 #универсальные запросы

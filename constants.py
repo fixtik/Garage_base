@@ -30,7 +30,7 @@ SQL_CREATE_TABLE_GARGE_MEMBER = 'CREATE TABLE IF NOT EXISTS "garage_member" (' \
                                 '	"email"	TEXT,' \
                                 '	"voa"	TEXT,' \
                                 '	"active"	INTEGER DEFAULT 1,' \
-                                '   "inactive_date"	TEXT DEFAULT 0,' \
+                                '   "inactive_date"	TEXT,' \
                                 '	"photo"	BLOB' \
                                 ');'
 
@@ -88,3 +88,6 @@ TABALE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
 
 
 CONTRIB_WIN_EDIT_TITLE = 'Редактирование типа платежа'
+
+PHOTO_H = 100
+PHOTO_W = 100

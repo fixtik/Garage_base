@@ -9,8 +9,7 @@ import ui.dialogs
 import ui.car_functions
 import ui.contribute_functions
 
-PHOTO_H = 100
-PHOTO_W = 100
+
 
 
 class Cart_frontend(QtWidgets.QWidget):
@@ -41,23 +40,19 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.contrib_tableView.setModel(self.contribModel)
 
         # слоты кнопок
-        self.ui.close_pushButton.clicked.connect(self.closeForm)
+        self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.image_pushButton.clicked.connect(self.choosePhoto)
         self.ui.carAdd_pushButton.clicked.connect(self.showAddCarForm)
         self.ui.conribAdd_pushButton.clicked.connect(self.showAddContribForm)
 
 
 
-    def closeForm(self):
-        """Закрытие формы"""
-        self.close()
-
     def choosePhoto(self):
         """выбор фото на карточку"""
         img_path = ui.dialogs.open_file_dialog("Выберите фото для загрузки", '*.jpg *.jpeg')[0]
         if img_path:
             pix = QtGui.QPixmap(img_path)
-            pix = pix.scaled(PHOTO_W, PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
+            pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
             self.ui.photo_label.setPixmap(pix)
             self.photoPath = img_path
 

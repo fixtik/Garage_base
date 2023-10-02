@@ -154,6 +154,7 @@ class AddKindContrib_front(QtWidgets.QWidget):
     def initUi(self):
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.ok_pushButton.clicked.connect(self.okPushBtnClk)
+        self.setValidator()
 
 
     def okPushBtnClk(self):
@@ -163,6 +164,7 @@ class AddKindContrib_front(QtWidgets.QWidget):
                 ui.dialogs.onShowError(self, 'Ошибка', 'Вы не заполнили все поля')
                 return
             if self.db.connect:
+                self.ui.value_lineEdit.setText(self.ui.value_lineEdit.text().replace(',', '.'))
                 try:
 
                     sql = sqlite_qwer.sql_add_new_contrib_type(self.ui.kind_lineEdit.text(),
@@ -174,4 +176,11 @@ class AddKindContrib_front(QtWidgets.QWidget):
                     return
                 self.mainForm.fillKindContribFromBase()
             self.close()
+
+    def setValidator(self):
+        """валидатор для суммы платежа"""
+        reg_ex = QtCore.QRegularExpression()
+        reg_ex.setPattern('[0-9]+[,.]?[0-9]+')
+        label_validator = QtGui.QRegularExpressionValidator(reg_ex, self.ui.value_lineEdit)
+        self.ui.value_lineEdit.setValidator(label_validator)
 

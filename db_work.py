@@ -17,7 +17,7 @@ class Garage_DB:
         if self.connect:
             self.connect.close()
 
-    def execute(self, sql:str):
+    def execute(self, sql: str) -> bool:
         """выполнение sql запроса"""
         if not self.connect:
             self.connect = sqlite3.connect(self.db_name)

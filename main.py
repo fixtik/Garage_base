@@ -9,6 +9,7 @@ import db_work
 import ui.dialogs
 import ui.cart_functions
 import ui.contribute_functions
+import ui.member_functions
 
 
 class Form_frontend(QtWidgets.QMainWindow):
@@ -21,6 +22,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.db = db_work.Garage_DB()
         self.cartObj = None                 # для отображения формы с карточкой объекта
         self.typePay = None                 # для отображения формы редактирования видов платежей
+        self.newMember = None               # для отображения формы добавления нового члена
 
         self.initUi()
 
@@ -37,6 +39,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.chooseBD_action.triggered.connect(self.openDB)         # выбор существующей бд
         self.ui.search_action.triggered.connect(self.showCartObject)   # отображение главной карточки объекта
         self.ui.kindPay_action.triggered.connect(self.showKindPayWindow) #отображение окна редактирования типов платежей
+        self.ui.member_action.triggered.connect(self.showAddMemberWindow)               # окно добавления нового члена
 
     def openDB(self):
         new_name = ui.dialogs.open_file_dialog("Выберите файл БД", '*.db')[0]
@@ -64,6 +67,11 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.typePay.updateDataFromDB()
         self.typePay.hideDateField(False)
         self.typePay.show()
+
+    def showAddMemberWindow(self):
+        self.newMember = ui.member_functions.Member_front()
+        self.newMember.db = self.db
+        self.newMember.show()
 
 
 if __name__ == "__main__":
