@@ -17,7 +17,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QDateEdit, QHBoxLayout, QLabel,
     QLineEdit, QPushButton, QSizePolicy, QSpacerItem,
-    QTextEdit, QVBoxLayout, QWidget)
+    QVBoxLayout, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -206,12 +206,10 @@ class Ui_Form(object):
 
         self.horizontalLayout_9.addWidget(self.address_label)
 
-        self.address_textEdit = QTextEdit(Form)
-        self.address_textEdit.setObjectName(u"address_textEdit")
-        self.address_textEdit.setMinimumSize(QSize(0, 31))
-        self.address_textEdit.setMaximumSize(QSize(16777215, 31))
+        self.address_lineEdit = QLineEdit(Form)
+        self.address_lineEdit.setObjectName(u"address_lineEdit")
 
-        self.horizontalLayout_9.addWidget(self.address_textEdit)
+        self.horizontalLayout_9.addWidget(self.address_lineEdit)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_9)
@@ -225,12 +223,10 @@ class Ui_Form(object):
 
         self.horizontalLayout_10.addWidget(self.voa_label)
 
-        self.voa_textEdit = QTextEdit(Form)
-        self.voa_textEdit.setObjectName(u"voa_textEdit")
-        self.voa_textEdit.setMinimumSize(QSize(0, 31))
-        self.voa_textEdit.setMaximumSize(QSize(16777215, 31))
+        self.voa_lineEdit = QLineEdit(Form)
+        self.voa_lineEdit.setObjectName(u"voa_lineEdit")
 
-        self.horizontalLayout_10.addWidget(self.voa_textEdit)
+        self.horizontalLayout_10.addWidget(self.voa_lineEdit)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_10)

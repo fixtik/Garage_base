@@ -10,6 +10,7 @@ import ui.dialogs
 import ui.cart_functions
 import ui.contribute_functions
 import ui.member_functions
+import ui.electric_meter_func
 
 
 class Form_frontend(QtWidgets.QMainWindow):
@@ -23,6 +24,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.cartObj = None                 # для отображения формы с карточкой объекта
         self.typePay = None                 # для отображения формы редактирования видов платежей
         self.newMember = None               # для отображения формы добавления нового члена
+        self.elMeter = None                 # для отображения формы с счетчиком
 
         self.initUi()
 
@@ -40,6 +42,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.search_action.triggered.connect(self.showCartObject)   # отображение главной карточки объекта
         self.ui.kindPay_action.triggered.connect(self.showKindPayWindow) #отображение окна редактирования типов платежей
         self.ui.member_action.triggered.connect(self.showAddMemberWindow)               # окно добавления нового члена
+        self.ui.electric_action.triggered.connect(self.showElMeterWindow)
 
     def openDB(self):
         new_name = ui.dialogs.open_file_dialog("Выберите файл БД", '*.db')[0]
@@ -56,12 +59,14 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.statusbar.showMessage(msg)
 
     def showCartObject(self):
+        """Отображение окна карточки объекта"""
         self.cartObj = ui.cart_functions.Cart_frontend()
         self.cartObj.db = self.db
         self.cartObj.show()
 
 
     def showKindPayWindow(self):
+        """Отображение окна редактирования вида платежа"""
         self.typePay = ui.contribute_functions.AddContrib_front()
         self.typePay.db = self.db
         self.typePay.updateDataFromDB()
@@ -69,9 +74,18 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.typePay.show()
 
     def showAddMemberWindow(self):
+        """Отображение окна добавления нового члена"""
         self.newMember = ui.member_functions.Member_front()
         self.newMember.db = self.db
         self.newMember.show()
+
+    def showElMeterWindow(self):
+        """Отображение окна работы с эл. счетчкиами"""
+        self.elMeter = ui.electric_meter_func.Electric_front()
+        self.elMeter.db = self.db
+        self.elMeter.show()
+
+
 
 
 if __name__ == "__main__":

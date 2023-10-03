@@ -5,6 +5,7 @@ from ui.new_member import Ui_Form
 import ui.dialogs
 import constants
 import db_work
+import ui.validators
 
 
 class Member_front(QtWidgets.QWidget):
@@ -15,7 +16,7 @@ class Member_front(QtWidgets.QWidget):
 
         self.photoPath = None
         self.db = None
-        self.member = None
+        self.member = Member()
 
         self.initUi()
 
@@ -28,10 +29,14 @@ class Member_front(QtWidgets.QWidget):
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.add_pushButton.clicked.connect(self.addPushBtnClk)
 
+        self.ui.phone_lineEdit.setValidator(ui.validators.onlyNumValidator())
+        self.ui.addPhone_lineEdit.setValidator(ui.validators.onlyNumValidator())
+
+
 
     def choosePhoto(self):
         """выбор фото на карточку"""
-        img_path = ui.dialogs.open_file_dialog("Выберите фото для загрузки", '*.jpg *.jpeg')[0]
+        img_path = ui.dialogs.open_file_dialog(constants.TITLE_SELECT_PHOTO, constants.FILTER_PHOTO)[0]
         if img_path:
             pix = QtGui.QPixmap(img_path)
             pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
@@ -43,7 +48,7 @@ class Member_front(QtWidgets.QWidget):
         if self.db:
             if self.member.name and self.member.surname and self.member.birthday and self.member.phone \
                     and self.member.address:
-                if self.db.execute(sqlite_qwer.sql_add_new_member(surname=self.member.surname,
+                self.db.execute(sqlite_qwer.sql_add_new_member(surname=self.member.surname,
                                                                first_name=self.member.name,
                                                                second_name=self.member.secondName,
                                                                birth_date=self.member.birthday,
@@ -51,16 +56,29 @@ class Member_front(QtWidgets.QWidget):
                                                                second_phone=self.member.additPhone,
                                                                email=self.member.email,
                                                                voa=self.member.voa,
-                                                               photo=self.photoPath)):
-                    print('ok')
+                                                               adress=self.member.address,
+                                                               photo=self.photoPath))
+            # TODO сделать очистку форм
+            else:
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TEXT_PLACE_NOT_FILL)
+
+
 
     def addPushBtnClk(self):
+
         """Проверка данных при нажатии 'Добавить' """
         self.member.surname = self.ui.surname_lineEdit.text()
         self.member.name = self.ui.secondName_lineEdit.text()
         self.member.secondName = self.ui.secondName_lineEdit.text()
-        self.member.birthday = self.ui.dateBirdth_dateEdit.date()
+        self.member.birthday = self.ui.dateBirdth_dateEdit.date().toPython()
         self.member.phone = self.ui.phone_lineEdit.text()
+        self.member.additPhone = self.ui.addPhone_lineEdit.text()
+        self.member.email = self.ui.email_lineEdit.text()
+        self.member.voa = self.ui.voa_lineEdit.text()
+        self.member.address = self.ui.address_lineEdit.text()
+        self.addToBase()
+
+
 
 
 

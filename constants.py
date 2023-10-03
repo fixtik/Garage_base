@@ -7,16 +7,18 @@ SQL_CREATE_TABLE_GARAGE = 'CREATE TABLE IF NOT EXISTS "garage_obj" ( ' \
                           'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
                           '	"num_row"	INTEGER NOT NULL,' \
                           '	"num_bild"	INTEGER NOT NULL,' \
-                          '	"kadastr_num" TEXT NOT NULL,' \
+                          '	"kadastr_num" TEXT,' \
                           '	"owner_id"	INTEGER NOT NULL,' \
-                          '	"arendator_id"	INTEGER,' \
+                          '	"arendator_id"	TEXT,' \
                           '	"size_type_id"	INTEGER NOT NULL,' \
                           '	"create_year"	TEXT,' \
-                          '	"electro_id"	INTEGER,' \
+                          '	"electro220_id"	INTEGER DEFAULT 0,' \
+                          '	"electro380_id"	INTEGER DEFAULT 0,' \
                           'FOREIGN KEY("owner_id") REFERENCES "garage_member"("id"),' \
                           'FOREIGN KEY("size_type_id") REFERENCES "type_size"("id"),' \
                           'FOREIGN KEY("electro_id") REFERENCES "electric_meter"("id")' \
                           ');'
+# так как арендаторов может быть >1 => добавляем список id арендатора через пробел
 
 SQL_CREATE_TABLE_GARGE_MEMBER = 'CREATE TABLE IF NOT EXISTS "garage_member" (' \
                                 'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
@@ -33,15 +35,18 @@ SQL_CREATE_TABLE_GARGE_MEMBER = 'CREATE TABLE IF NOT EXISTS "garage_member" (' \
                                 '   "inactive_date"	TEXT,' \
                                 '	"photo"	BLOB' \
                                 ');'
+# с фото подумать - может сделать локальную папку с фотками - имена=id пользователя
 
 SQL_CREATE_TABLE_ELECTRIC_METER = 'CREATE TABLE IF NOT EXISTS "electric_meter" (' \
                                   'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
                                   '	"num_meter"	TEXT NOT NULL,' \
+                                  '	"type"	INTEGER DEFAULT 220,' \
                                   '	"prev_day"	INTEGER DEFAULT 0,' \
                                   '	"prev_night"	INTEGER DEFAULT 0,' \
                                   '	"day"	INTEGER INTEGER DEFAULT 0,' \
                                   '	"night"	INTEGER INTEGER DEFAULT 0' \
                                   ');'
+# добалено поле type для возможности различить по вольтажу
 
 SQL_CREATE_TABLE_TYPE_SIZE = 'CREATE TABLE IF NOT EXISTS "type_size" (' \
                              'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
@@ -91,3 +96,22 @@ CONTRIB_WIN_EDIT_TITLE = 'Редактирование типа платежа'
 
 PHOTO_H = 100
 PHOTO_W = 100
+
+ERROR_TEXT_PLACE_NOT_FILL = 'Запоните все обязательные поля!'
+ERROR_SQL_QWERY = 'Ошибка выполнения запроса'
+ERROR_NO_BASE_CONNECT = 'Нет подключенной БД!'
+
+INFO_DATA_IS_EMPTY = "Данных не обнаружено"
+INFO_NO_ELECTRIC_METER = 'Для данного объекта нет счетчика'
+INFO_NO_OBJECT = "Объекта не обнаружено"
+
+INFO_TITLE = "Информация"
+ATTANTION_TITLE = 'Внимание!'
+ERROR_TITLE = "Ошибка!"
+
+QUESTION_WRITE_EL_METER_WHITHOUT_OBJ = 'Хотите добавить запись без привязки к объекту?'
+
+TITLE_SELECT_PHOTO = "Выберите фото для загрузки"
+FILTER_PHOTO = '*.jpg *.jpeg'
+
+

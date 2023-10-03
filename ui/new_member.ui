@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>583</width>
+    <height>282</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Добавление нового члена кооператива</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_14">
+         <item>
+          <widget class="QLabel" name="surname_label_2">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Фамилия</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="surnamename_lineEdit">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>31</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_13">
+         <item>
+          <widget class="QLabel" name="name_label">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Имя</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="surname_lineEdit">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>31</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_15">
+         <item>
+          <widget class="QLabel" name="secondName_label">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Отчество</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="secondName_lineEdit">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>31</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="dateBirdth_label">
+         <property name="maximumSize">
+          <size>
+           <width>109</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Дата рождения</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDateEdit" name="dateBirdth_dateEdit">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>109</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="minimumDate">
+          <date>
+           <year>1900</year>
+           <month>1</month>
+           <day>1</day>
+          </date>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="photo_label">
+         <property name="text">
+          <string>Фото</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="photo_pushButton">
+         <property name="text">
+          <string>Выбрать</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_8">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_18"/>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_19">
+       <item>
+        <widget class="QLabel" name="email_label">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>e-mail</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="email_lineEdit">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>31</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_16">
+       <item>
+        <widget class="QLabel" name="phone_label">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Телефон</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="phone_lineEdit">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>31</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_17">
+       <item>
+        <widget class="QLabel" name="addPhone_label">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>31</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Дополнительный телефон</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="addPhone_lineEdit">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>31</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_9">
+     <item>
+      <widget class="QLabel" name="address_label">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Адрес проживания:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="address_lineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_10">
+     <item>
+      <widget class="QLabel" name="voa_label">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Направление ВОА: </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="voa_lineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>118</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="add_pushButton">
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Добавить</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="close_pushButton">
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Закрыть</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

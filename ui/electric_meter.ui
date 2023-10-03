@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>373</width>
+    <height>242</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Редактирование счетчика</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_9">
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="QWidget" name="layoutWidget">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QLabel" name="garajeNum_label">
+           <property name="text">
+            <string>Гараж №</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="row_label">
+           <property name="text">
+            <string>Ряд №</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLineEdit" name="garajeNum_lineEdit"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="row_lineEdit"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="find_pushButton">
+      <property name="text">
+       <string>Найти</string>
+      </property>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="meterType_label">
+         <property name="text">
+          <string>Тип счетчика</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="meterNum_label">
+         <property name="text">
+          <string>Номер счетчика</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QComboBox" name="meterType_comboBox">
+         <item>
+          <property name="text">
+           <string>220 Вольт</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>380 Вольт</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="meterNum_lineEdit"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="meterValues_label">
+     <property name="text">
+      <string>Показания:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QLabel" name="curDay_label">
+           <property name="text">
+            <string>Текущие день </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="curNight_label">
+           <property name="text">
+            <string>Текущие ночь</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <widget class="QLineEdit" name="curDay_lineEdit"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="curNight_lineEdit"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QLabel" name="newDay_label">
+           <property name="text">
+            <string>Новые день</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="newNight_label">
+           <property name="text">
+            <string>Новые ночь</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_8">
+         <item>
+          <widget class="QLineEdit" name="newDay_lineEdit"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="newNight_lineEdit"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="add_pushButton">
+       <property name="text">
+        <string>Добавить</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="del_pushButton">
+       <property name="text">
+        <string>Удалить</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="close_pushButton">
+       <property name="text">
+        <string>Закрыть</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

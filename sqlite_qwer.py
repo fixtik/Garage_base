@@ -136,7 +136,7 @@ def sql_add_new_member(surname: str, first_name: str, birth_date: str, phone_mai
     """
     return f"INSERT INTO garage_member (surname, first_name, second_name, birth_date, phone_main," \
            f" phone_sec, adress, email, voa, photo) VALUES ('{surname}', '{first_name}', '{second_name}', {birth_date}," \
-           f"'{phone_main}', '{second_phone}', '{adress}', '{email}', {photo};"
+           f"'{phone_main}', '{second_phone}', '{adress}', '{email}', '{voa}', '{photo}');"
 
 
 #универсальные запросы
@@ -229,4 +229,10 @@ def sql_get_car(gos_num: str) -> str:
     :param gos_num: гос номер автомобиля
     :return: sql-запрос
     """
-    return f'SELECT owner_id FROM automobile WHERE gos_num = {gos_num});'
+    return f'SELECT owner_id FROM automobile WHERE gos_num = {gos_num};'
+
+def sql_select_garaje_id_by_num_and_row(garage_num: int, row: int) -> str:
+    """
+    Поиск id гаража по номеру и ряду
+    """
+    return f'SELECT id FROM garage_obj WHERE num_bild = {garage_num} and num_row = {row};'

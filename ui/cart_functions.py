@@ -49,7 +49,7 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def choosePhoto(self):
         """выбор фото на карточку"""
-        img_path = ui.dialogs.open_file_dialog("Выберите фото для загрузки", '*.jpg *.jpeg')[0]
+        img_path = ui.dialogs.open_file_dialog(constants.TITLE_SELECT_PHOTO, constants.FILTER_PHOTO)[0]
         if img_path:
             pix = QtGui.QPixmap(img_path)
             pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)

@@ -161,7 +161,7 @@ class AddKindContrib_front(QtWidgets.QWidget):
         """нажатие кнопки ок"""
         if self.mainForm:
             if not(self.ui.kind_lineEdit.text() and self.ui.value_lineEdit.text()):
-                ui.dialogs.onShowError(self, 'Ошибка', 'Вы не заполнили все поля')
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TEXT_PLACE_NOT_FILL)
                 return
             if self.db.connect:
                 self.ui.value_lineEdit.setText(self.ui.value_lineEdit.text().replace(',', '.'))
@@ -172,7 +172,7 @@ class AddKindContrib_front(QtWidgets.QWidget):
                                                                self.ui.comment_lineEdit.text())
                     self.db.execute(sql)
                 except Exception as e:
-                    ui.dialogs.onShowError(self, "Ошибка при выполнении запроса", str(e))
+                    ui.dialogs.onShowError(self, constants.ERROR_SQL_QWERY, str(e))
                     return
                 self.mainForm.fillKindContribFromBase()
             self.close()
