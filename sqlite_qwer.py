@@ -220,7 +220,8 @@ def sql_set_inactive_garage_member(surname: str, first_name: str, second_name: s
     """
     return f'UPDATE  GARGE_MEMBER' \
            f'SET active = 0, inactive_date = date() ' \
-           f'WHERE id = (SELECT id FROM GARGE_MEMBER WHERE surname = {surname}), first_name = {first_name}), second_name = {second_name}, phone_main = {phone_main};'
+           f'WHERE id = (SELECT id FROM GARGE_MEMBER WHERE surname = {surname}, first_name = {first_name},' \
+           f'second_name = {second_name}, phone_main = {phone_main};)'
 
 
 def sql_get_car(gos_num: str) -> str:
@@ -236,3 +237,37 @@ def sql_select_garaje_id_by_num_and_row(garage_num: int, row: int) -> str:
     Поиск id гаража по номеру и ряду
     """
     return f'SELECT id FROM garage_obj WHERE num_bild = {garage_num} and num_row = {row};'
+
+
+'''--------------------------------------------NEW--------------------------------------------------'''
+
+def sql_update_garage_member(surname: str, first_name: str, second_name: str, phone_main: str, change_pole: str, new_value: str) -> str:
+    """
+    Замена любого поля гаражного члена через id
+    :param surname: фамилия пользователя
+    :param first_name: имя пользователя
+    :param second_name: отчество пользователя
+    :param phone_main: телефон пользователя
+    :param change_pole: изменяемое поле
+    :param new_value: новое значение
+    :return: sql-запрос
+    """
+    return f'UPDATE  garage_member ' \
+           f'SET {change_pole} = {new_value} ' \
+           f'WHERE id = (SELECT id FROM GARGE_MEMBER WHERE surname = {surname}, first_name = {first_name}, ' \
+           f'second_name = {second_name}, phone_main = {phone_main});'
+
+def sql_update_garage(num_row: str, num_bild: str, change_pole: str, new_value: str) -> str:
+    """
+    Замена любого поля гаражного члена через id
+    :param num_row: номер ряда
+    :param num_bild: номер гаража
+    :param change_pole: изменяемое поле
+    :param new_value: новое значение
+    :return: sql-запрос
+    """
+    return f'UPDATE  garage_obj ' \
+           f'SET {change_pole} = {new_value} ' \
+           f'WHERE id = (SELECT id FROM garage_member WHERE num_row = {num_row}, num_bild = {num_bild}); ' \
+
+
