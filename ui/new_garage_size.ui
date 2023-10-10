@@ -19,7 +19,7 @@
      <x>10</x>
      <y>15</y>
      <width>341</width>
-     <height>56</height>
+     <height>58</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -33,14 +33,14 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="kindContrib_comboBox_2"/>
+       <widget class="QComboBox" name="size_comboBox"/>
       </item>
      </layout>
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QPushButton" name="addKind_pushButton_2">
+       <widget class="QPushButton" name="addSize_pushButton">
         <property name="maximumSize">
          <size>
           <width>25</width>
@@ -53,7 +53,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="delKind_pushButton_2">
+       <widget class="QPushButton" name="delSize_pushButton">
         <property name="maximumSize">
          <size>
           <width>25</width>
@@ -87,7 +87,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="commentContrib_lineEdit_2"/>
+     <widget class="QLineEdit" name="commentContrib_lineEdit"/>
     </item>
    </layout>
   </widget>
@@ -110,7 +110,7 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_20">
       <item>
-       <widget class="QLabel" name="sumContrib_label_2">
+       <widget class="QLabel" name="width_label">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -123,7 +123,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="sumContrib_lineEdit_2">
+       <widget class="QLineEdit" name="width_lineEdit">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -143,7 +143,7 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_21">
       <item>
-       <widget class="QLabel" name="sumContrib_label_3">
+       <widget class="QLabel" name="length_label">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -156,7 +156,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="sumContrib_lineEdit_3">
+       <widget class="QLineEdit" name="length_lineEdit">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -176,7 +176,7 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_23">
       <item>
-       <widget class="QLabel" name="sumContrib_label_4">
+       <widget class="QLabel" name="height__label">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -189,7 +189,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="sumContrib_lineEdit_5">
+       <widget class="QLineEdit" name="height_lineEdit">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -232,16 +232,16 @@
      </spacer>
     </item>
     <item>
-     <widget class="QPushButton" name="close_pushButton_5">
+     <widget class="QPushButton" name="ok_pushButton">
       <property name="text">
-       <string>Закрыть</string>
+       <string>Применить</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="ok_pushButton_5">
+     <widget class="QPushButton" name="close_pushButton">
       <property name="text">
-       <string>Применить</string>
+       <string>Закрыть</string>
       </property>
      </widget>
     </item>
@@ -249,15 +249,14 @@
   </widget>
  </widget>
  <tabstops>
-  <tabstop>kindContrib_comboBox_2</tabstop>
-  <tabstop>addKind_pushButton_2</tabstop>
-  <tabstop>delKind_pushButton_2</tabstop>
-  <tabstop>sumContrib_lineEdit_2</tabstop>
-  <tabstop>sumContrib_lineEdit_3</tabstop>
-  <tabstop>sumContrib_lineEdit_5</tabstop>
-  <tabstop>commentContrib_lineEdit_2</tabstop>
-  <tabstop>close_pushButton_5</tabstop>
-  <tabstop>ok_pushButton_5</tabstop>
+  <tabstop>size_comboBox</tabstop>
+  <tabstop>addSize_pushButton</tabstop>
+  <tabstop>delSize_pushButton</tabstop>
+  <tabstop>width_lineEdit</tabstop>
+  <tabstop>length_lineEdit</tabstop>
+  <tabstop>height_lineEdit</tabstop>
+  <tabstop>commentContrib_lineEdit</tabstop>
+  <tabstop>ok_pushButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>
