@@ -268,6 +268,30 @@ def sql_update_garage(num_row: str, num_bild: str, change_pole: str, new_value: 
     """
     return f'UPDATE  garage_obj ' \
            f'SET {change_pole} = {new_value} ' \
-           f'WHERE id = (SELECT id FROM garage_member WHERE num_row = {num_row}, num_bild = {num_bild}); ' \
+           f'WHERE id = (SELECT id FROM garage_member WHERE num_row = {num_row}, num_bild = {num_bild});'
 
+'''--------------------------------------------NEW--------------------------------------------------'''
+
+def sql_add_new_garage_size(width: float, length: float, height: float, comment: str = ' ') -> str:
+    '''
+    Добавление размеров гаража
+    :param width: ширина
+    :param len: длина
+    :param height: высота
+    :param comment: комментарий
+    :return: sql-запрос
+    '''
+    return f'INSERT INTO type_size (width, len, height, comment) VALUES ({width}, {length}, {height}, "{comment}");'
+
+def sql_update_garage_size(size_id: int, width: float, length: float, height: float, comment: str = ' ') -> str:
+    '''
+    Запрос на поиск id по типоразмерам
+    :param width: ширина
+    :param len: длина
+    :param height: высота
+    :param comment: комментарий
+    :return: sql-запрос
+    '''
+    return f"UPDATE type_size SET width = {width}, len = {length}, height = {height}, comment = '{comment}'" \
+           f" WHERE id = {size_id};"
 
