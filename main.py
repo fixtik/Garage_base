@@ -11,6 +11,7 @@ import ui.cart_functions
 import ui.contribute_functions
 import ui.member_functions
 import ui.electric_meter_func
+import ui.new_garage_size_func
 
 
 class Form_frontend(QtWidgets.QMainWindow):
@@ -25,6 +26,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.typePay = None                 # для отображения формы редактирования видов платежей
         self.newMember = None               # для отображения формы добавления нового члена
         self.elMeter = None                 # для отображения формы с счетчиком
+        self.garageSize = None             # для отображения формы размера гаража
 
         self.initUi()
 
@@ -33,7 +35,6 @@ class Form_frontend(QtWidgets.QMainWindow):
 
         # self.initThread
 
-
     def initUi(self):
         """Инициализация объектов интерфейса"""
         # слоты
@@ -41,8 +42,9 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.chooseBD_action.triggered.connect(self.openDB)         # выбор существующей бд
         self.ui.search_action.triggered.connect(self.showCartObject)   # отображение главной карточки объекта
         self.ui.kindPay_action.triggered.connect(self.showKindPayWindow) #отображение окна редактирования типов платежей
-        self.ui.member_action.triggered.connect(self.showAddMemberWindow)               # окно добавления нового члена
+        self.ui.member_action.triggered.connect(self.showAddMemberWindow) # окно добавления нового члена
         self.ui.electric_action.triggered.connect(self.showElMeterWindow)
+        self.ui.garage_action.triggered.connect(self.showGarageSizeWindow) # окно добавления размеров гаража
 
     def openDB(self):
         new_name = ui.dialogs.open_file_dialog("Выберите файл БД", '*.db')[0]
@@ -72,6 +74,13 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.typePay.updateDataFromDB()
         self.typePay.hideDateField(False)
         self.typePay.show()
+
+    def showGarageSizeWindow(self):
+        """Отображение окна добавления размеров гаража"""
+        self.garageSize = ui.new_garage_size_func.AddGarageSize_front()
+        self.garageSize.db = self.db
+        self.garageSize.updateDataFromDB()
+        self.garageSize.show()
 
     def showAddMemberWindow(self):
         """Отображение окна добавления нового члена"""
