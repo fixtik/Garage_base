@@ -74,7 +74,7 @@ class AddContrib_front(QtWidgets.QWidget):
             self.close()
             return
         self.db.execute(sqlite_qwer.sql_update_contrib_type(self.contib_ids[self.ui.kindContrib_comboBox.currentIndex()],
-                                                            float(self.ui.sumContrib_lineEdit.text()),
+                                                            float(self.ui.sumContrib_lineEdit.text().replace(',', '.')),
                                                             self.ui.commentContrib_lineEdit.text()))
         self.updateDataFromDB()
 
