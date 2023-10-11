@@ -7,6 +7,8 @@ import ui.dialogs
 import constants
 import db_work
 import ui.validators
+from ui.tableView_Models import *
+
 
 
 class Member_front(QtWidgets.QWidget):
@@ -61,17 +63,28 @@ class Member_front(QtWidgets.QWidget):
                                                                voa=self.member.voa,
                                                                adress=self.member.address,
                                                                photo=self.photoPath))
-            # TODO сделать очистку форм
+                self.member.id = self.db.cursor.lastrowid
+                self.clearLineEdits()
             else:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TEXT_PLACE_NOT_FILL)
 
 
+    def clearLineEdits(self):
+        self.ui.surname_lineEdit.clear()
+        self.ui.name_lineEdit.clear()
+        self.ui.secondName_lineEdit.clear()
+        self.ui.dateBirdth_dateEdit.clear()
+        self.ui.phone_lineEdit.clear()
+        self.ui.addPhone_lineEdit.clear()
+        self.ui.email_lineEdit.clear()
+        self.ui.voa_lineEdit.clear()
+        self.ui.address_lineEdit.clear()
 
     def addPushBtnClk(self):
 
         """Проверка данных при нажатии 'Добавить' """
         self.member.surname = self.ui.surname_lineEdit.text()
-        self.member.name = self.ui.secondName_lineEdit.text()
+        self.member.name = self.ui.name_lineEdit.text()
         self.member.secondName = self.ui.secondName_lineEdit.text()
         self.member.birthday = self.ui.dateBirdth_dateEdit.date().toPython()
         self.member.phone = self.ui.phone_lineEdit.text()
@@ -82,7 +95,12 @@ class Member_front(QtWidgets.QWidget):
         self.addToBase()
         # смотрим, кто вызывал
         if isinstance(self.parentForm, FindMember_front):
-            pass
+            userInfo = User_Info(self.member)
+            self.parentForm.userModel.setItems(userInfo)
+            self.close()
+
+
+
 
 class FindMember_front(QtWidgets.QWidget):
     def __init__(self, parent=None):
@@ -107,6 +125,9 @@ class FindMember_front(QtWidgets.QWidget):
         self.ui.object_radioButton.clicked.connect(self.setEnableds)
         self.ui.add_pushButton.clicked.connect(self.addNewMemberPshBtn)
 
+        self.userModel = UsersTableViewModel()
+        self.ui.result_tableView.setModel(self.userModel)
+
         self.ui.object_radioButton.click()
 
     def setEnableds(self):
@@ -127,10 +148,6 @@ class FindMember_front(QtWidgets.QWidget):
         self.addForm.db = self.db
         self.addForm.parentForm = self
         self.addForm.show()
-
-
-
-
 
 
 
