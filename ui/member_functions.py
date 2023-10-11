@@ -1,3 +1,5 @@
+import datetime
+
 from PySide6 import QtCore, QtWidgets, QtGui
 
 import sqlite_qwer
@@ -7,7 +9,7 @@ import ui.dialogs
 import constants
 import db_work
 import ui.validators
-
+import os, shutil
 
 class Member_front(QtWidgets.QWidget):
     def __init__(self, parent=None):
@@ -46,6 +48,7 @@ class Member_front(QtWidgets.QWidget):
             self.photoPath = img_path # todo здесь продумать как хранить фото: в БД или в отдельном каталоге, где имя файла = id пользователя
                                         # во втором случае - написать функцию копирования файла в директорию после присвоения записи id
 
+
     def addToBase(self):
         """Добавление записи о пользователе в базу"""
         if self.db:
@@ -61,10 +64,17 @@ class Member_front(QtWidgets.QWidget):
                                                                voa=self.member.voa,
                                                                adress=self.member.address,
                                                                photo=self.photoPath))
-            # TODO сделать очистку форм
+
+                # TODO сделать очистку форм
+
             else:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TEXT_PLACE_NOT_FILL)
-
+            # Обновляем путь в бд после переноса фотографии
+            self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id('garage_member',
+                                                                              self.db.cursor.lastrowid,
+                                                                              'photo',
+                                                                              constants.DEFAULT_PHOTO_PASS + str(
+                                                                              self.db.cursor.lastrowid) + '.jpg'))
 
 
     def addPushBtnClk(self):
@@ -83,6 +93,11 @@ class Member_front(QtWidgets.QWidget):
         # смотрим, кто вызывал
         if isinstance(self.parentForm, FindMember_front):
             pass
+
+        '''Перемещение фото в директорию'''
+        if not os.path.isdir(constants.DEFAULT_PHOTO_PASS): # Проверяем создана директория или нет.
+            os.makedirs(constants.DEFAULT_PHOTO_PASS, mode=0o777) # Создаем директорию.
+        shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_PASS + str(self.db.cursor.lastrowid) + '.jpg') # Перемещаем фотографию и сразу переименовываем
 
 class FindMember_front(QtWidgets.QWidget):
     def __init__(self, parent=None):
@@ -127,10 +142,6 @@ class FindMember_front(QtWidgets.QWidget):
         self.addForm.db = self.db
         self.addForm.parentForm = self
         self.addForm.show()
-
-
-
-
 
 
 
