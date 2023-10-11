@@ -23,13 +23,13 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(583, 282)
-        self.verticalLayout_3 = QVBoxLayout(Form)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        Form.resize(677, 336)
+        self.verticalLayout_4 = QVBoxLayout(Form)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout_5 = QHBoxLayout()
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.verticalLayout_14 = QVBoxLayout()
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
         self.surname_label_2 = QLabel(Form)
@@ -46,7 +46,7 @@ class Ui_Form(object):
         self.verticalLayout_14.addWidget(self.surnamename_lineEdit)
 
 
-        self.horizontalLayout_5.addLayout(self.verticalLayout_14)
+        self.horizontalLayout.addLayout(self.verticalLayout_14)
 
         self.verticalLayout_13 = QVBoxLayout()
         self.verticalLayout_13.setObjectName(u"verticalLayout_13")
@@ -64,34 +64,31 @@ class Ui_Form(object):
         self.verticalLayout_13.addWidget(self.surname_lineEdit)
 
 
-        self.horizontalLayout_5.addLayout(self.verticalLayout_13)
+        self.horizontalLayout.addLayout(self.verticalLayout_13)
 
-        self.verticalLayout_15 = QVBoxLayout()
-        self.verticalLayout_15.setObjectName(u"verticalLayout_15")
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.secondName_label = QLabel(Form)
         self.secondName_label.setObjectName(u"secondName_label")
         self.secondName_label.setMaximumSize(QSize(16777215, 31))
         self.secondName_label.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_15.addWidget(self.secondName_label)
+        self.verticalLayout_3.addWidget(self.secondName_label)
 
         self.secondName_lineEdit = QLineEdit(Form)
         self.secondName_lineEdit.setObjectName(u"secondName_lineEdit")
         self.secondName_lineEdit.setMinimumSize(QSize(0, 31))
 
-        self.verticalLayout_15.addWidget(self.secondName_lineEdit)
+        self.verticalLayout_3.addWidget(self.secondName_lineEdit)
 
 
-        self.horizontalLayout_5.addLayout(self.verticalLayout_15)
-
-
-        self.horizontalLayout.addLayout(self.horizontalLayout_5)
+        self.horizontalLayout.addLayout(self.verticalLayout_3)
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.dateBirdth_label = QLabel(Form)
         self.dateBirdth_label.setObjectName(u"dateBirdth_label")
-        self.dateBirdth_label.setMaximumSize(QSize(109, 16777215))
+        self.dateBirdth_label.setMaximumSize(QSize(109, 31))
         self.dateBirdth_label.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_2.addWidget(self.dateBirdth_label)
@@ -99,7 +96,7 @@ class Ui_Form(object):
         self.dateBirdth_dateEdit = QDateEdit(Form)
         self.dateBirdth_dateEdit.setObjectName(u"dateBirdth_dateEdit")
         self.dateBirdth_dateEdit.setMinimumSize(QSize(0, 31))
-        self.dateBirdth_dateEdit.setMaximumSize(QSize(109, 31))
+        self.dateBirdth_dateEdit.setMaximumSize(QSize(109, 16777215))
         self.dateBirdth_dateEdit.setMinimumDate(QDate(1900, 1, 1))
 
         self.verticalLayout_2.addWidget(self.dateBirdth_dateEdit)
@@ -107,9 +104,12 @@ class Ui_Form(object):
 
         self.horizontalLayout.addLayout(self.verticalLayout_2)
 
+
+        self.horizontalLayout_3.addLayout(self.horizontalLayout)
+
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.horizontalLayout.addItem(self.horizontalSpacer)
+        self.horizontalLayout_3.addItem(self.horizontalSpacer)
 
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
@@ -125,10 +125,10 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.photo_pushButton)
 
 
-        self.horizontalLayout.addLayout(self.verticalLayout)
+        self.horizontalLayout_3.addLayout(self.verticalLayout)
 
 
-        self.verticalLayout_3.addLayout(self.horizontalLayout)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_3)
 
         self.horizontalLayout_8 = QHBoxLayout()
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
@@ -195,7 +195,7 @@ class Ui_Form(object):
         self.horizontalLayout_8.addLayout(self.verticalLayout_17)
 
 
-        self.verticalLayout_3.addLayout(self.horizontalLayout_8)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_8)
 
         self.horizontalLayout_9 = QHBoxLayout()
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
@@ -212,7 +212,7 @@ class Ui_Form(object):
         self.horizontalLayout_9.addWidget(self.address_lineEdit)
 
 
-        self.verticalLayout_3.addLayout(self.horizontalLayout_9)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_9)
 
         self.horizontalLayout_10 = QHBoxLayout()
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
@@ -229,11 +229,11 @@ class Ui_Form(object):
         self.horizontalLayout_10.addWidget(self.voa_lineEdit)
 
 
-        self.verticalLayout_3.addLayout(self.horizontalLayout_10)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_10)
 
         self.verticalSpacer = QSpacerItem(20, 118, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_3.addItem(self.verticalSpacer)
+        self.verticalLayout_4.addItem(self.verticalSpacer)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
@@ -254,7 +254,7 @@ class Ui_Form(object):
         self.horizontalLayout_2.addWidget(self.close_pushButton)
 
 
-        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_2)
 
 
         self.retranslateUi(Form)

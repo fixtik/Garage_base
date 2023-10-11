@@ -192,7 +192,7 @@ class Ui_Form(object):
         sizePolicy1.setHeightForWidth(self.width_label.sizePolicy().hasHeightForWidth())
         self.width_label.setSizePolicy(sizePolicy1)
         self.width_label.setMinimumSize(QSize(119, 22))
-        self.width_label.setMaximumSize(QSize(9999999, 22))
+        self.width_label.setMaximumSize(QSize(119, 22))
         self.width_label.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_4.addWidget(self.width_label)
@@ -200,6 +200,7 @@ class Ui_Form(object):
         self.width_lineEdit = QLineEdit(self.garage_groupBox)
         self.width_lineEdit.setObjectName(u"width_lineEdit")
         self.width_lineEdit.setMinimumSize(QSize(0, 31))
+        self.width_lineEdit.setMaximumSize(QSize(119, 16777215))
 
         self.verticalLayout_4.addWidget(self.width_lineEdit)
 
@@ -214,7 +215,7 @@ class Ui_Form(object):
         sizePolicy1.setHeightForWidth(self.len_label.sizePolicy().hasHeightForWidth())
         self.len_label.setSizePolicy(sizePolicy1)
         self.len_label.setMinimumSize(QSize(119, 22))
-        self.len_label.setMaximumSize(QSize(99999, 22))
+        self.len_label.setMaximumSize(QSize(119, 22))
         self.len_label.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_7.addWidget(self.len_label)
@@ -222,6 +223,7 @@ class Ui_Form(object):
         self.len_lineEdit = QLineEdit(self.garage_groupBox)
         self.len_lineEdit.setObjectName(u"len_lineEdit")
         self.len_lineEdit.setMinimumSize(QSize(0, 31))
+        self.len_lineEdit.setMaximumSize(QSize(119, 16777215))
 
         self.verticalLayout_7.addWidget(self.len_lineEdit)
 
@@ -236,7 +238,7 @@ class Ui_Form(object):
         sizePolicy1.setHeightForWidth(self.hight_label.sizePolicy().hasHeightForWidth())
         self.hight_label.setSizePolicy(sizePolicy1)
         self.hight_label.setMinimumSize(QSize(119, 22))
-        self.hight_label.setMaximumSize(QSize(99999, 22))
+        self.hight_label.setMaximumSize(QSize(119, 22))
         self.hight_label.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_8.addWidget(self.hight_label)
@@ -244,15 +246,12 @@ class Ui_Form(object):
         self.hight_lineEdit = QLineEdit(self.garage_groupBox)
         self.hight_lineEdit.setObjectName(u"hight_lineEdit")
         self.hight_lineEdit.setMinimumSize(QSize(0, 31))
+        self.hight_lineEdit.setMaximumSize(QSize(119, 16777215))
 
         self.verticalLayout_8.addWidget(self.hight_lineEdit)
 
 
         self.horizontalLayout_2.addLayout(self.verticalLayout_8)
-
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_2.addItem(self.horizontalSpacer_3)
 
         self.verticalLayout_6 = QVBoxLayout()
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
@@ -268,7 +267,7 @@ class Ui_Form(object):
 
         self.width_lineEdit_2 = QLineEdit(self.garage_groupBox)
         self.width_lineEdit_2.setObjectName(u"width_lineEdit_2")
-        self.width_lineEdit_2.setMinimumSize(QSize(0, 31))
+        self.width_lineEdit_2.setMinimumSize(QSize(200, 31))
 
         self.verticalLayout_6.addWidget(self.width_lineEdit_2)
 
