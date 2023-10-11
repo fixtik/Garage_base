@@ -6,6 +6,7 @@ def showHelp(window):
     button.setToolTipDuration(3000)
 
 def floatValidator():
+    """Валидатор для ввода дробных значений"""
     reg_ex = QtCore.QRegularExpression()
     reg_ex.setPattern('[0-9]+[,.]?[0-9]+')
     return QtGui.QRegularExpressionValidator(reg_ex)
