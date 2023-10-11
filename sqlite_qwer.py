@@ -295,3 +295,26 @@ def sql_update_garage_size(size_id: int, width: float, length: float, height: fl
     return f"UPDATE type_size SET width = {width}, len = {length}, height = {height}, comment = '{comment}'" \
            f" WHERE id = {size_id};"
 
+'''--------------------------------------------NEW--------------------------------------------------'''
+
+def member_search(surname: str, first_name: str, second_name: str, phone_main: str) -> str:
+    sql_string = 'SELECT id FROM garage_member WHERE '
+    if surname != '':
+        sql_string = sql_string + 'surname LIKE \'%' + surname + '%\''
+        if first_name != '' or second_name != '' or phone_main != '':
+            sql_string += ' AND '
+    if first_name != '':
+        sql_string = sql_string + 'first_name LIKE \'%' + first_name + '%\''
+        if second_name != '' or phone_main != '':
+            sql_string += ' AND '
+    if second_name != '':
+        sql_string = sql_string + 'second_name LIKE \'%' + second_name + '%\''
+        if phone_main != '':
+            sql_string += ' AND '
+    if phone_main != '':
+        sql_string = sql_string + 'phone_main LIKE \'%' + phone_main + '%\''
+    sql_string += ';'
+
+    return sql_string
+
+
