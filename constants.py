@@ -1,7 +1,7 @@
+import os
+
 STANDART_PATH = ''
 DEFAULT_DB_NAME = 'garage.db'
-
-
 
 SQL_CREATE_TABLE_GARAGE = 'CREATE TABLE IF NOT EXISTS "garage_obj" ( ' \
                           'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
@@ -75,13 +75,13 @@ SQL_CREATE_TABLE_CONTRIBUTION = 'CREATE TABLE IF NOT EXISTS "contribution" (' \
                                 ');'
 
 SQL_CREATE_TABLE_AUTOMOBILE = 'CREATE TABLE IF NOT EXISTS "automobile" ( ' \
-                          'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
-                          '	"mark"	TEXT NOT NULL,' \
-                          '	"gos_num"	TEXT NOT NULL,' \
-                          '	"owner_id"	INTEGER NOT NULL,' \
-                          '	"active"	INTEGER DEFAULT 1,' \
-                          '	"inactive_date"	TEXT DEFAULT 0,' \
-                          'FOREIGN KEY("owner_id") REFERENCES "garage_member"("id")' \
+                              'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
+                              '	"mark"	TEXT NOT NULL,' \
+                              '	"gos_num"	TEXT NOT NULL,' \
+                              '	"owner_id"	INTEGER NOT NULL,' \
+                              '	"active"	INTEGER DEFAULT 1,' \
+                              '	"inactive_date"	TEXT DEFAULT 0,' \
+                              'FOREIGN KEY("owner_id") REFERENCES "garage_member"("id")' \
                               ');'
 
 BD_SQL_CREATOR = [SQL_CREATE_TABLE_GARGE_MEMBER, SQL_CREATE_TABLE_ELECTRIC_METER, SQL_CREATE_TABLE_TYPE_SIZE,
@@ -90,7 +90,6 @@ BD_SQL_CREATOR = [SQL_CREATE_TABLE_GARGE_MEMBER, SQL_CREATE_TABLE_ELECTRIC_METER
 
 TABALE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
                 'contribution_type', 'electric_meter', 'type_size']
-
 
 CONTRIB_WIN_EDIT_TITLE = 'Редактирование типа платежа'
 
@@ -114,5 +113,5 @@ QUESTION_WRITE_EL_METER_WHITHOUT_OBJ = 'Хотите добавить запис
 TITLE_SELECT_PHOTO = "Выберите фото для загрузки"
 FILTER_PHOTO = '*.jpg *.jpeg'
 
-DEFAULT_PHOTO_PASS = '~\photo\member'
-DEFAULT_BILLS_PASS = '~\photo\\bills'
+DEFAULT_PHOTO_PASS = os.getcwd() + '\\photo\\member\\'  # os.getcwd() - возвращает текущую директорию
+DEFAULT_BILLS_PASS = os.getcwd() + '\\photo\\bills\\'  # os.getcwd() - возвращает текущую директорию
