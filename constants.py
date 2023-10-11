@@ -114,4 +114,5 @@ QUESTION_WRITE_EL_METER_WHITHOUT_OBJ = 'Хотите добавить запис
 TITLE_SELECT_PHOTO = "Выберите фото для загрузки"
 FILTER_PHOTO = '*.jpg *.jpeg'
 
-
+DEFAULT_PHOTO_PASS = '~\photo\member'
+DEFAULT_BILLS_PASS = '~\photo\\bills'
