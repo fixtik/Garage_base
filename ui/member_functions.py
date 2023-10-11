@@ -80,6 +80,9 @@ class Member_front(QtWidgets.QWidget):
         self.member.voa = self.ui.voa_lineEdit.text()
         self.member.address = self.ui.address_lineEdit.text()
         self.addToBase()
+        # смотрим, кто вызывал
+        if isinstance(self.parentForm, FindMember_front):
+            pass
 
 class FindMember_front(QtWidgets.QWidget):
     def __init__(self, parent=None):
@@ -90,6 +93,7 @@ class FindMember_front(QtWidgets.QWidget):
         self.db = None          # сслыка на объект БД
         self.member = Member()  #
         self.parentForm = None  # сслыка на форму вызова для возвращения добавленных объектов
+        self.addForm = None # ссылка на добавление нового члена
 
         self.initUi()
 
@@ -98,6 +102,33 @@ class FindMember_front(QtWidgets.QWidget):
 
         self.resize(self.width(), 220)
         #слоты
+        self.ui.close_pushButton.clicked.connect(self.close)
+        self.ui.user_radioButton.clicked.connect(self.setEnableds)
+        self.ui.object_radioButton.clicked.connect(self.setEnableds)
+        self.ui.add_pushButton.clicked.connect(self.addNewMemberPshBtn)
+
+        self.ui.object_radioButton.click()
+
+    def setEnableds(self):
+        """устанавливает или запрещает доступ к объектам интерфейса в зависимости от radioButton"""
+        flag = self.ui.user_radioButton.isChecked()
+        # закрываем или открываем поиск по объекту
+        self.ui.row_lineEdit.setEnabled(not flag)
+        self.ui.number_lineEdit.setEnabled(not flag)
+        # закрываем или открываем поиск по пользователю
+        self.ui.surname_lineEdit.setEnabled(flag)
+        self.ui.name_lineEdit.setEnabled(flag)
+        self.ui.secondName_lineEdit.setEnabled(flag)
+        self.ui.phone_lineEdit.setEnabled(flag)
+
+    def addNewMemberPshBtn(self):
+        """открытие формы добавления нового члена в БД"""
+        self.addForm = Member_front()
+        self.addForm.db = self.db
+        self.addForm.parentForm = self
+        self.addForm.show()
+
+
 
 
 
