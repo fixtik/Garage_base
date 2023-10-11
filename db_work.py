@@ -1,5 +1,4 @@
 import sqlite3
-import os
 
 
 from constants import *
@@ -104,8 +103,3 @@ class Garage_DB:
         if self.check_base(DEFAULT_DB_NAME):
             return self.choose_db(DEFAULT_DB_NAME)
         return (False, f'Файл {DEFAULT_DB_NAME} не найден')
-
-
-
-
-
