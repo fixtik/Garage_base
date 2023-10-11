@@ -15,24 +15,24 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QDateEdit, QGroupBox, QHBoxLayout,
-    QHeaderView, QLabel, QLayout, QLineEdit,
-    QPushButton, QSizePolicy, QSpacerItem, QTableView,
-    QTextEdit, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QDateEdit, QGroupBox,
+    QHBoxLayout, QHeaderView, QLabel, QLayout,
+    QLineEdit, QPushButton, QSizePolicy, QSpacerItem,
+    QTableView, QVBoxLayout, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(817, 1080)
-        self.verticalLayout_35 = QVBoxLayout(Form)
-        self.verticalLayout_35.setObjectName(u"verticalLayout_35")
+        Form.resize(766, 693)
+        self.verticalLayout_11 = QVBoxLayout(Form)
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
         self.garage_groupBox = QGroupBox(Form)
         self.garage_groupBox.setObjectName(u"garage_groupBox")
         self.garage_groupBox.setMinimumSize(QSize(1, 0))
         self.garage_groupBox.setMaximumSize(QSize(16777215, 99999))
-        self.verticalLayout_32 = QVBoxLayout(self.garage_groupBox)
-        self.verticalLayout_32.setObjectName(u"verticalLayout_32")
+        self.verticalLayout_10 = QVBoxLayout(self.garage_groupBox)
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
         self.horizontalLayout_17 = QHBoxLayout()
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.horizontalLayout = QHBoxLayout()
@@ -150,24 +150,49 @@ class Ui_Form(object):
         self.horizontalLayout_17.addLayout(self.verticalLayout_3)
 
 
-        self.verticalLayout_32.addLayout(self.horizontalLayout_17)
+        self.verticalLayout_10.addLayout(self.horizontalLayout_17)
 
         self.verticalLayout_9 = QVBoxLayout()
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.verticalLayout_5 = QVBoxLayout()
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.width_label_2 = QLabel(self.garage_groupBox)
+        self.width_label_2.setObjectName(u"width_label_2")
+        sizePolicy1 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.width_label_2.sizePolicy().hasHeightForWidth())
+        self.width_label_2.setSizePolicy(sizePolicy1)
+        self.width_label_2.setMinimumSize(QSize(119, 22))
+        self.width_label_2.setMaximumSize(QSize(9999999, 22))
+        self.width_label_2.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_5.addWidget(self.width_label_2)
+
+        self.comboBox = QComboBox(self.garage_groupBox)
+        self.comboBox.setObjectName(u"comboBox")
+        self.comboBox.setMinimumSize(QSize(0, 31))
+
+        self.verticalLayout_5.addWidget(self.comboBox)
+
+
+        self.horizontalLayout_2.addLayout(self.verticalLayout_5)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
+
         self.verticalLayout_4 = QVBoxLayout()
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.verticalLayout_4.setSizeConstraint(QLayout.SetMinimumSize)
         self.width_label = QLabel(self.garage_groupBox)
         self.width_label.setObjectName(u"width_label")
-        sizePolicy1 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.width_label.sizePolicy().hasHeightForWidth())
         self.width_label.setSizePolicy(sizePolicy1)
         self.width_label.setMinimumSize(QSize(119, 22))
-        self.width_label.setMaximumSize(QSize(9999999, 22))
+        self.width_label.setMaximumSize(QSize(119, 22))
         self.width_label.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_4.addWidget(self.width_label)
@@ -175,15 +200,12 @@ class Ui_Form(object):
         self.width_lineEdit = QLineEdit(self.garage_groupBox)
         self.width_lineEdit.setObjectName(u"width_lineEdit")
         self.width_lineEdit.setMinimumSize(QSize(0, 31))
+        self.width_lineEdit.setMaximumSize(QSize(119, 16777215))
 
         self.verticalLayout_4.addWidget(self.width_lineEdit)
 
 
         self.horizontalLayout_2.addLayout(self.verticalLayout_4)
-
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
 
         self.verticalLayout_7 = QVBoxLayout()
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
@@ -193,7 +215,7 @@ class Ui_Form(object):
         sizePolicy1.setHeightForWidth(self.len_label.sizePolicy().hasHeightForWidth())
         self.len_label.setSizePolicy(sizePolicy1)
         self.len_label.setMinimumSize(QSize(119, 22))
-        self.len_label.setMaximumSize(QSize(99999, 22))
+        self.len_label.setMaximumSize(QSize(119, 22))
         self.len_label.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_7.addWidget(self.len_label)
@@ -201,15 +223,12 @@ class Ui_Form(object):
         self.len_lineEdit = QLineEdit(self.garage_groupBox)
         self.len_lineEdit.setObjectName(u"len_lineEdit")
         self.len_lineEdit.setMinimumSize(QSize(0, 31))
+        self.len_lineEdit.setMaximumSize(QSize(119, 16777215))
 
         self.verticalLayout_7.addWidget(self.len_lineEdit)
 
 
         self.horizontalLayout_2.addLayout(self.verticalLayout_7)
-
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_2.addItem(self.horizontalSpacer_3)
 
         self.verticalLayout_8 = QVBoxLayout()
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
@@ -219,7 +238,7 @@ class Ui_Form(object):
         sizePolicy1.setHeightForWidth(self.hight_label.sizePolicy().hasHeightForWidth())
         self.hight_label.setSizePolicy(sizePolicy1)
         self.hight_label.setMinimumSize(QSize(119, 22))
-        self.hight_label.setMaximumSize(QSize(99999, 22))
+        self.hight_label.setMaximumSize(QSize(119, 22))
         self.hight_label.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_8.addWidget(self.hight_label)
@@ -227,480 +246,144 @@ class Ui_Form(object):
         self.hight_lineEdit = QLineEdit(self.garage_groupBox)
         self.hight_lineEdit.setObjectName(u"hight_lineEdit")
         self.hight_lineEdit.setMinimumSize(QSize(0, 31))
+        self.hight_lineEdit.setMaximumSize(QSize(119, 16777215))
 
         self.verticalLayout_8.addWidget(self.hight_lineEdit)
 
 
         self.horizontalLayout_2.addLayout(self.verticalLayout_8)
 
+        self.verticalLayout_6 = QVBoxLayout()
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.width_label_3 = QLabel(self.garage_groupBox)
+        self.width_label_3.setObjectName(u"width_label_3")
+        sizePolicy1.setHeightForWidth(self.width_label_3.sizePolicy().hasHeightForWidth())
+        self.width_label_3.setSizePolicy(sizePolicy1)
+        self.width_label_3.setMinimumSize(QSize(119, 22))
+        self.width_label_3.setMaximumSize(QSize(9999999, 22))
+        self.width_label_3.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_6.addWidget(self.width_label_3)
+
+        self.width_lineEdit_2 = QLineEdit(self.garage_groupBox)
+        self.width_lineEdit_2.setObjectName(u"width_lineEdit_2")
+        self.width_lineEdit_2.setMinimumSize(QSize(200, 31))
+
+        self.verticalLayout_6.addWidget(self.width_lineEdit_2)
+
+
+        self.horizontalLayout_2.addLayout(self.verticalLayout_6)
+
 
         self.verticalLayout_9.addLayout(self.horizontalLayout_2)
 
 
-        self.verticalLayout_32.addLayout(self.verticalLayout_9)
+        self.verticalLayout_10.addLayout(self.verticalLayout_9)
 
-        self.horizontalLayout_11 = QHBoxLayout()
-        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
-        self.verticalLayout_10 = QVBoxLayout()
-        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
-        self.verticalLayout_10.setSizeConstraint(QLayout.SetMaximumSize)
-        self.elMetric220_label = QLabel(self.garage_groupBox)
-        self.elMetric220_label.setObjectName(u"elMetric220_label")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.MinimumExpanding)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.elMetric220_label.sizePolicy().hasHeightForWidth())
-        self.elMetric220_label.setSizePolicy(sizePolicy2)
-        self.elMetric220_label.setMinimumSize(QSize(232, 31))
-        self.elMetric220_label.setMaximumSize(QSize(16777215, 31))
-        self.elMetric220_label.setAlignment(Qt.AlignCenter)
+        self.electricMeter_label = QLabel(self.garage_groupBox)
+        self.electricMeter_label.setObjectName(u"electricMeter_label")
+        sizePolicy.setHeightForWidth(self.electricMeter_label.sizePolicy().hasHeightForWidth())
+        self.electricMeter_label.setSizePolicy(sizePolicy)
+        self.electricMeter_label.setMaximumSize(QSize(99999, 31))
 
-        self.verticalLayout_10.addWidget(self.elMetric220_label)
-
-        self.elMetric220_lineEdit = QLineEdit(self.garage_groupBox)
-        self.elMetric220_lineEdit.setObjectName(u"elMetric220_lineEdit")
-        self.elMetric220_lineEdit.setMinimumSize(QSize(0, 31))
-
-        self.verticalLayout_10.addWidget(self.elMetric220_lineEdit)
-
-        self.horizontalLayout_3 = QHBoxLayout()
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.verticalLayout_5 = QVBoxLayout()
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.curentValue220_label = QLabel(self.garage_groupBox)
-        self.curentValue220_label.setObjectName(u"curentValue220_label")
-        sizePolicy.setHeightForWidth(self.curentValue220_label.sizePolicy().hasHeightForWidth())
-        self.curentValue220_label.setSizePolicy(sizePolicy)
-        self.curentValue220_label.setMaximumSize(QSize(10000, 31))
-        self.curentValue220_label.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_5.addWidget(self.curentValue220_label)
-
-        self.currentValue220_lineEdit = QLineEdit(self.garage_groupBox)
-        self.currentValue220_lineEdit.setObjectName(u"currentValue220_lineEdit")
-        self.currentValue220_lineEdit.setMinimumSize(QSize(0, 31))
-
-        self.verticalLayout_5.addWidget(self.currentValue220_lineEdit)
-
-
-        self.horizontalLayout_3.addLayout(self.verticalLayout_5)
-
-        self.verticalLayout_6 = QVBoxLayout()
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.newValue220_label = QLabel(self.garage_groupBox)
-        self.newValue220_label.setObjectName(u"newValue220_label")
-        sizePolicy.setHeightForWidth(self.newValue220_label.sizePolicy().hasHeightForWidth())
-        self.newValue220_label.setSizePolicy(sizePolicy)
-        self.newValue220_label.setMaximumSize(QSize(100000, 31))
-        self.newValue220_label.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_6.addWidget(self.newValue220_label)
-
-        self.newValue220_lineEdit = QLineEdit(self.garage_groupBox)
-        self.newValue220_lineEdit.setObjectName(u"newValue220_lineEdit")
-        self.newValue220_lineEdit.setMinimumSize(QSize(0, 31))
-
-        self.verticalLayout_6.addWidget(self.newValue220_lineEdit)
-
-
-        self.horizontalLayout_3.addLayout(self.verticalLayout_6)
-
-
-        self.verticalLayout_10.addLayout(self.horizontalLayout_3)
-
-
-        self.horizontalLayout_11.addLayout(self.verticalLayout_10)
-
-        self.verticalLayout_24 = QVBoxLayout()
-        self.verticalLayout_24.setObjectName(u"verticalLayout_24")
-        self.verticalLayout_11 = QVBoxLayout()
-        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
-        self.verticalLayout_11.setSizeConstraint(QLayout.SetMinimumSize)
-        self.elMetric380_label = QLabel(self.garage_groupBox)
-        self.elMetric380_label.setObjectName(u"elMetric380_label")
-        sizePolicy2.setHeightForWidth(self.elMetric380_label.sizePolicy().hasHeightForWidth())
-        self.elMetric380_label.setSizePolicy(sizePolicy2)
-        self.elMetric380_label.setMinimumSize(QSize(232, 31))
-        self.elMetric380_label.setMaximumSize(QSize(16777215, 31))
-        self.elMetric380_label.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_11.addWidget(self.elMetric380_label)
-
-        self.elMetric380_lineEdit = QLineEdit(self.garage_groupBox)
-        self.elMetric380_lineEdit.setObjectName(u"elMetric380_lineEdit")
-        self.elMetric380_lineEdit.setMinimumSize(QSize(0, 31))
-
-        self.verticalLayout_11.addWidget(self.elMetric380_lineEdit)
-
-
-        self.verticalLayout_24.addLayout(self.verticalLayout_11)
+        self.verticalLayout_10.addWidget(self.electricMeter_label)
 
         self.horizontalLayout_6 = QHBoxLayout()
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.verticalLayout_22 = QVBoxLayout()
-        self.verticalLayout_22.setObjectName(u"verticalLayout_22")
-        self.curentValue380_label = QLabel(self.garage_groupBox)
-        self.curentValue380_label.setObjectName(u"curentValue380_label")
-        sizePolicy.setHeightForWidth(self.curentValue380_label.sizePolicy().hasHeightForWidth())
-        self.curentValue380_label.setSizePolicy(sizePolicy)
-        self.curentValue380_label.setMaximumSize(QSize(10000, 31))
-        self.curentValue380_label.setAlignment(Qt.AlignCenter)
+        self.electric_tableView = QTableView(self.garage_groupBox)
+        self.electric_tableView.setObjectName(u"electric_tableView")
+        self.electric_tableView.setMaximumSize(QSize(16777215, 62))
 
-        self.verticalLayout_22.addWidget(self.curentValue380_label)
+        self.horizontalLayout_6.addWidget(self.electric_tableView)
 
-        self.currentValue380_lineEdit = QLineEdit(self.garage_groupBox)
-        self.currentValue380_lineEdit.setObjectName(u"currentValue380_lineEdit")
-        self.currentValue380_lineEdit.setMinimumSize(QSize(0, 31))
+        self.verticalLayout_39 = QVBoxLayout()
+        self.verticalLayout_39.setObjectName(u"verticalLayout_39")
+        self.verticalSpacer_8 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_22.addWidget(self.currentValue380_lineEdit)
+        self.verticalLayout_39.addItem(self.verticalSpacer_8)
 
+        self.electricAdd_pushButton = QPushButton(self.garage_groupBox)
+        self.electricAdd_pushButton.setObjectName(u"electricAdd_pushButton")
+        self.electricAdd_pushButton.setMaximumSize(QSize(31, 31))
 
-        self.horizontalLayout_6.addLayout(self.verticalLayout_22)
+        self.verticalLayout_39.addWidget(self.electricAdd_pushButton)
 
-        self.verticalLayout_23 = QVBoxLayout()
-        self.verticalLayout_23.setObjectName(u"verticalLayout_23")
-        self.newValue380_label = QLabel(self.garage_groupBox)
-        self.newValue380_label.setObjectName(u"newValue380_label")
-        sizePolicy.setHeightForWidth(self.newValue380_label.sizePolicy().hasHeightForWidth())
-        self.newValue380_label.setSizePolicy(sizePolicy)
-        self.newValue380_label.setMaximumSize(QSize(100000, 31))
-        self.newValue380_label.setAlignment(Qt.AlignCenter)
+        self.electricDel_pushButton = QPushButton(self.garage_groupBox)
+        self.electricDel_pushButton.setObjectName(u"electricDel_pushButton")
+        self.electricDel_pushButton.setMaximumSize(QSize(31, 31))
 
-        self.verticalLayout_23.addWidget(self.newValue380_label)
+        self.verticalLayout_39.addWidget(self.electricDel_pushButton)
 
-        self.newValue380_lineEdit = QLineEdit(self.garage_groupBox)
-        self.newValue380_lineEdit.setObjectName(u"newValue380_lineEdit")
-        self.newValue380_lineEdit.setMinimumSize(QSize(0, 31))
+        self.verticalSpacer_10 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_23.addWidget(self.newValue380_lineEdit)
+        self.verticalLayout_39.addItem(self.verticalSpacer_10)
 
 
-        self.horizontalLayout_6.addLayout(self.verticalLayout_23)
+        self.horizontalLayout_6.addLayout(self.verticalLayout_39)
 
 
-        self.verticalLayout_24.addLayout(self.horizontalLayout_6)
+        self.verticalLayout_10.addLayout(self.horizontalLayout_6)
 
 
-        self.horizontalLayout_11.addLayout(self.verticalLayout_24)
-
-
-        self.verticalLayout_32.addLayout(self.horizontalLayout_11)
-
-
-        self.verticalLayout_35.addWidget(self.garage_groupBox)
+        self.verticalLayout_11.addWidget(self.garage_groupBox)
 
         self.horizontalLayout_15 = QHBoxLayout()
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
-        self.owner_groupBox = QGroupBox(Form)
-        self.owner_groupBox.setObjectName(u"owner_groupBox")
-        self.verticalLayout_21 = QVBoxLayout(self.owner_groupBox)
-        self.verticalLayout_21.setObjectName(u"verticalLayout_21")
-        self.horizontalLayout_5 = QHBoxLayout()
+        self.users_groupBox = QGroupBox(Form)
+        self.users_groupBox.setObjectName(u"users_groupBox")
+        self.horizontalLayout_5 = QHBoxLayout(self.users_groupBox)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.verticalLayout_14 = QVBoxLayout()
-        self.verticalLayout_14.setObjectName(u"verticalLayout_14")
-        self.surname_label = QLabel(self.owner_groupBox)
-        self.surname_label.setObjectName(u"surname_label")
-        self.surname_label.setMaximumSize(QSize(16777215, 31))
-        self.surname_label.setAlignment(Qt.AlignCenter)
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.users_tableView = QTableView(self.users_groupBox)
+        self.users_tableView.setObjectName(u"users_tableView")
+        self.users_tableView.setMaximumSize(QSize(16777215, 100))
 
-        self.verticalLayout_14.addWidget(self.surname_label)
+        self.horizontalLayout_3.addWidget(self.users_tableView)
 
-        self.surnamename_lineEdit = QLineEdit(self.owner_groupBox)
-        self.surnamename_lineEdit.setObjectName(u"surnamename_lineEdit")
-        self.surnamename_lineEdit.setMinimumSize(QSize(0, 31))
+        self.verticalLayout_37 = QVBoxLayout()
+        self.verticalLayout_37.setObjectName(u"verticalLayout_37")
+        self.verticalSpacer_6 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_14.addWidget(self.surnamename_lineEdit)
+        self.verticalLayout_37.addItem(self.verticalSpacer_6)
 
+        self.userAdd_pushButton = QPushButton(self.users_groupBox)
+        self.userAdd_pushButton.setObjectName(u"userAdd_pushButton")
+        self.userAdd_pushButton.setMaximumSize(QSize(31, 31))
 
-        self.horizontalLayout_5.addLayout(self.verticalLayout_14)
+        self.verticalLayout_37.addWidget(self.userAdd_pushButton)
 
-        self.verticalLayout_13 = QVBoxLayout()
-        self.verticalLayout_13.setObjectName(u"verticalLayout_13")
-        self.name_label = QLabel(self.owner_groupBox)
-        self.name_label.setObjectName(u"name_label")
-        self.name_label.setMaximumSize(QSize(16777215, 31))
-        self.name_label.setAlignment(Qt.AlignCenter)
+        self.userDel_pushButton = QPushButton(self.users_groupBox)
+        self.userDel_pushButton.setObjectName(u"userDel_pushButton")
+        self.userDel_pushButton.setMaximumSize(QSize(31, 31))
 
-        self.verticalLayout_13.addWidget(self.name_label)
+        self.verticalLayout_37.addWidget(self.userDel_pushButton)
 
-        self.name_lineEdit = QLineEdit(self.owner_groupBox)
-        self.name_lineEdit.setObjectName(u"name_lineEdit")
-        self.name_lineEdit.setMinimumSize(QSize(0, 31))
+        self.verticalSpacer_9 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_13.addWidget(self.name_lineEdit)
+        self.verticalLayout_37.addItem(self.verticalSpacer_9)
 
 
-        self.horizontalLayout_5.addLayout(self.verticalLayout_13)
-
-        self.verticalLayout_15 = QVBoxLayout()
-        self.verticalLayout_15.setObjectName(u"verticalLayout_15")
-        self.secondName_label = QLabel(self.owner_groupBox)
-        self.secondName_label.setObjectName(u"secondName_label")
-        self.secondName_label.setMaximumSize(QSize(16777215, 31))
-        self.secondName_label.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_15.addWidget(self.secondName_label)
-
-        self.secondName_lineEdit = QLineEdit(self.owner_groupBox)
-        self.secondName_lineEdit.setObjectName(u"secondName_lineEdit")
-        self.secondName_lineEdit.setMinimumSize(QSize(0, 31))
-
-        self.verticalLayout_15.addWidget(self.secondName_lineEdit)
+        self.horizontalLayout_3.addLayout(self.verticalLayout_37)
 
 
-        self.horizontalLayout_5.addLayout(self.verticalLayout_15)
+        self.horizontalLayout_5.addLayout(self.horizontalLayout_3)
 
 
-        self.verticalLayout_21.addLayout(self.horizontalLayout_5)
+        self.horizontalLayout_15.addWidget(self.users_groupBox)
 
-        self.horizontalLayout_8 = QHBoxLayout()
+
+        self.verticalLayout_11.addLayout(self.horizontalLayout_15)
+
+        self.car_groupBox = QGroupBox(Form)
+        self.car_groupBox.setObjectName(u"car_groupBox")
+        self.horizontalLayout_8 = QHBoxLayout(self.car_groupBox)
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.verticalLayout_18 = QVBoxLayout()
-        self.verticalLayout_18.setObjectName(u"verticalLayout_18")
-        self.dateBirdth_label = QLabel(self.owner_groupBox)
-        self.dateBirdth_label.setObjectName(u"dateBirdth_label")
-        self.dateBirdth_label.setMaximumSize(QSize(109, 16777215))
-        self.dateBirdth_label.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_18.addWidget(self.dateBirdth_label)
-
-        self.dateBirdth_dateEdit = QDateEdit(self.owner_groupBox)
-        self.dateBirdth_dateEdit.setObjectName(u"dateBirdth_dateEdit")
-        self.dateBirdth_dateEdit.setMinimumSize(QSize(0, 31))
-        self.dateBirdth_dateEdit.setMaximumSize(QSize(109, 31))
-        self.dateBirdth_dateEdit.setMinimumDate(QDate(1900, 1, 1))
-
-        self.verticalLayout_18.addWidget(self.dateBirdth_dateEdit)
-
-
-        self.horizontalLayout_8.addLayout(self.verticalLayout_18)
-
-        self.verticalLayout_16 = QVBoxLayout()
-        self.verticalLayout_16.setObjectName(u"verticalLayout_16")
-        self.phone_label = QLabel(self.owner_groupBox)
-        self.phone_label.setObjectName(u"phone_label")
-        self.phone_label.setMinimumSize(QSize(0, 31))
-        self.phone_label.setMaximumSize(QSize(16777215, 31))
-        self.phone_label.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_16.addWidget(self.phone_label)
-
-        self.phone_lineEdit = QLineEdit(self.owner_groupBox)
-        self.phone_lineEdit.setObjectName(u"phone_lineEdit")
-        self.phone_lineEdit.setMinimumSize(QSize(0, 31))
-
-        self.verticalLayout_16.addWidget(self.phone_lineEdit)
-
-
-        self.horizontalLayout_8.addLayout(self.verticalLayout_16)
-
-        self.verticalLayout_17 = QVBoxLayout()
-        self.verticalLayout_17.setObjectName(u"verticalLayout_17")
-        self.addPhone_label = QLabel(self.owner_groupBox)
-        self.addPhone_label.setObjectName(u"addPhone_label")
-        self.addPhone_label.setMinimumSize(QSize(0, 31))
-        self.addPhone_label.setMaximumSize(QSize(16777215, 31))
-        self.addPhone_label.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_17.addWidget(self.addPhone_label)
-
-        self.addPhone_lineEdit = QLineEdit(self.owner_groupBox)
-        self.addPhone_lineEdit.setObjectName(u"addPhone_lineEdit")
-        self.addPhone_lineEdit.setMinimumSize(QSize(0, 31))
-
-        self.verticalLayout_17.addWidget(self.addPhone_lineEdit)
-
-
-        self.horizontalLayout_8.addLayout(self.verticalLayout_17)
-
-
-        self.verticalLayout_21.addLayout(self.horizontalLayout_8)
-
-        self.horizontalLayout_9 = QHBoxLayout()
-        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.address_label = QLabel(self.owner_groupBox)
-        self.address_label.setObjectName(u"address_label")
-        self.address_label.setMinimumSize(QSize(0, 31))
-        self.address_label.setMaximumSize(QSize(16777215, 31))
-
-        self.horizontalLayout_9.addWidget(self.address_label)
-
-        self.address_textEdit = QTextEdit(self.owner_groupBox)
-        self.address_textEdit.setObjectName(u"address_textEdit")
-        self.address_textEdit.setMinimumSize(QSize(0, 31))
-        self.address_textEdit.setMaximumSize(QSize(16777215, 31))
-
-        self.horizontalLayout_9.addWidget(self.address_textEdit)
-
-
-        self.verticalLayout_21.addLayout(self.horizontalLayout_9)
-
-
-        self.horizontalLayout_15.addWidget(self.owner_groupBox)
-
-        self.arenda_groupBox = QGroupBox(Form)
-        self.arenda_groupBox.setObjectName(u"arenda_groupBox")
-        self.verticalLayout_25 = QVBoxLayout(self.arenda_groupBox)
-        self.verticalLayout_25.setObjectName(u"verticalLayout_25")
-        self.horizontalLayout_12 = QHBoxLayout()
-        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
-        self.verticalLayout_26 = QVBoxLayout()
-        self.verticalLayout_26.setObjectName(u"verticalLayout_26")
-        self.arendaSurname_label = QLabel(self.arenda_groupBox)
-        self.arendaSurname_label.setObjectName(u"arendaSurname_label")
-        self.arendaSurname_label.setMaximumSize(QSize(16777215, 31))
-        self.arendaSurname_label.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_26.addWidget(self.arendaSurname_label)
-
-        self.arendaSurnamename_lineEdit = QLineEdit(self.arenda_groupBox)
-        self.arendaSurnamename_lineEdit.setObjectName(u"arendaSurnamename_lineEdit")
-        self.arendaSurnamename_lineEdit.setMinimumSize(QSize(0, 31))
-
-        self.verticalLayout_26.addWidget(self.arendaSurnamename_lineEdit)
-
-
-        self.horizontalLayout_12.addLayout(self.verticalLayout_26)
-
-        self.verticalLayout_27 = QVBoxLayout()
-        self.verticalLayout_27.setObjectName(u"verticalLayout_27")
-        self.arendaName_label = QLabel(self.arenda_groupBox)
-        self.arendaName_label.setObjectName(u"arendaName_label")
-        self.arendaName_label.setMaximumSize(QSize(16777215, 31))
-        self.arendaName_label.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_27.addWidget(self.arendaName_label)
-
-        self.arendaName_lineEdit = QLineEdit(self.arenda_groupBox)
-        self.arendaName_lineEdit.setObjectName(u"arendaName_lineEdit")
-        self.arendaName_lineEdit.setMinimumSize(QSize(0, 31))
-
-        self.verticalLayout_27.addWidget(self.arendaName_lineEdit)
-
-
-        self.horizontalLayout_12.addLayout(self.verticalLayout_27)
-
-        self.verticalLayout_28 = QVBoxLayout()
-        self.verticalLayout_28.setObjectName(u"verticalLayout_28")
-        self.arendaSecondName_label = QLabel(self.arenda_groupBox)
-        self.arendaSecondName_label.setObjectName(u"arendaSecondName_label")
-        self.arendaSecondName_label.setMaximumSize(QSize(16777215, 31))
-        self.arendaSecondName_label.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_28.addWidget(self.arendaSecondName_label)
-
-        self.arendaSecondName_lineEdit = QLineEdit(self.arenda_groupBox)
-        self.arendaSecondName_lineEdit.setObjectName(u"arendaSecondName_lineEdit")
-        self.arendaSecondName_lineEdit.setMinimumSize(QSize(0, 31))
-
-        self.verticalLayout_28.addWidget(self.arendaSecondName_lineEdit)
-
-
-        self.horizontalLayout_12.addLayout(self.verticalLayout_28)
-
-
-        self.verticalLayout_25.addLayout(self.horizontalLayout_12)
-
-        self.horizontalLayout_13 = QHBoxLayout()
-        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
-        self.verticalLayout_29 = QVBoxLayout()
-        self.verticalLayout_29.setObjectName(u"verticalLayout_29")
-        self.arendaDateBirdth_label = QLabel(self.arenda_groupBox)
-        self.arendaDateBirdth_label.setObjectName(u"arendaDateBirdth_label")
-        self.arendaDateBirdth_label.setMaximumSize(QSize(109, 16777215))
-        self.arendaDateBirdth_label.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_29.addWidget(self.arendaDateBirdth_label)
-
-        self.arendaDateBirdth_dateEdit = QDateEdit(self.arenda_groupBox)
-        self.arendaDateBirdth_dateEdit.setObjectName(u"arendaDateBirdth_dateEdit")
-        self.arendaDateBirdth_dateEdit.setMinimumSize(QSize(0, 31))
-        self.arendaDateBirdth_dateEdit.setMaximumSize(QSize(109, 31))
-        self.arendaDateBirdth_dateEdit.setMinimumDate(QDate(1900, 1, 1))
-
-        self.verticalLayout_29.addWidget(self.arendaDateBirdth_dateEdit)
-
-
-        self.horizontalLayout_13.addLayout(self.verticalLayout_29)
-
-        self.verticalLayout_30 = QVBoxLayout()
-        self.verticalLayout_30.setObjectName(u"verticalLayout_30")
-        self.arendaPhone_label = QLabel(self.arenda_groupBox)
-        self.arendaPhone_label.setObjectName(u"arendaPhone_label")
-        self.arendaPhone_label.setMinimumSize(QSize(0, 31))
-        self.arendaPhone_label.setMaximumSize(QSize(16777215, 31))
-        self.arendaPhone_label.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_30.addWidget(self.arendaPhone_label)
-
-        self.arendaPhone_lineEdit = QLineEdit(self.arenda_groupBox)
-        self.arendaPhone_lineEdit.setObjectName(u"arendaPhone_lineEdit")
-        self.arendaPhone_lineEdit.setMinimumSize(QSize(0, 31))
-
-        self.verticalLayout_30.addWidget(self.arendaPhone_lineEdit)
-
-
-        self.horizontalLayout_13.addLayout(self.verticalLayout_30)
-
-        self.verticalLayout_31 = QVBoxLayout()
-        self.verticalLayout_31.setObjectName(u"verticalLayout_31")
-        self.arendaAddPhone_label = QLabel(self.arenda_groupBox)
-        self.arendaAddPhone_label.setObjectName(u"arendaAddPhone_label")
-        self.arendaAddPhone_label.setMinimumSize(QSize(0, 31))
-        self.arendaAddPhone_label.setMaximumSize(QSize(16777215, 31))
-        self.arendaAddPhone_label.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_31.addWidget(self.arendaAddPhone_label)
-
-        self.arendaAddPhone_lineEdit = QLineEdit(self.arenda_groupBox)
-        self.arendaAddPhone_lineEdit.setObjectName(u"arendaAddPhone_lineEdit")
-        self.arendaAddPhone_lineEdit.setMinimumSize(QSize(0, 31))
-
-        self.verticalLayout_31.addWidget(self.arendaAddPhone_lineEdit)
-
-
-        self.horizontalLayout_13.addLayout(self.verticalLayout_31)
-
-
-        self.verticalLayout_25.addLayout(self.horizontalLayout_13)
-
-        self.horizontalLayout_14 = QHBoxLayout()
-        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
-        self.arendaAddress_label = QLabel(self.arenda_groupBox)
-        self.arendaAddress_label.setObjectName(u"arendaAddress_label")
-        self.arendaAddress_label.setMinimumSize(QSize(0, 31))
-        self.arendaAddress_label.setMaximumSize(QSize(16777215, 31))
-
-        self.horizontalLayout_14.addWidget(self.arendaAddress_label)
-
-        self.arendaAddress_textEdit = QTextEdit(self.arenda_groupBox)
-        self.arendaAddress_textEdit.setObjectName(u"arendaAddress_textEdit")
-        self.arendaAddress_textEdit.setMinimumSize(QSize(0, 31))
-        self.arendaAddress_textEdit.setMaximumSize(QSize(16777215, 31))
-
-        self.horizontalLayout_14.addWidget(self.arendaAddress_textEdit)
-
-
-        self.verticalLayout_25.addLayout(self.horizontalLayout_14)
-
-
-        self.horizontalLayout_15.addWidget(self.arenda_groupBox)
-
-
-        self.verticalLayout_35.addLayout(self.horizontalLayout_15)
-
         self.horizontalLayout_18 = QHBoxLayout()
         self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
         self.verticalLayout_19 = QVBoxLayout()
         self.verticalLayout_19.setObjectName(u"verticalLayout_19")
-        self.auto_label = QLabel(Form)
-        self.auto_label.setObjectName(u"auto_label")
-        self.auto_label.setMaximumSize(QSize(16777215, 31))
-
-        self.verticalLayout_19.addWidget(self.auto_label)
-
-        self.auto_tableView = QTableView(Form)
+        self.auto_tableView = QTableView(self.car_groupBox)
         self.auto_tableView.setObjectName(u"auto_tableView")
         self.auto_tableView.setMaximumSize(QSize(16777215, 62))
 
@@ -715,13 +398,13 @@ class Ui_Form(object):
 
         self.verticalLayout_34.addItem(self.verticalSpacer_2)
 
-        self.carAdd_pushButton = QPushButton(Form)
+        self.carAdd_pushButton = QPushButton(self.car_groupBox)
         self.carAdd_pushButton.setObjectName(u"carAdd_pushButton")
         self.carAdd_pushButton.setMaximumSize(QSize(31, 31))
 
         self.verticalLayout_34.addWidget(self.carAdd_pushButton)
 
-        self.carDel_pushButton = QPushButton(Form)
+        self.carDel_pushButton = QPushButton(self.car_groupBox)
         self.carDel_pushButton.setObjectName(u"carDel_pushButton")
         self.carDel_pushButton.setMaximumSize(QSize(31, 31))
 
@@ -731,52 +414,58 @@ class Ui_Form(object):
         self.horizontalLayout_18.addLayout(self.verticalLayout_34)
 
 
-        self.verticalLayout_35.addLayout(self.horizontalLayout_18)
+        self.horizontalLayout_8.addLayout(self.horizontalLayout_18)
 
+
+        self.verticalLayout_11.addWidget(self.car_groupBox)
+
+        self.contribution_groupBox = QGroupBox(Form)
+        self.contribution_groupBox.setObjectName(u"contribution_groupBox")
+        self.horizontalLayout_9 = QHBoxLayout(self.contribution_groupBox)
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.horizontalLayout_19 = QHBoxLayout()
         self.horizontalLayout_19.setObjectName(u"horizontalLayout_19")
         self.verticalLayout_20 = QVBoxLayout()
         self.verticalLayout_20.setObjectName(u"verticalLayout_20")
-        self.contrib_label = QLabel(Form)
-        self.contrib_label.setObjectName(u"contrib_label")
-
-        self.verticalLayout_20.addWidget(self.contrib_label)
-
-        self.contrib_tableView = QTableView(Form)
+        self.contrib_tableView = QTableView(self.contribution_groupBox)
         self.contrib_tableView.setObjectName(u"contrib_tableView")
+        self.contrib_tableView.setMaximumSize(QSize(16777215, 16777215))
 
         self.verticalLayout_20.addWidget(self.contrib_tableView)
 
 
         self.horizontalLayout_19.addLayout(self.verticalLayout_20)
 
-        self.verticalLayout_33 = QVBoxLayout()
-        self.verticalLayout_33.setObjectName(u"verticalLayout_33")
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalLayout_40 = QVBoxLayout()
+        self.verticalLayout_40.setObjectName(u"verticalLayout_40")
+        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_33.addItem(self.verticalSpacer)
+        self.verticalLayout_40.addItem(self.verticalSpacer_3)
 
-        self.conribAdd_pushButton = QPushButton(Form)
-        self.conribAdd_pushButton.setObjectName(u"conribAdd_pushButton")
-        self.conribAdd_pushButton.setMaximumSize(QSize(31, 31))
+        self.contribAdd_pushButton = QPushButton(self.contribution_groupBox)
+        self.contribAdd_pushButton.setObjectName(u"contribAdd_pushButton")
+        self.contribAdd_pushButton.setMaximumSize(QSize(31, 31))
 
-        self.verticalLayout_33.addWidget(self.conribAdd_pushButton)
+        self.verticalLayout_40.addWidget(self.contribAdd_pushButton)
 
-        self.contribDel_pushButton = QPushButton(Form)
+        self.contribDel_pushButton = QPushButton(self.contribution_groupBox)
         self.contribDel_pushButton.setObjectName(u"contribDel_pushButton")
         self.contribDel_pushButton.setMaximumSize(QSize(31, 31))
 
-        self.verticalLayout_33.addWidget(self.contribDel_pushButton)
+        self.verticalLayout_40.addWidget(self.contribDel_pushButton)
 
-        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_11 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_33.addItem(self.verticalSpacer_3)
-
-
-        self.horizontalLayout_19.addLayout(self.verticalLayout_33)
+        self.verticalLayout_40.addItem(self.verticalSpacer_11)
 
 
-        self.verticalLayout_35.addLayout(self.horizontalLayout_19)
+        self.horizontalLayout_19.addLayout(self.verticalLayout_40)
+
+
+        self.horizontalLayout_9.addLayout(self.horizontalLayout_19)
+
+
+        self.verticalLayout_11.addWidget(self.contribution_groupBox)
 
         self.horizontalLayout_10 = QHBoxLayout()
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
@@ -802,7 +491,7 @@ class Ui_Form(object):
         self.horizontalLayout_10.addLayout(self.horizontalLayout_7)
 
 
-        self.verticalLayout_35.addLayout(self.horizontalLayout_10)
+        self.verticalLayout_11.addLayout(self.horizontalLayout_10)
 
 
         self.retranslateUi(Form)
@@ -820,36 +509,22 @@ class Ui_Form(object):
         self.kadastr_label.setText(QCoreApplication.translate("Form", u"\u041a\u0430\u0434\u0430\u0441\u0442\u0440\u0440\u043e\u0432\u044b\u0439 \u043d\u043e\u043c\u0435\u0440", None))
         self.photo_label.setText(QCoreApplication.translate("Form", u"\u0424\u043e\u0442\u043e", None))
         self.image_pushButton.setText(QCoreApplication.translate("Form", u"...", None))
+        self.width_label_2.setText(QCoreApplication.translate("Form", u"\u0422\u0438\u043f\u043e\u0440\u0430\u0437\u043c\u0435\u0440", None))
         self.width_label.setText(QCoreApplication.translate("Form", u"\u0428\u0438\u0440\u0438\u043d\u0430", None))
         self.len_label.setText(QCoreApplication.translate("Form", u"\u0414\u043b\u0438\u043d\u0430", None))
         self.hight_label.setText(QCoreApplication.translate("Form", u"\u0412\u044b\u0441\u043e\u0442\u0430", None))
-        self.elMetric220_label.setText(QCoreApplication.translate("Form", u"\u042d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u0441\u0447\u0435\u0442\u0447\u0438\u043a (220 \u0412)", None))
-        self.curentValue220_label.setText(QCoreApplication.translate("Form", u"\u0422\u0435\u043a. \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f:", None))
-        self.newValue220_label.setText(QCoreApplication.translate("Form", u"\u041d\u043e\u0432. \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f:", None))
-        self.elMetric380_label.setText(QCoreApplication.translate("Form", u"\u042d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u0441\u0447\u0435\u0442\u0447\u0438\u043a (380 \u0412)", None))
-        self.curentValue380_label.setText(QCoreApplication.translate("Form", u"\u0422\u0435\u043a. \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f:", None))
-        self.newValue380_label.setText(QCoreApplication.translate("Form", u"\u041d\u043e\u0432. \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f:", None))
-        self.owner_groupBox.setTitle(QCoreApplication.translate("Form", u"\u0421\u043e\u0431\u0441\u0442\u0432\u0435\u043d\u043d\u0438\u043a", None))
-        self.surname_label.setText(QCoreApplication.translate("Form", u"\u0424\u0430\u043c\u0438\u043b\u0438\u044f", None))
-        self.name_label.setText(QCoreApplication.translate("Form", u"\u0418\u043c\u044f", None))
-        self.secondName_label.setText(QCoreApplication.translate("Form", u"\u041e\u0442\u0447\u0435\u0441\u0442\u0432\u043e", None))
-        self.dateBirdth_label.setText(QCoreApplication.translate("Form", u"\u0414\u0430\u0442\u0430 \u0440\u043e\u0436\u0434\u0435\u043d\u0438\u044f", None))
-        self.phone_label.setText(QCoreApplication.translate("Form", u"\u0422\u0435\u043b\u0435\u0444\u043e\u043d", None))
-        self.addPhone_label.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u043f\u043e\u043b\u043d\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0442\u0435\u043b\u0435\u0444\u043e\u043d", None))
-        self.address_label.setText(QCoreApplication.translate("Form", u"\u0410\u0434\u0440\u0435\u0441 \u043f\u0440\u043e\u0436\u0438\u0432\u0430\u043d\u0438\u044f:", None))
-        self.arenda_groupBox.setTitle(QCoreApplication.translate("Form", u"\u0410\u0440\u0435\u043d\u0434\u0430\u0442\u043e\u0440", None))
-        self.arendaSurname_label.setText(QCoreApplication.translate("Form", u"\u0424\u0430\u043c\u0438\u043b\u0438\u044f", None))
-        self.arendaName_label.setText(QCoreApplication.translate("Form", u"\u0418\u043c\u044f", None))
-        self.arendaSecondName_label.setText(QCoreApplication.translate("Form", u"\u041e\u0442\u0447\u0435\u0441\u0442\u0432\u043e", None))
-        self.arendaDateBirdth_label.setText(QCoreApplication.translate("Form", u"\u0414\u0430\u0442\u0430 \u0440\u043e\u0436\u0434\u0435\u043d\u0438\u044f", None))
-        self.arendaPhone_label.setText(QCoreApplication.translate("Form", u"\u0422\u0435\u043b\u0435\u0444\u043e\u043d", None))
-        self.arendaAddPhone_label.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u043f\u043e\u043b\u043d\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0442\u0435\u043b\u0435\u0444\u043e\u043d", None))
-        self.arendaAddress_label.setText(QCoreApplication.translate("Form", u"\u0410\u0434\u0440\u0435\u0441 \u043f\u0440\u043e\u0436\u0438\u0432\u0430\u043d\u0438\u044f:", None))
-        self.auto_label.setText(QCoreApplication.translate("Form", u"\u0410\u0432\u0442\u043e\u043c\u043e\u0431\u0438\u043b\u044c", None))
+        self.width_label_3.setText(QCoreApplication.translate("Form", u"\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439", None))
+        self.electricMeter_label.setText(QCoreApplication.translate("Form", u"\u042d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0438\u0435 \u0441\u0447\u0435\u0442\u0447\u0438\u043a\u0438:", None))
+        self.electricAdd_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
+        self.electricDel_pushButton.setText(QCoreApplication.translate("Form", u"-", None))
+        self.users_groupBox.setTitle(QCoreApplication.translate("Form", u"\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0438 \u043e\u0431\u044a\u0435\u043a\u0442\u0430:", None))
+        self.userAdd_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
+        self.userDel_pushButton.setText(QCoreApplication.translate("Form", u"-", None))
+        self.car_groupBox.setTitle(QCoreApplication.translate("Form", u"\u0410\u0432\u0442\u043e\u043c\u043e\u0431\u0438\u043b\u044c:", None))
         self.carAdd_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
         self.carDel_pushButton.setText(QCoreApplication.translate("Form", u"-", None))
-        self.contrib_label.setText(QCoreApplication.translate("Form", u"\u0418\u0441\u0442\u043e\u0440\u0438\u044f \u043f\u043b\u0430\u0442\u0435\u0436\u0435\u0439", None))
-        self.conribAdd_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
+        self.contribution_groupBox.setTitle(QCoreApplication.translate("Form", u"\u041f\u043b\u0430\u0442\u0435\u0436\u0438:", None))
+        self.contribAdd_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
         self.contribDel_pushButton.setText(QCoreApplication.translate("Form", u"-", None))
         self.change_pushButton.setText(QCoreApplication.translate("Form", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c", None))
         self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))

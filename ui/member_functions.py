@@ -1,7 +1,8 @@
 from PySide6 import QtCore, QtWidgets, QtGui
 
 import sqlite_qwer
-from ui.new_member import Ui_Form
+import ui.new_member
+import ui.find_user
 import ui.dialogs
 import constants
 import db_work
@@ -11,12 +12,13 @@ import ui.validators
 class Member_front(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = Ui_Form()
+        self.ui = ui.new_member.Ui_Form()
         self.ui.setupUi(self)
 
-        self.photoPath = None
-        self.db = None
-        self.member = Member()
+        self.photoPath = None   # путь к фото
+        self.db = None          # сслыка на объект БД
+        self.member = Member()  #
+        self.parentForm = None  # сслыка на форму вызова для возвращения добавленных объектов
 
         self.initUi()
 
@@ -24,11 +26,11 @@ class Member_front(QtWidgets.QWidget):
     def initUi(self):
 
         self.resize(self.width(), 220)
-
+        #слоты
         self.ui.photo_pushButton.clicked.connect(self.choosePhoto)
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.add_pushButton.clicked.connect(self.addPushBtnClk)
-
+        #валидаторы
         self.ui.phone_lineEdit.setValidator(ui.validators.onlyNumValidator())
         self.ui.addPhone_lineEdit.setValidator(ui.validators.onlyNumValidator())
 
@@ -41,10 +43,11 @@ class Member_front(QtWidgets.QWidget):
             pix = QtGui.QPixmap(img_path)
             pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
             self.ui.photo_label.setPixmap(pix)
-            self.photoPath = img_path
+            self.photoPath = img_path # todo здесь продумать как хранить фото: в БД или в отдельном каталоге, где имя файла = id пользователя
+                                        # во втором случае - написать функцию копирования файла в директорию после присвоения записи id
 
     def addToBase(self):
-        """Добавление записи в базу"""
+        """Добавление записи о пользователе в базу"""
         if self.db:
             if self.member.name and self.member.surname and self.member.birthday and self.member.phone \
                     and self.member.address:
@@ -78,12 +81,32 @@ class Member_front(QtWidgets.QWidget):
         self.member.address = self.ui.address_lineEdit.text()
         self.addToBase()
 
+class FindMember_front(QtWidgets.QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.ui = ui.find_user.Ui_Form()
+        self.ui.setupUi(self)
+
+        self.db = None          # сслыка на объект БД
+        self.member = Member()  #
+        self.parentForm = None  # сслыка на форму вызова для возвращения добавленных объектов
+
+        self.initUi()
+
+
+    def initUi(self):
+
+        self.resize(self.width(), 220)
+        #слоты
+
 
 
 
 
 class Member():
+    """Поля для БД на каждого члена"""
     def __init__(self):
+        self.id = None
         self.surname = None
         self.name = None
         self.secondName = ''
@@ -93,3 +116,13 @@ class Member():
         self.additPhone = ''
         self.email = ''
         self.voa = ''
+
+class User_Info():
+    """Класс для описания пользователя в табличку Карточка объекта"""
+    def __init__(self, user: Member):
+        self.id = user.id
+        self.fio = f'{user.surname} {user.name} {user.secondName}'
+        self.brDay = user.birthday
+        self.phone = user.phone
+        self.addPhone = user.additPhone
+        self.role = '' # todo придумать механизм привязки роли (?) может через отдельный запрос к БД
