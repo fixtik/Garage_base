@@ -23,14 +23,14 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(773, 353)
-        self.verticalLayout_9 = QVBoxLayout(Form)
-        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        Form.resize(718, 545)
+        self.verticalLayout_10 = QVBoxLayout(Form)
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.object_radioButton = QRadioButton(Form)
         self.object_radioButton.setObjectName(u"object_radioButton")
-        self.object_radioButton.setMinimumSize(QSize(151, 0))
+        self.object_radioButton.setMinimumSize(QSize(170, 0))
 
         self.horizontalLayout.addWidget(self.object_radioButton)
 
@@ -67,13 +67,13 @@ class Ui_Form(object):
         self.horizontalLayout.addLayout(self.verticalLayout_2)
 
 
-        self.verticalLayout_9.addLayout(self.horizontalLayout)
+        self.verticalLayout_10.addLayout(self.horizontalLayout)
 
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.user_radioButton = QRadioButton(Form)
         self.user_radioButton.setObjectName(u"user_radioButton")
-        self.user_radioButton.setMinimumSize(QSize(151, 0))
+        self.user_radioButton.setMinimumSize(QSize(170, 0))
 
         self.horizontalLayout_4.addWidget(self.user_radioButton)
 
@@ -161,12 +161,49 @@ class Ui_Form(object):
         self.horizontalLayout_4.addLayout(self.verticalLayout_8)
 
 
-        self.verticalLayout_9.addLayout(self.horizontalLayout_4)
+        self.verticalLayout_10.addLayout(self.horizontalLayout_4)
+
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.userList_radioButton = QRadioButton(Form)
+        self.userList_radioButton.setObjectName(u"userList_radioButton")
+        self.userList_radioButton.setMinimumSize(QSize(170, 0))
+
+        self.horizontalLayout_6.addWidget(self.userList_radioButton)
+
+        self.verticalLayout_9 = QVBoxLayout()
+        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.userList_tableView = QTableView(Form)
+        self.userList_tableView.setObjectName(u"userList_tableView")
+        self.userList_tableView.setMinimumSize(QSize(0, 122))
+
+        self.horizontalLayout_8.addWidget(self.userList_tableView)
+
+
+        self.verticalLayout_9.addLayout(self.horizontalLayout_8)
+
+
+        self.horizontalLayout_6.addLayout(self.verticalLayout_9)
+
+
+        self.verticalLayout_10.addLayout(self.horizontalLayout_6)
+
+        self.verticalLayout_7 = QVBoxLayout()
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.result_label = QLabel(Form)
+        self.result_label.setObjectName(u"result_label")
+
+        self.verticalLayout_7.addWidget(self.result_label)
 
         self.result_tableView = QTableView(Form)
         self.result_tableView.setObjectName(u"result_tableView")
 
-        self.verticalLayout_9.addWidget(self.result_tableView)
+        self.verticalLayout_7.addWidget(self.result_tableView)
+
+
+        self.verticalLayout_10.addLayout(self.verticalLayout_7)
 
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
@@ -195,7 +232,7 @@ class Ui_Form(object):
         self.horizontalLayout_5.addWidget(self.close_pushButton)
 
 
-        self.verticalLayout_9.addLayout(self.horizontalLayout_5)
+        self.verticalLayout_10.addLayout(self.horizontalLayout_5)
 
 
         self.retranslateUi(Form)
@@ -213,6 +250,8 @@ class Ui_Form(object):
         self.nem_label.setText(QCoreApplication.translate("Form", u"\u0418\u043c\u044f", None))
         self.secondName_label.setText(QCoreApplication.translate("Form", u"\u041e\u0442\u0447\u0435\u0441\u0442\u0432\u043e", None))
         self.phone_label.setText(QCoreApplication.translate("Form", u"\u0422\u0435\u043b\u0435\u0444\u043e\u043d", None))
+        self.userList_radioButton.setText(QCoreApplication.translate("Form", u"\u0412\u044b\u0431\u0440\u0430\u0442\u044c \u0438\u0437 \u0441\u043f\u0438\u0441\u043a\u0430", None))
+        self.result_label.setText(QCoreApplication.translate("Form", u"\u0421\u043f\u0438\u0441\u043e\u043a \u0434\u043e\u0431\u0430\u0432\u043b\u044f\u0435\u043c\u044b\u0445 \u043b\u0438\u0446:", None))
         self.find_pushButton.setText(QCoreApplication.translate("Form", u"\u041d\u0430\u0439\u0442\u0438", None))
         self.add_pushButton.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", None))
         self.choose_pushButton.setText(QCoreApplication.translate("Form", u"\u0412\u044b\u0431\u0440\u0430\u0442\u044c", None))
