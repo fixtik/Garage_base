@@ -7,7 +7,7 @@ import ui.dialogs
 import ui.cart_functions
 import ui.cart_functions
 import sqlite_qwer
-
+import ui.validators
 
 
 
@@ -37,6 +37,7 @@ class AddContrib_front(QtWidgets.QWidget):
         self.ui.delKind_pushButton.clicked.connect(self.delKindContrib)
         self.ui.kindContrib_comboBox.currentIndexChanged.connect(self.itemChanged)
 
+        self.ui.sumContrib_lineEdit.setValidator(ui.validators.floatValidator())
 
     def updateDataFromDB(self):
         """Обновление данных из БД для отображения в полях"""
@@ -154,8 +155,7 @@ class AddKindContrib_front(QtWidgets.QWidget):
     def initUi(self):
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.ok_pushButton.clicked.connect(self.okPushBtnClk)
-        self.setValidator()
-
+        self.ui.value_lineEdit.setValidator(ui.validators.floatValidator())
 
     def okPushBtnClk(self):
         """нажатие кнопки ок"""
@@ -168,7 +168,7 @@ class AddKindContrib_front(QtWidgets.QWidget):
                 try:
 
                     sql = sqlite_qwer.sql_add_new_contrib_type(self.ui.kind_lineEdit.text(),
-                                                                         self.ui.value_lineEdit.text(),
+                                                               self.ui.value_lineEdit.text(),
                                                                self.ui.comment_lineEdit.text())
                     self.db.execute(sql)
                 except Exception as e:
@@ -177,10 +177,5 @@ class AddKindContrib_front(QtWidgets.QWidget):
                 self.mainForm.fillKindContribFromBase()
             self.close()
 
-    def setValidator(self):
-        """валидатор для суммы платежа"""
-        reg_ex = QtCore.QRegularExpression()
-        reg_ex.setPattern('[0-9]+[,.]?[0-9]+')
-        label_validator = QtGui.QRegularExpressionValidator(reg_ex, self.ui.value_lineEdit)
-        self.ui.value_lineEdit.setValidator(label_validator)
+
 
