@@ -153,7 +153,7 @@ def sql_update_field_by_table_name_and_id(table_name: str, rec_id: int, field: s
     :param new_value: новое значение
     :return: sql-запрос
     """
-    return f'UPDATE {table_name} SET {field} = "{new_value}" WHERE id={rec_id};'
+    return f'UPDATE {table_name} SET {field} = {new_value} WHERE id={rec_id};'
 
 
 def sql_delete_rec_by_table_name_and_id(table_name: str, rec_id: int) -> str:

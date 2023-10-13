@@ -3,6 +3,8 @@ import os
 STANDART_PATH = ''
 DEFAULT_DB_NAME = 'garage.db'
 
+
+
 SQL_CREATE_TABLE_GARAGE = 'CREATE TABLE IF NOT EXISTS "garage_obj" ( ' \
                           'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
                           '	"num_row"	INTEGER NOT NULL,' \
@@ -90,6 +92,7 @@ BD_SQL_CREATOR = [SQL_CREATE_TABLE_GARGE_MEMBER, SQL_CREATE_TABLE_ELECTRIC_METER
 
 TABALE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
                 'contribution_type', 'electric_meter', 'type_size']
+
 
 CONTRIB_WIN_EDIT_TITLE = 'Редактирование типа платежа'
 

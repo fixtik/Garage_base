@@ -21,7 +21,7 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_14">
          <item>
-          <widget class="QLabel" name="surname_label_2">
+          <widget class="QLabel" name="surname_label">
            <property name="maximumSize">
             <size>
              <width>16777215</width>
@@ -37,7 +37,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="surnamename_lineEdit">
+          <widget class="QLineEdit" name="surname_lineEdit">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -67,7 +67,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="surname_lineEdit">
+          <widget class="QLineEdit" name="name_lineEdit">
            <property name="minimumSize">
             <size>
              <width>0</width>

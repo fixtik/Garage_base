@@ -32,18 +32,18 @@ class Ui_Form(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.verticalLayout_14 = QVBoxLayout()
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
-        self.surname_label_2 = QLabel(Form)
-        self.surname_label_2.setObjectName(u"surname_label_2")
-        self.surname_label_2.setMaximumSize(QSize(16777215, 31))
-        self.surname_label_2.setAlignment(Qt.AlignCenter)
+        self.surname_label = QLabel(Form)
+        self.surname_label.setObjectName(u"surname_label")
+        self.surname_label.setMaximumSize(QSize(16777215, 31))
+        self.surname_label.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_14.addWidget(self.surname_label_2)
+        self.verticalLayout_14.addWidget(self.surname_label)
 
-        self.surnamename_lineEdit = QLineEdit(Form)
-        self.surnamename_lineEdit.setObjectName(u"surnamename_lineEdit")
-        self.surnamename_lineEdit.setMinimumSize(QSize(0, 31))
+        self.surname_lineEdit = QLineEdit(Form)
+        self.surname_lineEdit.setObjectName(u"surname_lineEdit")
+        self.surname_lineEdit.setMinimumSize(QSize(0, 31))
 
-        self.verticalLayout_14.addWidget(self.surnamename_lineEdit)
+        self.verticalLayout_14.addWidget(self.surname_lineEdit)
 
 
         self.horizontalLayout.addLayout(self.verticalLayout_14)
@@ -57,11 +57,11 @@ class Ui_Form(object):
 
         self.verticalLayout_13.addWidget(self.name_label)
 
-        self.surname_lineEdit = QLineEdit(Form)
-        self.surname_lineEdit.setObjectName(u"surname_lineEdit")
-        self.surname_lineEdit.setMinimumSize(QSize(0, 31))
+        self.name_lineEdit = QLineEdit(Form)
+        self.name_lineEdit.setObjectName(u"name_lineEdit")
+        self.name_lineEdit.setMinimumSize(QSize(0, 31))
 
-        self.verticalLayout_13.addWidget(self.surname_lineEdit)
+        self.verticalLayout_13.addWidget(self.name_lineEdit)
 
 
         self.horizontalLayout.addLayout(self.verticalLayout_13)
@@ -264,7 +264,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043d\u043e\u0432\u043e\u0433\u043e \u0447\u043b\u0435\u043d\u0430 \u043a\u043e\u043e\u043f\u0435\u0440\u0430\u0442\u0438\u0432\u0430", None))
-        self.surname_label_2.setText(QCoreApplication.translate("Form", u"\u0424\u0430\u043c\u0438\u043b\u0438\u044f", None))
+        self.surname_label.setText(QCoreApplication.translate("Form", u"\u0424\u0430\u043c\u0438\u043b\u0438\u044f", None))
         self.name_label.setText(QCoreApplication.translate("Form", u"\u0418\u043c\u044f", None))
         self.secondName_label.setText(QCoreApplication.translate("Form", u"\u041e\u0442\u0447\u0435\u0441\u0442\u0432\u043e", None))
         self.dateBirdth_label.setText(QCoreApplication.translate("Form", u"\u0414\u0430\u0442\u0430 \u0440\u043e\u0436\u0434\u0435\u043d\u0438\u044f", None))
