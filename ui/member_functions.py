@@ -1,15 +1,13 @@
-from PySide6 import QtCore, QtWidgets, QtGui
+import os
+import shutil
 
-import sqlite_qwer
-import ui.new_member
-import ui.find_user
-import ui.dialogs
 import constants
-import db_work
+import sqlite_qwer
+import ui.dialogs
+import ui.find_user
+import ui.new_member
 import ui.validators
-import os, shutil
 from ui.tableView_Models import *
-
 
 
 class Member_front(QtWidgets.QWidget):
