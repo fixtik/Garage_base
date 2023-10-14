@@ -150,8 +150,7 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def showFindUserForm(self):
         """Открывает форму поиска члена кооператива"""
-        self.addUser_form = ui.member_functions.FindMember_front()
-        self.addUser_form.db = self.db
+        self.addUser_form = ui.member_functions.FindMember_front(self.db)
         self.addUser_form.show()
 
 
