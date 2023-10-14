@@ -139,6 +139,13 @@ def sql_add_new_member(surname: str, first_name: str, birth_date: str, phone_mai
            f"'{phone_main}', '{second_phone}', '{adress}', '{email}', '{voa}', '{photo}');"
 
 
+def sql_get_all_active(table_name: str) -> str:
+    """
+    возвращает одну запись по id
+    """
+    return f"SELECT * FROM {table_name} WHERE active = 1;"
+
+
 #универсальные запросы
 def sql_select_all_from_table(table_name: str) -> str:
     """выбор всех значений в таблице table_name"""

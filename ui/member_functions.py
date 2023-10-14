@@ -2,6 +2,7 @@ import os
 import shutil
 
 import constants
+import db_work
 import sqlite_qwer
 import ui.dialogs
 import ui.find_user
@@ -11,6 +12,7 @@ from ui.tableView_Models import *
 
 
 class Member_front(QtWidgets.QWidget):
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = ui.new_member.Ui_Form()
@@ -116,12 +118,13 @@ class Member_front(QtWidgets.QWidget):
 
 
 class FindMember_front(QtWidgets.QWidget):
-    def __init__(self, parent=None):
+    TB_NAME = 'garage_member'
+    def __init__(self, db: db_work.Garage_DB, parent=None):
         super().__init__(parent)
         self.ui = ui.find_user.Ui_Form()
         self.ui.setupUi(self)
 
-        self.db = None          # сслыка на объект БД
+        self.db = db          # сслыка на объект БД
         self.member = Member()  #
         self.parentForm = None  # сслыка на форму вызова для возвращения добавленных объектов
         self.addForm = None # ссылка на добавление нового члена
@@ -136,24 +139,36 @@ class FindMember_front(QtWidgets.QWidget):
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.user_radioButton.clicked.connect(self.setEnableds)
         self.ui.object_radioButton.clicked.connect(self.setEnableds)
+        self.ui.userList_radioButton.clicked.connect(self.setEnableds)
         self.ui.add_pushButton.clicked.connect(self.addNewMemberPshBtn)
 
+        #модель для результирующей таблицы
         self.userModel = UsersTableViewModel()
         self.ui.result_tableView.setModel(self.userModel)
+        #модель для юзерлист
+        self.userListModel = UsersTableViewModelLite()
+        self.ui.userList_tableView.setModel(self.userListModel)
+        self.ui.userList_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
 
         self.ui.object_radioButton.click()
+        self.getUsersListFromDB()
 
     def setEnableds(self):
         """устанавливает или запрещает доступ к объектам интерфейса в зависимости от radioButton"""
-        flag = self.ui.user_radioButton.isChecked()
+        flag_user= self.ui.user_radioButton.isChecked()
+        flag_obj = self.ui.object_radioButton.isChecked()
+        flag_uList = self.ui.userList_radioButton.isChecked()
         # закрываем или открываем поиск по объекту
-        self.ui.row_lineEdit.setEnabled(not flag)
-        self.ui.number_lineEdit.setEnabled(not flag)
+        self.ui.row_lineEdit.setEnabled(flag_obj)
+        self.ui.number_lineEdit.setEnabled(flag_obj)
         # закрываем или открываем поиск по пользователю
-        self.ui.surname_lineEdit.setEnabled(flag)
-        self.ui.name_lineEdit.setEnabled(flag)
-        self.ui.secondName_lineEdit.setEnabled(flag)
-        self.ui.phone_lineEdit.setEnabled(flag)
+        self.ui.surname_lineEdit.setEnabled(flag_user)
+        self.ui.name_lineEdit.setEnabled(flag_user)
+        self.ui.secondName_lineEdit.setEnabled(flag_user)
+        self.ui.phone_lineEdit.setEnabled(flag_user)
+        # закрываем или открываем таблицу с результатом
+        self.ui.userList_tableView.setEnabled(flag_uList)
+        self.ui.find_pushButton.setVisible(not flag_uList)
 
     def addNewMemberPshBtn(self):
         """открытие формы добавления нового члена в БД"""
@@ -161,6 +176,29 @@ class FindMember_front(QtWidgets.QWidget):
         self.addForm.db = self.db
         self.addForm.parentForm = self
         self.addForm.show()
+
+    def getUsersListFromDB(self):
+        """Заполнение таблицы существующих пользователей из БД"""
+        if self.db:
+            self.db.execute(sqlite_qwer.sql_get_all_active(self.TB_NAME))
+            if self.db.cursor:
+                member = Member()
+                users =  self.db.cursor.fetchall()
+                for user in users:
+                    member.id = user[0]
+                    member.surname = user[1]
+                    member.name = user[2]
+                    member.secondName = user[3]
+                    member.birthday = user[4]
+                    member.phone = user[6]
+                    member.additPhone = user[7]
+                    toTable = User_Info(member)
+                    self.userListModel.setItems(toTable)
+
+
+
+
+
 
 
 

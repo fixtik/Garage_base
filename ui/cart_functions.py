@@ -29,7 +29,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.initUi()
 
         #переменные класса
-
+        self.db = None
         self.photoPath = None
         self.addCar_form = None
         self.addContrib_form = None

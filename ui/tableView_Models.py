@@ -150,6 +150,48 @@ class UsersTableViewModel(QtCore.QAbstractTableModel):
                 5: 'Отношение к объекту'
             }.get(section)
 
+class UsersTableViewModelLite(UsersTableViewModel):
+    """
+        Модель для отображения данных по пользователям в TableView
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.items = []
+
+    def columnCount(self, *args, **kwargs) -> int:
+        return 5
+
+    def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
+        if not index.isValid():
+            return
+        if role == QtCore.Qt.ItemDataRole.DisplayRole:
+            user_info = self.items[index.row()]
+            col = index.column()
+            if col == 0:
+                return f'{user_info.id}'
+            if col == 1:
+                return f'{user_info.fio}'
+            if col == 2:
+                return f'{user_info.brDay}'
+            if col == 3:
+                return f'{user_info.phone}'
+            if col == 4:
+                return f'{user_info.addPhone}'
+
+
+    def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: QtCore.Qt.ItemDataRole):
+        """Заголовок таблицы: Марка Номер"""
+        if role == QtCore.Qt.ItemDataRole.DisplayRole and orientation == QtCore.Qt.Orientation.Horizontal:
+
+            return {
+                0: 'id',
+                1: 'ФИО',
+                2: 'Дата рождения',
+                3: 'Телефон',
+                4: 'Доп. телефон',
+            }.get(section)
+
 class ElectricTableViewModel(QtCore.QAbstractTableModel):
     """
         Модель для отображения данных по счетчикам в TableView

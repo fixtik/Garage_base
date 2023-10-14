@@ -6,22 +6,22 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>677</width>
-    <height>336</height>
+    <width>707</width>
+    <height>394</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Добавление нового члена кооператива</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_4">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_14">
          <item>
-          <widget class="QLabel" name="surname_label">
+          <widget class="QLabel" name="surname_label_2">
            <property name="maximumSize">
             <size>
              <width>16777215</width>
@@ -37,7 +37,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="surname_lineEdit">
+          <widget class="QLineEdit" name="surnamename_lineEdit">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -67,7 +67,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="name_lineEdit">
+          <widget class="QLineEdit" name="surname_lineEdit">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -79,7 +79,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
+        <layout class="QVBoxLayout" name="verticalLayout_15">
          <item>
           <widget class="QLabel" name="secondName_label">
            <property name="maximumSize">
@@ -103,49 +103,6 @@
              <width>0</width>
              <height>31</height>
             </size>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QLabel" name="dateBirdth_label">
-           <property name="maximumSize">
-            <size>
-             <width>109</width>
-             <height>31</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Дата рождения</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDateEdit" name="dateBirdth_dateEdit">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>31</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>109</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="minimumDate">
-            <date>
-             <year>1900</year>
-             <month>1</month>
-             <day>1</day>
-            </date>
            </property>
           </widget>
          </item>
@@ -192,12 +149,25 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_8">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_18"/>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_19">
+      <layout class="QVBoxLayout" name="verticalLayout_18">
        <item>
-        <widget class="QLabel" name="email_label">
+        <widget class="QLabel" name="dateBirdth_label">
+         <property name="maximumSize">
+          <size>
+           <width>109</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Дата рождения</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDateEdit" name="dateBirdth_dateEdit">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -206,25 +176,16 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
+           <width>109</width>
            <height>31</height>
           </size>
          </property>
-         <property name="text">
-          <string>e-mail</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="email_lineEdit">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>31</height>
-          </size>
+         <property name="minimumDate">
+          <date>
+           <year>1900</year>
+           <month>1</month>
+           <day>1</day>
+          </date>
          </property>
         </widget>
        </item>
@@ -326,14 +287,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="address_lineEdit"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_10">
-     <item>
-      <widget class="QLabel" name="voa_label">
+      <widget class="QTextEdit" name="address_textEdit">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -346,13 +300,7 @@
          <height>31</height>
         </size>
        </property>
-       <property name="text">
-        <string>Направление ВОА: </string>
-       </property>
       </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="voa_lineEdit"/>
      </item>
     </layout>
    </item>

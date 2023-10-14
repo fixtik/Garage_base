@@ -28,7 +28,7 @@ SQL_CREATE_TABLE_GARGE_MEMBER = 'CREATE TABLE IF NOT EXISTS "garage_member" (' \
                                 '	"first_name"	TEXT NOT NULL,' \
                                 '	"second_name"	TEXT,' \
                                 '	"birth_date"	TEXT NOT NULL,' \
-                                '	"adress"	TEXT,' \
+                                '	"address"	TEXT,' \
                                 '	"phone_main"	TEXT NOT NULL,' \
                                 '	"phone_sec"	TEXT,' \
                                 '	"email"	TEXT,' \
