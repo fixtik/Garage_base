@@ -9,6 +9,7 @@ import db_work
 import ui.dialogs
 import ui.car_functions
 import ui.contribute_functions
+import ui.electric_meter_func
 import ui.member_functions
 from ui.new_garage_size_func import GarageSizeStructure
 import ui.validators
@@ -21,6 +22,7 @@ class Cart_frontend(QtWidgets.QWidget):
     TB_NAME = 'type_size'
     def __init__(self, parent=None):
         super().__init__(parent)
+
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.garage_ids = []  # список с id-платежа из БД, индекс соответствует индексу в combobox
@@ -34,6 +36,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.addCar_form = None
         self.addContrib_form = None
         self.addUser_form = None
+        self.addElectric = None
 
 
     def initUi(self):
@@ -53,6 +56,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.elMeterModel = ElectricTableViewModel()
         self.ui.electric_tableView.setModel(self.elMeterModel)
 
+
         # Обновление комбо бокса сразмерами гаража
         self.ui.comboBox.currentIndexChanged.connect(self.itemChanged)
 
@@ -62,6 +66,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.carAdd_pushButton.clicked.connect(self.showAddCarForm)
         self.ui.contribAdd_pushButton.clicked.connect(self.showAddContribForm)
         self.ui.userAdd_pushButton.clicked.connect(self.showFindUserForm)
+        self.ui.electricAdd_pushButton.clicked.connect(self.showElectricMetr)
 
         # установка валидаторов
         self.ui.width_lineEdit.setValidator(ui.validators.floatValidator())
@@ -111,6 +116,11 @@ class Cart_frontend(QtWidgets.QWidget):
             pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
             self.ui.photo_label.setPixmap(pix)
             self.photoPath = img_path
+
+    def showElectricMetr(self):
+        self.addElectric = ui.electric_meter_func.Electric_front()
+        self.addElectric.mainForm = self
+        self.addElectric.show()
 
     def showAddCarForm(self):
         """открытие формы добавления авто"""
