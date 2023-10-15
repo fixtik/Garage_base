@@ -192,6 +192,7 @@ class UsersTableViewModelLite(UsersTableViewModel):
                 4: 'Доп. телефон',
             }.get(section)
 
+
 class ElectricTableViewModel(QtCore.QAbstractTableModel):
     """
         Модель для отображения данных по счетчикам в TableView

@@ -1,6 +1,6 @@
 from PySide6 import QtCore, QtWidgets, QtGui
 
-import sqlite_qwer
+
 from ui.cart_ import Ui_Form
 
 
@@ -13,6 +13,7 @@ import ui.electric_meter_func
 import ui.member_functions
 from ui.new_garage_size_func import GarageSizeStructure
 import ui.validators
+import sqlite_qwer
 
 from ui.tableView_Models import *
 
@@ -49,6 +50,7 @@ class Cart_frontend(QtWidgets.QWidget):
         #платежная табличка
         self.contribModel = ContribTableViewModel()
         self.ui.contrib_tableView.setModel(self.contribModel)
+
         #пользовательская таблица
         self.userModel = UsersTableViewModel()
         self.ui.users_tableView.setModel(self.userModel)
@@ -64,6 +66,8 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.image_pushButton.clicked.connect(self.choosePhoto)
         self.ui.carAdd_pushButton.clicked.connect(self.showAddCarForm)
+        self.ui.contribAdd_pushButton.clicked.connect(self.showAddContribForm)
+        self.ui.userAdd_pushButton.clicked.connect(self.showFindUserForm)
         self.ui.contribAdd_pushButton.clicked.connect(self.showAddContribForm)
         self.ui.userAdd_pushButton.clicked.connect(self.showFindUserForm)
         self.ui.electricAdd_pushButton.clicked.connect(self.showElectricMetr)
