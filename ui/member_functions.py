@@ -1,5 +1,6 @@
 import os
 import shutil
+from dataclasses import dataclass
 
 import constants
 import db_work
@@ -128,6 +129,7 @@ class FindMember_front(QtWidgets.QWidget):
         self.member = Member()  #
         self.parentForm = None  # сслыка на форму вызова для возвращения добавленных объектов
         self.addForm = None # ссылка на добавление нового члена
+        self.addIdsUsers = []  # список id добавляемых пользователей
 
         self.initUi()
 
@@ -141,9 +143,10 @@ class FindMember_front(QtWidgets.QWidget):
         self.ui.object_radioButton.clicked.connect(self.setEnableds)
         self.ui.userList_radioButton.clicked.connect(self.setEnableds)
         self.ui.add_pushButton.clicked.connect(self.addNewMemberPshBtn)
+        self.ui.userList_tableView.doubleClicked.connect(self.addToResultTable)
 
         #модель для результирующей таблицы
-        self.userModel = UsersTableViewModel()
+        self.userModel = UsersTableViewModelLite()
         self.ui.result_tableView.setModel(self.userModel)
         #модель для юзерлист
         self.userListModel = UsersTableViewModelLite()
@@ -182,46 +185,47 @@ class FindMember_front(QtWidgets.QWidget):
         if self.db:
             self.db.execute(sqlite_qwer.sql_get_all_active(self.TB_NAME))
             if self.db.cursor:
-                member = Member()
-                users =  self.db.cursor.fetchall()
+
+                users = self.db.cursor.fetchall()
                 for user in users:
-                    member.id = user[0]
-                    member.surname = user[1]
-                    member.name = user[2]
-                    member.secondName = user[3]
-                    member.birthday = user[4]
-                    member.phone = user[6]
-                    member.additPhone = user[7]
-                    toTable = User_Info(member)
-                    self.userListModel.setItems(toTable)
+                    us_info = User_Info(user[0], f'{user[1]} {user[2]} {user[3]}', user[4], user[5], user[6])
+                    self.userListModel.setItems(us_info)
 
 
+    def addToResultTable(self):
+        """Отработка двойного клика на таблице со списком всех пользователей"""
+        rows = {index.row() for index in self.ui.userList_tableView.selectionModel().selectedIndexes()}
+        for row in rows:
+            row_data = []
+            for column in range(self.ui.userList_tableView.model().columnCount()):
+                index = self.ui.userList_tableView.model().index(row, column)
+                row_data.append(index.data())
+        if row_data[0] in self.addIdsUsers:  # если уже добавлялся - выходим
+            return
+        self.addIdsUsers.append(row_data[0])
+        self.userModel.setItems(User_Info(row_data[0], row_data[1], row_data[2], row_data[3], row_data[4]))
 
 
-
-
-
-
+@dataclass
 class Member():
     """Поля для БД на каждого члена"""
-    def __init__(self):
-        self.id = None
-        self.surname = None
-        self.name = None
-        self.secondName = ''
-        self.birthday = None
-        self.address = None
-        self.phone = None
-        self.additPhone = ''
-        self.email = ''
-        self.voa = ''
+    id: str = None
+    surname: str = None
+    name: str = None
+    secondName: str = ''
+    birthday: str = None
+    address: str = None
+    phone: str = None
+    additPhone: str = ''
+    email: str = ''
+    voa: str = ''
 
+@dataclass
 class User_Info():
     """Класс для описания пользователя в табличку Карточка объекта"""
-    def __init__(self, user: Member):
-        self.id = user.id
-        self.fio = f'{user.surname} {user.name} {user.secondName}'
-        self.brDay = user.birthday
-        self.phone = user.phone
-        self.addPhone = user.additPhone
-        self.role = '' # todo придумать механизм привязки роли (?) может через отдельный запрос к БД
+    id: str
+    fio: str
+    brDay: str
+    phone: str
+    addPhone: str = ''
+        #self.role = '' # todo придумать механизм привязки роли (?) может через отдельный запрос к БД
