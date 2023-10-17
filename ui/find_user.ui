@@ -178,19 +178,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
-      <widget class="QRadioButton" name="userList_radioButton">
-       <property name="minimumSize">
-        <size>
-         <width>170</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Выбрать из списка</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <layout class="QVBoxLayout" name="verticalLayout_9">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_8">

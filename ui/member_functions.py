@@ -72,6 +72,7 @@ class Member_front(QtWidgets.QWidget):
 
 
     def clearLineEdits(self):
+        """Очистка формы"""
         self.ui.surname_lineEdit.clear()
         self.ui.name_lineEdit.clear()
         self.ui.secondName_lineEdit.clear()
@@ -141,7 +142,6 @@ class FindMember_front(QtWidgets.QWidget):
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.user_radioButton.clicked.connect(self.setEnableds)
         self.ui.object_radioButton.clicked.connect(self.setEnableds)
-        self.ui.userList_radioButton.clicked.connect(self.setEnableds)
         self.ui.add_pushButton.clicked.connect(self.addNewMemberPshBtn)
         self.ui.userList_tableView.doubleClicked.connect(self.addToResultTable)
 
@@ -160,7 +160,6 @@ class FindMember_front(QtWidgets.QWidget):
         """устанавливает или запрещает доступ к объектам интерфейса в зависимости от radioButton"""
         flag_user= self.ui.user_radioButton.isChecked()
         flag_obj = self.ui.object_radioButton.isChecked()
-        flag_uList = self.ui.userList_radioButton.isChecked()
         # закрываем или открываем поиск по объекту
         self.ui.row_lineEdit.setEnabled(flag_obj)
         self.ui.number_lineEdit.setEnabled(flag_obj)
@@ -169,9 +168,8 @@ class FindMember_front(QtWidgets.QWidget):
         self.ui.name_lineEdit.setEnabled(flag_user)
         self.ui.secondName_lineEdit.setEnabled(flag_user)
         self.ui.phone_lineEdit.setEnabled(flag_user)
-        # закрываем или открываем таблицу с результатом
-        self.ui.userList_tableView.setEnabled(flag_uList)
-        self.ui.find_pushButton.setVisible(not flag_uList)
+
+
 
     def addNewMemberPshBtn(self):
         """открытие формы добавления нового члена в БД"""
