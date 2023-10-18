@@ -106,6 +106,9 @@ class UsersTableViewModel(QtCore.QAbstractTableModel):
 
         self.items = []
 
+    def resetData(self):
+        self.items = []
+
     def setItems(self, items):
         self.beginResetModel()
         self.items.append(items)
