@@ -153,7 +153,9 @@ class FindMember_front(QtWidgets.QWidget):
         self.userListModel = UsersTableViewModelLite()
         self.ui.userList_tableView.setModel(self.userListModel)
         self.ui.userList_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        #Автоматичкская подгонка столбцов по ширине
         self.ui.userList_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.ui.result_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
 
         self.ui.object_radioButton.click()
         self.getUsersListFromDB()
