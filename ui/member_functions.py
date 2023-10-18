@@ -2,6 +2,7 @@ import os
 import shutil
 from dataclasses import dataclass
 
+from PySide6 import QtWidgets
 import constants
 import db_work
 import sqlite_qwer
@@ -11,6 +12,7 @@ import ui.new_member
 import ui.validators
 from ui.tableView_Models import *
 
+import ui.tableView_Models
 
 class Member_front(QtWidgets.QWidget):
 
@@ -37,8 +39,6 @@ class Member_front(QtWidgets.QWidget):
         #валидаторы
         self.ui.phone_lineEdit.setValidator(ui.validators.onlyNumValidator())
         self.ui.addPhone_lineEdit.setValidator(ui.validators.onlyNumValidator())
-
-
 
     def choosePhoto(self):
         """выбор фото на карточку"""
@@ -125,6 +125,7 @@ class FindMember_front(QtWidgets.QWidget):
         super().__init__(parent)
         self.ui = ui.find_user.Ui_Form()
         self.ui.setupUi(self)
+        self.cls = ui.tableView_Models.UsersTableViewModel()
 
         self.db = db          # сслыка на объект БД
         self.member = Member()  #
@@ -152,9 +153,39 @@ class FindMember_front(QtWidgets.QWidget):
         self.userListModel = UsersTableViewModelLite()
         self.ui.userList_tableView.setModel(self.userListModel)
         self.ui.userList_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.ui.userList_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
 
         self.ui.object_radioButton.click()
         self.getUsersListFromDB()
+
+        #моментальное обноваление userList_tableView после ввода символов
+        self.ui.surname_lineEdit.textChanged.connect(self.liveUpdateRequest)
+        self.ui.name_lineEdit.textChanged.connect(self.liveUpdateRequest)
+        self.ui.secondName_lineEdit.textChanged.connect(self.liveUpdateRequest)
+        self.ui.phone_lineEdit.textChanged.connect(self.liveUpdateRequest)
+
+
+    def liveUpdateRequest(self):
+        """Заполнение таблицы существующих пользователей из БД"""
+        if not (self.ui.surname_lineEdit.text() or self.ui.name_lineEdit.text() or self.ui.secondName_lineEdit.text() or self.ui.phone_lineEdit.text()):
+            self.getUsersListFromDB()
+        else:
+            if self.db:
+                self.db.execute(sqlite_qwer.member_search(self.ui.surname_lineEdit.text(),
+                                                          self.ui.name_lineEdit.text(),
+                                                          self.ui.secondName_lineEdit.text(),
+                                                          self.ui.phone_lineEdit.text()))
+                if self.db.cursor:
+
+                    users = self.db.cursor.fetchall()
+                    print(users)
+                    self.userListModel.resetData()
+                    self.ui.userList_tableView.clearSpans()
+                    for user in users:
+                        us_info = User_Info(user[0], f'{user[1]} {user[2]} {user[3]}', user[4], user[6], user[7])
+                        self.userListModel.setItems(us_info)
+
+
 
     def setEnableds(self):
         """устанавливает или запрещает доступ к объектам интерфейса в зависимости от radioButton"""
@@ -185,8 +216,9 @@ class FindMember_front(QtWidgets.QWidget):
             if self.db.cursor:
 
                 users = self.db.cursor.fetchall()
+                self.userListModel.resetData()
                 for user in users:
-                    us_info = User_Info(user[0], f'{user[1]} {user[2]} {user[3]}', user[4], user[5], user[6])
+                    us_info = User_Info(user[0], f'{user[1]} {user[2]} {user[3]}', user[4], user[6], user[7])
                     self.userListModel.setItems(us_info)
 
 
@@ -201,6 +233,7 @@ class FindMember_front(QtWidgets.QWidget):
         if row_data[0] in self.addIdsUsers:  # если уже добавлялся - выходим
             return
         self.addIdsUsers.append(row_data[0])
+        self.userListModel.resetData()
         self.userModel.setItems(User_Info(row_data[0], row_data[1], row_data[2], row_data[3], row_data[4]))
 
 
