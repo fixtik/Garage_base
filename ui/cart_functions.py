@@ -21,18 +21,17 @@ from ui.tableView_Models import *
 
 class Cart_frontend(QtWidgets.QWidget):
     TB_NAME = 'type_size'
-    def __init__(self, parent=None):
+    def __init__(self, db, parent=None):
         super().__init__(parent)
 
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.garage_ids = []  # список с id-платежа из БД, индекс соответствует индексу в combobox
-        self.db = None
+        self.db = db          # db-connector
 
         self.initUi()
 
         #переменные класса
-        self.db = None
         self.photoPath = None
         self.addCar_form = None
         self.addContrib_form = None
@@ -128,7 +127,7 @@ class Cart_frontend(QtWidgets.QWidget):
             self.photoPath = img_path
 
     def showElectricMetr(self):
-        self.addElectric = ui.electric_meter_func.Electric_front()
+        self.addElectric = ui.electric_meter_func.Electric_front(self.db)
         self.addElectric.mainForm = self
         self.addElectric.show()
 
@@ -141,9 +140,8 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def showAddContribForm(self):
         """открытие формы добавления платежа"""
-        self.addContrib_form = ui.contribute_functions.AddContrib_front()
+        self.addContrib_form = ui.contribute_functions.AddContrib_front(self.db)
         self.addContrib_form.mainForm = self
-        self.addContrib_form.db = self.db
         self.addContrib_form.updateDataFromDB()
         self.addContrib_form.show()
 
@@ -171,7 +169,7 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def showFindUserForm(self):
         """Открывает форму поиска члена кооператива"""
-        self.addUser_form = ui.member_functions.FindMember_front(self.db)
+        self.addUser_form = ui.member_functions.FindMember_front(db=self.db, main_form=self)
         self.addUser_form.show()
 
 

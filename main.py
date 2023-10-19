@@ -62,37 +62,32 @@ class Form_frontend(QtWidgets.QMainWindow):
 
     def showCartObject(self):
         """Отображение окна карточки объекта"""
-        self.cartObj = ui.cart_functions.Cart_frontend()
-        self.cartObj.db = self.db
+        self.cartObj = ui.cart_functions.Cart_frontend(db=self.db)
         self.cartObj.updateDataFromDB()
         self.cartObj.show()
 
 
     def showKindPayWindow(self):
         """Отображение окна редактирования вида платежа"""
-        self.typePay = ui.contribute_functions.AddContrib_front()
-        self.typePay.db = self.db
+        self.typePay = ui.contribute_functions.AddContrib_front(db=self.db)
         self.typePay.updateDataFromDB()
         self.typePay.hideDateField(False)
         self.typePay.show()
 
     def showGarageSizeWindow(self):
         """Отображение окна добавления размеров гаража"""
-        self.garageSize = ui.new_garage_size_func.AddGarageSize_front()
-        self.garageSize.db = self.db
+        self.garageSize = ui.new_garage_size_func.AddGarageSize_front(db=self.db)
         self.garageSize.updateDataFromDB()
         self.garageSize.show()
 
     def showAddMemberWindow(self):
         """Отображение окна добавления нового члена"""
-        self.newMember = ui.member_functions.Member_front()
-        self.newMember.db = self.db
+        self.newMember = ui.member_functions.Member_front(db=self.db)
         self.newMember.show()
 
     def showElMeterWindow(self):
         """Отображение окна работы с эл. счетчкиами"""
-        self.elMeter = ui.electric_meter_func.Electric_front()
-        self.elMeter.db = self.db
+        self.elMeter = ui.electric_meter_func.Electric_front(db=self.db)
         self.elMeter.show()
 
 

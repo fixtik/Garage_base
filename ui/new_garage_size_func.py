@@ -13,12 +13,12 @@ import ui.validators
 class AddGarageSize_front(QtWidgets.QWidget):
     TB_NAME = 'type_size'
 
-    def __init__(self, parent=None):
+    def __init__(self, db, parent=None):
         super().__init__(parent)
         self.ui = addWid.Ui_Form()
         self.ui.setupUi(self)
 
-        self.db = None  # БД
+        self.db = db  # БД
         self.mainForm = None  # Родительская форма
         self.garageSize_form = None # Форма добавления нового вида платежа
         self.garage = None       # объект для передачи данных в другую форму
@@ -124,13 +124,13 @@ class GarageSizeStructure():
 class AddSizeGarage_front(QtWidgets.QWidget):
     """Виджет для добавления размеров гаража в бд"""
 
-    def __init__(self, parent=None):
+    def __init__(self, db, parent=None):
         super().__init__(parent)
         self.ui = addK.Ui_Form()
         self.ui.setupUi(self)
 
         self.mainForm = None
-        self.db = None
+        self.db = db
 
         self.initUi()
 

@@ -2,8 +2,6 @@ from PySide6 import QtCore, QtGui, QtWidgets
 
 
 
-
-
 class CarTableViewModel(QtCore.QAbstractTableModel):
     """
     Модель для отображения данных по автомобилям в TableView
@@ -107,7 +105,9 @@ class UsersTableViewModel(QtCore.QAbstractTableModel):
         self.items = []
 
     def resetData(self):
-        self.items = []
+        self.beginResetModel()
+        self.items.clear()
+        self.endResetModel()
 
     def setItems(self, items):
         self.beginResetModel()

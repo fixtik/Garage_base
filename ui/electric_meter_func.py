@@ -1,5 +1,6 @@
 from PySide6 import QtCore, QtWidgets, QtGui
 
+import db_work
 from ui.electric_meter import Ui_Form
 import sqlite_qwer
 import ui.dialogs
@@ -8,12 +9,12 @@ import ui.validators
 
 
 class Electric_front(QtWidgets.QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, db, parent=None):
         super().__init__(parent)
         self.ui = Ui_Form()
         self.ui.setupUi(self)
 
-        self.db = None
+        self.db = db                # db-connector
         self.meter = None
         self.obj_id = None          # id объекта
 
