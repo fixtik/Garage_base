@@ -126,7 +126,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QListView" name="changeOwner_listView"/>
+      <widget class="QTableView" name="changeOwner_tableView"/>
      </item>
     </layout>
    </item>

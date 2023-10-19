@@ -2,7 +2,6 @@ import os
 import shutil
 from dataclasses import dataclass
 
-from PySide6 import QtWidgets
 import constants
 import db_work
 import sqlite_qwer
@@ -12,7 +11,6 @@ import ui.new_member
 import ui.validators
 from ui.tableView_Models import *
 
-import ui.tableView_Models
 
 class Member_front(QtWidgets.QWidget):
 
@@ -125,7 +123,6 @@ class FindMember_front(QtWidgets.QWidget):
         super().__init__(parent)
         self.ui = ui.find_user.Ui_Form()
         self.ui.setupUi(self)
-        self.cls = ui.tableView_Models.UsersTableViewModel()
 
         self.db = db          # сслыка на объект БД
         self.member = Member()  #

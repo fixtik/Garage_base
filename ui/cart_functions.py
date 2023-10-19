@@ -134,8 +134,9 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def showAddCarForm(self):
         """открытие формы добавления авто"""
-        self.addCar_form = ui.car_functions.Car_frontend()
+        self.addCar_form = ui.car_functions.Car_frontend(self.db)
         self.addCar_form.mainForm = self
+        self.addCar_form.db = self.db
         self.addCar_form.show()
 
     def showAddContribForm(self):
