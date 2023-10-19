@@ -77,6 +77,12 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.len_lineEdit.setValidator(ui.validators.floatValidator())
         self.ui.hight_lineEdit.setValidator(ui.validators.floatValidator())
 
+        #Автоматичкская подгонка столбцов по ширине
+        self.ui.contrib_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.ui.auto_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.ui.electric_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.ui.users_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+
     def fillComboBox(self):
         if self.db:
             self.db.execute(sqlite_qwer.sql_select_all_from_table(self.TB_NAME))

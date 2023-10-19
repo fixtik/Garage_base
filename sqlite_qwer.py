@@ -304,8 +304,8 @@ def sql_update_garage_size(size_id: int, width: float, length: float, height: fl
 
 '''--------------------------------------------NEW--------------------------------------------------'''
 
-def member_search(surname: str, first_name: str, second_name: str, phone_main: str) -> str:
-    sql_string = 'SELECT id FROM garage_member WHERE '
+def member_search(surname: str = '', first_name: str = '', second_name: str = '', phone_main: str = '') -> str:
+    sql_string = 'SELECT * FROM garage_member WHERE '
     if surname != '':
         sql_string = sql_string + 'surname LIKE \'%' + surname + '%\''
         if first_name != '' or second_name != '' or phone_main != '':
