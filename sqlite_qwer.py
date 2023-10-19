@@ -302,26 +302,44 @@ def sql_update_garage_size(size_id: int, width: float, length: float, height: fl
     return f"UPDATE type_size SET width = {width}, len = {length}, height = {height}, comment = '{comment}'" \
            f" WHERE id = {size_id};"
 
-'''--------------------------------------------NEW--------------------------------------------------'''
 
-def member_search(surname: str = '', first_name: str = '', second_name: str = '', phone_main: str = '') -> str:
+def sql_member_search(surname: str = '', first_name: str = '', second_name: str = '', phone_main: str = '') -> str:
+    """Возвращает запрос для вывода всех пользователей по части входных данных"""
     sql_string = 'SELECT * FROM garage_member WHERE '
-    if surname != '':
-        sql_string = sql_string + 'surname LIKE \'%' + surname + '%\''
-        if first_name != '' or second_name != '' or phone_main != '':
+    if surname:
+        sql_string += f"surname LIKE '%{surname}%'"
+        if first_name or second_name or phone_main:
             sql_string += ' AND '
-    if first_name != '':
-        sql_string = sql_string + 'first_name LIKE \'%' + first_name + '%\''
-        if second_name != '' or phone_main != '':
+    if first_name:
+        sql_string += f"first_name LIKE '%{first_name}%'"
+        if second_name or phone_main:
             sql_string += ' AND '
-    if second_name != '':
-        sql_string = sql_string + 'second_name LIKE \'%' + second_name + '%\''
-        if phone_main != '':
+    if second_name:
+        sql_string += f"second_name LIKE '%{second_name}%'"
+        if phone_main:
             sql_string += ' AND '
-    if phone_main != '':
-        sql_string = sql_string + 'phone_main LIKE \'%' + phone_main + '%\''
+    if phone_main:
+        sql_string += f"phone_main LIKE '%{phone_main}%'"
     sql_string += ';'
 
     return sql_string
+
+def sql_get_members_by_ogject(row: int = 0, number: int = 0) -> str:
+    """
+    формирование запроса на получения списка id собственников и арендаторов
+    по номеру объекта недвижимости
+    """
+    sql_string = 'SELECT owner_id, arendator_id FROM garage_obj WHERE '
+    if row:
+        sql_string += f'num_row={row}'
+        sql_string += ' AND ' if number else ''
+    sql_string += f'num_bild={number}' if number else ''
+    return sql_string
+
+def sql_get_member_by_id_set(ids: str) -> str:
+    """формирование запроса на получение данных пользователей по списку id"""
+    return f'SELECT * FROM garage_member WHERE id IN ({ids})'
+
+
 
 

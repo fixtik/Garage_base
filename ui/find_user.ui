@@ -227,30 +227,26 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="find_pushButton">
-       <property name="text">
-        <string>Найти</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="add_pushButton">
+       <property name="mouseTracking">
+        <bool>false</bool>
+       </property>
        <property name="text">
-        <string>Добавить</string>
+        <string>Добавить нового</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="choose_pushButton">
        <property name="text">
-        <string>Выбрать</string>
+        <string>Закончить</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="close_pushButton">
        <property name="text">
-        <string>Закрыть</string>
+        <string>Отмена</string>
        </property>
       </widget>
      </item>

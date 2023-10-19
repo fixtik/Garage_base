@@ -205,11 +205,6 @@ class Ui_Form(object):
 
         self.horizontalLayout_5.addItem(self.horizontalSpacer)
 
-        self.find_pushButton = QPushButton(Form)
-        self.find_pushButton.setObjectName(u"find_pushButton")
-
-        self.horizontalLayout_5.addWidget(self.find_pushButton)
-
         self.add_pushButton = QPushButton(Form)
         self.add_pushButton.setObjectName(u"add_pushButton")
 
@@ -245,8 +240,7 @@ class Ui_Form(object):
         self.secondName_label.setText(QCoreApplication.translate("Form", u"\u041e\u0442\u0447\u0435\u0441\u0442\u0432\u043e", None))
         self.phone_label.setText(QCoreApplication.translate("Form", u"\u0422\u0435\u043b\u0435\u0444\u043e\u043d", None))
         self.result_label.setText(QCoreApplication.translate("Form", u"\u0421\u043f\u0438\u0441\u043e\u043a \u0434\u043e\u0431\u0430\u0432\u043b\u044f\u0435\u043c\u044b\u0445 \u043b\u0438\u0446:", None))
-        self.find_pushButton.setText(QCoreApplication.translate("Form", u"\u041d\u0430\u0439\u0442\u0438", None))
-        self.add_pushButton.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", None))
+        self.add_pushButton.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043d\u043e\u0432\u043e\u0433\u043e", None))
         self.choose_pushButton.setText(QCoreApplication.translate("Form", u"\u0412\u044b\u0431\u0440\u0430\u0442\u044c", None))
         self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
     # retranslateUi

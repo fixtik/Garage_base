@@ -13,12 +13,12 @@ import ui.validators
 
 class AddContrib_front(QtWidgets.QWidget):
     TB_NAME = 'contribution_type'
-    def __init__(self, parent=None):
+    def __init__(self, db, parent=None):
         super().__init__(parent)
         self.ui = addW.Ui_Form()
         self.ui.setupUi(self)
 
-        self.db = None           # БД
+        self.db = db           # БД
         self.mainForm = None     # Родительская форма
         self.addKind_form = None # Форма добавления нового вида платежа
         self.contib = None       # объект для передачи данных в другую форму
@@ -46,9 +46,8 @@ class AddContrib_front(QtWidgets.QWidget):
 
     def addKindContrib(self):
         """вызов окна для добавления нового вида платежа"""
-        self.addKind_form = AddKindContrib_front()
+        self.addKind_form = AddKindContrib_front(self.db)
         self.addKind_form.mainForm = self
-        self.addKind_form.db = self.db
         self.addKind_form.show()
 
 
@@ -140,13 +139,13 @@ class Contribution():
 class AddKindContrib_front(QtWidgets.QWidget):
     """Виджет для добавления платежа в бд"""
 
-    def __init__(self, parent=None):
+    def __init__(self, db, parent=None):
         super().__init__(parent)
         self.ui = addK.Ui_Form()
         self.ui.setupUi(self)
 
         self.mainForm = None
-        self.db = None
+        self.db = db
 
 
         self.initUi()
