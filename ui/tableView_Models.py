@@ -35,6 +35,9 @@ class CarTableViewModel(QtCore.QAbstractTableModel):
             if col == 2:
                 return f'{car_info.gos_num}'
 
+        elif role == QtCore.Qt.TextAlignmentRole:
+            return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+
     def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: QtCore.Qt.ItemDataRole):
         """Заголовок таблицы: Марка Номер"""
         if role == QtCore.Qt.ItemDataRole.DisplayRole and orientation == QtCore.Qt.Orientation.Horizontal:
@@ -82,6 +85,9 @@ class ContribTableViewModel(QtCore.QAbstractTableModel):
             if col == 4:
                 return f'{pay_info.payPeriod}'
 
+        elif role == QtCore.Qt.TextAlignmentRole:
+            return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+
 
     def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: QtCore.Qt.ItemDataRole):
         """Заголовок таблицы: Марка Номер"""
@@ -101,7 +107,7 @@ class UsersTableViewModel(QtCore.QAbstractTableModel):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
+        self.header = ['id', 'ФИО', 'Дата рождения', 'Телефон', 'Доп. телефон', 'Собственник']
         self.items = []
 
     def resetData(self):
@@ -137,21 +143,15 @@ class UsersTableViewModel(QtCore.QAbstractTableModel):
             if col == 4:
                 return f'{user_info.addPhone}'
             if col == 5:
-                return f'{user_info.role}'
+                return
+        elif role == QtCore.Qt.TextAlignmentRole:
+            return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
 
     def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: QtCore.Qt.ItemDataRole):
         """Заголовок таблицы: Марка Номер"""
         if role == QtCore.Qt.ItemDataRole.DisplayRole and orientation == QtCore.Qt.Orientation.Horizontal:
-
-            return {
-                0: 'id',
-                1: 'ФИО',
-                2: 'Дата рождения',
-                3: 'Телефон',
-                4: 'Доп. телефон',
-                5: 'Отношение к объекту'
-            }.get(section)
+            return self.header[section]
 
 class UsersTableViewModelLite(UsersTableViewModel):
     """
@@ -202,7 +202,7 @@ class ElectricTableViewModel(QtCore.QAbstractTableModel):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
+        self.header = ['id', 'Тип', 'Номер счетчика', 'Тек. показания (день)', 'Тек. показания (ночь)']
         self.items = []
 
     def setItems(self, items):
@@ -233,16 +233,15 @@ class ElectricTableViewModel(QtCore.QAbstractTableModel):
             if col == 4:
                 return f'{elMeter.curNight}'
             # как вариант - добавить сюда вывод информации о потребленной ЭЭ
+            elif role == QtCore.Qt.TextAlignmentRole:
+                return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
 
     def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: QtCore.Qt.ItemDataRole):
         """Заголовок таблицы: Марка Номер"""
         if role == QtCore.Qt.ItemDataRole.DisplayRole and orientation == QtCore.Qt.Orientation.Horizontal:
+            return self.header[section]
 
-            return {
-                0: 'id',
-                1: 'Тип',
-                2: 'Номер счетчика',
-                3: 'Тек. показания (день)',
-                4: 'Тек. показания (ночь)'
-            }.get(section)
+
+
+

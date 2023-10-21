@@ -225,9 +225,14 @@ class FindMember_front(QtWidgets.QWidget):
 
     def addNewMemberPshBtn(self):
         """открытие формы добавления нового члена в БД"""
-        self.addForm = Member_front(self.db)
-        self.addForm.parentForm = self
-        self.addForm.show()
+        if not self.addForm:
+            self.addForm = Member_front(self.db)
+            self.addForm.parentForm = self
+            self.addForm.show()
+        else:
+            self.addForm.destroy()
+            self.addForm = None
+            self.addNewMemberPshBtn()
 
     def getUsersListFromDB(self):
         """Заполнение таблицы существующих пользователей из БД"""
@@ -260,6 +265,7 @@ class FindMember_front(QtWidgets.QWidget):
                 for user in users:
                     us_info = User_Info(user[0], f'{user[1]} {user[2]} {user[3]}', user[4], user[5], user[6])
                     self.parentForm.userModel.setItems(us_info)
+                    self.parentForm.addRadioButtonToUsersTable()
                 self.close()
                 return
         ui.dialogs.onShowError(self, constants.ATTANTION_TITLE, constants.INFO_DATA_IS_EMPTY)

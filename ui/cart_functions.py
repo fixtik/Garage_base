@@ -37,6 +37,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.addContrib_form = None
         self.addUser_form = None
         self.addElectric = None
+        self.owner_id = None            # id собственника объекта
 
 
     def initUi(self):
@@ -53,6 +54,7 @@ class Cart_frontend(QtWidgets.QWidget):
         #пользовательская таблица
         self.userModel = UsersTableViewModel()
         self.ui.users_tableView.setModel(self.userModel)
+
         #табличка счетчиков
         self.elMeterModel = ElectricTableViewModel()
         self.ui.electric_tableView.setModel(self.elMeterModel)
@@ -62,14 +64,13 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.comboBox.currentIndexChanged.connect(self.itemChanged)
 
         # слоты кнопок
-        self.ui.close_pushButton.clicked.connect(self.close)
-        self.ui.image_pushButton.clicked.connect(self.choosePhoto)
-        self.ui.carAdd_pushButton.clicked.connect(self.showAddCarForm)
-        self.ui.contribAdd_pushButton.clicked.connect(self.showAddContribForm)
-        self.ui.userAdd_pushButton.clicked.connect(self.showFindUserForm)
-        self.ui.contribAdd_pushButton.clicked.connect(self.showAddContribForm)
-        self.ui.userAdd_pushButton.clicked.connect(self.showFindUserForm)
-        self.ui.electricAdd_pushButton.clicked.connect(self.showElectricMetr)
+        self.ui.close_pushButton.clicked.connect(self.close)                        # закрытие формы
+        self.ui.image_pushButton.clicked.connect(self.choosePhoto)                  # добавление фото
+        self.ui.carAdd_pushButton.clicked.connect(self.showAddCarForm)              # добавление авто
+        self.ui.contribAdd_pushButton.clicked.connect(self.showAddContribForm)      # добавление платежки
+        self.ui.userAdd_pushButton.clicked.connect(self.showFindUserForm)           # добавление пользрователя
+        self.ui.electricAdd_pushButton.clicked.connect(self.showElectricMetr)       # добавленее счетчика
+        #self.ui.change_pushButton.clicked.connect()       # внесение изменений в БД
 
         # установка валидаторов
         self.ui.width_lineEdit.setValidator(ui.validators.floatValidator())
@@ -171,6 +172,36 @@ class Cart_frontend(QtWidgets.QWidget):
         """Открывает форму поиска члена кооператива"""
         self.addUser_form = ui.member_functions.FindMember_front(db=self.db, main_form=self)
         self.addUser_form.show()
+
+    def addRadioButtonToUsersTable(self):
+        """Добавление RadioButton в user_tableView"""
+        button_group = QtWidgets.QButtonGroup(self)
+        for index in range(self.userModel.rowCount()):
+            w = QtWidgets.QWidget()
+            h_layout = QtWidgets.QHBoxLayout(w)
+            h_layout.setContentsMargins(0, 0, 0, 0)
+            radio_btn = QtWidgets.QRadioButton("", self)
+            radio_btn.clicked.connect(self.get_selected_owner_id)
+            h_layout.addWidget(radio_btn, alignment=QtCore.Qt.AlignCenter)
+            button_group.addButton(radio_btn)
+            self.ui.users_tableView.setIndexWidget(self.ui.users_tableView.model().index(index,
+                                                                                        self.userModel.columnCount()-1),
+                                                                                         w)
+
+
+
+    def get_selected_owner_id(self):
+        """изменение данных об id собственника для последующего внесения в БД"""
+        button = self.sender()
+        index = self.ui.users_tableView.indexAt(button.pos())
+        if index.isValid():
+            item = self.owner_id = self.ui.users_tableView.model().index(index.row(), 0)
+            self.owner_id = item.data()
+
+
+
+
+
 
 
 
