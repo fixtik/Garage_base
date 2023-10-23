@@ -242,6 +242,3 @@ class ElectricTableViewModel(QtCore.QAbstractTableModel):
         if role == QtCore.Qt.ItemDataRole.DisplayRole and orientation == QtCore.Qt.Orientation.Horizontal:
             return self.header[section]
 
-
-
-

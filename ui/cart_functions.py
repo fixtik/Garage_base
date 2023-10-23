@@ -130,6 +130,9 @@ class Cart_frontend(QtWidgets.QWidget):
     def showElectricMetr(self):
         self.addElectric = ui.electric_meter_func.Electric_front(self.db)
         self.addElectric.mainForm = self
+        if self.ui.change_pushButton.text() == constants.BTN_TEXT_ADD:
+            self.addElectric.hideFindePlace()
+
         self.addElectric.show()
 
     def showAddCarForm(self):
@@ -194,7 +197,7 @@ class Cart_frontend(QtWidgets.QWidget):
         button = self.sender()
         index = self.ui.users_tableView.indexAt(button.pos())
         if index.isValid():
-            item = self.owner_id = self.ui.users_tableView.model().index(index.row(), 0)
+            item = self.ui.users_tableView.model().index(index.row(), 0)
             self.owner_id = item.data()
 
 

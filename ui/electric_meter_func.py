@@ -28,6 +28,10 @@ class Electric_front(QtWidgets.QWidget):
         # установка валидаторов
         self.ui.row_lineEdit.setValidator(ui.validators.onlyNumValidator())
         self.ui.garajeNum_lineEdit.setValidator(ui.validators.onlyNumValidator())
+        self.ui.curDay_lineEdit.setValidator(ui.validators.onlyNumValidator())
+        self.ui.newDay_lineEdit.setValidator(ui.validators.onlyNumValidator())
+        self.ui.newNight_lineEdit.setValidator(ui.validators.onlyNumValidator())
+        self.ui.curNight_lineEdit.setValidator(ui.validators.onlyNumValidator())
 
 
     def searchObj(self):
@@ -85,11 +89,15 @@ class Electric_front(QtWidgets.QWidget):
             ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TEXT_PLACE_NOT_FILL)
             return
 
-        if not self.obj_id:
+        if not self.obj_id and self.ui.del_pushButton.isVisible():
             # если объект не указан спрашиваем о добавлении без привязки
             if not(ui.dialogs.onShowСonfirmation(self, constants.ATTANTION_TITLE,
                                                  constants.QUESTION_WRITE_EL_METER_WHITHOUT_OBJ)):
                 return
+        if not self.setDefaultValue():
+            ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TEXT_PLACE_NOT_FILL)
+            return
+
         if self.db.execute(sqlite_qwer.sql_add_electric_meter(
             num_meter=self.meter.num_meter,
             cur_day=self.meter.day,
@@ -123,6 +131,31 @@ class Electric_front(QtWidgets.QWidget):
         meter.night = self.ui.newNight_lineEdit.text() if self.ui.newNight_lineEdit.text() else 0
         self.meter = meter
         return True
+
+    def hideFindePlace(self, visible: bool = False):
+        """Скрывает или показывает формы для поиска счетчика"""
+        self.ui.row_lineEdit.setVisible(visible)
+        self.ui.row_label.setVisible(visible)
+        self.ui.garajeNum_lineEdit.setVisible(visible)
+        self.ui.garajeNum_label.setVisible(visible)
+        self.ui.find_pushButton.setVisible(visible)
+        self.ui.del_pushButton.setVisible(visible)
+        if not visible:
+            self.setFixedHeight(constants.ELECTRIC_HEIGHT_ADD)
+            self.setWindowTitle(constants.TITLE_ADD_NEW)
+
+    def setDefaultValue(self) -> bool:
+        """Установка значений по умолчанию, если пользователь поленился ввести данные"""
+        if not self.ui.curDay_lineEdit.text():
+            self.ui.curDay_lineEdit.setText(constants.DEFAULT_VALUE)
+        if not self.ui.curNight_lineEdit.text():
+            self.ui.curNight_lineEdit.setText(constants.DEFAULT_VALUE)
+        if not self.ui.newNight_lineEdit.text():
+            self.ui.newNight_lineEdit.setText(constants.DEFAULT_VALUE)
+        if not self.ui.newDay_lineEdit.text():
+            self.ui.newDay_lineEdit.setText(constants.DEFAULT_VALUE)
+        return int(self.ui.newDay_lineEdit.text()) >= int(self.ui.curDay_lineEdit.text()) and \
+            int(self.ui.newNight_lineEdit.text()) >= int(self.ui.curNight_lineEdit.text())
 
 class ElectricMeter():
     def __init__(self):

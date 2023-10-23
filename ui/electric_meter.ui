@@ -20,7 +20,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <widget class="QWidget" name="layoutWidget">
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="search_horizontalLayout">
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>

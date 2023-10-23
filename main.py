@@ -45,9 +45,10 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.member_action.triggered.connect(self.showAddMemberWindow) # окно добавления нового члена
         self.ui.electric_action.triggered.connect(self.showElMeterWindow)
         self.ui.garage_action.triggered.connect(self.showGarageSizeWindow) # окно добавления размеров гаража
+        self.ui.add_action.triggered.connect(self.showFullAddCart)  #окно добавления всех данных
 
     def openDB(self):
-        new_name = ui.dialogs.open_file_dialog("Выберите файл БД", '*.db')[0]
+        new_name = ui.dialogs.open_file_dialog(constants.TITLE_SELECT_BD, constants.FILTER_BD)[0]
         if new_name:
             if self.db.choose_db(new_name):
                 if not self.db:
@@ -89,6 +90,12 @@ class Form_frontend(QtWidgets.QMainWindow):
         """Отображение окна работы с эл. счетчкиами"""
         self.elMeter = ui.electric_meter_func.Electric_front(db=self.db)
         self.elMeter.show()
+
+    def showFullAddCart(self):
+        """Отображение окна для добавления всех данных одновременно (на основе карточки объекта)"""
+        self.cartObj = ui.cart_functions.Cart_frontend(db=self.db)
+        self.cartObj.ui.change_pushButton.setText(constants.BTN_TEXT_ADD)
+        self.cartObj.show()
 
 
 

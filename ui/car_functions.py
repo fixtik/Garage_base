@@ -1,5 +1,6 @@
 from PySide6 import QtCore, QtWidgets, QtGui
 
+import db_work
 from ui.new_car import Ui_Form
 import ui.cart_functions
 
@@ -8,10 +9,11 @@ import ui.cart_functions
 
 class Car_frontend(QtWidgets.QWidget):
 
-    def __init__(self, parent=None):
+    def __init__(self, db: db_work.Garage_DB, parent=None):
         super().__init__(parent)
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+        self.db = db
 
         self.mainForm = None
         self.carInfo = CarInfo()
