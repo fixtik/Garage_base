@@ -1,5 +1,6 @@
 from PySide6 import QtCore, QtWidgets, QtGui
 
+
 import db_work
 import sqlite_qwer
 from ui.new_car import Ui_Form
@@ -55,10 +56,12 @@ class Car_frontend(QtWidgets.QWidget):
             return
         self.carInfo.mark = self.ui.carMark_lineEdit.text()
         self.carInfo.gos_num = self.ui.gosNum_lineEdit.text()
-        self.carInfo.id = ''  # ToDo здесь добавить запрос на id в БД и запрос собственника
+        self.carInfo.id = ''        #ToDo здесь добавить запрос на id в БД и запрос собственника
         self.carInfo.own_id = ''
         self.mainForm.carModel.setItems(self.carInfo)
         self.close()
+
+
 
 
 class CarInfo():
@@ -69,3 +72,4 @@ class CarInfo():
         self.own_id = ''
         self.mark = ''
         self.gos_num = ''
+

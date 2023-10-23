@@ -31,9 +31,9 @@ class Ui_Form(object):
         self.splitter.setOrientation(Qt.Horizontal)
         self.layoutWidget = QWidget(self.splitter)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.horizontalLayout = QHBoxLayout(self.layoutWidget)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.search_horizontalLayout = QHBoxLayout(self.layoutWidget)
+        self.search_horizontalLayout.setObjectName(u"search_horizontalLayout")
+        self.search_horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.garajeNum_label = QLabel(self.layoutWidget)
@@ -47,7 +47,7 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.row_label)
 
 
-        self.horizontalLayout.addLayout(self.verticalLayout)
+        self.search_horizontalLayout.addLayout(self.verticalLayout)
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -62,7 +62,7 @@ class Ui_Form(object):
         self.verticalLayout_2.addWidget(self.row_lineEdit)
 
 
-        self.horizontalLayout.addLayout(self.verticalLayout_2)
+        self.search_horizontalLayout.addLayout(self.verticalLayout_2)
 
         self.splitter.addWidget(self.layoutWidget)
         self.find_pushButton = QPushButton(self.splitter)

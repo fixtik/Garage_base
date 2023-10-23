@@ -18,7 +18,6 @@ SQL_CREATE_TABLE_GARAGE = 'CREATE TABLE IF NOT EXISTS "garage_obj" ( ' \
                           '	"electro380_id"	INTEGER DEFAULT 0,' \
                           'FOREIGN KEY("owner_id") REFERENCES "garage_member"("id"),' \
                           'FOREIGN KEY("size_type_id") REFERENCES "type_size"("id"),' \
-                          'FOREIGN KEY("electro_id") REFERENCES "electric_meter"("id")' \
                           ');'
 # так как арендаторов может быть >1 => добавляем список id арендатора через пробел
 
@@ -98,10 +97,12 @@ CONTRIB_WIN_EDIT_TITLE = 'Редактирование типа платежа'
 
 PHOTO_H = 100
 PHOTO_W = 100
+ELECTRIC_HEIGHT_ADD = 170
 
 ERROR_TEXT_PLACE_NOT_FILL = 'Запоните все обязательные поля!'
 ERROR_SQL_QWERY = 'Ошибка выполнения запроса'
 ERROR_NO_BASE_CONNECT = 'Нет подключенной БД!'
+TITLE_SELECT_BD = "Выберите файл БД"
 
 INFO_DATA_IS_EMPTY = "Данных не обнаружено"
 INFO_NO_ELECTRIC_METER = 'Для данного объекта нет счетчика'
@@ -114,7 +115,16 @@ ERROR_TITLE = "Ошибка!"
 QUESTION_WRITE_EL_METER_WHITHOUT_OBJ = 'Хотите добавить запись без привязки к объекту?'
 
 TITLE_SELECT_PHOTO = "Выберите фото для загрузки"
+
 FILTER_PHOTO = '*.jpg *.jpeg'
+FILTER_BD = '*.db'
+
+BTN_TEXT_ADD = 'Добавить'
+BTN_TEXT_CHANGE = "Изменить"
+
+TITLE_ADD_NEW = "Режим добавления нового объекта"
+
+DEFAULT_VALUE = '0'
 
 DEFAULT_PHOTO_PASS = os.getcwd() + '\\photo\\member\\'  # os.getcwd() - возвращает текущую директорию
 DEFAULT_BILLS_PASS = os.getcwd() + '\\photo\\bills\\'  # os.getcwd() - возвращает текущую директорию
