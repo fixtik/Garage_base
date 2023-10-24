@@ -11,8 +11,9 @@ import ui.car_functions
 import ui.contribute_functions
 import ui.electric_meter_func
 import ui.member_functions
-from ui.new_garage_size_func import GarageSizeStructure
+import ui.new_garage_size_func
 import ui.validators
+
 import sqlite_qwer
 
 from ui.tableView_Models import *
@@ -37,6 +38,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.addContrib_form = None
         self.addUser_form = None
         self.addElectric = None
+        self.addSize = None
         self.owner_id = None            # id собственника объекта
 
 
@@ -70,12 +72,13 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.contribAdd_pushButton.clicked.connect(self.showAddContribForm)      # добавление платежки
         self.ui.userAdd_pushButton.clicked.connect(self.showFindUserForm)           # добавление пользрователя
         self.ui.electricAdd_pushButton.clicked.connect(self.showElectricMetr)       # добавленее счетчика
+        self.ui.addSize_pushButton.clicked.connect(self.showSizeEditorForm)
         #self.ui.change_pushButton.clicked.connect()       # внесение изменений в БД
 
         # установка валидаторов
-        self.ui.width_lineEdit.setValidator(ui.validators.floatValidator())
-        self.ui.len_lineEdit.setValidator(ui.validators.floatValidator())
-        self.ui.hight_lineEdit.setValidator(ui.validators.floatValidator())
+        # self.ui.width_lineEdit.setValidator(ui.validators.floatValidator())
+        # self.ui.len_lineEdit.setValidator(ui.validators.floatValidator())
+        # self.ui.hight_lineEdit.setValidator(ui.validators.floatValidator())
 
         #Автоматичкская подгонка столбцов по ширине
         self.ui.contrib_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
@@ -189,6 +192,22 @@ class Cart_frontend(QtWidgets.QWidget):
             self.ui.users_tableView.setIndexWidget(self.ui.users_tableView.model().index(index,
                                                                                         self.userModel.columnCount()-1),
                                                                                          w)
+
+    def showSizeEditorForm(self):
+        """открывает форму добавления типоразмера"""
+        self.closeChildForm(self.addSize)
+        self.addSize = ui.new_garage_size_func.AddGarageSize_front(self.db)
+        self.addSize.mainForm = self
+        self.addSize.show()
+
+
+
+    def closeChildForm(self, child: QtWidgets.QWidget):
+        """уничтожает дочернюю форму (чтобы нельзя было открывать много окон)"""
+        if isinstance(child, QtWidgets.QWidget):
+            child.destroy()
+            return None
+
 
 
 
