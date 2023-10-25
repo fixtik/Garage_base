@@ -21,25 +21,26 @@ from ui.tableView_Models import *
 
 
 class Cart_frontend(QtWidgets.QWidget):
-    TB_NAME = 'type_size'
     def __init__(self, db, parent=None):
         super().__init__(parent)
 
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-        self.garage_ids = []  # список с id-платежа из БД, индекс соответствует индексу в combobox
         self.db = db          # db-connector
 
-        self.initUi()
-
-        #переменные класса
+        # переменные класса
         self.photoPath = None
         self.addCar_form = None
         self.addContrib_form = None
         self.addUser_form = None
         self.addElectric = None
         self.addSize = None
-        self.owner_id = None            # id собственника объекта
+        self.owner_id = None  # id собственника объекта
+        self.garage_ids = []  # список id типоразмеров
+
+        self.initUi()
+
+
 
 
     def initUi(self):
@@ -63,7 +64,7 @@ class Cart_frontend(QtWidgets.QWidget):
 
 
         # Обновление комбо бокса сразмерами гаража
-        self.ui.comboBox.currentIndexChanged.connect(self.itemChanged)
+        self.updateDataFromDB()              # заполнение данных типоразмера
 
         # слоты кнопок
         self.ui.close_pushButton.clicked.connect(self.close)                        # закрытие формы
@@ -75,10 +76,13 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.addSize_pushButton.clicked.connect(self.showSizeEditorForm)
         #self.ui.change_pushButton.clicked.connect()       # внесение изменений в БД
 
-        # установка валидаторов
-        # self.ui.width_lineEdit.setValidator(ui.validators.floatValidator())
-        # self.ui.len_lineEdit.setValidator(ui.validators.floatValidator())
-        # self.ui.hight_lineEdit.setValidator(ui.validators.floatValidator())
+        # валидаторы
+        self.ui.garage_lineEdit.setValidator(ui.validators.onlyNumValidator())
+        self.ui.row_lineEdit.setValidator(ui.validators.onlyNumValidator())
+
+        # установка в readOnly
+        self.ui.ownerFIO_lineEdit.setReadOnly(True)
+        self.ui.ownerPhone_lineEdit.setReadOnly(True)
 
         #Автоматичкская подгонка столбцов по ширине
         self.ui.contrib_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
@@ -86,29 +90,21 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.electric_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         self.ui.users_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
 
-    def fillComboBox(self):
-        if self.db:
-            self.db.execute(sqlite_qwer.sql_select_all_from_table(self.TB_NAME))
-            size = self.db.cursor.fetchall()
-            self.garage_ids.clear()
-            self.ui.comboBox.clear()
-            for item in size:
-                cont = GarageSizeStructure()
-                cont.id = item[0]
-                self.garage_ids.append(cont.id)
-                cont.width = format(item[1]).rstrip('0').rstrip('.')
-                cont.len = format(item[2]).rstrip('0').rstrip('.')
-                cont.height = format(item[3]).rstrip('0').rstrip('.')
-                cont.comment = item[4]
-                self.ui.comboBox.addItem(str(cont.width) + ' x ' + str(cont.len) + ' x ' + str(cont.height))
 
-            self.itemChanged()
+
+    def fillComboBox(self):
+        """Заполнение данных о размере в комбобокс"""
+        if self.db:
+            self.garage_ids = \
+                ui.new_garage_size_func.AddGarageSize_front.fillGarageSizeFromBase(self.db, self.ui.comboBox)[:]
+
 
     def itemChanged(self):
+        pass
         """изменение данных в полях при изменении выбранной позиции"""
         if self.ui.comboBox.currentIndex() == -1:
             return
-        self.db.execute(sqlite_qwer.sql_get_one_record_by_id(self.TB_NAME,
+        self.db.execute(sqlite_qwer.sql_get_one_record_by_id(ui.new_garage_size_func.AddGarageSize_front.TB_NAME,
                                                              self.garage_ids[self.ui.comboBox.currentIndex()]))
         contrib = self.db.cursor.fetchall()
 
@@ -131,6 +127,7 @@ class Cart_frontend(QtWidgets.QWidget):
             self.photoPath = img_path
 
     def showElectricMetr(self):
+        """открытие окна для добавления счетчика"""
         self.addElectric = ui.electric_meter_func.Electric_front(self.db)
         self.addElectric.mainForm = self
         if self.ui.change_pushButton.text() == constants.BTN_TEXT_ADD:
@@ -200,9 +197,11 @@ class Cart_frontend(QtWidgets.QWidget):
         self.addSize.mainForm = self
         self.addSize.show()
 
+    def destroyChildren(self, sender):
+        sender = self.closeChildForm(self.sender())
 
-
-    def closeChildForm(self, child: QtWidgets.QWidget):
+    @staticmethod
+    def closeChildForm(child: QtWidgets.QWidget):
         """уничтожает дочернюю форму (чтобы нельзя было открывать много окон)"""
         if isinstance(child, QtWidgets.QWidget):
             child.destroy()

@@ -225,12 +225,12 @@ class Ui_Form(object):
 
         self.horizontalLayout_14.addWidget(self.ownerFIO_label)
 
-        self.owerFIO_lineEdit = QLineEdit(self.garage_groupBox)
-        self.owerFIO_lineEdit.setObjectName(u"owerFIO_lineEdit")
-        self.owerFIO_lineEdit.setMinimumSize(QSize(0, 31))
-        self.owerFIO_lineEdit.setMaximumSize(QSize(99999, 16777215))
+        self.ownerFIO_lineEdit = QLineEdit(self.garage_groupBox)
+        self.ownerFIO_lineEdit.setObjectName(u"ownerFIO_lineEdit")
+        self.ownerFIO_lineEdit.setMinimumSize(QSize(0, 31))
+        self.ownerFIO_lineEdit.setMaximumSize(QSize(99999, 16777215))
 
-        self.horizontalLayout_14.addWidget(self.owerFIO_lineEdit)
+        self.horizontalLayout_14.addWidget(self.ownerFIO_lineEdit)
 
 
         self.verticalLayout_11.addLayout(self.horizontalLayout_14)

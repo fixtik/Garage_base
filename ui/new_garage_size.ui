@@ -216,7 +216,14 @@
      <item>
       <widget class="QPushButton" name="ok_pushButton">
        <property name="text">
-        <string>Применить</string>
+        <string>Добавить новый</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="change_pushButton">
+       <property name="text">
+        <string>Изменить</string>
        </property>
       </widget>
      </item>

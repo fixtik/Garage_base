@@ -149,6 +149,11 @@ class Ui_Form(object):
 
         self.horizontalLayout_11.addWidget(self.ok_pushButton)
 
+        self.change_pushButton = QPushButton(Form)
+        self.change_pushButton.setObjectName(u"change_pushButton")
+
+        self.horizontalLayout_11.addWidget(self.change_pushButton)
+
         self.close_pushButton = QPushButton(Form)
         self.close_pushButton.setObjectName(u"close_pushButton")
 
@@ -177,7 +182,8 @@ class Ui_Form(object):
         self.sumContrib_label_3.setText(QCoreApplication.translate("Form", u"\u0414\u043b\u0438\u043d\u0430:", None))
         self.sumContrib_label_4.setText(QCoreApplication.translate("Form", u"\u0412\u044b\u0441\u043e\u0442\u0430:", None))
         self.commentContrib_label_2.setText(QCoreApplication.translate("Form", u"\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439:", None))
-        self.ok_pushButton.setText(QCoreApplication.translate("Form", u"\u041f\u0440\u0438\u043c\u0435\u043d\u0438\u0442\u044c", None))
+        self.ok_pushButton.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043d\u043e\u0432\u044b\u0439", None))
+        self.change_pushButton.setText(QCoreApplication.translate("Form", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c", None))
         self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
     # retranslateUi
 

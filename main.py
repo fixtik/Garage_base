@@ -64,7 +64,6 @@ class Form_frontend(QtWidgets.QMainWindow):
     def showCartObject(self):
         """Отображение окна карточки объекта"""
         self.cartObj = ui.cart_functions.Cart_frontend(db=self.db)
-        self.cartObj.updateDataFromDB()
         self.cartObj.show()
 
 

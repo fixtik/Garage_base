@@ -365,7 +365,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="owerFIO_lineEdit">
+               <widget class="QLineEdit" name="ownerFIO_lineEdit">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>

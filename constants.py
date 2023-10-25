@@ -110,9 +110,11 @@ INFO_NO_OBJECT = "Объекта не обнаружено"
 
 INFO_TITLE = "Информация"
 ATTANTION_TITLE = 'Внимание!'
+ATTANTION_ACCEPT = 'Подтверждение действия'
 ERROR_TITLE = "Ошибка!"
 
 QUESTION_WRITE_EL_METER_WHITHOUT_OBJ = 'Хотите добавить запись без привязки к объекту?'
+QUESTION_DELETE_TYPE_SIZE = "Вы уверены, что хотите удалить выбранный типоразмер гаража?"
 
 TITLE_SELECT_PHOTO = "Выберите фото для загрузки"
 

@@ -202,7 +202,8 @@ class ElectricTableViewModel(QtCore.QAbstractTableModel):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.header = ['id', 'Тип', 'Номер счетчика', 'Тек. показания (день)', 'Тек. показания (ночь)']
+        self.header = ['id', 'Тип', 'Номер счетчика', 'Тек. показания (день)', 'Тек. показания (ночь)', 'Расход день',
+                       'Расход ночь']
         self.items = []
 
     def setItems(self, items):
@@ -214,7 +215,7 @@ class ElectricTableViewModel(QtCore.QAbstractTableModel):
         return len(self.items)
 
     def columnCount(self, *args, **kwargs) -> int:
-        return 5
+        return 7
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -232,6 +233,10 @@ class ElectricTableViewModel(QtCore.QAbstractTableModel):
                 return f'{elMeter.curDay}'
             if col == 4:
                 return f'{elMeter.curNight}'
+            if col == 5:
+                return  f'{int(elMeter.curDay) - int(elMeter.prev_day)}'
+            if col == 6:
+                return  f'{int(elMeter.curNight) - int(elMeter.prev_night)}'
             # как вариант - добавить сюда вывод информации о потребленной ЭЭ
             elif role == QtCore.Qt.TextAlignmentRole:
                 return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
