@@ -19,22 +19,21 @@ class Member_front(QtWidgets.QWidget):
         self.ui = ui.new_member.Ui_Form()
         self.ui.setupUi(self)
 
-        self.photoPath = None   # путь к фото
-        self.db = db         # сслыка на объект БД
+        self.photoPath = None  # путь к фото
+        self.db = db  # сслыка на объект БД
         self.member = Member()  #
         self.parentForm = None  # сслыка на форму вызова для возвращения добавленных объектов
 
         self.initUi()
 
-
     def initUi(self):
 
         self.resize(self.width(), 220)
-        #слоты
+        # слоты
         self.ui.photo_pushButton.clicked.connect(self.choosePhoto)
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.add_pushButton.clicked.connect(self.addPushBtnClk)
-        #валидаторы
+        # валидаторы
         self.ui.phone_lineEdit.setValidator(ui.validators.onlyNumValidator())
         self.ui.addPhone_lineEdit.setValidator(ui.validators.onlyNumValidator())
 
@@ -45,8 +44,8 @@ class Member_front(QtWidgets.QWidget):
             pix = QtGui.QPixmap(img_path)
             pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
             self.ui.photo_label.setPixmap(pix)
-            self.photoPath = img_path # todo здесь продумать как хранить фото: в БД или в отдельном каталоге, где имя файла = id пользователя
-                                        # во втором случае - написать функцию копирования файла в директорию после присвоения записи id
+            self.photoPath = img_path  # todo здесь продумать как хранить фото: в БД или в отдельном каталоге, где имя файла = id пользователя
+            # во втором случае - написать функцию копирования файла в директорию после присвоения записи id
 
     def addToBase(self):
         """Добавление записи о пользователе в базу"""
@@ -61,13 +60,12 @@ class Member_front(QtWidgets.QWidget):
                                                                second_phone=self.member.additPhone,
                                                                email=self.member.email,
                                                                voa=self.member.voa,
-                                                               adress=self.member.address,
+                                                               address=self.member.address,
                                                                photo=self.photoPath))
                 self.member.id = self.db.cursor.lastrowid
                 self.clearLineEdits()
             else:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TEXT_PLACE_NOT_FILL)
-
 
     def clearLineEdits(self):
         """Очистка формы"""
@@ -94,6 +92,7 @@ class Member_front(QtWidgets.QWidget):
                                                                               'photo',
                                                                               constants.DEFAULT_PHOTO_PASS + str(
                                                                                   self.db.cursor.lastrowid) + '.jpg'))
+
     def addPushBtnClk(self):
 
         """Проверка данных при нажатии 'Добавить' """
@@ -115,28 +114,26 @@ class Member_front(QtWidgets.QWidget):
             self.close()
 
 
-
-
 class FindMember_front(QtWidgets.QWidget):
     TB_NAME = 'garage_member'
+
     def __init__(self, db: db_work.Garage_DB, main_form: QtWidgets.QWidget, parent=None):
         super().__init__(parent)
         self.ui = ui.find_user.Ui_Form()
         self.ui.setupUi(self)
 
-        self.db = db          # сслыка на объект БД
+        self.db = db  # сслыка на объект БД
         self.member = Member()  #
         self.parentForm = main_form  # сслыка на форму вызова для возвращения добавленных объектов
-        self.addForm = None # ссылка на добавление нового члена
+        self.addForm = None  # ссылка на добавление нового члена
         self.addIdsUsers = []  # список id добавляемых пользователей
 
         self.initUi()
 
-
     def initUi(self):
 
         self.resize(self.width(), 220)
-        #слоты
+        # слоты
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.user_radioButton.clicked.connect(self.setEnableds)
         self.ui.object_radioButton.clicked.connect(self.setEnableds)
@@ -144,16 +141,16 @@ class FindMember_front(QtWidgets.QWidget):
         self.ui.userList_tableView.doubleClicked.connect(self.addToResultTable)
         self.ui.choose_pushButton.clicked.connect(self.addToMainForm)
 
-        #модель для результирующей таблицы
+        # модель для результирующей таблицы
         self.userModel = UsersTableViewModelLite()
         self.ui.result_tableView.setModel(self.userModel)
 
-        #модель для юзерлист
+        # модель для юзерлист
         self.userListModel = UsersTableViewModelLite()
         self.ui.userList_tableView.setModel(self.userListModel)
         self.ui.userList_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
 
-        #Автоматичкская подгонка столбцов по ширине
+        # Автоматичкская подгонка столбцов по ширине
         self.ui.userList_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.
                                                                            ResizeToContents)
         self.ui.result_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.
@@ -162,14 +159,13 @@ class FindMember_front(QtWidgets.QWidget):
         self.ui.object_radioButton.click()
         self.getUsersListFromDB()
 
-        #моментальное обновление userList_tableView после ввода символов
+        # моментальное обновление userList_tableView после ввода символов
         self.ui.surname_lineEdit.textChanged.connect(self.liveUpdateRequest)
         self.ui.name_lineEdit.textChanged.connect(self.liveUpdateRequest)
         self.ui.secondName_lineEdit.textChanged.connect(self.liveUpdateRequest)
         self.ui.phone_lineEdit.textChanged.connect(self.liveUpdateRequest)
         self.ui.number_lineEdit.textChanged.connect(self.liveUpdateRequest)
         self.ui.row_lineEdit.textChanged.connect(self.liveUpdateRequest)
-
 
     def liveUpdateRequest(self):
         """Заполнение таблицы существующих пользователей из БД"""
@@ -178,13 +174,13 @@ class FindMember_front(QtWidgets.QWidget):
             self.getUsersListFromDB()
         else:
             # готовим запрос исходя из выбора пользователя
-            if self.ui.user_radioButton.isChecked(): # поиск по введенным данным пользователя
+            if self.ui.user_radioButton.isChecked():  # поиск по введенным данным пользователя
                 sql = sqlite_qwer.sql_member_search(self.ui.surname_lineEdit.text(),
-                                                          self.ui.name_lineEdit.text(),
-                                                          self.ui.secondName_lineEdit.text(),
-                                                          self.ui.phone_lineEdit.text())
+                                                    self.ui.name_lineEdit.text(),
+                                                    self.ui.secondName_lineEdit.text(),
+                                                    self.ui.phone_lineEdit.text())
 
-            if self.ui.object_radioButton.isChecked(): # поиск по номеру объекта
+            if self.ui.object_radioButton.isChecked():  # поиск по номеру объекта
                 sql = sqlite_qwer.sql_get_members_by_ogject(row=self.ui.row_lineEdit.text(),
                                                             number=self.ui.number_lineEdit.text())
                 # получаем все id пользователей
@@ -193,13 +189,12 @@ class FindMember_front(QtWidgets.QWidget):
                     ids = []
                     for rec in records:
                         ids.append(rec[0])
-                        if len(rec)>1: ids.extend([int(i) for i in rec[1].split()])
+                        if len(rec) > 1: ids.extend([int(i) for i in rec[1].split()])
                     # теперь получаем всех пользователей по id из списка:
                     if not ids:
                         self.userListModel.resetData()
                         return  # если в базе нет записей для этого ряда или номера
                     sql = sqlite_qwer.sql_get_member_by_id_set(ids)
-
 
             if self.db.execute(sql) and self.db.cursor:
 
@@ -212,7 +207,7 @@ class FindMember_front(QtWidgets.QWidget):
 
     def setEnableds(self):
         """устанавливает или запрещает доступ к объектам интерфейса в зависимости от radioButton"""
-        flag_user= self.ui.user_radioButton.isChecked()
+        flag_user = self.ui.user_radioButton.isChecked()
         flag_obj = self.ui.object_radioButton.isChecked()
         # закрываем или открываем поиск по объекту
         self.ui.row_lineEdit.setEnabled(flag_obj)
@@ -240,7 +235,7 @@ class FindMember_front(QtWidgets.QWidget):
             if self.db.execute(sqlite_qwer.sql_get_all_active(self.TB_NAME)) and self.db.cursor:
                 users = self.db.cursor.fetchall()
                 for user in users:
-                    us_info = User_Info(user[0], f'{user[1]} {user[2]} {user[3]}', user[4], user[5], user[6])
+                    us_info = User_Info(user[0], f'{user[1]} {user[2]} {user[3]}', user[4], user[6], user[7])
                     self.userListModel.setItems(us_info)
 
     def addToResultTable(self):
@@ -263,14 +258,12 @@ class FindMember_front(QtWidgets.QWidget):
             if self.db.execute(sqlite_qwer.sql_get_member_by_id_set(ids)) and self.db.cursor:
                 users = self.db.cursor.fetchall()
                 for user in users:
-                    us_info = User_Info(user[0], f'{user[1]} {user[2]} {user[3]}', user[4], user[5], user[6])
+                    us_info = User_Info(user[0], f'{user[1]} {user[2]} {user[3]}', user[4], user[6], user[7])
                     self.parentForm.userModel.setItems(us_info)
                     self.parentForm.addRadioButtonToUsersTable()
                 self.close()
                 return
         ui.dialogs.onShowError(self, constants.ATTANTION_TITLE, constants.INFO_DATA_IS_EMPTY)
-
-
 
 
 @dataclass
@@ -287,6 +280,7 @@ class Member():
     email: str = ''
     voa: str = ''
 
+
 @dataclass
 class User_Info():
     """Класс для описания пользователя в табличку Карточка объекта"""
@@ -295,4 +289,4 @@ class User_Info():
     brDay: str = ''
     phone: str = ''
     addPhone: str = ''
-    role = '' # todo придумать механизм привязки роли (?) может через отдельный запрос к БД
+    role = ''  # todo придумать механизм привязки роли (?) может через отдельный запрос к БД

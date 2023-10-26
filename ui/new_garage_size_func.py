@@ -33,6 +33,7 @@ class AddGarageSize_front(QtWidgets.QWidget):
         self.ui.addSize_pushButton.clicked.connect(self.addGarageSize)
         self.ui.delSize_pushButton.clicked.connect(self. delGarageSize)
         self.ui.size_comboBox.currentIndexChanged.connect(self.itemChanged)
+        self.fillGarageSizeFromBase()
 
         self.ui.width_lineEdit.setValidator(ui.validators.floatValidator())
         self.ui.length_lineEdit.setValidator(ui.validators.floatValidator())
@@ -40,7 +41,7 @@ class AddGarageSize_front(QtWidgets.QWidget):
 
     def addGarageSize(self):
         """вызов окна для добавления размеров гаража"""
-        self.garageSize_form = AddSizeGarage_front()
+        self.garageSize_form = AddSizeGarage_front(db=self.db)
         self.garageSize_form.mainForm = self
         self.garageSize_form.db = self.db
         self.garageSize_form.show()

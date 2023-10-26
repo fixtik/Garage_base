@@ -118,7 +118,7 @@ def sql_get_one_record_by_id(table_name: str, id: int) -> str:
 
 # запросы по членам кооператива
 def sql_add_new_member(surname: str, first_name: str, birth_date: str, phone_main: str, voa: str,
-                       second_name:str ='', adress: str = '', second_phone:str = '',
+                       second_name:str ='', address: str = '', second_phone:str = '',
                        email:str = '', photo ='') -> str:
     """
     Добавление нового члена кооператива или арендатора
@@ -128,15 +128,15 @@ def sql_add_new_member(surname: str, first_name: str, birth_date: str, phone_mai
     :param phone_main: основной номер телефона
     :param voa: направление ВОА
     :param second_name: отчество (необязательно)
-    :param adress: адрес проживания (необязательно)
+    :param address: адрес проживания (необязательно)
     :param second_phone: запасной телефон (необязательно)
     :param email: адрес электронной почты (необязательно)
     :param photo: фотография (необязательно)
     :return: sql-запрос
     """
     return f"INSERT INTO garage_member (surname, first_name, second_name, birth_date, phone_main," \
-           f" phone_sec, adress, email, voa, photo) VALUES ('{surname}', '{first_name}', '{second_name}', '{birth_date}'," \
-           f"'{phone_main}', '{second_phone}', '{adress}', '{email}', '{voa}', '{photo}');"
+           f" phone_sec, address, email, voa, photo) VALUES ('{surname}', '{first_name}', '{second_name}', '{birth_date}'," \
+           f"'{phone_main}', '{second_phone}', '{address}', '{email}', '{voa}', '{photo}');"
 
 
 def sql_get_all_active(table_name: str) -> str:
@@ -160,7 +160,7 @@ def sql_update_field_by_table_name_and_id(table_name: str, rec_id: int, field: s
     :param new_value: новое значение
     :return: sql-запрос
     """
-    return f'UPDATE {table_name} SET {field} = {new_value} WHERE id={rec_id};'
+    return f'UPDATE {table_name} SET {field} = "{new_value}" WHERE id={rec_id};'
 
 
 def sql_delete_rec_by_table_name_and_id(table_name: str, rec_id: int) -> str:

@@ -20,7 +20,7 @@ class CarTableViewModel(QtCore.QAbstractTableModel):
         return len(self.items)
 
     def columnCount(self, *args, **kwargs) -> int:
-        return 3
+        return 5
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -34,6 +34,10 @@ class CarTableViewModel(QtCore.QAbstractTableModel):
                 return f'{car_info.mark}'
             if col == 2:
                 return f'{car_info.gos_num}'
+            if col == 3:
+                return f'{car_info.owner_id}'
+            if col == 4:
+                return f'{car_info.active}'
 
         elif role == QtCore.Qt.TextAlignmentRole:
             return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
@@ -45,7 +49,9 @@ class CarTableViewModel(QtCore.QAbstractTableModel):
             return {
                 0: 'id',
                 1: 'Марка',
-                2: 'Гос. номер'
+                2: 'Гос. номер',
+                3: 'Владелец',
+                4: 'Телефон'
             }.get(section)
 
 class ContribTableViewModel(QtCore.QAbstractTableModel):

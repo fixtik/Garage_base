@@ -17,7 +17,7 @@ SQL_CREATE_TABLE_GARAGE = 'CREATE TABLE IF NOT EXISTS "garage_obj" ( ' \
                           '	"electro220_id"	INTEGER DEFAULT 0,' \
                           '	"electro380_id"	INTEGER DEFAULT 0,' \
                           'FOREIGN KEY("owner_id") REFERENCES "garage_member"("id"),' \
-                          'FOREIGN KEY("size_type_id") REFERENCES "type_size"("id"),' \
+                          'FOREIGN KEY("size_type_id") REFERENCES "type_size"("id")' \
                           ');'
 # так как арендаторов может быть >1 => добавляем список id арендатора через пробел
 
