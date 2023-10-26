@@ -46,6 +46,7 @@ class AddGarageSize_front(QtWidgets.QWidget):
         self.updateDataFromDB()
         self.ui.size_comboBox.currentIndexChanged.connect(self.itemChanged)
 
+
     @staticmethod
     def fillGarageSizeFromBase(db: db_work.Garage_DB, comboBox: QtWidgets.QComboBox) -> list:
         """
@@ -75,6 +76,8 @@ class AddGarageSize_front(QtWidgets.QWidget):
 
     def itemChanged(self):
         """изменение данных в полях при изменении выбранной позиции"""
+        if not self.garage_ids:
+            return
         if self.ui.size_comboBox.currentIndex() == -1 or self.ui.ok_pushButton.text() == constants.BTN_TEXT_ADD:
             return
 
@@ -89,6 +92,8 @@ class AddGarageSize_front(QtWidgets.QWidget):
     def updateDataFromDB(self):
         """Обновление данных из БД для отображения в полях"""
         self.garage_ids = self.fillGarageSizeFromBase(self.db, self.ui.size_comboBox)[:]
+        # кнопка Изменить доступна только тогда, когда есть хоть одна запись в комбобоксе
+        self.ui.change_pushButton.setEnabled(self.ui.size_comboBox.count())
 
     def delGarageSize(self):
         """удаление размеров гаража из базы"""
@@ -112,14 +117,15 @@ class AddGarageSize_front(QtWidgets.QWidget):
             self.garage.height = self.ui.height_lineEdit.text()
             self.garage.comment = self.ui.comment_lineEdit.text()
 
-            if self.sender() == self.ui.ok_pushButton.text():
-
+            if self.sender() == self.ui.ok_pushButton:
+                # добавляем новый размер
                 sql = sqlite_qwer.sql_add_new_garage_size(float(self.ui.width_lineEdit.text().replace(',', '.')),
                                                             float(self.ui.length_lineEdit.text().replace(',', '.')),
                                                             float(self.ui.height_lineEdit.text().replace(',', '.')),
                                                             self.ui.comment_lineEdit.text())
                 ui.dialogs.onShowError(self, constants.INFO_TITLE, 'ADD')
             else:
+                # изменяем выбранный
                 sql = sqlite_qwer.sql_update_garage_size(self.garage_ids[self.ui.size_comboBox.currentIndex()],
                                                             float(self.ui.width_lineEdit.text().replace(',', '.')),
                                                             float(self.ui.length_lineEdit.text().replace(',', '.')),
@@ -129,6 +135,14 @@ class AddGarageSize_front(QtWidgets.QWidget):
 
             self.db.execute(sql)
             self.updateDataFromDB()
+
+    def close(self) -> bool:
+        if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
+            self.mainForm.updateDataFromDB()
+            super().close()
+            self.mainForm.destroyChildren()
+        else:
+            super().close()
 
 
 

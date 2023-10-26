@@ -197,8 +197,9 @@ class Cart_frontend(QtWidgets.QWidget):
         self.addSize.mainForm = self
         self.addSize.show()
 
-    def destroyChildren(self, sender):
-        sender = self.closeChildForm(self.sender())
+    def destroyChildren(self):
+        self.closeChildForm(self.sender())
+
 
     @staticmethod
     def closeChildForm(child: QtWidgets.QWidget):

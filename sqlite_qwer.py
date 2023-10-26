@@ -58,7 +58,7 @@ def sql_get_metr_id_by_num(num_metr: str) -> str:
     :param num_metr: номер-счетчика
     :return: sql-запрос
     """
-    return f'SELECT id FROM electric_meter WHERE num_metr = {num_metr});'
+    return f'SELECT id FROM electric_meter WHERE num_meter = "{num_metr}";'
 
 def sql_get_consumed_energi_by_id(metr_id: int) -> str:
     """
