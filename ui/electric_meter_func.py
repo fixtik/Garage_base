@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from PySide6 import QtCore, QtWidgets, QtGui
 
 import db_work
@@ -6,10 +8,12 @@ import sqlite_qwer
 import ui.dialogs
 import constants
 import ui.validators
+import ui.cart_functions
 
 
 class Electric_front(QtWidgets.QWidget):
-    def __init__(self, db, parent=None):
+    TABLE_NAME = "electric_meter"
+    def __init__(self, db, mainForm: QtWidgets.QWidget = None, parent=None):
         super().__init__(parent)
         self.ui = Ui_Form()
         self.ui.setupUi(self)
@@ -17,6 +21,7 @@ class Electric_front(QtWidgets.QWidget):
         self.db = db                # db-connector
         self.meter = None
         self.obj_id = None          # id объекта
+        self.mainForm = mainForm    # ссылка на главную форму
 
         self.initUi()
 
@@ -25,6 +30,7 @@ class Electric_front(QtWidgets.QWidget):
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.find_pushButton.clicked.connect(self.searchObj)
         self.ui.add_pushButton.clicked.connect(self.addPushBtnClk)
+        self.ui.meterNum_lineEdit.editingFinished.connect(self.getIdFromBase)
         # установка валидаторов
         self.ui.row_lineEdit.setValidator(ui.validators.onlyNumValidator())
         self.ui.garajeNum_lineEdit.setValidator(ui.validators.onlyNumValidator())
@@ -46,18 +52,12 @@ class Electric_front(QtWidgets.QWidget):
                 )):
                 id = self.db.cursor.fetchone()
                 if id:
-                    if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(constants.TABALE_NAMES[5], id=id[0])):
+                    if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(self.TABLE_NAME, id=id[0])):
                         record = self.db.cursor.fetchone()[0]
                         if record:
-                            meter = ElectricMeter()
-                            meter.id = record[0]
-                            meter.num_meter = record[1]
-                            meter.type = record[2]
-                            meter.prev_day = record[3]
-                            meter.prev_night = record[4]
-                            meter.day = record[5]
-                            meter.night = record[6]
-                            self.meter = meter
+                            self.meter = ElectricMeter(record[0], record[1],record[2],record[3],
+                                                       record[4],record[5], record[6])
+
                     self.fillFormPlace()
                 else:
                     ui.dialogs.onShowError(self, constants.INFO_TITLE, constants.INFO_NO_OBJECT)
@@ -85,51 +85,71 @@ class Electric_front(QtWidgets.QWidget):
             ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_NO_BASE_CONNECT)
             return
 
-        if not self.fillElectricMeterObj():
-            ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TEXT_PLACE_NOT_FILL)
-            return
-
         if not self.obj_id and self.ui.del_pushButton.isVisible():
             # если объект не указан спрашиваем о добавлении без привязки
             if not(ui.dialogs.onShowСonfirmation(self, constants.ATTANTION_TITLE,
                                                  constants.QUESTION_WRITE_EL_METER_WHITHOUT_OBJ)):
                 return
-        if not self.setDefaultValue():
+            # если счетчика в БД нет ->
+        if not self.meter and not (self.fillElectricMeterObj() and self.setDefaultValue()):
             ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TEXT_PLACE_NOT_FILL)
             return
+        if not self.meter.inBase:
+            if self.db.execute(sqlite_qwer.sql_add_electric_meter(
+                num_meter=self.meter.number,
+                cur_day=self.meter.curDay,
+                cur_night=self.meter.curNight,
+                pr_day=self.meter.prev_day,
+                pr_night=self.meter.prev_night)):
+                self.meter.id = self.db.cursor.lastrowid
+        # это нужно отсюда перенести в более подходящее место
+        # if self.meter.id and self.obj_id and self.ui.del_pushButton.isVisible():
+        #     field = 'electro220_id' if self.meter.type == '220' else 'electro380_id'
+        #     if self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(
+        #         table_name=constants.TABALE_NAMES[1],
+        #         rec_id=self.obj_id,
+        #         field=field,
+        #         new_value=self.meter.id)):
+        #         print('success')                # TODO добавить уведомление о прекрасном завершении операции
 
-        if self.db.execute(sqlite_qwer.sql_add_electric_meter(
-            num_meter=self.meter.num_meter,
-            cur_day=self.meter.day,
-            cur_night=self.meter.night,
-            pr_day=self.meter.prev_day,
-            pr_night=self.meter.prev_night)):
-            self.meter.id = self.db.cursor.lastrowid
-        if self.meter.id and self.obj_id:
-            field = 'electro220_id' if self.meter.type == '220' else 'electro380_id'
-            if self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(
-                table_name=constants.TABALE_NAMES[1],
-                rec_id=self.obj_id,
-                field=field,
-                new_value=self.meter.id)):
-                print('success')                # TODO добавить уведомление о прекрасном завершении операции
+        self.close()
 
+    def getIdFromBase(self):
+        """поиск счетчика по номеру, если есть в БД - заполняются данные"""
+        if self.db.execute(sqlite_qwer.sql_get_metr_id_by_num(self.ui.meterNum_lineEdit.text())) and self.db.cursor:
+            id = self.db.cursor.fetchone()
+            if not id:
+                self.meter = None
+                return None
+            if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=self.TABLE_NAME, id=id[0])):
+                rec = self.db.cursor.fetchone()
+                self.meter = ElectricMeter(rec[0], rec[1], rec[2], rec[3], rec[4], rec[5], rec[6])
+                self.meter.inBase = True
+                self.fillPlace()
 
-
+    def fillPlace(self):
+        """заполнение полей карточки если счетчик найден в БД"""
+        self.ui.meterType_comboBox.setCurrentIndex(0) if self.meter.type == 220 else \
+            self.ui.meterType_comboBox.setCurrentIndex(1)
+        self.ui.curDay_lineEdit.setText(str(self.meter.curDay))
+        self.ui.curNight_lineEdit.setText(str(self.meter.curNight))
+        # здесь пишем одинаковые значения, так как нет логики - зачем выводить предыдущие значения при внесении новых
+        self.ui.newDay_lineEdit.setText(str(self.meter.curDay))
+        self.ui.newNight_lineEdit.setText(str(self.meter.curNight))
 
 
     def fillElectricMeterObj(self) -> bool:
         """заполнение данных из формы"""
-        meter = ElectricMeter()
-        meter.num_meter = self.ui.meterNum_lineEdit.text()
-        if not meter.num_meter:
+        self.meter = ElectricMeter()
+        self.meter.number = self.ui.meterNum_lineEdit.text()
+        if not self.meter.number:
             return False
-        meter.type = self.ui.meterType_comboBox.itemText(self.ui.meterType_comboBox.currentIndex())
-        meter.prev_day = self.ui.curDay_lineEdit.text() if self.ui.curDay_lineEdit.text() else 0
-        meter.prev_night = self.ui.curNight_lineEdit.text() if self.ui.curNight_lineEdit.text() else 0
-        meter.day = self.ui.newDay_lineEdit.text() if self.ui.newDay_lineEdit.text() else 0
-        meter.night = self.ui.newNight_lineEdit.text() if self.ui.newNight_lineEdit.text() else 0
-        self.meter = meter
+        self.meter.type = self.ui.meterType_comboBox.itemText(self.ui.meterType_comboBox.currentIndex())
+        self.meter.prev_day = self.ui.curDay_lineEdit.text() if self.ui.curDay_lineEdit.text() else 0
+        self.meter.prev_night = self.ui.curNight_lineEdit.text() if self.ui.curNight_lineEdit.text() else 0
+        self.meter.curDay = self.ui.newDay_lineEdit.text() if self.ui.newDay_lineEdit.text() else 0
+        self.meter.curNight = self.ui.newNight_lineEdit.text() if self.ui.newNight_lineEdit.text() else 0
+
         return True
 
     def hideFindePlace(self, visible: bool = False):
@@ -157,15 +177,27 @@ class Electric_front(QtWidgets.QWidget):
         return int(self.ui.newDay_lineEdit.text()) >= int(self.ui.curDay_lineEdit.text()) and \
             int(self.ui.newNight_lineEdit.text()) >= int(self.ui.curNight_lineEdit.text())
 
+    def close(self) -> bool:
+        if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
+            if self.meter and self.sender() != self.ui.close_pushButton:
+                self.mainForm.elMeterModel.setItems(self.meter)
+            super().close()
+            self.mainForm.destroyChildren()
+        else:
+            super().close()
+
+
+
+@dataclass
 class ElectricMeter():
-    def __init__(self):
-        self.id = None
-        self.num_meter = None
-        self.type = None
-        self.prev_day = None
-        self.prev_night = None
-        self.day = None
-        self.night = None
+    id: str = ''
+    number: str = ''
+    type: str = ''
+    prev_day: str = ''
+    prev_night: str = ''
+    curDay: str = ''
+    curNight: str = ''
+    inBase: bool = False
 
 
 

@@ -7,257 +7,245 @@
     <x>0</x>
     <y>0</y>
     <width>357</width>
-    <height>281</height>
+    <height>224</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>15</y>
-     <width>341</width>
-     <height>56</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_4">
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout_5">
-      <item>
-       <widget class="QLabel" name="kindContrib_label_2">
-        <property name="text">
-         <string>Размеры гаража:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="kindContrib_comboBox_2"/>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
-       <widget class="QPushButton" name="addKind_pushButton_2">
-        <property name="maximumSize">
-         <size>
-          <width>25</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>+</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="delKind_pushButton_2">
-        <property name="maximumSize">
-         <size>
-          <width>25</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>-</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="verticalLayoutWidget_4">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>140</y>
-     <width>341</width>
-     <height>47</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="comment_verticalLayout_9">
-    <item>
-     <widget class="QLabel" name="commentContrib_label_2">
-      <property name="text">
-       <string>Комментарий:</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="commentContrib_lineEdit_2"/>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>80</y>
-     <width>341</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>16777215</width>
-     <height>51</height>
-    </size>
-   </property>
-   <layout class="QHBoxLayout" name="size_horizontalLayout_5">
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout_20">
-      <item>
-       <widget class="QLabel" name="sumContrib_label_2">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>21</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Ширина:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="sumContrib_lineEdit_2">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>20</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout_21">
-      <item>
-       <widget class="QLabel" name="sumContrib_label_3">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>21</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Длина:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="sumContrib_lineEdit_3">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>20</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout_23">
-      <item>
-       <widget class="QLabel" name="sumContrib_label_4">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>21</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Высота:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="sumContrib_lineEdit_5">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>20</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>230</y>
-     <width>341</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_11">
-    <item>
-     <spacer name="horizontalSpacer_7">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QPushButton" name="close_pushButton_5">
-      <property name="text">
-       <string>Закрыть</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="ok_pushButton_5">
-      <property name="text">
-       <string>Применить</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QLabel" name="size_label">
+         <property name="text">
+          <string>Размеры гаража:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="size_comboBox">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>30</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="delSize_pushButton">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>-</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="size_horizontalLayout_5">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_20">
+       <item>
+        <widget class="QLabel" name="sumContrib_label_2">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>21</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Ширина:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="width_lineEdit">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_21">
+       <item>
+        <widget class="QLabel" name="sumContrib_label_3">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>21</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Длина:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="length_lineEdit">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_23">
+       <item>
+        <widget class="QLabel" name="sumContrib_label_4">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>21</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Высота:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="height_lineEdit">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="comment_verticalLayout_9">
+     <item>
+      <widget class="QLabel" name="commentContrib_label_2">
+       <property name="text">
+        <string>Комментарий:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="comment_lineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_11">
+     <item>
+      <spacer name="horizontalSpacer_7">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ok_pushButton">
+       <property name="text">
+        <string>Добавить новый</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="change_pushButton">
+       <property name="text">
+        <string>Изменить</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="close_pushButton">
+       <property name="text">
+        <string>Закрыть</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <tabstops>
-  <tabstop>kindContrib_comboBox_2</tabstop>
-  <tabstop>addKind_pushButton_2</tabstop>
-  <tabstop>delKind_pushButton_2</tabstop>
-  <tabstop>sumContrib_lineEdit_2</tabstop>
-  <tabstop>sumContrib_lineEdit_3</tabstop>
-  <tabstop>sumContrib_lineEdit_5</tabstop>
-  <tabstop>commentContrib_lineEdit_2</tabstop>
-  <tabstop>close_pushButton_5</tabstop>
-  <tabstop>ok_pushButton_5</tabstop>
+  <tabstop>size_comboBox</tabstop>
+  <tabstop>delSize_pushButton</tabstop>
+  <tabstop>width_lineEdit</tabstop>
+  <tabstop>length_lineEdit</tabstop>
+  <tabstop>height_lineEdit</tabstop>
+  <tabstop>comment_lineEdit</tabstop>
+  <tabstop>close_pushButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

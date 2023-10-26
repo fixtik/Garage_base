@@ -58,7 +58,7 @@ def sql_get_metr_id_by_num(num_metr: str) -> str:
     :param num_metr: номер-счетчика
     :return: sql-запрос
     """
-    return f'SELECT id FROM electric_meter WHERE num_metr = {num_metr});'
+    return f'SELECT id FROM electric_meter WHERE num_meter = "{num_metr}";'
 
 def sql_get_consumed_energi_by_id(metr_id: int) -> str:
     """
@@ -190,7 +190,7 @@ def sql_add_new_car(mark: str, gos_num: str, owner_id: int) -> str:
     :param owner_id: id влядельца автомобиля
     :return: sql-запрос
     """
-    return f'INSERT INTO automobile (mark, gos_num, owner_id, active) VALUES ({mark}, {gos_num}, {owner_id}, "1");'
+    return f'INSERT INTO automobile (mark, gos_num, owner_id, active) VALUES ("{mark}", "{gos_num}", "{owner_id}", "1");'
 
 
 def sql_update_car(gos_num: str, new_mark: str, new_gos_num: str) -> str:

@@ -9,6 +9,7 @@ import ui.dialogs
 import ui.find_user
 import ui.new_member
 import ui.validators
+import ui.car_functions
 from ui.tableView_Models import *
 
 
@@ -22,9 +23,12 @@ class Member_front(QtWidgets.QWidget):
         self.photoPath = None  # путь к фото
         self.db = db  # сслыка на объект БД
         self.member = Member()  #
+        self.car = CarInfo
         self.parentForm = None  # сслыка на форму вызова для возвращения добавленных объектов
+        self.addCar_form = None
 
         self.initUi()
+
 
     def initUi(self):
 
@@ -33,9 +37,19 @@ class Member_front(QtWidgets.QWidget):
         self.ui.photo_pushButton.clicked.connect(self.choosePhoto)
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.add_pushButton.clicked.connect(self.addPushBtnClk)
+        self.ui.memberCarAdd_pushButton.clicked.connect(self.showAddCarForm)
         # валидаторы
         self.ui.phone_lineEdit.setValidator(ui.validators.onlyNumValidator())
         self.ui.addPhone_lineEdit.setValidator(ui.validators.onlyNumValidator())
+
+        self.carInDbModel = CarTableViewModel()
+        self.ui.autoMember_tableView.setModel(self.carInDbModel)
+
+    def showAddCarForm(self):
+        """открытие формы добавления авто"""
+        self.addCar_form = ui.car_functions.Car_frontend(self.db)
+        self.addCar_form.mainForm = self
+        self.addCar_form.show()
 
     def choosePhoto(self):
         """выбор фото на карточку"""
@@ -63,6 +77,11 @@ class Member_front(QtWidgets.QWidget):
                                                                address=self.member.address,
                                                                photo=self.photoPath))
                 self.member.id = self.db.cursor.lastrowid
+                cars = self.carInDbModel.returnItems()
+                for car in cars:
+                    self.db.execute(sqlite_qwer.sql_add_new_car(mark=str(car.mark),
+                                                                gos_num=str(car.gos_num),
+                                                                owner_id=int(self.member.id)))
                 self.clearLineEdits()
             else:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TEXT_PLACE_NOT_FILL)
@@ -75,8 +94,8 @@ class Member_front(QtWidgets.QWidget):
         self.ui.dateBirdth_dateEdit.clear()
         self.ui.phone_lineEdit.clear()
         self.ui.addPhone_lineEdit.clear()
-        self.ui.email_lineEdit.clear()
-        self.ui.voa_lineEdit.clear()
+        #self.ui.email_lineEdit.clear()
+        #self.ui.voa_lineEdit.clear()
         self.ui.address_lineEdit.clear()
 
     def move_photo(self):
@@ -102,8 +121,8 @@ class Member_front(QtWidgets.QWidget):
         self.member.birthday = self.ui.dateBirdth_dateEdit.date().toPython()
         self.member.phone = self.ui.phone_lineEdit.text()
         self.member.additPhone = self.ui.addPhone_lineEdit.text()
-        self.member.email = self.ui.email_lineEdit.text()
-        self.member.voa = self.ui.voa_lineEdit.text()
+        #self.member.email = self.ui.email_lineEdit.text()
+        #self.member.voa = self.ui.voa_lineEdit.text()
         self.member.address = self.ui.address_lineEdit.text()
         self.addToBase()
         self.move_photo()
@@ -280,6 +299,16 @@ class Member():
     email: str = ''
     voa: str = ''
 
+@dataclass
+class CarInfo:
+    """Класс с инфорамцией об авто"""
+    id: str = ''
+    own_id: str = ''
+    mark: str = ''
+    gos_num: str = ''
+    owner_id: str = ''
+    active: str = ''
+    inactive_date: str = ''
 
 @dataclass
 class User_Info():

@@ -23,7 +23,7 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(400, 300)
+        Form.resize(461, 262)
         self.verticalLayout_3 = QVBoxLayout(Form)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout = QVBoxLayout()
@@ -71,27 +71,10 @@ class Ui_Form(object):
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.horizontalLayout_3 = QHBoxLayout()
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.changeOwner_label = QLabel(Form)
-        self.changeOwner_label.setObjectName(u"changeOwner_label")
-        self.changeOwner_label.setMinimumSize(QSize(231, 31))
+        self.carInDb_tableView = QTableView(Form)
+        self.carInDb_tableView.setObjectName(u"carInDb_tableView")
 
-        self.horizontalLayout_3.addWidget(self.changeOwner_label)
-
-        self.changeOwner_lineEdit = QLineEdit(Form)
-        self.changeOwner_lineEdit.setObjectName(u"changeOwner_lineEdit")
-        self.changeOwner_lineEdit.setMinimumSize(QSize(0, 31))
-
-        self.horizontalLayout_3.addWidget(self.changeOwner_lineEdit)
-
-
-        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
-
-        self.changeOwner_tableView = QTableView(Form)
-        self.changeOwner_tableView.setObjectName(u"changeOwner_tableView")
-
-        self.verticalLayout_2.addWidget(self.changeOwner_tableView)
+        self.verticalLayout_2.addWidget(self.carInDb_tableView)
 
 
         self.verticalLayout_3.addLayout(self.verticalLayout_2)
@@ -127,7 +110,6 @@ class Ui_Form(object):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0430\u0432\u0442\u043e\u043c\u043e\u0431\u0438\u043b\u044f", None))
         self.carMark_label.setText(QCoreApplication.translate("Form", u"\u041c\u0430\u0440\u043a\u0430 \u0430\u0432\u0442\u043e:", None))
         self.gosNum_label.setText(QCoreApplication.translate("Form", u"\u0413\u043e\u0441. \u043d\u043e\u043c\u0435\u0440:", None))
-        self.changeOwner_label.setText(QCoreApplication.translate("Form", u"\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0441\u043e\u0431\u0441\u0442\u0432\u0435\u043d\u043d\u0438\u043a\u0430 \u0438\u0437 \u0441\u043f\u0438\u0441\u043a\u0430:", None))
         self.add_pushButton.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", None))
         self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
     # retranslateUi
