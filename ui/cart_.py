@@ -24,7 +24,7 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(913, 780)
+        Form.resize(913, 861)
         self.verticalLayout_10 = QVBoxLayout(Form)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
         self.horizontalLayout_13 = QHBoxLayout()
@@ -275,7 +275,7 @@ class Ui_Form(object):
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.electric_tableView = QTableView(self.garage_groupBox)
         self.electric_tableView.setObjectName(u"electric_tableView")
-        self.electric_tableView.setMaximumSize(QSize(16777215, 62))
+        self.electric_tableView.setMaximumSize(QSize(16777215, 95))
 
         self.horizontalLayout_6.addWidget(self.electric_tableView)
 
@@ -323,7 +323,6 @@ class Ui_Form(object):
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.users_tableView = QTableView(self.users_groupBox)
         self.users_tableView.setObjectName(u"users_tableView")
-        self.users_tableView.setMaximumSize(QSize(16777215, 100))
 
         self.horizontalLayout_3.addWidget(self.users_tableView)
 
@@ -371,7 +370,6 @@ class Ui_Form(object):
         self.verticalLayout_19.setObjectName(u"verticalLayout_19")
         self.auto_tableView = QTableView(self.car_groupBox)
         self.auto_tableView.setObjectName(u"auto_tableView")
-        self.auto_tableView.setMaximumSize(QSize(16777215, 62))
 
         self.verticalLayout_19.addWidget(self.auto_tableView)
 
@@ -496,7 +494,7 @@ class Ui_Form(object):
         self.row_label.setText(QCoreApplication.translate("Form", u"\u0420\u044f\u0434 \u2116", None))
         self.buildYear_label.setText(QCoreApplication.translate("Form", u"\u0413\u043e\u0434 \u043f\u043e\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
         self.buildingYear_dateEdit.setDisplayFormat(QCoreApplication.translate("Form", u"yyyy", None))
-        self.kadastr_label.setText(QCoreApplication.translate("Form", u"\u041a\u0430\u0434\u0430\u0441\u0442\u0440\u0440\u043e\u0432\u044b\u0439 \u043d\u043e\u043c\u0435\u0440", None))
+        self.kadastr_label.setText(QCoreApplication.translate("Form", u"\u041a\u0430\u0434\u0430\u0441\u0442\u0440\u043e\u0432\u044b\u0439 \u043d\u043e\u043c\u0435\u0440", None))
         self.width_label_2.setText(QCoreApplication.translate("Form", u"\u0420\u0430\u0437\u043c\u0435\u0440", None))
         self.addSize_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
         self.photo_label.setText(QCoreApplication.translate("Form", u"\u0424\u043e\u0442\u043e", None))

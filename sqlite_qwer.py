@@ -340,6 +340,17 @@ def sql_get_member_by_id_set(ids: str) -> str:
     """формирование запроса на получение данных пользователей по списку id"""
     return f'SELECT * FROM garage_member WHERE id IN ({ids})'
 
+def sql_gos_num_search(mark: str = '', gos_num: str = '', active: int = 1) -> str:
+    """Возвращает запрос для вывода автомобилей по номеру или марке"""
+    sql_string = f'SELECT * FROM automobile WHERE active = "{active}" AND '
+    if mark:
+        sql_string += f"mark LIKE '%{mark}%'"
+        if gos_num:
+            sql_string += ' AND '
+    if gos_num:
+        sql_string += f"gos_num LIKE '%{gos_num}%'"
+    sql_string += ';'
 
+    return sql_string
 
 

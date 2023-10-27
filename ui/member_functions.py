@@ -77,6 +77,7 @@ class Member_front(QtWidgets.QWidget):
                                                                address=self.member.address,
                                                                photo=self.photoPath))
                 self.member.id = self.db.cursor.lastrowid
+                print(self.member.id)
                 cars = self.carInDbModel.returnItems()
                 for car in cars:
                     self.db.execute(sqlite_qwer.sql_add_new_car(mark=str(car.mark),

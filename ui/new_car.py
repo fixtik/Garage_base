@@ -28,25 +28,6 @@ class Ui_Form(object):
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.carMark_label = QLabel(Form)
-        self.carMark_label.setObjectName(u"carMark_label")
-        self.carMark_label.setMinimumSize(QSize(80, 31))
-        self.carMark_label.setMaximumSize(QSize(16777215, 31))
-
-        self.horizontalLayout.addWidget(self.carMark_label)
-
-        self.carMark_lineEdit = QLineEdit(Form)
-        self.carMark_lineEdit.setObjectName(u"carMark_lineEdit")
-        self.carMark_lineEdit.setMinimumSize(QSize(0, 31))
-        self.carMark_lineEdit.setMaximumSize(QSize(16777215, 31))
-
-        self.horizontalLayout.addWidget(self.carMark_lineEdit)
-
-
-        self.verticalLayout.addLayout(self.horizontalLayout)
-
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.gosNum_label = QLabel(Form)
@@ -68,6 +49,25 @@ class Ui_Form(object):
 
 
         self.verticalLayout_3.addLayout(self.verticalLayout)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.carMark_label = QLabel(Form)
+        self.carMark_label.setObjectName(u"carMark_label")
+        self.carMark_label.setMinimumSize(QSize(80, 31))
+        self.carMark_label.setMaximumSize(QSize(16777215, 31))
+
+        self.horizontalLayout.addWidget(self.carMark_label)
+
+        self.carMark_lineEdit = QLineEdit(Form)
+        self.carMark_lineEdit.setObjectName(u"carMark_lineEdit")
+        self.carMark_lineEdit.setMinimumSize(QSize(0, 31))
+        self.carMark_lineEdit.setMaximumSize(QSize(16777215, 31))
+
+        self.horizontalLayout.addWidget(self.carMark_lineEdit)
+
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout)
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -108,8 +108,8 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0430\u0432\u0442\u043e\u043c\u043e\u0431\u0438\u043b\u044f", None))
-        self.carMark_label.setText(QCoreApplication.translate("Form", u"\u041c\u0430\u0440\u043a\u0430 \u0430\u0432\u0442\u043e:", None))
         self.gosNum_label.setText(QCoreApplication.translate("Form", u"\u0413\u043e\u0441. \u043d\u043e\u043c\u0435\u0440:", None))
+        self.carMark_label.setText(QCoreApplication.translate("Form", u"\u041c\u0430\u0440\u043a\u0430 \u0430\u0432\u0442\u043e:", None))
         self.add_pushButton.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", None))
         self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
     # retranslateUi
