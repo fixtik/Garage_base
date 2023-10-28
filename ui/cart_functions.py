@@ -169,9 +169,7 @@ class Cart_frontend(QtWidgets.QWidget):
         #гараж
         self.ui.row_lineEdit.setText('')
         self.ui.garage_lineEdit.setText('')
-        self.ui.len_lineEdit.setText('')
-        self.ui.width_lineEdit.setText('')
-        self.ui.hight_lineEdit.setText('')
+
         # собственник
 
         # авто
