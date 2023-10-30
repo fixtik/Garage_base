@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>913</width>
-    <height>780</height>
+    <height>861</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -187,7 +187,7 @@
                      </size>
                     </property>
                     <property name="text">
-                     <string>Кадастрровый номер</string>
+                     <string>Кадастровый номер</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -460,7 +460,7 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>62</height>
+              <height>95</height>
              </size>
             </property>
            </widget>
@@ -539,14 +539,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QTableView" name="users_tableView">
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>100</height>
-             </size>
-            </property>
-           </widget>
+           <widget class="QTableView" name="users_tableView"/>
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_37">
@@ -614,7 +607,7 @@
    <item>
     <widget class="QGroupBox" name="car_groupBox">
      <property name="title">
-      <string>Автомобиль:</string>
+      <string>Автомобили:</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_8">
       <item>
@@ -622,14 +615,7 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_19">
           <item>
-           <widget class="QTableView" name="auto_tableView">
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>62</height>
-             </size>
-            </property>
-           </widget>
+           <widget class="QTableView" name="auto_tableView"/>
           </item>
          </layout>
         </item>
@@ -673,6 +659,19 @@
              <string>-</string>
             </property>
            </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_12">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </item>

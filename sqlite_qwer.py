@@ -118,7 +118,7 @@ def sql_get_one_record_by_id(table_name: str, id: int) -> str:
 
 # запросы по членам кооператива
 def sql_add_new_member(surname: str, first_name: str, birth_date: str, phone_main: str, voa: str,
-                       second_name:str ='', adress: str = '', second_phone:str = '',
+                       second_name:str ='', address: str = '', second_phone:str = '',
                        email:str = '', photo ='') -> str:
     """
     Добавление нового члена кооператива или арендатора
@@ -128,15 +128,15 @@ def sql_add_new_member(surname: str, first_name: str, birth_date: str, phone_mai
     :param phone_main: основной номер телефона
     :param voa: направление ВОА
     :param second_name: отчество (необязательно)
-    :param adress: адрес проживания (необязательно)
+    :param address: адрес проживания (необязательно)
     :param second_phone: запасной телефон (необязательно)
     :param email: адрес электронной почты (необязательно)
     :param photo: фотография (необязательно)
     :return: sql-запрос
     """
     return f"INSERT INTO garage_member (surname, first_name, second_name, birth_date, phone_main," \
-           f" phone_sec, adress, email, voa, photo) VALUES ('{surname}', '{first_name}', '{second_name}', '{birth_date}'," \
-           f"'{phone_main}', '{second_phone}', '{adress}', '{email}', '{voa}', '{photo}');"
+           f" phone_sec, address, email, voa, photo) VALUES ('{surname}', '{first_name}', '{second_name}', '{birth_date}'," \
+           f"'{phone_main}', '{second_phone}', '{address}', '{email}', '{voa}', '{photo}');"
 
 
 def sql_get_all_active(table_name: str) -> str:
@@ -160,7 +160,7 @@ def sql_update_field_by_table_name_and_id(table_name: str, rec_id: int, field: s
     :param new_value: новое значение
     :return: sql-запрос
     """
-    return f'UPDATE {table_name} SET {field} = {new_value} WHERE id={rec_id};'
+    return f'UPDATE {table_name} SET {field} = "{new_value}" WHERE id={rec_id};'
 
 
 def sql_delete_rec_by_table_name_and_id(table_name: str, rec_id: int) -> str:
@@ -190,7 +190,7 @@ def sql_add_new_car(mark: str, gos_num: str, owner_id: int) -> str:
     :param owner_id: id влядельца автомобиля
     :return: sql-запрос
     """
-    return f'INSERT INTO automobile (mark, gos_num, owner_id, active) VALUES ({mark}, {gos_num}, {owner_id}, "1");'
+    return f'INSERT INTO automobile (mark, gos_num, owner_id, active) VALUES ("{mark}", "{gos_num}", "{owner_id}", "1");'
 
 
 def sql_update_car(gos_num: str, new_mark: str, new_gos_num: str) -> str:
@@ -340,6 +340,17 @@ def sql_get_member_by_id_set(ids: str) -> str:
     """формирование запроса на получение данных пользователей по списку id"""
     return f'SELECT * FROM garage_member WHERE id IN ({ids})'
 
+def sql_gos_num_search(mark: str = '', gos_num: str = '', active: int = 1) -> str:
+    """Возвращает запрос для вывода автомобилей по номеру или марке"""
+    sql_string = f'SELECT * FROM automobile WHERE active = "{active}" AND '
+    if mark:
+        sql_string += f"mark LIKE '%{mark}%'"
+        if gos_num:
+            sql_string += ' AND '
+    if gos_num:
+        sql_string += f"gos_num LIKE '%{gos_num}%'"
+    sql_string += ';'
 
+    return sql_string
 
 
