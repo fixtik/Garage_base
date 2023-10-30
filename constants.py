@@ -91,6 +91,8 @@ BD_SQL_CREATOR = [SQL_CREATE_TABLE_GARGE_MEMBER, SQL_CREATE_TABLE_ELECTRIC_METER
 
 TABALE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
                 'contribution_type', 'electric_meter', 'type_size']
+CAR_TABLE = 'automobile'
+OWNER_ID = 'owner_id'
 
 
 CONTRIB_WIN_EDIT_TITLE = 'Редактирование типа платежа'
