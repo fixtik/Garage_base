@@ -100,7 +100,8 @@ class Electric_front(QtWidgets.QWidget):
                 cur_day=self.meter.curDay,
                 cur_night=self.meter.curNight,
                 pr_day=self.meter.prev_day,
-                pr_night=self.meter.prev_night)):
+                pr_night=self.meter.prev_night,
+                type = self.meter.type)):
                 self.meter.id = self.db.cursor.lastrowid
         # это нужно отсюда перенести в более подходящее место
         # if self.meter.id and self.obj_id and self.ui.del_pushButton.isVisible():
@@ -116,7 +117,9 @@ class Electric_front(QtWidgets.QWidget):
 
     def getIdFromBase(self):
         """поиск счетчика по номеру, если есть в БД - заполняются данные"""
-        if self.db.execute(sqlite_qwer.sql_get_metr_id_by_num(self.ui.meterNum_lineEdit.text())) and self.db.cursor:
+        if self.db.execute(sqlite_qwer.sql_get_metr_id_by_num(self.ui.meterNum_lineEdit.text(),
+                           self.ui.meterType_comboBox.itemText(self.ui.meterType_comboBox.currentIndex()))) \
+                and self.db.cursor:
             id = self.db.cursor.fetchone()
             if not id:
                 self.meter = None
@@ -129,8 +132,7 @@ class Electric_front(QtWidgets.QWidget):
 
     def fillPlace(self):
         """заполнение полей карточки если счетчик найден в БД"""
-        self.ui.meterType_comboBox.setCurrentIndex(0) if self.meter.type == 220 else \
-            self.ui.meterType_comboBox.setCurrentIndex(1)
+
         self.ui.curDay_lineEdit.setText(str(self.meter.curDay))
         self.ui.curNight_lineEdit.setText(str(self.meter.curNight))
         # здесь пишем одинаковые значения, так как нет логики - зачем выводить предыдущие значения при внесении новых

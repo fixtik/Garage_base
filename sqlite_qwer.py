@@ -23,7 +23,8 @@ def create_db(path: str, db_name: str = DEFAULT_DB_NAME) -> bool:
         return False
 
 # Запросы на электросчетчик
-def sql_add_electric_meter(num_meter: str, cur_day: int, cur_night: int = 0, pr_day: int = 0 , pr_night: int = 0) -> str:
+def sql_add_electric_meter(num_meter: str, cur_day: int, cur_night: int = 0, pr_day: int = 0 , pr_night: int = 0,
+                           type: int = 220) -> str:
     """
     Запрос на добавление нового электросчетчика
     :param num_meter: номер электросчетчика
@@ -31,10 +32,11 @@ def sql_add_electric_meter(num_meter: str, cur_day: int, cur_night: int = 0, pr_
     :param cur_night: текущие ночные показания (по умолчанию 0)
     :param pr_day: предыдущие дневные показания (по умолчанию 0)
     :param pr_night: предыдущие ночные показания (по умолчанию 0)
+    :param type: тип счетчика
     :return: sql-запрос
     """
     return f'INSERT INTO electric_meter (num_meter, prev_day, prev_night,' \
-           f' day, night) VALUES ({num_meter}, {pr_day}, {pr_night}, {cur_day}, {cur_night});'
+           f' day, night, type) VALUES ({num_meter}, {pr_day}, {pr_night}, {cur_day}, {cur_night}, {type});'
 
 
 def sql_update_electric_meter_by_id(metr_id: int, cur_day: int, cur_night: int = 0) -> str:
@@ -52,13 +54,15 @@ def sql_update_electric_meter_by_id(metr_id: int, cur_day: int, cur_night: int =
            f'WHERE id = {metr_id};'
 
 
-def sql_get_metr_id_by_num(num_metr: str) -> str:
+def sql_get_metr_id_by_num(num_metr: str, type: str = 220) -> str:
     """
     Запрос на получение id счетчика по номеру счетчика
     :param num_metr: номер-счетчика
+    :param type: тип счетчика
     :return: sql-запрос
+
     """
-    return f'SELECT id FROM electric_meter WHERE num_meter = "{num_metr}";'
+    return f'SELECT id FROM electric_meter WHERE num_meter = "{num_metr}" and type = {type};'
 
 def sql_get_consumed_energi_by_id(metr_id: int) -> str:
     """
