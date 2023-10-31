@@ -17,7 +17,7 @@ class DBTableView(QtCore.QAbstractTableModel):
         self.items.clear()
         self.endResetModel()
 
-    def setItems(self, items):
+    def  setItems(self, items):
         self.beginResetModel()
         self.items.append(items)
         self.endResetModel()
