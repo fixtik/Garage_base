@@ -61,7 +61,7 @@ class Member_front(QtWidgets.QWidget):
             self.photoPath = img_path  # todo здесь продумать как хранить фото: в БД или в отдельном каталоге, где имя файла = id пользователя
             # во втором случае - написать функцию копирования файла в директорию после присвоения записи id
 
-    def addToBase(self):
+    def addToBase(self) -> bool:
         """Добавление записи о пользователе в базу"""
         if self.db:
             if self.member.name and self.member.surname and self.member.birthday and self.member.phone \
@@ -84,8 +84,11 @@ class Member_front(QtWidgets.QWidget):
                                                                 gos_num=str(car.gos_num),
                                                                 owner_id=int(self.member.id)))
                 self.clearLineEdits()
+                return True
             else:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TEXT_PLACE_NOT_FILL)
+
+        return False
 
     def clearLineEdits(self):
         """Очистка формы"""
@@ -114,7 +117,6 @@ class Member_front(QtWidgets.QWidget):
                                                                                   self.db.cursor.lastrowid) + '.jpg'))
 
     def addPushBtnClk(self):
-
         """Проверка данных при нажатии 'Добавить' """
         self.member.surname = self.ui.surname_lineEdit.text()
         self.member.name = self.ui.name_lineEdit.text()
@@ -125,13 +127,15 @@ class Member_front(QtWidgets.QWidget):
         self.member.email = self.ui.email_lineEdit.text()
         self.member.voa = self.ui.voa_lineEdit.text()
         self.member.address = self.ui.address_lineEdit.text()
-        self.addToBase()
-        self.move_photo()
+        if self.addToBase():
+            self.move_photo()
         # смотрим, кто вызывал
-        if isinstance(self.parentForm, FindMember_front):
-            userInfo = User_Info(self.member)
-            self.parentForm.userModel.setItems(userInfo)
-            self.close()
+            if isinstance(self.parentForm, FindMember_front):
+                userInfo = User_Info()
+                userInfo.memberToUserInfo(self.member)
+                self.parentForm.userModel.setItems(userInfo)
+                self.parentForm.addIdsUsers.append(userInfo.id)
+                self.close()
 
 
 class FindMember_front(QtWidgets.QWidget):
@@ -318,3 +322,10 @@ class User_Info():
     phone: str = ''
     addPhone: str = ''
     role = ''  # todo придумать механизм привязки роли (?) может через отдельный запрос к БД
+
+    def memberToUserInfo(self, member: Member):
+        self.id = member.id
+        self.fio = f'{member.surname} {member.name} {member.secondName}'
+        self.brDay = member.birthday
+        self.phone = member.phone
+        self.addPhone = member.additPhone

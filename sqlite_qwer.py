@@ -351,7 +351,7 @@ def sql_get_member_by_id_set(ids: str) -> str:
 
 def sql_select_cars_and_own_info_by_owner_id(ids: str):
     """запрос на выборку инфо об авто с данными собственника"""
-    return f"SELECT a.mark, " \
+    return f"SELECT a.id, a.mark, " \
            f" a.gos_num, " \
            f" garage_member.surname, " \
            f" garage_member.first_name, " \
