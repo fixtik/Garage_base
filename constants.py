@@ -104,10 +104,15 @@ ELECTRIC_HEIGHT_ADD = 170
 ERROR_TEXT_PLACE_NOT_FILL = 'Запоните все обязательные поля!'
 ERROR_SQL_QWERY = 'Ошибка выполнения запроса'
 ERROR_NO_BASE_CONNECT = 'Нет подключенной БД!'
+ERROR_NO_OWNER = 'Не выбран собственник для объекта!'
+ERROR_NO_DATA_OBJECT = 'Не заполнены данные об объекте!'
+ERROR_TOO_MANY_METERS = 'На объекте могут быть установлены только по одному счетчику разных типов'
 TITLE_SELECT_BD = "Выберите файл БД"
 
 INFO_DATA_IS_EMPTY = "Данных не обнаружено"
 INFO_NO_ELECTRIC_METER = 'Для данного объекта нет счетчика'
+INFO_NO_ELECTRIC_METER_TO_ADD = 'Вы не ввели данные по электросчетчику! \n ' \
+                                'Хотите ли внести сейчас, или сделаете это позже?'
 INFO_NO_OBJECT = "Объекта не обнаружено"
 
 INFO_TITLE = "Информация"
@@ -134,3 +139,6 @@ DEFAULT_PHOTO_PASS = os.getcwd() + '\\photo\\member\\'  # os.getcwd() - возв
 DEFAULT_BILLS_PASS = os.getcwd() + '\\photo\\bills\\'  # os.getcwd() - возвращает текущую директорию
 
 WINDOW_TITLE_ADD_SIZE = 'Редактирование типоразмеров'
+
+TYPE220 = 220
+TYPE380 = 380

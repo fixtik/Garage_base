@@ -40,9 +40,6 @@ class Cart_frontend(QtWidgets.QWidget):
 
         self.initUi()
 
-
-
-
     def initUi(self):
         """Инициализация интерфейса"""
         self.setMinimumWidth(1000)
@@ -82,7 +79,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.contribDel_pushButton.clicked.connect(self.delTbView)
         self.ui.userDel_pushButton.clicked.connect(self.delTbView)
         self.ui.electricDel_pushButton.clicked.connect(self.delTbView)
-        #self.ui.change_pushButton.clicked.connect()       # внесение изменений в БД
+        self.ui.change_pushButton.clicked.connect(self.addToBasePushBtnclck)       # внесение изменений в БД
 
         # валидаторы
         self.ui.garage_lineEdit.setValidator(ui.validators.onlyNumValidator())
@@ -224,6 +221,11 @@ class Cart_frontend(QtWidgets.QWidget):
         for indx in sorted(indxs):
             model.removeRow(indx.row())
 
+    @staticmethod
+    def getDataFromTableView(tv: QtWidgets.QTableView) -> DBTableView:
+        """возвращает данные из TableView"""
+        model = tv.model()
+        return model.items
 
     def delTbView(self):
         """удаление строки из таблицы"""
@@ -237,6 +239,39 @@ class Cart_frontend(QtWidgets.QWidget):
             self.delSelectRowFromTableView(self.ui.contrib_tableView)
         else:
             pass
+
+    def checkFillAllFields(self):
+        if not (self.owner_id):
+            ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_NO_OWNER)
+            return False
+        if not (self.ui.row_lineEdit.text() and self.ui.garage_lineEdit.text()):
+            ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_NO_DATA_OBJECT)
+            return False
+        if not (self.ui.electric_tableView.model().items):
+            if ui.dialogs.onShowСonfirmation(self, constants.INFO_TITLE, constants.INFO_NO_ELECTRIC_METER_TO_ADD):
+                return False
+        e_data = self.ui.electric_tableView.model().items
+        e220, e380 = None, None
+        for item in e_data: # Electric()
+            if item.type == constants.TYPE220 and not e220:
+                e220 = item.type
+            elif item.type == constants.TYPE380 and not e380:
+                e380 = item.type
+            else:
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TOO_MANY_METERS)
+                return False
+        return True
+
+    def addToBasePushBtnclck(self):
+        if self.checkFillAllFields():
+            if self.ui.change_pushButton.text() == constants.BTN_TEXT_ADD:
+                # формируем запросы на добавление
+                pass
+
+
+
+
+
 
 
     def get_selected_owner_id(self):
