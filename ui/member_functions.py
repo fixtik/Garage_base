@@ -10,6 +10,7 @@ import ui.find_user
 import ui.new_member
 import ui.validators
 import ui.car_functions
+import ui.cart_functions
 from ui.tableView_Models import *
 
 
@@ -38,12 +39,14 @@ class Member_front(QtWidgets.QWidget):
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.add_pushButton.clicked.connect(self.addPushBtnClk)
         self.ui.memberCarAdd_pushButton.clicked.connect(self.showAddCarForm)
+        self.ui.memberCarDel_pushButton.clicked.connect(self.delRowTV)
         # валидаторы
         self.ui.phone_lineEdit.setValidator(ui.validators.onlyNumValidator())
         self.ui.addPhone_lineEdit.setValidator(ui.validators.onlyNumValidator())
 
         self.carInDbModel = CarTableViewModel()
         self.ui.autoMember_tableView.setModel(self.carInDbModel)
+        self.ui.autoMember_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
 
     def showAddCarForm(self):
         """открытие формы добавления авто"""
@@ -137,6 +140,11 @@ class Member_front(QtWidgets.QWidget):
                 self.parentForm.addIdsUsers.append(userInfo.id)
                 self.close()
 
+    def delRowTV(self):
+        """удаление строки из таблицы с авто"""
+        ui.cart_functions.Cart_frontend.delSelectRowFromTableView(self.ui.autoMember_tableView)
+
+
 
 class FindMember_front(QtWidgets.QWidget):
     TB_NAME = 'garage_member'
@@ -168,6 +176,7 @@ class FindMember_front(QtWidgets.QWidget):
         # модель для результирующей таблицы
         self.userModel = UsersTableViewModelLite()
         self.ui.result_tableView.setModel(self.userModel)
+        self.ui.result_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
 
         # модель для юзерлист
         self.userListModel = UsersTableViewModelLite()
@@ -291,7 +300,7 @@ class FindMember_front(QtWidgets.QWidget):
                 if self.db.execute(sqlite_qwer.sql_select_cars_and_own_info_by_owner_id(ids)) and self.cursor():
                     cars = self.db.cursor.fetchall()
                     for car in cars:
-                        car_info = ui.car_functions.CarInfo(car[0], car[1], f'{car[2]} {car[3]} {car[4]}', car[5])
+                        car_info = ui.car_functions.CarInfo(car[0], car[1], car[2], f'{car[3]} {car[4]} {car[5]}', car[6])
                         self.parentForm.carModel.setItems(car_info)
                 self.close()
                 return

@@ -50,18 +50,21 @@ class Cart_frontend(QtWidgets.QWidget):
         #авто табличка
         self.carModel = CarTableViewModel()
         self.ui.auto_tableView.setModel(self.carModel)
+        self.ui.auto_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         #платежная табличка
         self.contribModel = ContribTableViewModel()
         self.ui.contrib_tableView.setModel(self.contribModel)
+        self.ui.contrib_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
 
         #пользовательская таблица
         self.userModel = UsersTableViewModel()
         self.ui.users_tableView.setModel(self.userModel)
+        self.ui.users_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
 
         #табличка счетчиков
         self.elMeterModel = ElectricTableViewModel()
         self.ui.electric_tableView.setModel(self.elMeterModel)
-
+        self.ui.electric_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
 
         # Обновление комбо бокса сразмерами гаража
         self.updateDataFromDB()              # заполнение данных типоразмера
@@ -74,6 +77,11 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.userAdd_pushButton.clicked.connect(self.showFindUserForm)           # добавление пользрователя
         self.ui.electricAdd_pushButton.clicked.connect(self.showElectricMetr)       # добавленее счетчика
         self.ui.addSize_pushButton.clicked.connect(self.showSizeEditorForm)
+
+        self.ui.carDel_pushButton.clicked.connect(self.delTbView)                   # удаление выделенной строки
+        self.ui.contribDel_pushButton.clicked.connect(self.delTbView)
+        self.ui.userDel_pushButton.clicked.connect(self.delTbView)
+        self.ui.electricDel_pushButton.clicked.connect(self.delTbView)
         #self.ui.change_pushButton.clicked.connect()       # внесение изменений в БД
 
         # валидаторы
@@ -208,7 +216,27 @@ class Cart_frontend(QtWidgets.QWidget):
             child.destroy()
             return None
 
+    @staticmethod
+    def delSelectRowFromTableView(tv: QtWidgets.QTableView):
+        """удаление выделенной строки """
+        model = tv.model()
+        indxs = tv.selectionModel().selectedRows()
+        for indx in sorted(indxs):
+            model.removeRow(indx.row())
 
+
+    def delTbView(self):
+        """удаление строки из таблицы"""
+        if self.sender().objectName() == self.ui.carDel_pushButton.objectName():
+            self.delSelectRowFromTableView(self.ui.auto_tableView)
+        elif self.sender().objectName() == self.ui.electricDel_pushButton.objectName():
+            self.delSelectRowFromTableView(self.ui.electric_tableView)
+        elif self.sender().objectName() == self.ui.userDel_pushButton.objectName():
+            self.delSelectRowFromTableView(self.ui.users_tableView)
+        elif self.sender().objectName() == self.ui.contribDel_pushButton.objectName():
+            self.delSelectRowFromTableView(self.ui.contrib_tableView)
+        else:
+            pass
 
 
     def get_selected_owner_id(self):

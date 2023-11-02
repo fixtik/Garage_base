@@ -1,15 +1,12 @@
 from PySide6 import QtCore, QtGui, QtWidgets
 
 
-
-class CarTableViewModel(QtCore.QAbstractTableModel):
-    """
-    Модель для отображения данных по автомобилям в TableView
-    """
+class DBTableView(QtCore.QAbstractTableModel):
+    """ Модель с для текущей БД"""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        self.items = []
+        self.header = []  # заголовки для столбцов
+        self.items = []   # данные для заполнения
 
     def returnItems(self):
         return self.items
@@ -19,16 +16,37 @@ class CarTableViewModel(QtCore.QAbstractTableModel):
         self.items.clear()
         self.endResetModel()
 
-    def  setItems(self, items):
+    def setItems(self, items):
         self.beginResetModel()
         self.items.append(items)
         self.endResetModel()
+
+    def removeRows(self, position, rows=1, index=QtCore.QModelIndex):
+        self.beginRemoveRows(QtCore.QModelIndex(), position, position + rows - 1)
+        self.items = self.items[:position] + self.items[position + rows:]
+        self.endRemoveRows()
+        return True
+
+    def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: QtCore.Qt.ItemDataRole):
+        """Заголовок таблицы: Марка Номер"""
+        if role == QtCore.Qt.ItemDataRole.DisplayRole and orientation == QtCore.Qt.Orientation.Horizontal:
+            return self.header[section]
 
     def rowCount(self, *args, **kwargs) -> int:
         return len(self.items)
 
     def columnCount(self, *args, **kwargs) -> int:
-        return 5
+        return len(self.header)
+
+
+class CarTableViewModel(DBTableView):
+    """
+    Модель для отображения данных по автомобилям в TableView
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.header = ['id', 'Марка', 'Гос. номер', 'Владелец', 'Телефон']
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -50,37 +68,14 @@ class CarTableViewModel(QtCore.QAbstractTableModel):
         elif role == QtCore.Qt.TextAlignmentRole:
             return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
-    def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: QtCore.Qt.ItemDataRole):
-        """Заголовок таблицы: Марка Номер"""
-        if role == QtCore.Qt.ItemDataRole.DisplayRole and orientation == QtCore.Qt.Orientation.Horizontal:
 
-            return {
-                0: 'id',
-                1: 'Марка',
-                2: 'Гос. номер',
-                3: 'Владелец',
-                4: 'Телефон'
-            }.get(section)
-
-class ContribTableViewModel(QtCore.QAbstractTableModel):
+class ContribTableViewModel(DBTableView):
     """
         Модель для отображения данных по платежам в TableView
         """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        self.items = []
-
-    def setItems(self, items):
-        self.beginResetModel()
-        self.items.append(items)
-        self.endResetModel()
-
-    def rowCount(self, *args, **kwargs) -> int:
-        return len(self.items)
-
-    def columnCount(self, *args, **kwargs) -> int:
-        return 5
+        self.header = ['id', 'Дата платежа', 'Вид платежа','Сумма платежа','Период оплаты']
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -103,45 +98,16 @@ class ContribTableViewModel(QtCore.QAbstractTableModel):
             return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
 
-    def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: QtCore.Qt.ItemDataRole):
-        """Заголовок таблицы: Марка Номер"""
-        if role == QtCore.Qt.ItemDataRole.DisplayRole and orientation == QtCore.Qt.Orientation.Horizontal:
 
-            return {
-                0: 'id',
-                1: 'Дата платежа',
-                2: 'Вид платежа',
-                3: 'Сумма платежа',
-                4: 'Период оплаты',
-            }.get(section)
 
-class UsersTableViewModel(QtCore.QAbstractTableModel):
+class UsersTableViewModel(DBTableView):
     """
         Модель для отображения данных по пользователям в TableView
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.header = ['id', 'ФИО', 'Дата рождения', 'Телефон', 'Доп. телефон', 'Собственник']
-        self.items = []
 
-    def returnItems(self):
-        return self.items
-
-    def resetData(self):
-        self.beginResetModel()
-        self.items.clear()
-        self.endResetModel()
-
-    def setItems(self, items):
-        self.beginResetModel()
-        self.items.append(items)
-        self.endResetModel()
-
-    def rowCount(self, *args, **kwargs) -> int:
-        return len(self.items)
-
-    def columnCount(self, *args, **kwargs) -> int:
-        return 6
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -165,22 +131,14 @@ class UsersTableViewModel(QtCore.QAbstractTableModel):
             return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
 
-    def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: QtCore.Qt.ItemDataRole):
-        """Заголовок таблицы: Марка Номер"""
-        if role == QtCore.Qt.ItemDataRole.DisplayRole and orientation == QtCore.Qt.Orientation.Horizontal:
-            return self.header[section]
-
-class UsersTableViewModelLite(UsersTableViewModel):
+class UsersTableViewModelLite(DBTableView):
     """
         Модель для отображения данных по пользователям в TableView
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.header = ['id', 'ФИО', 'Дата рождения', 'Телефон', 'Доп. телефон']
 
-        self.items = []
-
-    def columnCount(self, *args, **kwargs) -> int:
-        return 5
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -200,20 +158,7 @@ class UsersTableViewModelLite(UsersTableViewModel):
                 return f'{user_info.addPhone}'
 
 
-    def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: QtCore.Qt.ItemDataRole):
-        """Заголовок таблицы: Марка Номер"""
-        if role == QtCore.Qt.ItemDataRole.DisplayRole and orientation == QtCore.Qt.Orientation.Horizontal:
-
-            return {
-                0: 'id',
-                1: 'ФИО',
-                2: 'Дата рождения',
-                3: 'Телефон',
-                4: 'Доп. телефон',
-            }.get(section)
-
-
-class ElectricTableViewModel(QtCore.QAbstractTableModel):
+class ElectricTableViewModel(DBTableView):
     """
         Модель для отображения данных по счетчикам в TableView
     """
@@ -221,18 +166,6 @@ class ElectricTableViewModel(QtCore.QAbstractTableModel):
         super().__init__(*args, **kwargs)
         self.header = ['id', 'Тип', 'Номер счетчика', 'Тек. показания (день)', 'Тек. показания (ночь)', 'Расход день',
                        'Расход ночь']
-        self.items = []
-
-    def setItems(self, items):
-        self.beginResetModel()
-        self.items.append(items)
-        self.endResetModel()
-
-    def rowCount(self, *args, **kwargs) -> int:
-        return len(self.items)
-
-    def columnCount(self, *args, **kwargs) -> int:
-        return 7
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -258,9 +191,4 @@ class ElectricTableViewModel(QtCore.QAbstractTableModel):
             elif role == QtCore.Qt.TextAlignmentRole:
                 return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
-
-    def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: QtCore.Qt.ItemDataRole):
-        """Заголовок таблицы: Марка Номер"""
-        if role == QtCore.Qt.ItemDataRole.DisplayRole and orientation == QtCore.Qt.Orientation.Horizontal:
-            return self.header[section]
 
