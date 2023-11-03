@@ -36,7 +36,9 @@ class Cart_frontend(QtWidgets.QWidget):
         self.addElectric = None
         self.addSize = None
         self.owner_id = None  # id собственника объекта
-        self.garage_ids = []  # список id типоразмеров
+        self.garage_size_ids = []  # список id типоразмеров
+        self.e220, self.e380 = None, None # для id счетчиков
+        self.garage_id = None # id гаража
 
         self.initUi()
 
@@ -100,7 +102,7 @@ class Cart_frontend(QtWidgets.QWidget):
     def fillComboBox(self):
         """Заполнение данных о размере в комбобокс"""
         if self.db:
-            self.garage_ids = \
+            self.garage_size_ids = \
                 ui.new_garage_size_func.AddGarageSize_front.fillGarageSizeFromBase(self.db, self.ui.comboBox)[:]
 
 
@@ -110,7 +112,7 @@ class Cart_frontend(QtWidgets.QWidget):
         if self.ui.comboBox.currentIndex() == -1:
             return
         self.db.execute(sqlite_qwer.sql_get_one_record_by_id(ui.new_garage_size_func.AddGarageSize_front.TB_NAME,
-                                                             self.garage_ids[self.ui.comboBox.currentIndex()]))
+                                                             self.garage_size_ids[self.ui.comboBox.currentIndex()]))
         contrib = self.db.cursor.fetchall()
 
         self.ui.width_lineEdit.setText(str(contrib[0][1]))
@@ -251,23 +253,69 @@ class Cart_frontend(QtWidgets.QWidget):
             if ui.dialogs.onShowСonfirmation(self, constants.INFO_TITLE, constants.INFO_NO_ELECTRIC_METER_TO_ADD):
                 return False
         e_data = self.ui.electric_tableView.model().items
-        e220, e380 = None, None
+
         for item in e_data: # Electric()
-            if item.type == constants.TYPE220 and not e220:
-                e220 = item.type
-            elif item.type == constants.TYPE380 and not e380:
-                e380 = item.type
+            if item.type == constants.TYPE220 and not self.e220:
+                self.e220 = item.id
+            elif item.type == constants.TYPE380 and not self.e380:
+                self.e380 = item.id
             else:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TOO_MANY_METERS)
+                self.e380, self.e220 = None, None
                 return False
+
+        self.e220 = '0' if not self.e220 else self.e220
+        self.e380 = '0' if not self.e380 else self.e380
         return True
+
+    def add_garage(self) -> bool:
+        """добавление в БД данных об объекте"""
+        if self.db:
+            users = self.ui.users_tableView.model().items
+            arenda_ids = [str(user.id) for user in users if int(self.owner_id) != user.id]
+            sql = sqlite_qwer.sql_add_new_garage(row=self.ui.row_lineEdit.text(),
+                                                 num=self.ui.garage_lineEdit.text(),
+                                                 ownder_id=self.owner_id,
+                                                 size_id=self.garage_size_ids[self.ui.comboBox.currentIndex()],
+                                                 cr_year=self.ui.buildingYear_dateEdit.date().toPython(),
+                                                 arenda_ids=" ".join(arenda_ids),
+                                                 kadastr=self.ui.kadastr_lineEdit.text(),
+                                                 e220=self.e220,
+                                                 e380=self.e380)
+            if self.db.execute(sql) and self.db.cursor:
+                self.garage_id = self.db.cursor.lastrowid
+                return True
+        return False
+
+    def addContributionToBase(self) -> bool:
+        """добавление информации о платежах в БД"""
+        if self.db:
+            contribs = self.ui.contrib_tableView.model().items
+            for contr in contribs:
+                sql = sqlite_qwer.sql_add_new_contrib(
+                    id_garage=self.garage_id,
+                    id_cont=contr.kindPay,
+                    pay_date=contr.payDate,
+                    period_pay=contr.payPeriod,
+                    value=contr.value
+                )
+                if not(self.db.execute(sql)):
+                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
+                    return False
+            return True
+
 
     def addToBasePushBtnclck(self):
         if self.checkFillAllFields():
             if self.ui.change_pushButton.text() == constants.BTN_TEXT_ADD:
-                # формируем запросы на добавление
-                pass
+                # добавляем гараж
+                if self.add_garage():
+                    # добавляем платежи
+                    if self.addContributionToBase():
+                        ui.dialogs.onShowСonfirmation(self,"ok","ok")
 
+# Todo сделать проверку: если гараж с таким номером есть - выдать сообщение
+    # сдеать очистку формы и всех self в случае успешной записи в БД
 
 
 

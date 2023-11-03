@@ -105,8 +105,14 @@ def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = ' '
     :param comment: комментарий
     :return: sql-запрос
     """
-
     return f"INSERT INTO contribution_type (name, value, comment) VALUES ('{contrib_name}', {value}, '{comment}');"
+
+def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, period_pay: str, value: float) -> str:
+    """
+    формирование запроса для добавления платежа в БД
+    """
+    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, period_pay, value " \
+           f"({id_garage}, {id_cont}, '{pay_date}', '{period_pay}', {value});"
 
 def sql_update_contrib_type(contrib_id: int, value: float, comment: str = ' ') -> str:
     """
@@ -374,4 +380,24 @@ def sql_gos_num_search(mark: str = '', gos_num: str = '', active: int = 1) -> st
 
     return sql_string
 
+# --------------------------------------
+# запросы по гаражу
+def sql_add_new_garage(row: str, num: str, ownder_id: str, size_id: str, cr_year: str,
+                       arenda_ids: str ='', kadastr:str = '', e220: str = '0', e380: str ='0') -> str:
+    """
+    Формаирование запроса на добавление нового гаража
+    :param row: ряд
+    :param num: номер
+    :param ownder_id: идентификатор собственника
+    :param size_id: идентификатор размера
+    :param cr_year: год постройки
+    :param arenda_ids: список через пробел идентификаторов арендаторов
+    :param kadastr: кадастровый номер
+    :param e220: идентификатор счетчика 220 В
+    :param e380: идентификатор счетчика 380 В1
+    :return: sql-запрос
+    """
+    return f"INSERT INTO garage_obj (num_row, num_bild, kadastr_num, owner_id, arendator_id, size_type_id, " \
+           f"create_year, electro220_id, electro380_id) VALUES ({row}, {num}, '{kadastr}', {ownder_id}, " \
+           f"'{arenda_ids}', {size_id}, '{cr_year}', {e220}, {e380});"
 

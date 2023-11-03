@@ -104,6 +104,7 @@ ELECTRIC_HEIGHT_ADD = 170
 ERROR_TEXT_PLACE_NOT_FILL = 'Запоните все обязательные поля!'
 ERROR_SQL_QWERY = 'Ошибка выполнения запроса'
 ERROR_NO_BASE_CONNECT = 'Нет подключенной БД!'
+ERROR_ADD_BASE_ERR = "Ошибка при добавлении записи в БД!"
 ERROR_NO_OWNER = 'Не выбран собственник для объекта!'
 ERROR_NO_DATA_OBJECT = 'Не заполнены данные об объекте!'
 ERROR_TOO_MANY_METERS = 'На объекте могут быть установлены только по одному счетчику разных типов'
