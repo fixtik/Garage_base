@@ -27,6 +27,10 @@ class DBTableView(QtCore.QAbstractTableModel):
         self.endRemoveRows()
         return True
 
+    def clearItemData(self):
+        self.resetData()
+        return True
+
     def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: QtCore.Qt.ItemDataRole):
         """Заголовок таблицы: Марка Номер"""
         if role == QtCore.Qt.ItemDataRole.DisplayRole and orientation == QtCore.Qt.Orientation.Horizontal:

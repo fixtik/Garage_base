@@ -75,13 +75,14 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.contribAdd_pushButton.clicked.connect(self.showAddContribForm)      # добавление платежки
         self.ui.userAdd_pushButton.clicked.connect(self.showFindUserForm)           # добавление пользрователя
         self.ui.electricAdd_pushButton.clicked.connect(self.showElectricMetr)       # добавленее счетчика
-        self.ui.addSize_pushButton.clicked.connect(self.showSizeEditorForm)
+        self.ui.addSize_pushButton.clicked.connect(self.showSizeEditorForm)         # доабвление размеров
 
         self.ui.carDel_pushButton.clicked.connect(self.delTbView)                   # удаление выделенной строки
         self.ui.contribDel_pushButton.clicked.connect(self.delTbView)
         self.ui.userDel_pushButton.clicked.connect(self.delTbView)
         self.ui.electricDel_pushButton.clicked.connect(self.delTbView)
-        self.ui.change_pushButton.clicked.connect(self.addToBasePushBtnclck)       # внесение изменений в БД
+        self.ui.change_pushButton.clicked.connect(self.clearCartForm)  # внесение изменений в БД
+        #self.ui.change_pushButton.clicked.connect(self.addToBasePushBtnclck)       # внесение изменений в БД
 
         # валидаторы
         self.ui.garage_lineEdit.setValidator(ui.validators.onlyNumValidator())
@@ -304,22 +305,54 @@ class Cart_frontend(QtWidgets.QWidget):
                     return False
             return True
 
+    def checkGarageInDB(self) -> bool:
+        """проверка гаража в БД по ряду и номеру"""
+        sql = sqlite_qwer.sql_select_garaje_id_by_num_and_row(
+            garage_num=int(self.ui.garage_lineEdit.text()),
+            row=int(self.ui.row_lineEdit.text()))
+        if self.db.execute(sql):
+            id = self.db.cursor.fetchone()
+            if id:
+                return True
+            else:
+                return False
+
+        return -1
+
+    def clearCartForm(self):
+        """Очистка данных для заполнения сведений о следующем объекте"""
+        self.ui.row_lineEdit.clear()
+        self.ui.garage_lineEdit.clear()
+        self.ui.users_tableView.model().clearItemData()
+        self.ui.auto_tableView.model().clearItemData()
+        self.ui.contrib_tableView.model().clearItemData()
+        self.ui.electric_tableView.model().clearItemData()
+        self.ui.ownerPhone_lineEdit.clear()
+        self.ui.ownerFIO_lineEdit.clear()
+        self.photoPath, self.addCar_form, self.addContrib_form = None, None, None
+        self.addUser_form, self.addElectric, self.addSize = None, None, None
+        self.owner_id, self.e220, self.e380 = None, None, None
+        self.garage_id = None
+        self.ui.photo_label.clear()
 
     def addToBasePushBtnclck(self):
         if self.checkFillAllFields():
             if self.ui.change_pushButton.text() == constants.BTN_TEXT_ADD:
                 # добавляем гараж
-                if self.add_garage():
+                objInDb = self.checkGarageInDB()
+                if not objInDb: # если объекта в БД нет
+                    if self.add_garage():
                     # добавляем платежи
-                    if self.addContributionToBase():
-                        ui.dialogs.onShowСonfirmation(self,"ok","ok")
+                        if self.addContributionToBase():
+                            ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_ADDED)
+                            self.clearCartForm()
 
-# Todo сделать проверку: если гараж с таким номером есть - выдать сообщение
-    # сдеать очистку формы и всех self в случае успешной записи в БД
-
-
-
-
+                elif objInDb: # если обект уже в бд
+                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_OBJECT_ALREDY_EXIST}\n'
+                                                                        f'{constants.MESSAGE_CHECK_DATA}')
+                else: # если ошибка с подключением к БД
+                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_SQL_QWERY}\n'
+                                                                        f'{constants.MESSAGE_CHECK_DB_CONNECTIONS}')
 
 
     def get_selected_owner_id(self):
@@ -331,6 +364,7 @@ class Cart_frontend(QtWidgets.QWidget):
             self.owner_id = item.data()
 
 
+#todo добавление авто реализовано несколько странно
 
 
 

@@ -26,5 +26,10 @@ def onShowСonfirmation(parent, title: str, msg: str, *args) -> bool:
         return True
     return False
 
+def onShowOkMessage(parent, title: str, msg: str, *args):
+    """
+    вывод подтверждения об успешном выполнении задания
+    """
+    QtWidgets.QMessageBox.information(parent, title, msg, *args)
 
 
