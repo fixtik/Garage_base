@@ -138,6 +138,8 @@ FILTER_BD = '*.db'
 BTN_TEXT_ADD = 'Добавить'
 BTN_TEXT_CHANGE = "Изменить"
 
+LABLEL_TEXT_ADD_DBLCLCK = "Добавление - двойным кликом"
+
 TITLE_ADD_NEW = "Режим добавления нового объекта"
 
 DEFAULT_VALUE = '0'

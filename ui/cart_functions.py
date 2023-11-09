@@ -145,9 +145,14 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def showAddCarForm(self):
         """открытие формы добавления авто"""
-        self.addCar_form = ui.car_functions.Car_frontend(self.db)
-        self.addCar_form.mainForm = self
-        self.addCar_form.show()
+        users_id = self.getUsersIds()
+        if self.owner_id:
+            users_id.append(self.owner_id)
+        if users_id:
+            self.addCar_form = ui.car_functions.Car_frontend(self.db)
+            self.addCar_form.mainForm = self
+            self.addCar_form.addCarsByUsers(users_id)
+            self.addCar_form.show()
 
     def showAddContribForm(self):
         """открытие формы добавления платежа"""
@@ -269,11 +274,17 @@ class Cart_frontend(QtWidgets.QWidget):
         self.e380 = '0' if not self.e380 else self.e380
         return True
 
+    def getUsersIds(self) -> list:
+        """возвращает список с id пользователей объекта без id собственника """
+        users = self.ui.users_tableView.model().items
+        if self.owner_id:
+            return [str(user.id) for user in users if int(self.owner_id) != user.id]
+        return [str(user.id) for user in users]
+
     def add_garage(self) -> bool:
         """добавление в БД данных об объекте"""
         if self.db:
-            users = self.ui.users_tableView.model().items
-            arenda_ids = [str(user.id) for user in users if int(self.owner_id) != user.id]
+            arenda_ids = self.getUsersIds()
             sql = sqlite_qwer.sql_add_new_garage(row=self.ui.row_lineEdit.text(),
                                                  num=self.ui.garage_lineEdit.text(),
                                                  ownder_id=self.owner_id,
