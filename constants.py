@@ -156,6 +156,8 @@ BTN_TEXT_CHOOSE = "Выбрать"
 
 LABLEL_TEXT_ADD_DBLCLCK = "Добавление - двойным кликом"
 
+LABLEL_TEXT_ADD_DBLCLCK = "Добавление - двойным кликом"
+
 TITLE_ADD_NEW = "Режим добавления нового объекта"
 
 DEFAULT_VALUE = '0'
