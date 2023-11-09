@@ -92,6 +92,7 @@ BD_SQL_CREATOR = [SQL_CREATE_TABLE_GARGE_MEMBER, SQL_CREATE_TABLE_ELECTRIC_METER
 TABALE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
                 'contribution_type', 'electric_meter', 'type_size']
 CAR_TABLE = 'automobile'
+MEMBER_TABLE = 'garage_member'
 OWNER_ID = 'owner_id'
 
 
@@ -114,6 +115,7 @@ MESSAGE_CHECK_DATA = 'Проверьте корректность введенн
 MESSAGE_CHECK_DB_CONNECTIONS = 'Провкерьте подключение к БД'
 
 TITLE_SELECT_BD = "Выберите файл БД"
+TITLE_EDIT_MODE = 'Редактирование'
 ERROR_TITLE = "Ошибка!"
 
 INFO_DATA_IS_EMPTY = "Данных не обнаружено"
@@ -126,6 +128,7 @@ INFO_TITLE = "Информация"
 ATTANTION_TITLE = 'Внимание!'
 ATTANTION_ACCEPT = 'Подтверждение действия'
 INFO_SUCCESS_ADDED = 'Данные успешно добавлениы в БД'
+INFO_SUCCESS_CHANGED = 'Изменения успешно внесены в БД'
 
 QUESTION_WRITE_EL_METER_WHITHOUT_OBJ = 'Хотите добавить запись без привязки к объекту?'
 QUESTION_DELETE_TYPE_SIZE = "Вы уверены, что хотите удалить выбранный типоразмер гаража?"

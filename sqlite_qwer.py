@@ -222,6 +222,27 @@ def sql_update_car(gos_num: str, new_mark: str, new_gos_num: str) -> str:
     return f'UPDATE automobile SET mark = {new_mark}, gos_num = {new_gos_num}' \
            f'WHERE id = (SELECT id FROM automobile WHERE gos_num = {gos_num});'
 
+def sql_update_car_by_id(id: str, new_mark: str, new_gos_num: str) -> str:
+    """
+    Обновление марки и номера машины по id авто
+    :param id: id авто
+    :param new_mark: новая марка автомобиля
+    :param new_gos_num: новый гос номер автомобиля
+    :return: sql-запрос
+    """
+    return f"UPDATE automobile SET mark = '{new_mark}', gos_num = '{new_gos_num}'" \
+           f"WHERE id = {id};"
+
+def sql_set_inactive_car_by_id(id: str) -> str:
+    """
+    Перевод в неактивное состояние автомобиля по его id
+    :param gos_num: номер владельца автомобиля
+    :return: sql-запрос
+    """
+    return f'UPDATE  automobile ' \
+           f'SET active = 0, inactive_date = date() ' \
+           f'WHERE id = {id};'
+
 
 def sql_set_inactive_car(gos_num: str) -> str:
     """
@@ -255,7 +276,16 @@ def sql_get_car(gos_num: str) -> str:
     :param gos_num: гос номер автомобиля
     :return: sql-запрос
     """
-    return f'SELECT owner_id FROM automobile WHERE gos_num = {gos_num};'
+    return f"SELECT owner_id FROM automobile WHERE gos_num = '{gos_num}';"
+
+def sql_get_car_by_own_id(own_id: str, active = '1') -> str:
+    """
+    Вывод всех активных авто одного пользователя
+    :param own_id: id владельца авто
+    :param active: актуальное авто (1), архивное авто (0)
+    :return: sql-запрос
+    """
+    return f"SELECT * FROM automobile WHERE owner_id = '{own_id}'and active = {active};"
 
 def sql_select_garaje_id_by_num_and_row(garage_num: int, row: int) -> str:
     """
@@ -263,22 +293,44 @@ def sql_select_garaje_id_by_num_and_row(garage_num: int, row: int) -> str:
     """
     return f'SELECT id FROM garage_obj WHERE num_bild = {garage_num} and num_row = {row};'
 
+# это полное говно, так как искать постоянно не удобно
+# def sql_update_garage_member(surname: str, first_name: str, second_name: str, phone_main: str, change_pole: str, new_value: str) -> str:
+#     """
+#     Замена любого поля гаражного члена через id
+#     :param surname: фамилия пользователя
+#     :param first_name: имя пользователя
+#     :param second_name: отчество пользователя
+#     :param phone_main: телефон пользователя
+#     :param change_pole: изменяемое поле
+#     :param new_value: новое значение
+#     :return: sql-запрос
+#     """
+#     return f'UPDATE  garage_member ' \
+#            f'SET {change_pole} = {new_value} ' \
+#            f'WHERE id = (SELECT id FROM GARGE_MEMBER WHERE surname = {surname}, first_name = {first_name}, ' \
+#            f'second_name = {second_name}, phone_main = {phone_main});'
 
-def sql_update_garage_member(surname: str, first_name: str, second_name: str, phone_main: str, change_pole: str, new_value: str) -> str:
+def sql_update_garage_member(id: str, surname: str, first_name: str, birth_date: str, phone_main: str, voa: str,
+                       second_name: str = '', address: str = '', second_phone: str = '',
+                       email: str = '', photo: str = '') -> str:
     """
-    Замена любого поля гаражного члена через id
-    :param surname: фамилия пользователя
-    :param first_name: имя пользователя
-    :param second_name: отчество пользователя
-    :param phone_main: телефон пользователя
-    :param change_pole: изменяемое поле
-    :param new_value: новое значение
+    Редактирование члена кооператива или арендатора
+    :param id: идетификатор члена, которого редактируем
+    :param surname: фамилия
+    :param first_name: имя
+    :param birth_date: дата рождения
+    :param phone_main: основной номер телефона
+    :param voa: направление ВОА
+    :param second_name: отчество (необязательно)
+    :param address: адрес проживания (необязательно)
+    :param second_phone: запасной телефон (необязательно)
+    :param email: адрес электронной почты (необязательно)
+    :param photo: фото-путь (необязательно)
     :return: sql-запрос
     """
-    return f'UPDATE  garage_member ' \
-           f'SET {change_pole} = {new_value} ' \
-           f'WHERE id = (SELECT id FROM GARGE_MEMBER WHERE surname = {surname}, first_name = {first_name}, ' \
-           f'second_name = {second_name}, phone_main = {phone_main});'
+    return f"UPDATE garage_member SET surname = '{surname}', first_name = '{first_name}', second_name = '{second_name}'," \
+           f" birth_date = '{birth_date}', phone_main = '{phone_main}', phone_sec = '{second_phone}', " \
+           f"address = '{address}', email = '{email}', voa = '{voa}', photo = '{photo}' WHERE id={id};"
 
 def sql_update_garage(num_row: str, num_bild: str, change_pole: str, new_value: str) -> str:
     """

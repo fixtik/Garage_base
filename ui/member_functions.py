@@ -130,15 +130,96 @@ class Member_front(QtWidgets.QWidget):
         self.member.email = self.ui.email_lineEdit.text()
         self.member.voa = self.ui.voa_lineEdit.text()
         self.member.address = self.ui.address_lineEdit.text()
-        if self.addToBase():
-            self.move_photo()
-        # смотрим, кто вызывал
-            if isinstance(self.parentForm, FindMember_front):
-                userInfo = User_Info()
-                userInfo.memberToUserInfo(self.member)
-                self.parentForm.userModel.setItems(userInfo)
-                self.parentForm.addIdsUsers.append(userInfo.id)
+        if self.ui.add_pushButton.text() == constants.BTN_TEXT_ADD:
+            if self.addToBase():
+                self.move_photo()
+            # смотрим, кто вызывал
+                if isinstance(self.parentForm, FindMember_front):
+                    userInfo = User_Info()
+                    userInfo.memberToUserInfo(self.member)
+                    self.parentForm.userModel.setItems(userInfo)
+                    self.parentForm.addIdsUsers.append(userInfo.id)
+                    self.close()
+        else:
+            if self.changeRecordsInBd(self.member.id):
+                ui.dialogs.onShowOkMessage(self,constants.INFO_TITLE, constants.INFO_SUCCESS_CHANGED)
+                if isinstance(self.parentForm, ui.cart_functions.Cart_frontend):
+                    # забираем из главной формы id добавленных пользователей
+                    ids = ' ,'.join([str(user.id) for user in self.parentForm.userModel.items])
+                    if self.db.execute(sqlite_qwer.sql_select_cars_and_own_info_by_owner_id(ids)):
+                        cars = self.db.cursor.fetchall()
+                        for car in cars:
+                            car_info = ui.car_functions.CarInfo(car[0], car[1], car[2], f'{car[3]} {car[4]} {car[5]}',
+                                                                car[6])
+                            self.parentForm.carModel.clearItemData()
+                            self.parentForm.carModel.setItems(car_info)
                 self.close()
+            else:
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
+
+    def changeRecordsInBd(self, id: str) -> bool:
+        """вносит изменения в БД для члена"""
+        # изменения по данным пользователя
+        sql = sqlite_qwer.sql_update_garage_member(id=id,
+                                                   surname=self.member.surname,
+                                                   first_name=self.member.name,
+                                                   second_name=self.member.secondName,
+                                                   birth_date=self.member.birthday,
+                                                   phone_main=self.member.phone,
+                                                   second_phone=self.member.additPhone,
+                                                   email=self.member.email,
+                                                   voa=self.member.voa,
+                                                   address=self.member.address,
+                                                   photo=self.photoPath)
+        if self.db.execute(sql):
+            # собираем id машин, которые числились ранее за этим пользователем
+            if self.db.execute(sqlite_qwer.sql_get_car_by_own_id(id)):
+                old_cars_id = {car[0] for car in self.db.cursor.fetchall()}
+                new_cars_id = {car.id for car in self.ui.autoMember_tableView.model().items if car.id}
+                delete_cars = old_cars_id - new_cars_id
+                # удаляем старые авто
+                for car in delete_cars:
+                    self.db.execute(sqlite_qwer.sql_set_inactive_car_by_id(car))
+                # обновляем "старые" "новые авто"
+                cars = self.ui.autoMember_tableView.model().items
+                for car in cars:
+                    # если машина уже в БД - обновляем
+                    if car.id:
+                        self.db.execute(sqlite_qwer.sql_update_car_by_id(id=car.id, new_mark=car.mark,
+                                                                         new_gos_num=car.gos_num))
+                    else: # добавляем новое авто для пользователя
+                        self.db.execute(sqlite_qwer.sql_add_new_car(mark=car.mark, gos_num=car.gos_num, owner_id=id))
+
+            return True
+        return False
+
+    def changeFormPr(self, mem_id: str):
+        """подготовка формы к режиму редактирования данных пользователя"""
+        self.setWindowTitle(constants.TITLE_EDIT_MODE)
+        self.ui.add_pushButton.setText(constants.BTN_TEXT_CHANGE)
+        self.member.id = mem_id
+        self.fillFormFromBdById()
+
+    def fillFormFromBdById(self):
+        """заполнение полей с данными пользователя по id"""
+        if self.member.id:
+            if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(constants.MEMBER_TABLE, self.member.id)):
+                user = self.db.cursor.fetchone()
+                self.ui.surname_lineEdit.setText(user[1])
+                self.ui.name_lineEdit.setText(user[2])
+                self.ui.secondName_lineEdit.setText(user[3])
+                #self.ui.dateBirdth_dateEdit.setDate(user[4])
+                self.ui.address_lineEdit.setText(user[5])
+                self.ui.phone_lineEdit.setText(user[6])
+                self.ui.addPhone_lineEdit.setText(user[7])
+                self.ui.email_lineEdit.setText(user[8])
+                self.ui.voa_lineEdit.setText(user[9])
+                self.photoPath = user[12]
+            if self.db.execute(sqlite_qwer.sql_get_car_by_own_id(self.member.id)):
+                for car in self.db.cursor.fetchall():
+                    carInfo = ui.car_functions.CarInfo(car[0],car[1], car[2])
+                    self.carInDbModel.setItems(carInfo)
+
 
     def delRowTV(self):
         """удаление строки из таблицы с авто"""

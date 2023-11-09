@@ -59,6 +59,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.userModel = UsersTableViewModel()
         self.ui.users_tableView.setModel(self.userModel)
         self.ui.users_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.ui.users_tableView.doubleClicked.connect(self.showEditUserForm)
 
         #табличка счетчиков
         self.elMeterModel = ElectricTableViewModel()
@@ -186,6 +187,14 @@ class Cart_frontend(QtWidgets.QWidget):
     def showFindUserForm(self):
         """Открывает форму поиска члена кооператива"""
         self.addUser_form = ui.member_functions.FindMember_front(db=self.db, main_form=self)
+        self.addUser_form.show()
+
+    def showEditUserForm(self):
+        """Открывает форму редактирования данных о пользователе"""
+        self.addUser_form = ui.member_functions.Member_front(self.db)
+        self.addUser_form.parentForm = self
+        mem_id = (self.ui.users_tableView.model().items[self.ui.users_tableView.selectedIndexes()[0].row()]).id
+        self.addUser_form.changeFormPr(mem_id=mem_id)
         self.addUser_form.show()
 
     def addRadioButtonToUsersTable(self):
