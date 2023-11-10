@@ -253,6 +253,7 @@ class Cart_frontend(QtWidgets.QWidget):
         elif self.sender().objectName() == self.ui.electricDel_pushButton.objectName():
             self.delSelectRowFromTableView(self.ui.electric_tableView)
         elif self.sender().objectName() == self.ui.userDel_pushButton.objectName():
+            # при удалении пользователя - удаляем и сслыки на его id
             indx = self.ui.users_tableView.selectionModel().selectedRows()
             if indx:
                 if self.button_group.checkedId() == indx[0].row():
@@ -261,11 +262,22 @@ class Cart_frontend(QtWidgets.QWidget):
                     self.ui.ownerFIO_lineEdit.clear()
                     self.ui.photo_label.clear()
                     self.photoPath = ''
+            self.del_car_by_fio(self.userModel.items[indx[0].row()].fio)
             self.delSelectRowFromTableView(self.ui.users_tableView)
         elif self.sender().objectName() == self.ui.contribDel_pushButton.objectName():
             self.delSelectRowFromTableView(self.ui.contrib_tableView)
         else:
             pass
+
+    def del_car_by_fio(self, fio: str):
+        cars = []
+        for indx, item in enumerate(self.carModel.items):
+            if fio == item.fio:
+                cars.append(indx)
+        cars.sort(reverse=True)
+        for i in cars:
+            self.carModel.removeRow(i)
+
 
     def checkFillAllFields(self):
         if not (self.owner_id):
