@@ -39,6 +39,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.garage_size_ids = []  # список id типоразмеров
         self.e220, self.e380 = None, None # для id счетчиков
         self.garage_id = None # id гаража
+        self.button_group = None#QtWidgets.QButtonGroup(self)
 
         self.initUi()
 
@@ -199,15 +200,16 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def addRadioButtonToUsersTable(self):
         """Добавление RadioButton в user_tableView"""
-        button_group = QtWidgets.QButtonGroup(self)
+        self.button_group = QtWidgets.QButtonGroup(self)
+        self.button_group.buttonClicked.connect(self.get_selected_owner_id)
         for index in range(self.userModel.rowCount()):
             w = QtWidgets.QWidget()
             h_layout = QtWidgets.QHBoxLayout(w)
             h_layout.setContentsMargins(0, 0, 0, 0)
             radio_btn = QtWidgets.QRadioButton("", self)
-            radio_btn.clicked.connect(self.get_selected_owner_id)
+
             h_layout.addWidget(radio_btn, alignment=QtCore.Qt.AlignCenter)
-            button_group.addButton(radio_btn)
+            self.button_group.addButton(radio_btn, index)
             self.ui.users_tableView.setIndexWidget(self.ui.users_tableView.model().index(index,
                                                                                         self.userModel.columnCount()-1),
                                                                                          w)
@@ -251,6 +253,14 @@ class Cart_frontend(QtWidgets.QWidget):
         elif self.sender().objectName() == self.ui.electricDel_pushButton.objectName():
             self.delSelectRowFromTableView(self.ui.electric_tableView)
         elif self.sender().objectName() == self.ui.userDel_pushButton.objectName():
+            indx = self.ui.users_tableView.selectionModel().selectedRows()
+            if indx:
+                if self.button_group.checkedId() == indx[0].row():
+                    self.owner_id = ''
+                    self.ui.ownerPhone_lineEdit.clear()
+                    self.ui.ownerFIO_lineEdit.clear()
+                    self.ui.photo_label.clear()
+                    self.photoPath = ''
             self.delSelectRowFromTableView(self.ui.users_tableView)
         elif self.sender().objectName() == self.ui.contribDel_pushButton.objectName():
             self.delSelectRowFromTableView(self.ui.contrib_tableView)
@@ -377,11 +387,14 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def get_selected_owner_id(self):
         """изменение данных об id собственника для последующего внесения в БД"""
-        button = self.sender()
-        index = self.ui.users_tableView.indexAt(button.pos())
-        if index.isValid():
-            item = self.ui.users_tableView.model().index(index.row(), 0)
-            self.owner_id = item.data()
+        index = self.button_group.checkedId()
+        item = self.ui.users_tableView.model().items[index]
+        self.owner_id = item.id
+        self.ui.ownerFIO_lineEdit.setText(item.fio)
+        self.ui.ownerPhone_lineEdit.setText(item.phone)
+        # сюда бы фото...
+
+
 
 
 #todo добавление авто реализовано несколько странно
