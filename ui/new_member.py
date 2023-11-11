@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'new_member.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.3
+## Created by: Qt User Interface Compiler version 6.5.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -24,9 +24,10 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(707, 335)
-        self.verticalLayout_2 = QVBoxLayout(Form)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        Form.resize(707, 423)
+        Form.setMinimumSize(QSize(0, 423))
+        self.verticalLayout_4 = QVBoxLayout(Form)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout_5 = QHBoxLayout()
@@ -109,7 +110,7 @@ class Ui_Form(object):
         self.horizontalLayout.addLayout(self.verticalLayout)
 
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout)
+        self.verticalLayout_4.addLayout(self.horizontalLayout)
 
         self.horizontalLayout_8 = QHBoxLayout()
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
@@ -172,7 +173,50 @@ class Ui_Form(object):
         self.horizontalLayout_8.addLayout(self.verticalLayout_17)
 
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout_8)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_8)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.verticalLayout_2 = QVBoxLayout()
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.email_label = QLabel(Form)
+        self.email_label.setObjectName(u"email_label")
+        self.email_label.setMinimumSize(QSize(0, 31))
+        self.email_label.setMaximumSize(QSize(16777215, 31))
+        self.email_label.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_2.addWidget(self.email_label)
+
+        self.email_lineEdit = QLineEdit(Form)
+        self.email_lineEdit.setObjectName(u"email_lineEdit")
+        self.email_lineEdit.setMinimumSize(QSize(0, 31))
+
+        self.verticalLayout_2.addWidget(self.email_lineEdit)
+
+
+        self.horizontalLayout_3.addLayout(self.verticalLayout_2)
+
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.voa_label = QLabel(Form)
+        self.voa_label.setObjectName(u"voa_label")
+        self.voa_label.setMinimumSize(QSize(0, 31))
+        self.voa_label.setMaximumSize(QSize(16777215, 31))
+        self.voa_label.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_3.addWidget(self.voa_label)
+
+        self.voa_lineEdit = QLineEdit(Form)
+        self.voa_lineEdit.setObjectName(u"voa_lineEdit")
+        self.voa_lineEdit.setMinimumSize(QSize(0, 31))
+
+        self.verticalLayout_3.addWidget(self.voa_lineEdit)
+
+
+        self.horizontalLayout_3.addLayout(self.verticalLayout_3)
+
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_3)
 
         self.horizontalLayout_9 = QHBoxLayout()
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
@@ -190,7 +234,7 @@ class Ui_Form(object):
         self.horizontalLayout_9.addWidget(self.address_lineEdit)
 
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout_9)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_9)
 
         self.car_groupBox = QGroupBox(Form)
         self.car_groupBox.setObjectName(u"car_groupBox")
@@ -238,11 +282,11 @@ class Ui_Form(object):
         self.horizontalLayout_11.addLayout(self.horizontalLayout_19)
 
 
-        self.verticalLayout_2.addWidget(self.car_groupBox)
+        self.verticalLayout_4.addWidget(self.car_groupBox)
 
         self.verticalSpacer = QSpacerItem(20, 118, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_2.addItem(self.verticalSpacer)
+        self.verticalLayout_4.addItem(self.verticalSpacer)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
@@ -263,7 +307,7 @@ class Ui_Form(object):
         self.horizontalLayout_2.addWidget(self.close_pushButton)
 
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_2)
 
 
         self.retranslateUi(Form)
@@ -281,6 +325,8 @@ class Ui_Form(object):
         self.dateBirdth_label.setText(QCoreApplication.translate("Form", u"\u0414\u0430\u0442\u0430 \u0440\u043e\u0436\u0434\u0435\u043d\u0438\u044f", None))
         self.phone_label.setText(QCoreApplication.translate("Form", u"\u0422\u0435\u043b\u0435\u0444\u043e\u043d", None))
         self.addPhone_label.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u043f\u043e\u043b\u043d\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0442\u0435\u043b\u0435\u0444\u043e\u043d", None))
+        self.email_label.setText(QCoreApplication.translate("Form", u"email", None))
+        self.voa_label.setText(QCoreApplication.translate("Form", u"\u041d\u0430\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0412\u041e\u0410", None))
         self.address_label.setText(QCoreApplication.translate("Form", u"\u0410\u0434\u0440\u0435\u0441 \u043f\u0440\u043e\u0436\u0438\u0432\u0430\u043d\u0438\u044f:", None))
         self.car_groupBox.setTitle(QCoreApplication.translate("Form", u"\u0410\u0432\u0442\u043e\u043c\u043e\u0431\u0438\u043b\u0438:", None))
         self.memberCarAdd_pushButton.setText(QCoreApplication.translate("Form", u"+", None))

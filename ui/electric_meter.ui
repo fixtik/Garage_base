@@ -84,12 +84,12 @@
         <widget class="QComboBox" name="meterType_comboBox">
          <item>
           <property name="text">
-           <string>220 Вольт</string>
+           <string>220</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>380 Вольт</string>
+           <string>380</string>
           </property>
          </item>
         </widget>

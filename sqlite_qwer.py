@@ -23,7 +23,8 @@ def create_db(path: str, db_name: str = DEFAULT_DB_NAME) -> bool:
         return False
 
 # Запросы на электросчетчик
-def sql_add_electric_meter(num_meter: str, cur_day: int, cur_night: int = 0, pr_day: int = 0 , pr_night: int = 0) -> str:
+def sql_add_electric_meter(num_meter: str, cur_day: int, cur_night: int = 0, pr_day: int = 0 , pr_night: int = 0,
+                           type: int = 220) -> str:
     """
     Запрос на добавление нового электросчетчика
     :param num_meter: номер электросчетчика
@@ -31,10 +32,11 @@ def sql_add_electric_meter(num_meter: str, cur_day: int, cur_night: int = 0, pr_
     :param cur_night: текущие ночные показания (по умолчанию 0)
     :param pr_day: предыдущие дневные показания (по умолчанию 0)
     :param pr_night: предыдущие ночные показания (по умолчанию 0)
+    :param type: тип счетчика
     :return: sql-запрос
     """
     return f'INSERT INTO electric_meter (num_meter, prev_day, prev_night,' \
-           f' day, night) VALUES ({num_meter}, {pr_day}, {pr_night}, {cur_day}, {cur_night});'
+           f' day, night, type) VALUES ({num_meter}, {pr_day}, {pr_night}, {cur_day}, {cur_night}, {type});'
 
 
 def sql_update_electric_meter_by_id(metr_id: int, cur_day: int, cur_night: int = 0) -> str:
@@ -52,13 +54,14 @@ def sql_update_electric_meter_by_id(metr_id: int, cur_day: int, cur_night: int =
            f'WHERE id = {metr_id};'
 
 
-def sql_get_metr_id_by_num(num_metr: str) -> str:
+def sql_get_metr_id_by_num(num_metr: str, type: str = 220) -> str:
     """
     Запрос на получение id счетчика по номеру счетчика
     :param num_metr: номер-счетчика
+    :param type: тип счетчика
     :return: sql-запрос
     """
-    return f'SELECT id FROM electric_meter WHERE num_meter = "{num_metr}";'
+    return f'SELECT id FROM electric_meter WHERE num_meter = "{num_metr}" and type = {type};'
 
 def sql_get_consumed_energi_by_id(metr_id: int) -> str:
     """
@@ -110,11 +113,6 @@ def sql_update_contrib_type(contrib_id: int, value: float, comment: str = ' ') -
     """
     return f"UPDATE contribution_type SET value = {value}, comment = '{comment}' WHERE id = {contrib_id};"
 
-def sql_get_one_record_by_id(table_name: str, id: int) -> str:
-    """
-    возвращает одну запись по id
-    """
-    return f"SELECT * FROM {table_name} WHERE id = {id};"
 
 # запросы по членам кооператива
 def sql_add_new_member(surname: str, first_name: str, birth_date: str, phone_main: str, voa: str,
@@ -150,6 +148,19 @@ def sql_get_all_active(table_name: str) -> str:
 def sql_select_all_from_table(table_name: str) -> str:
     """выбор всех значений в таблице table_name"""
     return f"SELECT * FROM {table_name};"
+
+def sql_get_one_record_by_id(table_name: str, id: int) -> str:
+    """
+    возвращает одну запись по id
+    """
+    return f"SELECT * FROM {table_name} WHERE id = {id};"
+
+def sql_select_all_by_field_value(table_name: str, field_name: str, value: list) -> str:
+    """
+    возвращает одну запись по id
+    """
+    return f"SELECT * FROM {table_name} WHERE {field_name} IN ({value});"
+
 
 def sql_update_field_by_table_name_and_id(table_name: str, rec_id: int, field: str, new_value) -> str:
     """
@@ -339,6 +350,18 @@ def sql_get_members_by_ogject(row: int = 0, number: int = 0) -> str:
 def sql_get_member_by_id_set(ids: str) -> str:
     """формирование запроса на получение данных пользователей по списку id"""
     return f'SELECT * FROM garage_member WHERE id IN ({ids})'
+
+def sql_select_cars_and_own_info_by_owner_id(ids: str):
+    """запрос на выборку инфо об авто с данными собственника"""
+    return f"SELECT a.id, a.mark, " \
+           f" a.gos_num, " \
+           f" garage_member.surname, " \
+           f" garage_member.first_name, " \
+           f" garage_member.second_name, " \
+           f" garage_member.phone_main " \
+           f" FROM automobile as a " \
+           f" INNER JOIN garage_member ON garage_member.id = a.owner_id" \
+           f" WHERE a.active = 1 and garage_member.id IN ({ids});"
 
 def sql_gos_num_search(mark: str = '', gos_num: str = '', active: int = 1) -> str:
     """Возвращает запрос для вывода автомобилей по номеру или марке"""

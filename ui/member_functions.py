@@ -23,7 +23,7 @@ class Member_front(QtWidgets.QWidget):
         self.photoPath = None  # путь к фото
         self.db = db  # сслыка на объект БД
         self.member = Member()  #
-        self.car = CarInfo
+        self.car = None # для отображения авто пользователей
         self.parentForm = None  # сслыка на форму вызова для возвращения добавленных объектов
         self.addCar_form = None
 
@@ -61,7 +61,7 @@ class Member_front(QtWidgets.QWidget):
             self.photoPath = img_path  # todo здесь продумать как хранить фото: в БД или в отдельном каталоге, где имя файла = id пользователя
             # во втором случае - написать функцию копирования файла в директорию после присвоения записи id
 
-    def addToBase(self):
+    def addToBase(self) -> bool:
         """Добавление записи о пользователе в базу"""
         if self.db:
             if self.member.name and self.member.surname and self.member.birthday and self.member.phone \
@@ -84,8 +84,11 @@ class Member_front(QtWidgets.QWidget):
                                                                 gos_num=str(car.gos_num),
                                                                 owner_id=int(self.member.id)))
                 self.clearLineEdits()
+                return True
             else:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TEXT_PLACE_NOT_FILL)
+
+        return False
 
     def clearLineEdits(self):
         """Очистка формы"""
@@ -95,8 +98,8 @@ class Member_front(QtWidgets.QWidget):
         self.ui.dateBirdth_dateEdit.clear()
         self.ui.phone_lineEdit.clear()
         self.ui.addPhone_lineEdit.clear()
-        #self.ui.email_lineEdit.clear()
-        #self.ui.voa_lineEdit.clear()
+        self.ui.email_lineEdit.clear()
+        self.ui.voa_lineEdit.clear()
         self.ui.address_lineEdit.clear()
 
     def move_photo(self):
@@ -114,7 +117,6 @@ class Member_front(QtWidgets.QWidget):
                                                                                   self.db.cursor.lastrowid) + '.jpg'))
 
     def addPushBtnClk(self):
-
         """Проверка данных при нажатии 'Добавить' """
         self.member.surname = self.ui.surname_lineEdit.text()
         self.member.name = self.ui.name_lineEdit.text()
@@ -122,16 +124,18 @@ class Member_front(QtWidgets.QWidget):
         self.member.birthday = self.ui.dateBirdth_dateEdit.date().toPython()
         self.member.phone = self.ui.phone_lineEdit.text()
         self.member.additPhone = self.ui.addPhone_lineEdit.text()
-        #self.member.email = self.ui.email_lineEdit.text()
-        #self.member.voa = self.ui.voa_lineEdit.text()
+        self.member.email = self.ui.email_lineEdit.text()
+        self.member.voa = self.ui.voa_lineEdit.text()
         self.member.address = self.ui.address_lineEdit.text()
-        self.addToBase()
-        self.move_photo()
+        if self.addToBase():
+            self.move_photo()
         # смотрим, кто вызывал
-        if isinstance(self.parentForm, FindMember_front):
-            userInfo = User_Info(self.member)
-            self.parentForm.userModel.setItems(userInfo)
-            self.close()
+            if isinstance(self.parentForm, FindMember_front):
+                userInfo = User_Info()
+                userInfo.memberToUserInfo(self.member)
+                self.parentForm.userModel.setItems(userInfo)
+                self.parentForm.addIdsUsers.append(userInfo.id)
+                self.close()
 
 
 class FindMember_front(QtWidgets.QWidget):
@@ -264,23 +268,31 @@ class FindMember_front(QtWidgets.QWidget):
         for row in rows:
             row_data = []
             for column in range(self.ui.userList_tableView.model().columnCount()):
-                index = self.ui.userList_tableView.model().index(row, column)
-                row_data.append(index.data())
+                index = (self.ui.userList_tableView.model().index(row, column)).data()
+                row_data.append(index)
         if row_data[0] in self.addIdsUsers:  # если уже добавлялся - выходим
             return
         self.addIdsUsers.append(row_data[0])
         self.userModel.setItems(User_Info(row_data[0], row_data[1], row_data[2], row_data[3], row_data[4]))
 
     def addToMainForm(self):
+        """Действие по нажатию кнопки Выбрать"""
         if self.addIdsUsers and self.db:
             ids = [str(i) for i in self.addIdsUsers]
             ids = ",".join(ids)
+            # добаляем пользователей в таблицу
             if self.db.execute(sqlite_qwer.sql_get_member_by_id_set(ids)) and self.db.cursor:
                 users = self.db.cursor.fetchall()
                 for user in users:
                     us_info = User_Info(user[0], f'{user[1]} {user[2]} {user[3]}', user[4], user[6], user[7])
                     self.parentForm.userModel.setItems(us_info)
                     self.parentForm.addRadioButtonToUsersTable()
+                # теперь их авто:
+                if self.db.execute(sqlite_qwer.sql_select_cars_and_own_info_by_owner_id(ids)) and self.cursor():
+                    cars = self.db.cursor.fetchall()
+                    for car in cars:
+                        car_info = ui.car_functions.CarInfo(car[0], car[1], f'{car[2]} {car[3]} {car[4]}', car[5])
+                        self.parentForm.carModel.setItems(car_info)
                 self.close()
                 return
         ui.dialogs.onShowError(self, constants.ATTANTION_TITLE, constants.INFO_DATA_IS_EMPTY)
@@ -300,16 +312,6 @@ class Member():
     email: str = ''
     voa: str = ''
 
-@dataclass
-class CarInfo:
-    """Класс с инфорамцией об авто"""
-    id: str = ''
-    own_id: str = ''
-    mark: str = ''
-    gos_num: str = ''
-    owner_id: str = ''
-    active: str = ''
-    inactive_date: str = ''
 
 @dataclass
 class User_Info():
@@ -320,3 +322,10 @@ class User_Info():
     phone: str = ''
     addPhone: str = ''
     role = ''  # todo придумать механизм привязки роли (?) может через отдельный запрос к БД
+
+    def memberToUserInfo(self, member: Member):
+        self.id = member.id
+        self.fio = f'{member.surname} {member.name} {member.secondName}'
+        self.brDay = member.birthday
+        self.phone = member.phone
+        self.addPhone = member.additPhone

@@ -225,8 +225,8 @@ class Ui_Form(object):
         self.find_pushButton.setText(QCoreApplication.translate("Form", u"\u041d\u0430\u0439\u0442\u0438", None))
         self.meterType_label.setText(QCoreApplication.translate("Form", u"\u0422\u0438\u043f \u0441\u0447\u0435\u0442\u0447\u0438\u043a\u0430", None))
         self.meterNum_label.setText(QCoreApplication.translate("Form", u"\u041d\u043e\u043c\u0435\u0440 \u0441\u0447\u0435\u0442\u0447\u0438\u043a\u0430", None))
-        self.meterType_comboBox.setItemText(0, QCoreApplication.translate("Form", u"220 \u0412\u043e\u043b\u044c\u0442", None))
-        self.meterType_comboBox.setItemText(1, QCoreApplication.translate("Form", u"380 \u0412\u043e\u043b\u044c\u0442", None))
+        self.meterType_comboBox.setItemText(0, QCoreApplication.translate("Form", u"220", None))
+        self.meterType_comboBox.setItemText(1, QCoreApplication.translate("Form", u"380", None))
 
         self.meterValues_label.setText(QCoreApplication.translate("Form", u"\u041f\u043e\u043a\u0430\u0437\u0430\u043d\u0438\u044f:", None))
         self.curDay_label.setText(QCoreApplication.translate("Form", u"\u0422\u0435\u043a\u0443\u0449\u0438\u0435 \u0434\u0435\u043d\u044c ", None))
