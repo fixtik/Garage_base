@@ -110,6 +110,8 @@ class Member_front(QtWidgets.QWidget):
         if not os.path.isdir(constants.DEFAULT_PHOTO_PASS):  # Проверяем создана директория или нет.
             os.makedirs(constants.DEFAULT_PHOTO_PASS, mode=0o777)  # Создаем директорию.
         if self.photoPath is not None:
+            if os.path.exists(constants.DEFAULT_PHOTO_PASS + str(self.db.cursor.lastrowid) + '.jpg'):
+                os.remove(constants.DEFAULT_PHOTO_PASS + str(self.db.cursor.lastrowid) + '.jpg')
             shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_PASS + str(
                 self.db.cursor.lastrowid) + '.jpg')  # Перемещаем фотографию и сразу переименовываем
             # Обновляем путь в бд после переноса фотографии
