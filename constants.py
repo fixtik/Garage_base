@@ -92,6 +92,7 @@ BD_SQL_CREATOR = [SQL_CREATE_TABLE_GARGE_MEMBER, SQL_CREATE_TABLE_ELECTRIC_METER
 TABALE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
                 'contribution_type', 'electric_meter', 'type_size']
 CAR_TABLE = 'automobile'
+MEMBER_TABLE = 'garage_member'
 OWNER_ID = 'owner_id'
 
 
@@ -104,16 +105,30 @@ ELECTRIC_HEIGHT_ADD = 170
 ERROR_TEXT_PLACE_NOT_FILL = 'Запоните все обязательные поля!'
 ERROR_SQL_QWERY = 'Ошибка выполнения запроса'
 ERROR_NO_BASE_CONNECT = 'Нет подключенной БД!'
+ERROR_ADD_BASE_ERR = "Ошибка при добавлении записи в БД!"
+ERROR_NO_OWNER = 'Не выбран собственник для объекта!'
+ERROR_NO_DATA_OBJECT = 'Не заполнены данные об объекте!'
+ERROR_TOO_MANY_METERS = 'На объекте могут быть установлены только по одному счетчику разных типов'
+ERROR_OBJECT_ALREDY_EXIST = 'Объект уже существует в БД!'
+
+MESSAGE_CHECK_DATA = 'Проверьте корректность введенных данных'
+MESSAGE_CHECK_DB_CONNECTIONS = 'Провкерьте подключение к БД'
+
 TITLE_SELECT_BD = "Выберите файл БД"
+TITLE_EDIT_MODE = 'Редактирование'
+ERROR_TITLE = "Ошибка!"
 
 INFO_DATA_IS_EMPTY = "Данных не обнаружено"
 INFO_NO_ELECTRIC_METER = 'Для данного объекта нет счетчика'
+INFO_NO_ELECTRIC_METER_TO_ADD = 'Вы не ввели данные по электросчетчику! \n ' \
+                                'Хотите ли внести сейчас, или сделаете это позже?'
 INFO_NO_OBJECT = "Объекта не обнаружено"
 
 INFO_TITLE = "Информация"
 ATTANTION_TITLE = 'Внимание!'
 ATTANTION_ACCEPT = 'Подтверждение действия'
-ERROR_TITLE = "Ошибка!"
+INFO_SUCCESS_ADDED = 'Данные успешно добавлениы в БД'
+INFO_SUCCESS_CHANGED = 'Изменения успешно внесены в БД'
 
 QUESTION_WRITE_EL_METER_WHITHOUT_OBJ = 'Хотите добавить запись без привязки к объекту?'
 QUESTION_DELETE_TYPE_SIZE = "Вы уверены, что хотите удалить выбранный типоразмер гаража?"
@@ -126,6 +141,8 @@ FILTER_BD = '*.db'
 BTN_TEXT_ADD = 'Добавить'
 BTN_TEXT_CHANGE = "Изменить"
 
+LABLEL_TEXT_ADD_DBLCLCK = "Добавление - двойным кликом"
+
 TITLE_ADD_NEW = "Режим добавления нового объекта"
 
 DEFAULT_VALUE = '0'
@@ -134,3 +151,6 @@ DEFAULT_PHOTO_PASS = os.getcwd() + '\\photo\\member\\'  # os.getcwd() - возв
 DEFAULT_BILLS_PASS = os.getcwd() + '\\photo\\bills\\'  # os.getcwd() - возвращает текущую директорию
 
 WINDOW_TITLE_ADD_SIZE = 'Редактирование типоразмеров'
+
+TYPE220 = 220
+TYPE380 = 380

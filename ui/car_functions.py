@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from PySide6 import QtCore, QtWidgets, QtGui
 
+import constants
 import db_work
 import sqlite_qwer
 from ui.new_car import Ui_Form
@@ -22,20 +23,26 @@ class Car_frontend(QtWidgets.QWidget):
         self.mainForm = None
         self.carInfo = CarInfo()
         self.memberInfo = MemberInfo()
+        self.addFlag = False            # флаг для dblclick по carTV
+
         self.initUi()
 
     def initUi(self):
 
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.add_pushButton.clicked.connect(self.add_car)
-
+        self.ui.carInDb_tableView.doubleClicked.connect(self.addToMainFormByDblClck)
         # модель для changeOwner_tableView
         self.carInDbModel = CarTableViewModel()
         self.ui.carInDb_tableView.setModel(self.carInDbModel)
+        self.ui.carInDb_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+
 
         # Автоматичкская подгонка столбцов по ширине
         self.ui.carInDb_tableView.horizontalHeader().setSectionResizeMode(
             QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+
+
         self.getCarsFromDB()
 
         # моментальное обновление carInDb_tableView после ввода символов
@@ -62,11 +69,44 @@ class Car_frontend(QtWidgets.QWidget):
                     cars_info = CarInfo(car[0], car[1], car[2], f'{member[1]} {member[2]} {member[3]}', member[6])
                     self.carInDbModel.setItems(cars_info)
 
+    def getUsersCarsFromBbByListID(self, ids: list) -> bool:
+        """Заполнение доступных к выбору авто по id пользователей объекта"""
+        if self.db:
+            if self.db.execute(sqlite_qwer.sql_select_cars_and_own_info_by_owner_id(ids=', '.join(ids))):
+                cars = self.db.cursor.fetchall()
+                for car in cars:
+                    cars_info = CarInfo(car[0], car[1], car[2], f'{car[3]} {car[4]} {car[5]}', car[6])
+                    self.carInDbModel.setItems(cars_info)
+                return True
+        return False
+
+    def addToMainFormByDblClck(self):
+        """перенос данных в основную форму по двойному клику"""
+        if self.addFlag:
+            data = self.ui.carInDb_tableView.model().items[self.ui.carInDb_tableView.selectedIndexes()[0].row()]
+            if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
+                already_id = [car.id for car in self.mainForm.ui.auto_tableView.model().items]
+                if not(data.id in already_id):
+                    self.mainForm.ui.auto_tableView.model().setItems(data)
+
+    def addCarsByUsers(self, ids: list):
+        """подготовка интерфейса для добавления авто по пользователям"""
+        self.addFlag = True
+        self.carInDbModel.clearItemData()
+        self.ui.carMark_lineEdit.setVisible(False)
+        self.ui.carMark_label.setVisible(False)
+        self.ui.gosNum_lineEdit.setVisible(False)
+        self.ui.add_pushButton.setVisible(False)
+        self.ui.gosNum_label.setText(constants.LABLEL_TEXT_ADD_DBLCLCK)
+        self.getUsersCarsFromBbByListID(ids)
+
+
+
+
     def getCarsFromDB(self):
         """Заполнение таблицы существующих пользователей из БД"""
         if self.db:
-            self.db.execute(sqlite_qwer.sql_get_all_active(self.TB_NAME))
-            if self.db.cursor:
+            if self.db.execute(sqlite_qwer.sql_get_all_active(self.TB_NAME)):
                 cars = self.db.cursor.fetchall()
                 self.carInDbModel.resetData()
                 for car in cars:
@@ -75,6 +115,7 @@ class Car_frontend(QtWidgets.QWidget):
                     for member in members:
                         cars_info = CarInfo(car[0], car[1], car[2], f'{member[1]} {member[2]} {member[3]}', member[6])
                         self.carInDbModel.setItems(cars_info)
+
 
     def add_car(self):
         if not self.ui.carMark_lineEdit.text():
