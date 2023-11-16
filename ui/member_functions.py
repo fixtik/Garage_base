@@ -146,6 +146,19 @@ class Member_front(QtWidgets.QWidget):
                 if isinstance(self.parentForm, ui.cart_functions.Cart_frontend):
                     # забираем из главной формы id добавленных пользователей
                     ids = ' ,'.join([str(user.id) for user in self.parentForm.userModel.items])
+                    # own_id = self.parentForm.owner_id
+                    # if self.db.execute(sqlite_qwer.sql_get_member_by_id_set(ids)):
+                    #     users = self.db.cursor.fetchall()
+                    for user in self.parentForm.userModel.items:
+                        if user.id == self.member.id:
+                            user.fio = f'{self.ui.surname_lineEdit.text()} {self.ui.name_lineEdit.text()} ' \
+                                       f'{self.ui.secondName_lineEdit.text()}'
+                            user.brDay = self.ui.dateBirdth_dateEdit.date().toPython()
+                            user.phone = self.ui.phone_lineEdit.text()
+                            user.addPhone = self.ui.addPhone_lineEdit.text()
+
+
+
                     if self.db.execute(sqlite_qwer.sql_select_cars_and_own_info_by_owner_id(ids)):
                         cars = self.db.cursor.fetchall()
                         for car in cars:
