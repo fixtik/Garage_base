@@ -199,6 +199,35 @@ class ElectricTableViewModel(DBTableView):
             elif role == QtCore.Qt.TextAlignmentRole:
                 return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
+class ObjectTableViewModel(DBTableView):
+    """
+        Модель для отображения данных по счетчикам в TableView
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.header = ['id', 'Ряд', 'Номер', 'Владелец', 'Телефон владельца', 'Кадастровый номер']
+
+    def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
+        if not index.isValid():
+            return
+        if role == QtCore.Qt.ItemDataRole.DisplayRole:
+            obj = self.items[index.row()]
+            col = index.column()
+            if col == 0:
+                return f'{obj.id}'
+            if col == 1:
+                return f'{obj.row}'
+            if col == 2:
+                return f'{obj.number}'
+            if col == 3:
+                return f'{obj.owner}'
+            if col == 4:
+                return f'{obj.owner_phone}'
+            if col == 5:
+                return f'{obj.kadastr}'
+
+            elif role == QtCore.Qt.TextAlignmentRole:
+                return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
 class ObjectTableViewModel(DBTableView):
     """
