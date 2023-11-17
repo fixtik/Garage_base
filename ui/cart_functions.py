@@ -202,6 +202,8 @@ class Cart_frontend(QtWidgets.QWidget):
         elmeter_id = (self.ui.electric_tableView.model().items[self.ui.electric_tableView.selectedIndexes()[0].row()]).id
         self.addElectric.changeFormElectric(elmeter_id=elmeter_id)
         self.addElectric.hideFindePlace()
+        self.addElectric.BlockBoxAndReadings()
+        #self.delSelectRowFromTableView(self.ui.electric_tableView)
         self.addElectric.show()
 
     def showEditUserForm(self):

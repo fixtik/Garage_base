@@ -137,8 +137,6 @@ class Electric_front(QtWidgets.QWidget):
         self.setWindowTitle(constants.TITLE_EDIT_MODE)
         self.ui.add_pushButton.setText(constants.BTN_TEXT_CHANGE)
         self.meter.id = elmeter_id
-        print(self.meter.id)
-
         self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=self.TABLE_NAME, id=int(self.meter.id)))
         rec = self.db.cursor.fetchone()
         self.meter = ElectricMeter(rec[0], rec[1], rec[2], rec[3], rec[4], rec[5], rec[6])
@@ -149,7 +147,7 @@ class Electric_front(QtWidgets.QWidget):
         """поиск счетчика по номеру, если есть в БД - заполняются данные"""
         if self.db.execute(sqlite_qwer.sql_get_metr_id_by_num(self.ui.meterNum_lineEdit.text(),
                                                               self.ui.meterType_comboBox.itemText(
-                                                                  self.ui.meterType_comboBox.currentIndex()))) \
+                                                              self.ui.meterType_comboBox.currentIndex()))) \
                 and self.db.cursor:
             id = self.db.cursor.fetchone()
             print(id)
@@ -185,6 +183,14 @@ class Electric_front(QtWidgets.QWidget):
 
         return True
 
+    def BlockBoxAndReadings(self):
+        """Блокируем комбобокс и текущие показания счетчиков"""
+        self.ui.curDay_lineEdit.setReadOnly(True)
+        self.ui.curNight_lineEdit.setReadOnly(True)
+        self.ui.meterType_comboBox.setItemText(0, str(self.meter.type))
+        self.ui.meterType_comboBox.setEnabled(False)
+        self.setWindowTitle(constants.TITLE_EDIT_MODE)
+
     def hideFindePlace(self, visible: bool = False):
         """Скрывает или показывает формы для поиска счетчика"""
         self.ui.row_lineEdit.setVisible(visible)
@@ -214,6 +220,9 @@ class Electric_front(QtWidgets.QWidget):
         if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
             if self.meter and self.sender() != self.ui.close_pushButton:
                 self.mainForm.elMeterModel.resetData()
+                if self.mainForm.elMeterModel.returnItems():
+                    self.mainForm.elMeterModel.setItems(self.mainForm.elMeterModel.returnItems())
+                    print(self.mainForm.elMeterModel.returnItems())
                 self.mainForm.elMeterModel.setItems(self.meter)
             super().close()
             self.mainForm.destroyChildren()
