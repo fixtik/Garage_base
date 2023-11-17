@@ -151,19 +151,18 @@ class Electric_front(QtWidgets.QWidget):
                                                               self.ui.meterType_comboBox.itemText(
                                                                   self.ui.meterType_comboBox.currentIndex()))) \
                 and self.db.cursor:
-        if self.db.execute(sqlite_qwer.sql_get_metr_id_by_num(self.ui.meterNum_lineEdit.text(),
-                           self.ui.meterType_comboBox.itemText(self.ui.meterType_comboBox.currentIndex()))) \
-                and self.db.cursor:
-            id = self.db.cursor.fetchone()
-            print(id)
-            if not id:
-                self.meter = None
-                return None
-            if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=self.TABLE_NAME, id=id[0])):
-                rec = self.db.cursor.fetchone()
-                self.meter = ElectricMeter(rec[0], rec[1], rec[2], rec[3], rec[4], rec[5], rec[6])
-                self.meter.inBase = True
-                self.fillPlace()
+            if self.db.execute(sqlite_qwer.sql_get_metr_id_by_num(self.ui.meterNum_lineEdit.text(),
+                               self.ui.meterType_comboBox.itemText(self.ui.meterType_comboBox.currentIndex()))) \
+                    and self.db.cursor:
+                id = self.db.cursor.fetchone()
+                if not id:
+                    self.meter = None
+                    return None
+                if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=self.TABLE_NAME, id=id[0])):
+                    rec = self.db.cursor.fetchone()
+                    self.meter = ElectricMeter(rec[0], rec[1], rec[2], rec[3], rec[4], rec[5], rec[6])
+                    self.meter.inBase = True
+                    self.fillPlace()
 
     def fillPlace(self):
         """заполнение полей карточки если счетчик найден в БД"""

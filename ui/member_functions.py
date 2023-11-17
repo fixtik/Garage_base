@@ -61,8 +61,8 @@ class Member_front(QtWidgets.QWidget):
             pix = QtGui.QPixmap(img_path)
             pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
             self.ui.photo_label.setPixmap(pix)
-            self.photoPath = img_path  # todo здесь продумать как хранить фото: в БД или в отдельном каталоге, где имя файла = id пользователя
-            # во втором случае - написать функцию копирования файла в директорию после присвоения записи id
+            self.photoPath = img_path
+
 
     def addToBase(self) -> bool:
         """Добавление записи о пользователе в базу"""
@@ -144,10 +144,10 @@ class Member_front(QtWidgets.QWidget):
                     self.close()
         else:
             if self.changeRecordsInBd(self.member.id):
-                ui.dialogs.onShowOkMessage(self,constants.INFO_TITLE, constants.INFO_SUCCESS_CHANGED)
+                ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_CHANGED)
                 if isinstance(self.parentForm, ui.cart_functions.Cart_frontend):
                     # забираем из главной формы id добавленных пользователей
-                    ids = ' ,'.join([str(user.id) for user in self.parentForm.userModel.items])
+                    ids = ', '.join([str(user.id) for user in self.parentForm.userModel.items])
                     # own_id = self.parentForm.owner_id
                     # if self.db.execute(sqlite_qwer.sql_get_member_by_id_set(ids)):
                     #     users = self.db.cursor.fetchall()
@@ -162,11 +162,11 @@ class Member_front(QtWidgets.QWidget):
 
 
                     if self.db.execute(sqlite_qwer.sql_select_cars_and_own_info_by_owner_id(ids)):
+                        self.parentForm.carModel.clearItemData()
                         cars = self.db.cursor.fetchall()
                         for car in cars:
                             car_info = ui.car_functions.CarInfo(car[0], car[1], car[2], f'{car[3]} {car[4]} {car[5]}',
                                                                 car[6])
-                            self.parentForm.carModel.clearItemData()
                             self.parentForm.carModel.setItems(car_info)
                 self.close()
             else:
