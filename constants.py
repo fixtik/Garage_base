@@ -2,6 +2,7 @@ import os
 
 STANDART_PATH = ''
 DEFAULT_DB_NAME = 'garage.db'
+DEFAULT_VOA_IMG = 'photo/voa.png'
 
 
 
@@ -100,6 +101,8 @@ CONTRIB_WIN_EDIT_TITLE = 'Редактирование типа платежа'
 
 PHOTO_H = 100
 PHOTO_W = 100
+IMG_H = 200
+IMG_W = 200
 ELECTRIC_HEIGHT_ADD = 170
 
 ERROR_TEXT_PLACE_NOT_FILL = 'Запоните все обязательные поля!'
