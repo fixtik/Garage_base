@@ -47,7 +47,7 @@ def sql_update_electric_meter_by_id(metr_id: int, cur_day: int, cur_night: int =
     :param cur_night: :param cur_night: текущие ночные показания (по умолчанию 0)
     :return: sql-запрос
     """
-    return f'UPDATE electric_meter SET' \
+    return f'UPDATE electric_meter SET ' \
            f'prev_day = (SELECT day FROM electric_meter WHERE id = {metr_id}),' \
            f'prev_night =  (SELECT night FROM electric_meter WHERE id = {metr_id}),' \
            f'day = {cur_day}, night = {cur_night} ' \

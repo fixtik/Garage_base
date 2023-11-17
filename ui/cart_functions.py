@@ -43,6 +43,9 @@ class Cart_frontend(QtWidgets.QWidget):
 
         self.initUi()
 
+
+
+
     def initUi(self):
         """Инициализация интерфейса"""
         self.setMinimumWidth(1000)
@@ -66,6 +69,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.elMeterModel = ElectricTableViewModel()
         self.ui.electric_tableView.setModel(self.elMeterModel)
         self.ui.electric_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.ui.electric_tableView.doubleClicked.connect(self.showEditElectricForm)
 
         # Обновление комбо бокса сразмерами гаража
         self.updateDataFromDB()              # заполнение данных типоразмера
@@ -178,6 +182,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.auto_tableView.clearSpans()
         # взносы
         self.ui.contrib_tableView.clearSpans()
+        self.ui.electric_tableView.clearSpans()
 
     def add_car_to_tableView(self, mark: str, num: str):
         """добавление данных о машине в таблицу"""
@@ -189,6 +194,14 @@ class Cart_frontend(QtWidgets.QWidget):
         """Открывает форму поиска члена кооператива"""
         self.addUser_form = ui.member_functions.FindMember_front(db=self.db, main_form=self)
         self.addUser_form.show()
+
+    def showEditElectricForm(self):
+        self.addElectric = ui.electric_meter_func.Electric_front(self.db)
+        self.addElectric.mainForm = self
+        elmeter_id = (self.ui.electric_tableView.model().items[self.ui.electric_tableView.selectedIndexes()[0].row()]).id
+        self.addElectric.changeFormElectric(elmeter_id=elmeter_id)
+        self.addElectric.hideFindePlace()
+        self.addElectric.show()
 
     def showEditUserForm(self):
         """Открывает форму редактирования данных о пользователе"""
