@@ -143,6 +143,7 @@ FILTER_BD = '*.db'
 
 BTN_TEXT_ADD = 'Добавить'
 BTN_TEXT_CHANGE = "Изменить"
+BTN_TEXT_CHOOSE = "Выбрать"
 
 LABLEL_TEXT_ADD_DBLCLCK = "Добавление - двойным кликом"
 

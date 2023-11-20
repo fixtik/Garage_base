@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'cart_.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.3
+## Created by: Qt User Interface Compiler version 6.5.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -376,28 +376,15 @@ class Ui_Form(object):
 
         self.horizontalLayout_18.addLayout(self.verticalLayout_19)
 
+        self.auto_label = QLabel(self.car_groupBox)
+        self.auto_label.setObjectName(u"auto_label")
+        self.auto_label.setMinimumSize(QSize(0, 0))
+        self.auto_label.setMaximumSize(QSize(31, 31))
+
+        self.horizontalLayout_18.addWidget(self.auto_label)
+
         self.verticalLayout_34 = QVBoxLayout()
         self.verticalLayout_34.setObjectName(u"verticalLayout_34")
-        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_34.addItem(self.verticalSpacer_2)
-
-        self.carAdd_pushButton = QPushButton(self.car_groupBox)
-        self.carAdd_pushButton.setObjectName(u"carAdd_pushButton")
-        self.carAdd_pushButton.setMaximumSize(QSize(31, 31))
-
-        self.verticalLayout_34.addWidget(self.carAdd_pushButton)
-
-        self.carDel_pushButton = QPushButton(self.car_groupBox)
-        self.carDel_pushButton.setObjectName(u"carDel_pushButton")
-        self.carDel_pushButton.setMaximumSize(QSize(31, 31))
-
-        self.verticalLayout_34.addWidget(self.carDel_pushButton)
-
-        self.verticalSpacer_12 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_34.addItem(self.verticalSpacer_12)
-
 
         self.horizontalLayout_18.addLayout(self.verticalLayout_34)
 
@@ -508,8 +495,7 @@ class Ui_Form(object):
         self.userAdd_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
         self.userDel_pushButton.setText(QCoreApplication.translate("Form", u"-", None))
         self.car_groupBox.setTitle(QCoreApplication.translate("Form", u"\u0410\u0432\u0442\u043e\u043c\u043e\u0431\u0438\u043b\u0438:", None))
-        self.carAdd_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
-        self.carDel_pushButton.setText(QCoreApplication.translate("Form", u"-", None))
+        self.auto_label.setText("")
         self.contribution_groupBox.setTitle(QCoreApplication.translate("Form", u"\u041f\u043b\u0430\u0442\u0435\u0436\u0438:", None))
         self.contribAdd_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
         self.contribDel_pushButton.setText(QCoreApplication.translate("Form", u"-", None))
