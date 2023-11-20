@@ -79,13 +79,13 @@ class Cart_frontend(QtWidgets.QWidget):
         # слоты кнопок
         self.ui.close_pushButton.clicked.connect(self.close)                        # закрытие формы
         self.ui.image_pushButton.clicked.connect(self.choosePhoto)                  # добавление фото
-        self.ui.carAdd_pushButton.clicked.connect(self.showAddCarForm)              # добавление авто
+
         self.ui.contribAdd_pushButton.clicked.connect(self.showAddContribForm)      # добавление платежки
         self.ui.userAdd_pushButton.clicked.connect(self.showFindUserForm)           # добавление пользрователя
         self.ui.electricAdd_pushButton.clicked.connect(self.showElectricMetr)       # добавленее счетчика
         self.ui.addSize_pushButton.clicked.connect(self.showSizeEditorForm)         # доабвление размеров
 
-        self.ui.carDel_pushButton.clicked.connect(self.delTbView)                   # удаление выделенной строки
+        # удаление выделенной строки
         self.ui.contribDel_pushButton.clicked.connect(self.delTbView)
         self.ui.userDel_pushButton.clicked.connect(self.delTbView)
         self.ui.electricDel_pushButton.clicked.connect(self.delTbView)
@@ -105,6 +105,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.auto_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         self.ui.electric_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         self.ui.users_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.ui.auto_label.setMinimumWidth(self.ui.userAdd_pushButton.width())
 
 
 
@@ -151,16 +152,6 @@ class Cart_frontend(QtWidgets.QWidget):
 
         self.addElectric.show()
 
-    def showAddCarForm(self):
-        """открытие формы добавления авто"""
-        users_id = self.getUsersIds()
-        if self.owner_id:
-            users_id.append(self.owner_id)
-        if users_id:
-            self.addCar_form = ui.car_functions.Car_frontend(self.db)
-            self.addCar_form.mainForm = self
-            self.addCar_form.addCarsByUsers(users_id)
-            self.addCar_form.show()
 
     def showAddContribForm(self):
         """открытие формы добавления платежа"""

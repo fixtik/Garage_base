@@ -31,6 +31,7 @@ class Electric_front(QtWidgets.QWidget):
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.find_pushButton.clicked.connect(self.searchObj)
         self.ui.add_pushButton.clicked.connect(self.addPushBtnClk)
+        self.ui.del_pushButton.clicked.connect(self.chooseMeter)
         self.ui.meterNum_lineEdit.editingFinished.connect(self.getIdFromBase)
         # установка валидаторов
         self.ui.row_lineEdit.setValidator(ui.validators.onlyNumValidator())
@@ -61,6 +62,18 @@ class Electric_front(QtWidgets.QWidget):
                     self.fillFormPlace()
                 else:
                     ui.dialogs.onShowError(self, constants.INFO_TITLE, constants.INFO_NO_OBJECT)
+
+    def disable_current_lineEdit(self, flag: bool):
+        """Открывает или закрывает возможность установки первоначальных значений"""
+        self.ui.curDay_lineEdit.setEnabled(flag)
+        self.ui.curNight_lineEdit.setEnabled(flag)
+        self.ui.del_pushButton.setVisible(not flag)
+        if flag:
+            self.ui.add_pushButton.setText(constants.BTN_TEXT_ADD)
+        else:
+            self.ui.add_pushButton.setText(constants.BTN_TEXT_CHANGE)
+            self.ui.del_pushButton.setText(constants.BTN_TEXT_CHOOSE)
+
 
     def fillFormPlace(self):
         """Заполнение данных"""
@@ -102,7 +115,7 @@ class Electric_front(QtWidgets.QWidget):
             ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TEXT_PLACE_NOT_FILL)
             return
 
-        if self.ui.add_pushButton.text() == constants.BTN_TEXT_ADD:
+        if not self.meter.id:
             if not self.meter.inBase:
                 self.db.execute(sqlite_qwer.sql_add_electric_meter(
                         num_meter=self.meter.number,
@@ -118,18 +131,12 @@ class Electric_front(QtWidgets.QWidget):
                         cur_day=int(self.meter.curDay),
                         cur_night=int(self.meter.curNight)))
             ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_CHANGED)
-
-        # это нужно отсюда перенести в более подходящее место
-        # if self.meter.id and self.obj_id and self.ui.del_pushButton.isVisible():
-        #     field = 'electro220_id' if self.meter.type == '220' else 'electro380_id'
-        #     if self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(
-        #         table_name=constants.TABALE_NAMES[1],
-        #         rec_id=self.obj_id,
-        #         field=field,
-        #         new_value=self.meter.id)):
-        #         print('success')                # TODO добавить уведомление о прекрасном завершении операции
-
         self.close()
+
+    def chooseMeter(self):
+        """работа кнопки удалить или выбрать"""
+        if self.ui.del_pushButton.text() == constants.BTN_TEXT_CHOOSE:
+            self.close()
 
 
     def changeFormElectric(self, elmeter_id: str):
@@ -137,7 +144,7 @@ class Electric_front(QtWidgets.QWidget):
         self.setWindowTitle(constants.TITLE_EDIT_MODE)
         self.ui.add_pushButton.setText(constants.BTN_TEXT_CHANGE)
         self.meter.id = elmeter_id
-        print(self.meter.id)
+        self.disable_current_lineEdit(False)
 
         self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=self.TABLE_NAME, id=int(self.meter.id)))
         rec = self.db.cursor.fetchone()
@@ -151,17 +158,17 @@ class Electric_front(QtWidgets.QWidget):
                                                               self.ui.meterType_comboBox.itemText(
                                                                   self.ui.meterType_comboBox.currentIndex()))) \
                 and self.db.cursor:
-            if self.db.execute(sqlite_qwer.sql_get_metr_id_by_num(self.ui.meterNum_lineEdit.text(),
-                               self.ui.meterType_comboBox.itemText(self.ui.meterType_comboBox.currentIndex()))) \
-                    and self.db.cursor:
                 id = self.db.cursor.fetchone()
                 if not id:
                     self.meter = None
+                    self.disable_current_lineEdit(True)
+                    self.setDefaultValue()
                     return None
                 if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=self.TABLE_NAME, id=id[0])):
                     rec = self.db.cursor.fetchone()
                     self.meter = ElectricMeter(rec[0], rec[1], rec[2], rec[3], rec[4], rec[5], rec[6])
                     self.meter.inBase = True
+                    self.disable_current_lineEdit(False)
                     self.fillPlace()
 
     def fillPlace(self):
