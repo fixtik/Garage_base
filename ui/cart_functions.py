@@ -26,11 +26,13 @@ class Cart_frontend(QtWidgets.QWidget):
     def __init__(self, db, parent=None):
         super().__init__(parent)
 
+
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.db = db          # db-connector
 
         # переменные класса
+        self.obj_id = None
         self.photoPath = None
         self.addCar_form = None
         self.addContrib_form = None
@@ -136,12 +138,21 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def choosePhoto(self):
         """выбор фото на карточку"""
-        img_path = ui.dialogs.open_file_dialog(constants.TITLE_SELECT_PHOTO, constants.FILTER_PHOTO)[0]
-        if img_path:
-            pix = QtGui.QPixmap(img_path)
+        imgPath = ui.dialogs.open_file_dialog(constants.TITLE_SELECT_PHOTO, constants.FILTER_PHOTO)[0]
+        if imgPath:
+            self.setNewPhoto(imgPath)
+
+    def setNewPhoto(self, image: str):
+        """
+        установка нового фото
+        :param image: путь к фото
+        """
+        if image:
+            pix = QtGui.QPixmap(image)
             pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
             self.ui.photo_label.setPixmap(pix)
-            self.photoPath = img_path
+            self.photoPath = image
+
 
     def showElectricMetr(self):
         """открытие окна для добавления счетчика"""
@@ -410,7 +421,20 @@ class Cart_frontend(QtWidgets.QWidget):
         self.owner_id = item.id
         self.ui.ownerFIO_lineEdit.setText(item.fio)
         self.ui.ownerPhone_lineEdit.setText(item.phone)
+        # здесь запрос в БД на доставание пути к фото
         # сюда бы фото...
+
+    def fillDataForObjectFromDB(self, object_id: str):
+        """
+        Заполнение формы для объекта при известном id объекта
+        :param object_id: id объекта
+        """
+        if self.db and object_id:
+            if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=constants.OBJ_TABLE, id=object_id)):
+                obj_info = self.db.cursor.fetchone()
+
+
+
 
 @dataclass
 class ObjectInfo():
@@ -421,9 +445,21 @@ class ObjectInfo():
     owner_phone: str = ''
     kadastr: str = ''
 
+@dataclass
+class FullObjectInfo():
+    id: str = ''
+    num_row: str = ''
+    num_bild: str = ''
+    kadastr_num: str = ""
+    owner_id: str = ''
+    arendator_id: str = ''
+    size_type_id: str = ''
+    create_year: str = ''
+    electro220_id: str = ''
+    electro380_id: str = ''
 
 
-#todo добавление авто реализовано несколько странно
+
 
 
 

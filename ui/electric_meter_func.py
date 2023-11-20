@@ -148,9 +148,15 @@ class Electric_front(QtWidgets.QWidget):
 
         self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=self.TABLE_NAME, id=int(self.meter.id)))
         rec = self.db.cursor.fetchone()
-        self.meter = ElectricMeter(rec[0], rec[1], rec[2], rec[3], rec[4], rec[5], rec[6])
+        self.fill_from_db(rec)
         self.meter.inBase = True
         self.fillPlace()
+
+    def fill_from_db(self, rec: list):
+        self.meter = ElectricMeter(rec[0], rec[1], rec[2], rec[3], rec[4], rec[5], rec[6])
+        self.ui.meterType_comboBox.setCurrentIndex(0) if self.meter.type == '220' else \
+            self.ui.meterType_comboBox.setCurrentIndex(1)
+
 
     def getIdFromBase(self):
         """поиск счетчика по номеру, если есть в БД - заполняются данные"""
@@ -166,8 +172,9 @@ class Electric_front(QtWidgets.QWidget):
                     return None
                 if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=self.TABLE_NAME, id=id[0])):
                     rec = self.db.cursor.fetchone()
-                    self.meter = ElectricMeter(rec[0], rec[1], rec[2], rec[3], rec[4], rec[5], rec[6])
+                    self.fill_from_db(rec)
                     self.meter.inBase = True
+
                     self.disable_current_lineEdit(False)
                     self.fillPlace()
 
