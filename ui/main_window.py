@@ -17,9 +17,9 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QHeaderView, QLabel,
-    QMainWindow, QMenu, QMenuBar, QPushButton,
-    QSizePolicy, QSpacerItem, QStatusBar, QTableView,
-    QVBoxLayout, QWidget)
+    QLineEdit, QMainWindow, QMenu, QMenuBar,
+    QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
+    QTableView, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -84,6 +84,40 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout)
 
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.row_label = QLabel(self.centralwidget)
+        self.row_label.setObjectName(u"row_label")
+
+        self.horizontalLayout_2.addWidget(self.row_label)
+
+        self.row_lineEdit = QLineEdit(self.centralwidget)
+        self.row_lineEdit.setObjectName(u"row_lineEdit")
+
+        self.horizontalLayout_2.addWidget(self.row_lineEdit)
+
+        self.num_label = QLabel(self.centralwidget)
+        self.num_label.setObjectName(u"num_label")
+
+        self.horizontalLayout_2.addWidget(self.num_label)
+
+        self.num_lineEdit = QLineEdit(self.centralwidget)
+        self.num_lineEdit.setObjectName(u"num_lineEdit")
+
+        self.horizontalLayout_2.addWidget(self.num_lineEdit)
+
+
+        self.horizontalLayout_3.addLayout(self.horizontalLayout_2)
+
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
+
         self.tableView = QTableView(self.centralwidget)
         self.tableView.setObjectName(u"tableView")
 
@@ -140,6 +174,8 @@ class Ui_MainWindow(object):
         self.electric_action.setText(QCoreApplication.translate("MainWindow", u"\u042d\u043b\u0435\u043a\u0442\u0440\u043e\u0441\u0447\u0435\u0442\u0447\u0438\u043a", None))
         self.voa_label.setText("")
         self.openBase_pushButton.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0431\u0430\u0437\u0443 \u0434\u0430\u043d\u043d\u044b\u0445", None))
+        self.row_label.setText(QCoreApplication.translate("MainWindow", u"\u0420\u044f\u0434", None))
+        self.num_label.setText(QCoreApplication.translate("MainWindow", u"\u041d\u043e\u043c\u0435\u0440", None))
         self.operation_menu.setTitle(QCoreApplication.translate("MainWindow", u"\u041e\u043f\u0435\u0440\u0430\u0446\u0438\u0438", None))
         self.settings_menu.setTitle(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
         self.about_menu.setTitle(QCoreApplication.translate("MainWindow", u"\u041e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0435", None))

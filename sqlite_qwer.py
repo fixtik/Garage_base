@@ -453,10 +453,23 @@ def sql_add_new_garage(row: str, num: str, ownder_id: str, size_id: str, cr_year
            f"create_year, electro220_id, electro380_id) VALUES ({row}, {num}, '{kadastr}', {ownder_id}, " \
            f"'{arenda_ids}', {size_id}, '{cr_year}', {e220}, {e380});"
 
-def sql_get_all_objects_for_list():
-    """вывод списка объектов из базы для отображения"""
-    return f'SELECT garage_obj.id, garage_obj.num_row, garage_obj.num_bild, garage_member.surname,' \
+
+def sql_get_all_objects_for_list_by_row_and_num(row: str = '', num: str = ''):
+    """
+    Формирование запроса на вывод данных из БД в таблицу главного окна
+    :param row: ряд объекта
+    :param num: номер объекта
+    :return: sql-запрос в зависимости от переданных значений
+    """
+    sql = f'SELECT garage_obj.id, garage_obj.num_row, garage_obj.num_bild, garage_member.surname,' \
            f'garage_member.first_name, garage_member.second_name, garage_member.phone_main, garage_obj.kadastr_num ' \
-           f' FROM garage_obj INNER JOIN garage_member ON garage_member.id = garage_obj.owner_id ' \
-           f'ORDER BY garage_obj.num_row DESC, garage_obj.num_bild;'
+           f' FROM garage_obj INNER JOIN garage_member ON garage_member.id = garage_obj.owner_id '
+    if row and not num:
+        sql += f"WHERE garage_obj.num_row = {row} "
+    elif not row and num:
+        sql += f"WHERE garage_obj.num_bild = {num} "
+    elif row and num:
+        sql += f"WHERE garage_obj.num_row = {row} and garage_obj.num_bild = {num} "
+    sql += f'ORDER BY garage_obj.num_row DESC, garage_obj.num_bild;'
+    return sql
 

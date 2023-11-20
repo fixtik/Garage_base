@@ -14,6 +14,7 @@ import ui.member_functions
 import ui.electric_meter_func
 import ui.new_garage_size_func
 import ui.tableView_Models
+import ui.validators
 
 
 class Form_frontend(QtWidgets.QMainWindow):
@@ -61,6 +62,11 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.
                                                                            ResizeToContents)
 
+        self.ui.num_lineEdit.setValidator(ui.validators.onlyNumValidator())
+        self.ui.row_lineEdit.setValidator(ui.validators.onlyNumValidator())
+        self.ui.row_lineEdit.editingFinished.connect(self.fill_main_tableview)
+        self.ui.num_lineEdit.textEdited.connect(self.fill_main_tableview)
+
         if os.path.isfile(constants.DEFAULT_VOA_IMG):
             pix = QtGui.QPixmap(constants.DEFAULT_VOA_IMG)
             pix = pix.scaled(constants.IMG_W, constants.IMG_W, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
@@ -70,7 +76,10 @@ class Form_frontend(QtWidgets.QMainWindow):
         """скрывает или показывает объекты интерфейса"""
         self.ui.voa_label.setVisible(not flag)
         self.ui.openBase_pushButton.setVisible(not flag)
-
+        self.ui.row_label.setVisible(flag)
+        self.ui.row_lineEdit.setVisible(flag)
+        self.ui.num_label.setVisible(flag)
+        self.ui.num_lineEdit.setVisible(flag)
         self.ui.tableView.setVisible(flag)
         if flag:
             self.ui.tableView.setFixedHeight(self.height())
@@ -129,12 +138,19 @@ class Form_frontend(QtWidgets.QMainWindow):
 
     def fill_main_tableview(self):
         """заполнение данных tableview"""
+        self.ui.tableView.model().clearItemData()
         if self.db:
-            if self.db.execute(sqlite_qwer.sql_get_all_objects_for_list()):
+
+            sql = sqlite_qwer.sql_get_all_objects_for_list_by_row_and_num(row=self.ui.row_lineEdit.text(),
+                                                                          num=self.ui.num_lineEdit.text())
+            if self.db.execute(sql):
                 for obj in self.db.cursor.fetchall():
                     item = ui.cart_functions.ObjectInfo(obj[0], obj[1], obj[2], f'{obj[3]} {obj[4]} {obj[5]}', obj[6],
                                                         obj[7])
                     self.obj_model.setItems(item)
+
+
+
 
 
 
