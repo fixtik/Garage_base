@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from PySide6 import QtCore, QtWidgets, QtGui
 
 
@@ -422,6 +424,14 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.ownerPhone_lineEdit.setText(item.phone)
         # сюда бы фото...
 
+@dataclass
+class ObjectInfo():
+    id: str = ''
+    row: str = ''
+    number: str = ''
+    owner: str = ''
+    owner_phone: str = ''
+    kadastr: str = ''
 
 
 
