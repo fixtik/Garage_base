@@ -33,6 +33,7 @@ class Electric_front(QtWidgets.QWidget):
         self.ui.add_pushButton.clicked.connect(self.addPushBtnClk)
         self.ui.del_pushButton.clicked.connect(self.chooseMeter)
         self.ui.meterNum_lineEdit.editingFinished.connect(self.getIdFromBase)
+        self.ui.meterType_comboBox.currentIndexChanged.connect(self.getIdFromBase)
         # установка валидаторов
         self.ui.row_lineEdit.setValidator(ui.validators.onlyNumValidator())
         self.ui.garajeNum_lineEdit.setValidator(ui.validators.onlyNumValidator())
@@ -143,18 +144,20 @@ class Electric_front(QtWidgets.QWidget):
         """подготовка формы к режиму редактирования данных пользователя"""
         self.setWindowTitle(constants.TITLE_EDIT_MODE)
         self.ui.add_pushButton.setText(constants.BTN_TEXT_CHANGE)
+        self.ui.meterType_comboBox.setEnabled(False)
         self.meter.id = elmeter_id
         self.disable_current_lineEdit(False)
 
         self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=self.TABLE_NAME, id=int(self.meter.id)))
         rec = self.db.cursor.fetchone()
         self.fill_from_db(rec)
-        self.meter.inBase = True
+
         self.fillPlace()
 
     def fill_from_db(self, rec: list):
         self.meter = ElectricMeter(rec[0], rec[1], rec[2], rec[3], rec[4], rec[5], rec[6])
-        self.ui.meterType_comboBox.setCurrentIndex(0) if self.meter.type == '220' else \
+        self.meter.inBase = True
+        self.ui.meterType_comboBox.setCurrentIndex(0) if self.meter.type == 220 else \
             self.ui.meterType_comboBox.setCurrentIndex(1)
 
 
@@ -228,10 +231,26 @@ class Electric_front(QtWidgets.QWidget):
             int(self.ui.newNight_lineEdit.text()) >= int(self.ui.curNight_lineEdit.text())
 
     def close(self) -> bool:
+        dublicate = False
         if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
             if self.meter and self.sender() != self.ui.close_pushButton:
-                self.mainForm.elMeterModel.resetData()
-                self.mainForm.elMeterModel.setItems(self.meter)
+                if (self.sender() == self.ui.del_pushButton and \
+                    self.ui.del_pushButton.text() == constants.BTN_TEXT_CHOOSE) or \
+                        (self.sender() == self.ui.add_pushButton and \
+                         self.ui.add_pushButton.text() == constants.BTN_TEXT_ADD):
+                    for item in self.mainForm.elMeterModel.items:
+                        if item.id == self.meter.id:
+                            dublicate = True
+                            break
+                    if not dublicate:
+                        self.mainForm.elMeterModel.setItems(self.meter)
+                # self.mainForm.elMeterModel.resetData()
+                else:
+                    for index, item in enumerate(self.mainForm.ui.electric_tableView.model().items):
+                        if item.id == self.meter.id:
+                            self.mainForm.ui.electric_tableView.model().items[index] = self.meter
+                            break
+
             super().close()
             self.mainForm.destroyChildren()
         else:
