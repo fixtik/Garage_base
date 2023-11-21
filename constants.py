@@ -93,6 +93,8 @@ BD_SQL_CREATOR = [SQL_CREATE_TABLE_GARGE_MEMBER, SQL_CREATE_TABLE_ELECTRIC_METER
 TABALE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
                 'contribution_type', 'electric_meter', 'type_size']
 CAR_TABLE = 'automobile'
+OBJ_TABLE = 'garage_obj'
+
 MEMBER_TABLE = 'garage_member'
 OWNER_ID = 'owner_id'
 

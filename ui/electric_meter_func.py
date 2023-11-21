@@ -63,26 +63,39 @@ class Electric_front(QtWidgets.QWidget):
                 else:
                     ui.dialogs.onShowError(self, constants.INFO_TITLE, constants.INFO_NO_OBJECT)
 
+    def BlockBoxAndReadings(self):
+        """Блокируем комбобокс и текущие показания счетчиков"""
+        self.ui.curDay_lineEdit.setReadOnly(True)
+        self.ui.curNight_lineEdit.setReadOnly(True)
+
+        self.ui.meterType_comboBox.setEnabled(False)
+        self.setWindowTitle(constants.TITLE_EDIT_MODE)
+
+
     def disable_current_lineEdit(self, flag: bool):
         """Открывает или закрывает возможность установки первоначальных значений"""
         self.ui.curDay_lineEdit.setEnabled(flag)
         self.ui.curNight_lineEdit.setEnabled(flag)
+        self.ui.meterType_comboBox.setEnabled(flag)
         self.ui.del_pushButton.setVisible(not flag)
         if flag:
             self.ui.add_pushButton.setText(constants.BTN_TEXT_ADD)
         else:
             self.ui.add_pushButton.setText(constants.BTN_TEXT_CHANGE)
             self.ui.del_pushButton.setText(constants.BTN_TEXT_CHOOSE)
-
+            self.setWindowTitle(constants.TITLE_EDIT_MODE)
+            self.ui.meterType_comboBox.setItemText(0, str(self.meter.type))
 
     def fillFormPlace(self):
         """Заполнение данных"""
         if self.meter:
             self.ui.meterNum_lineEdit.setText(self.meter.num_meter)
+            #TODO хз надо ли это тут? ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
             if self.meter.type == 220:
                 self.ui.meterType_comboBox.setCurrentIndex(0)
             else:
                 self.ui.meterType_comboBox.setCurrentIndex(1)
+            #TODO ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
             self.ui.curDay_lineEdit.setText(self.meter.prev_day)
             self.ui.curNight_lineEdit.setText(self.meter.prev_night)
             self.ui.newDay_lineEdit.setText(self.meter.day)
@@ -118,26 +131,27 @@ class Electric_front(QtWidgets.QWidget):
         if not self.meter.id:
             if not self.meter.inBase:
                 self.db.execute(sqlite_qwer.sql_add_electric_meter(
-                        num_meter=self.meter.number,
-                        cur_day=int(self.meter.curDay),
-                        cur_night=int(self.meter.curNight),
-                        pr_day=int(self.meter.prev_day),
-                        pr_night=int(self.meter.prev_night),
-                        type=int(self.meter.type)))
+                    num_meter=self.meter.number,
+                    cur_day=int(self.meter.curDay),
+                    cur_night=int(self.meter.curNight),
+                    pr_day=int(self.meter.prev_day),
+                    pr_night=int(self.meter.prev_night),
+                    type=int(self.meter.type)))
                 self.meter.id = self.db.cursor.lastrowid
         else:
             self.db.execute(sqlite_qwer.sql_update_electric_meter_by_id(
-                        metr_id=int(self.meter.id),
-                        cur_day=int(self.meter.curDay),
-                        cur_night=int(self.meter.curNight)))
+                metr_id=int(self.meter.id),
+                cur_day=int(self.meter.curDay),
+                cur_night=int(self.meter.curNight)))
             ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_CHANGED)
         self.close()
+
+
 
     def chooseMeter(self):
         """работа кнопки удалить или выбрать"""
         if self.ui.del_pushButton.text() == constants.BTN_TEXT_CHOOSE:
             self.close()
-
 
     def changeFormElectric(self, elmeter_id: str):
         """подготовка формы к режиму редактирования данных пользователя"""
@@ -145,31 +159,38 @@ class Electric_front(QtWidgets.QWidget):
         self.ui.add_pushButton.setText(constants.BTN_TEXT_CHANGE)
         self.meter.id = elmeter_id
         self.disable_current_lineEdit(False)
-
         self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=self.TABLE_NAME, id=int(self.meter.id)))
         rec = self.db.cursor.fetchone()
-        self.meter = ElectricMeter(rec[0], rec[1], rec[2], rec[3], rec[4], rec[5], rec[6])
+        self.fill_from_db(rec)
         self.meter.inBase = True
         self.fillPlace()
+
+
+    def fill_from_db(self, rec: list):
+        self.meter = ElectricMeter(rec[0], rec[1], rec[2], rec[3], rec[4], rec[5], rec[6])
+        self.ui.meterType_comboBox.setItemText(0, str(self.meter.type))
+        #TODO А это надо?) Если есть это ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+        # self.ui.meterType_comboBox.setCurrentIndex(0) if self.meter.type == '220' else \
+        #     self.ui.meterType_comboBox.setCurrentIndex(1)
 
     def getIdFromBase(self):
         """поиск счетчика по номеру, если есть в БД - заполняются данные"""
         if self.db.execute(sqlite_qwer.sql_get_metr_id_by_num(self.ui.meterNum_lineEdit.text(),
                                                               self.ui.meterType_comboBox.itemText(
-                                                                  self.ui.meterType_comboBox.currentIndex()))) \
+                                                              self.ui.meterType_comboBox.currentIndex()))) \
                 and self.db.cursor:
-                id = self.db.cursor.fetchone()
-                if not id:
-                    self.meter = None
-                    self.disable_current_lineEdit(True)
-                    self.setDefaultValue()
-                    return None
-                if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=self.TABLE_NAME, id=id[0])):
-                    rec = self.db.cursor.fetchone()
-                    self.meter = ElectricMeter(rec[0], rec[1], rec[2], rec[3], rec[4], rec[5], rec[6])
-                    self.meter.inBase = True
-                    self.disable_current_lineEdit(False)
-                    self.fillPlace()
+            id = self.db.cursor.fetchone()
+            if not id:
+                self.meter = None
+                self.disable_current_lineEdit(True)
+                self.setDefaultValue()
+                return None
+            if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=self.TABLE_NAME, id=id[0])):
+                rec = self.db.cursor.fetchone()
+                self.fill_from_db(rec)
+                self.meter.inBase = True
+                self.disable_current_lineEdit(False)
+                self.fillPlace()
 
     def fillPlace(self):
         """заполнение полей карточки если счетчик найден в БД"""
