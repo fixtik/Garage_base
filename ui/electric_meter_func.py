@@ -94,6 +94,10 @@ class Electric_front(QtWidgets.QWidget):
 
     def addPushBtnClk(self):
         """Действия при нажатии кнопки "Добавить" """
+        if not self.ui.meterNum_lineEdit.text():
+            return
+        if not self.meter:
+            self.meter = ElectricMeter()
         self.meter.number = self.ui.meterNum_lineEdit.text()
         self.meter.type = self.ui.meterType_comboBox.currentText()
         self.meter.prev_day = self.ui.curDay_lineEdit.text()
@@ -155,7 +159,8 @@ class Electric_front(QtWidgets.QWidget):
         self.fillPlace()
 
     def fill_from_db(self, rec: list):
-        self.meter = ElectricMeter(rec[0], rec[1], rec[2], rec[3], rec[4], rec[5], rec[6])
+        """заполнение данных по счетчику из БД"""
+        self.meter = ElectricMeter(*rec)
         self.meter.inBase = True
         self.ui.meterType_comboBox.setCurrentIndex(0) if self.meter.type == 220 else \
             self.ui.meterType_comboBox.setCurrentIndex(1)

@@ -1,4 +1,5 @@
 from PySide6 import QtCore, QtWidgets, QtGui
+from dataclasses import dataclass
 
 import constants
 import ui.contrib_add as addW
@@ -135,6 +136,15 @@ class Contribution():
         self.value = ''         # сумма платежа
         self.comment = ''
 
+@dataclass
+class Contribution_lite():
+    """Класс информации о платеже"""
+    id:str = ''            # id платежа
+    kindPay:str = ''       # вид платежа
+    payDate:str = ''       # дата платежа
+    payPeriod:str = ''     # период платежа
+    value:str = ''         # сумма платежа
+    comment:str = ''
 
 class AddKindContrib_front(QtWidgets.QWidget):
     """Виджет для добавления платежа в бд"""

@@ -383,22 +383,37 @@ class FindMember_front(QtWidgets.QWidget):
             ids = [str(i) for i in self.addIdsUsers]
             ids = ",".join(ids)
             # добаляем пользователей в таблицу
-            if self.db.execute(sqlite_qwer.sql_get_member_by_id_set(ids)) and self.db.cursor:
-                users = self.db.cursor.fetchall()
-                for user in users:
-                    us_info = User_Info(user[0], f'{user[1]} {user[2]} {user[3]}', user[4], user[6], user[7])
-                    self.parentForm.userModel.setItems(us_info)
-                    self.parentForm.addRadioButtonToUsersTable()
-                # теперь их авто:
-                if self.db.execute(sqlite_qwer.sql_select_cars_and_own_info_by_owner_id(ids)) and self.cursor():
-                    cars = self.db.cursor.fetchall()
-                    for car in cars:
-                        car_info = ui.car_functions.CarInfo(car[0], car[1], car[2], f'{car[3]} {car[4]} {car[5]}', car[6])
-                        self.parentForm.carModel.setItems(car_info)
+            if self.addUserAndCarsToTV(self.db, ids, self.parentForm.userModel, self.parentForm.carModel):
+                self.parentForm.addRadioButtonToUsersTable()
                 self.close()
                 return
+
         ui.dialogs.onShowError(self, constants.ATTANTION_TITLE, constants.INFO_DATA_IS_EMPTY)
 
+    @staticmethod
+    def addUserAndCarsToTV(db: db_work.Garage_DB, ids: str, userModel: QtCore.QAbstractTableModel,
+                           carModel:QtCore.QAbstractTableModel) -> bool:
+        """
+        Добавление данных в модели пользователей и их машин
+        :param db: ссылка на коннектор БД
+        :param ids: список Id пользователей
+        :param userTv: ссылка на модель с пользователями
+        :param carTv: ссылка на модель с их машинами
+        :return: True, если все ок
+        """
+        if db.execute(sqlite_qwer.sql_get_member_by_id_set(ids)):
+            users = db.cursor.fetchall()
+            for user in users:
+                us_info = User_Info(user[0], f'{user[1]} {user[2]} {user[3]}', user[4], user[6], user[7])
+                userModel.setItems(us_info)
+            # теперь их авто:
+            if db.execute(sqlite_qwer.sql_select_cars_and_own_info_by_owner_id(ids)):
+                cars = db.cursor.fetchall()
+                for car in cars:
+                    car_info = ui.car_functions.CarInfo(car[0], car[1], car[2], f'{car[3]} {car[4]} {car[5]}', car[6])
+                    carModel.setItems(car_info)
+                return True
+        return False
 
 @dataclass
 class Member():
@@ -413,6 +428,9 @@ class Member():
     additPhone: str = ''
     email: str = ''
     voa: str = ''
+    active: str = ''
+    inactive_date: str = ''
+    photo: str = ''
 
 
 @dataclass
