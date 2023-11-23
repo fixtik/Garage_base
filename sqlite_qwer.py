@@ -107,12 +107,22 @@ def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = ' '
 
     return f"INSERT INTO contribution_type (name, value, comment) VALUES ('{contrib_name}', {value}, '{comment}');"
 
-def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, period_pay: str, value: float) -> str:
+def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, period_pay: str, value: float,
+                        comment: str ='') -> str:
     """
     формирование запроса для добавления платежа в БД
     """
-    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, period_pay, value) VALUES " \
-           f"({id_garage}, {id_cont}, '{pay_date}', '{period_pay}', {value});"
+    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, period_pay, value, comment) VALUES " \
+           f"({id_garage}, {id_cont}, '{pay_date}', '{period_pay}', {value}, '{comment}');"
+
+def sql_full_update_contrib(cont_id: str, id_garage: str, id_cont: str, pay_date: str,
+                            period_pay: str, value: float, comment:str = '') -> str:
+    """
+    формирование запроса для добавления платежа в БД
+    """
+    return f"UPDATE contribution SET id_garage={id_garage}, id_cont_type = {id_cont}, pay_date = '{pay_date}'," \
+           f" period_pay ='{period_pay}', value = {value}, comment = '{comment}' WHERE id = {cont_id};"
+
 
 def sql_update_contrib_type(contrib_id: int, value: float, comment: str = ' ') -> str:
     """
