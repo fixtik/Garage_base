@@ -44,6 +44,9 @@ class Member_front(QtWidgets.QWidget):
         self.ui.phone_lineEdit.setValidator(ui.validators.onlyNumValidator())
         self.ui.addPhone_lineEdit.setValidator(ui.validators.onlyNumValidator())
 
+        # автоматическая подгонка ширины
+        self.ui.autoMember_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+
         self.carInDbModel = CarTableViewModel()
         self.ui.autoMember_tableView.setModel(self.carInDbModel)
         self.ui.autoMember_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
@@ -67,8 +70,7 @@ class Member_front(QtWidgets.QWidget):
     def addToBase(self) -> bool:
         """Добавление записи о пользователе в базу"""
         if self.db:
-            if self.member.name and self.member.surname and self.member.birthday and self.member.phone \
-                    and self.member.address:
+            if self.member.name and self.member.surname and self.member.birthday and self.member.phone:
                 self.db.execute(sqlite_qwer.sql_add_new_member(surname=self.member.surname,
                                                                first_name=self.member.name,
                                                                second_name=self.member.secondName,
@@ -80,7 +82,6 @@ class Member_front(QtWidgets.QWidget):
                                                                address=self.member.address,
                                                                photo=self.photoPath))
                 self.member.id = self.db.cursor.lastrowid
-                print(self.member.id)
                 cars = self.carInDbModel.returnItems()
                 for car in cars:
                     self.db.execute(sqlite_qwer.sql_add_new_car(mark=str(car.mark),
@@ -119,7 +120,7 @@ class Member_front(QtWidgets.QWidget):
                                                                               self.db.cursor.lastrowid,
                                                                               'photo',
                                                                               constants.DEFAULT_PHOTO_PASS + str(
-                                                                                  self.db.cursor.lastrowid) + '.jpg'))
+                                                                              self.db.cursor.lastrowid) + '.jpg'))
 
     def addPushBtnClk(self):
         """Проверка данных при нажатии 'Добавить' """

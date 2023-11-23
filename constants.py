@@ -4,8 +4,6 @@ STANDART_PATH = ''
 DEFAULT_DB_NAME = 'garage.db'
 DEFAULT_VOA_IMG = 'photo/voa.png'
 
-
-
 SQL_CREATE_TABLE_GARAGE = 'CREATE TABLE IF NOT EXISTS "garage_obj" ( ' \
                           'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
                           '	"num_row"	INTEGER NOT NULL,' \
@@ -37,7 +35,6 @@ SQL_CREATE_TABLE_GARGE_MEMBER = 'CREATE TABLE IF NOT EXISTS "garage_member" (' \
                                 '   "inactive_date"	TEXT,' \
                                 '	"photo"	BLOB' \
                                 ');'
-
 
 SQL_CREATE_TABLE_ELECTRIC_METER = 'CREATE TABLE IF NOT EXISTS "electric_meter" (' \
                                   'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
@@ -95,13 +92,12 @@ TABALE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
                 'contribution_type', 'electric_meter', 'type_size']
 CAR_TABLE = 'automobile'
 OBJ_TABLE = 'garage_obj'
-ELECTRIC_TABLE ='electric_meter'
+ELECTRIC_TABLE = 'electric_meter'
 MEMBER_TABLE = 'garage_member'
 SIZE_TABLE = 'type_size'
 CONTRIB_TYPE_TABLE = 'contribution_type'
 
 OWNER_ID = 'owner_id'
-
 
 CONTRIB_WIN_EDIT_TITLE = 'Редактирование типа платежа'
 
