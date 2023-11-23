@@ -347,25 +347,58 @@ class Cart_frontend(QtWidgets.QWidget):
                 return True
         return False
 
+    def updateGarage(self) -> bool:
+        if self.db and self.fullObjInfo:
+            arenda_ids = self.getUsersIds()
+            sql = sqlite_qwer.sql_full_update_garage(object_id=self.fullObjInfo.id, row=self.ui.row_lineEdit.text(),
+                                                 num=self.ui.garage_lineEdit.text(),
+                                                 ownder_id=self.owner_id,
+                                                 size_id=self.garage_size_ids[self.ui.comboBox.currentIndex()],
+                                                 cr_year=self.ui.buildingYear_dateEdit.date().toPython(),
+                                                 arenda_ids=" ".join(arenda_ids),
+                                                 kadastr=self.ui.kadastr_lineEdit.text(),
+                                                 e220=self.e220,
+                                                 e380=self.e380)
+            if self.db.execute(sql):
+                return True
+        return False
+
+    def nameContribToKinfId(self, name: str) -> int:
+        """получает id типа платежа по его названию"""
+        if self.db.execute(sqlite_qwer.sql_select_id_by_field_value(constants.CONTRIB_TYPE_TABLE,
+                                                                    'name', name)):
+            return self.db.cursor.fetchone()[0]
+        return -1
+
     def addContributionToBase(self) -> bool:
         """добавление информации о платежах в БД"""
         if self.db:
             contribs = self.ui.contrib_tableView.model().items
             for contr in contribs:
-                if self.db.execute(sqlite_qwer.sql_select_id_by_field_value(constants.CONTRIB_TYPE_TABLE,
-                                                                            'name', contr.kindPay)):
-                    type_id = self.db.cursor.fetchone()[0]
-                sql = sqlite_qwer.sql_add_new_contrib(
-                    id_garage=self.garage_id,
-                    id_cont=type_id,
-                    pay_date=contr.payDate,
-                    period_pay=contr.payPeriod,
-                    value=contr.value
-                )
+                type_id = self.nameContribToKinfId(contr.kindPay)
+                if type_id == -1:
+                    return False
+                if contr.id: # если уже есть в базе - обновляем данные
+                    sql = sqlite_qwer.sql_full_update_contrib(cont_id=contr.id,
+                                                              id_garage=self.garage_id,
+                                                              id_cont=type_id,
+                                                              pay_date=contr.payDate,
+                                                              period_pay=contr.payPeriod,
+                                                              value=contr.value
+                                                              )
+                else:
+                    sql = sqlite_qwer.sql_add_new_contrib(
+                        id_garage=self.garage_id,
+                        id_cont=type_id,
+                        pay_date=contr.payDate,
+                        period_pay=contr.payPeriod,
+                        value=contr.value
+                    )
                 if not(self.db.execute(sql)):
                     ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
                     return False
             return True
+
 
     def checkGarageInDB(self) -> (bool, int):
         """проверка гаража в БД по ряду и номеру"""
@@ -399,22 +432,28 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def addToBasePushBtnclck(self):
         if self.checkFillAllFields():
-            if self.ui.change_pushButton.text() == constants.BTN_TEXT_ADD:
-                # добавляем гараж
-                objInDb = self.checkGarageInDB()
-                if not objInDb: # если объекта в БД нет
-                    if self.add_garage():
-                    # добавляем платежи
-                        if self.addContributionToBase():
-                            ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_ADDED)
-                            self.clearCartForm()
+            # добавляем гараж
+            objInDb = self.checkGarageInDB() if not self.fullObjInfo else True
+            if not objInDb: # если объекта в БД нет
+                if self.add_garage():
+                # добавляем платежи
+                    if self.addContributionToBase():
+                        ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_ADDED)
+                        self.clearCartForm()
 
-                elif objInDb: # если обект уже в бд
-                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_OBJECT_ALREDY_EXIST}\n'
-                                                                        f'{constants.MESSAGE_CHECK_DATA}')
-                else: # если ошибка с подключением к БД
-                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_SQL_QWERY}\n'
-                                                                        f'{constants.MESSAGE_CHECK_DB_CONNECTIONS}')
+            elif objInDb and self.fullObjInfo: # если обект уже в бд и режим редактирования
+                if self.updateGarage():
+                    if self.addContributionToBase():
+                        ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_CHANGED)
+                        self.close()
+
+
+            elif objInDb and not self.fullObjInfo: # если попытка добавить новый объект как дубликат к существующему
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_OBJECT_ALREDY_EXIST}\n'
+                                                                    f'{constants.MESSAGE_CHECK_DATA}')
+            else: # если ошибка с подключением к БД
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_SQL_QWERY}\n'
+                                                                    f'{constants.MESSAGE_CHECK_DB_CONNECTIONS}')
 
 
     def get_selected_owner_id(self):
