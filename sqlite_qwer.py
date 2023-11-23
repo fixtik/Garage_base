@@ -111,7 +111,7 @@ def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, period_pay:
     """
     формирование запроса для добавления платежа в БД
     """
-    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, period_pay, value " \
+    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, period_pay, value) VALUES " \
            f"({id_garage}, {id_cont}, '{pay_date}', '{period_pay}', {value});"
 
 def sql_update_contrib_type(contrib_id: int, value: float, comment: str = ' ') -> str:
@@ -164,9 +164,15 @@ def sql_get_one_record_by_id(table_name: str, id: int) -> str:
 
 def sql_select_all_by_field_value(table_name: str, field_name: str, value: list) -> str:
     """
-    возвращает одну запись по id
+    возвращает записи по значению поля
     """
     return f"SELECT * FROM {table_name} WHERE {field_name} IN ({value});"
+
+def sql_select_id_by_field_value(table_name: str, field_name: str, value: list) -> str:
+    """
+    возвращает записи по значению поля
+    """
+    return f"SELECT id FROM {table_name} WHERE {field_name} = '{value}';"
 
 
 def sql_update_field_by_table_name_and_id(table_name: str, rec_id: int, field: str, new_value) -> str:
@@ -293,23 +299,6 @@ def sql_select_garaje_id_by_num_and_row(garage_num: int, row: int) -> str:
     """
     return f'SELECT id FROM garage_obj WHERE num_bild = {garage_num} and num_row = {row};'
 
-# это полное говно, так как искать постоянно не удобно
-# def sql_update_garage_member(surname: str, first_name: str, second_name: str, phone_main: str, change_pole: str, new_value: str) -> str:
-#     """
-#     Замена любого поля гаражного члена через id
-#     :param surname: фамилия пользователя
-#     :param first_name: имя пользователя
-#     :param second_name: отчество пользователя
-#     :param phone_main: телефон пользователя
-#     :param change_pole: изменяемое поле
-#     :param new_value: новое значение
-#     :return: sql-запрос
-#     """
-#     return f'UPDATE  garage_member ' \
-#            f'SET {change_pole} = {new_value} ' \
-#            f'WHERE id = (SELECT id FROM GARGE_MEMBER WHERE surname = {surname}, first_name = {first_name}, ' \
-#            f'second_name = {second_name}, phone_main = {phone_main});'
-
 def sql_update_garage_member(id: str, surname: str, first_name: str, birth_date: str, phone_main: str, voa: str,
                        second_name: str = '', address: str = '', second_phone: str = '',
                        email: str = '', photo: str = '') -> str:
@@ -405,8 +394,8 @@ def sql_get_members_by_ogject(row: int = 0, number: int = 0) -> str:
     return sql_string
 
 def sql_get_member_by_id_set(ids: str) -> str:
-    """формирование запроса на получение данных пользователей по списку id"""
-    return f'SELECT * FROM garage_member WHERE id IN ({ids})'
+    """формирование запроса на получение данных пользователей по списку id (только активные)"""
+    return f'SELECT * FROM garage_member WHERE id IN ({ids}) AND active = 1'
 
 def sql_select_cars_and_own_info_by_owner_id(ids: str):
     """запрос на выборку инфо об авто с данными собственника"""
@@ -473,4 +462,13 @@ def sql_get_all_objects_for_list_by_row_and_num(row: str = '', num: str = ''):
         sql += f"WHERE garage_obj.num_row = {row} and garage_obj.num_bild = {num} "
     sql += f'ORDER BY garage_obj.num_row DESC, garage_obj.num_bild;'
     return sql
+
+def sql_select_contrib_by_object_id(object_id: str) -> str:
+    """Запрос на выдачу всех платежей для конкретного гаража"""
+
+    return f"SELECT contribution.id, contribution_type.name, contribution.pay_date, contribution.period_pay," \
+           f" contribution_type.value, contribution_type.comment FROM main.garage_obj " \
+           f" INNER JOIN contribution ON garage_obj.id = contribution.id_garage " \
+           f" INNER JOIN contribution_type ON contribution_type.id = contribution.id_cont_type " \
+           f" WHERE garage_obj.id = {object_id};"
 

@@ -61,6 +61,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.ui.tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.
                                                                            ResizeToContents)
+        self.ui.tableView.doubleClicked.connect(self.showCartObject_EditMode)
 
         self.ui.num_lineEdit.setValidator(ui.validators.onlyNumValidator())
         self.ui.row_lineEdit.setValidator(ui.validators.onlyNumValidator())
@@ -106,6 +107,13 @@ class Form_frontend(QtWidgets.QMainWindow):
         """Отображение окна карточки объекта"""
         self.cartObj = ui.cart_functions.Cart_frontend(db=self.db)
         self.cartObj.show()
+
+    def showCartObject_EditMode(self):
+        """Отображение окна карточки редактирования объекта"""
+        self.cartObj = ui.cart_functions.Cart_frontend(db=self.db)
+        self.cartObj.show()
+        self.cartObj.fillDataForObjectFromDB(self.obj_model.items[self.ui.tableView.selectedIndexes()[0].row()].id)
+
 
 
     def showKindPayWindow(self):

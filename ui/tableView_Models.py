@@ -79,7 +79,7 @@ class ContribTableViewModel(DBTableView):
         """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.header = ['id', 'Дата платежа', 'Вид платежа','Сумма платежа','Период оплаты']
+        self.header = ['id', 'Дата платежа', 'Вид платежа','Сумма платежа','Период оплаты', 'Комментарий']
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -97,6 +97,8 @@ class ContribTableViewModel(DBTableView):
                 return f'{pay_info.value}'
             if col == 4:
                 return f'{pay_info.payPeriod}'
+            if col == 5:
+                return f'{pay_info.comment}'
 
         elif role == QtCore.Qt.TextAlignmentRole:
             return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
@@ -197,7 +199,7 @@ class ElectricTableViewModel(DBTableView):
 
 class ObjectTableViewModel(DBTableView):
     """
-        Модель для отображения данных по счетчикам в TableView
+        Модель для отображения данных по объектам в TableView
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

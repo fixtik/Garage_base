@@ -37,7 +37,7 @@ SQL_CREATE_TABLE_GARGE_MEMBER = 'CREATE TABLE IF NOT EXISTS "garage_member" (' \
                                 '   "inactive_date"	TEXT,' \
                                 '	"photo"	BLOB' \
                                 ');'
-# с фото подумать - может сделать локальную папку с фотками - имена=id пользователя
+
 
 SQL_CREATE_TABLE_ELECTRIC_METER = 'CREATE TABLE IF NOT EXISTS "electric_meter" (' \
                                   'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
@@ -72,6 +72,7 @@ SQL_CREATE_TABLE_CONTRIBUTION = 'CREATE TABLE IF NOT EXISTS "contribution" (' \
                                 '	"pay_date"	TEXT NOT NULL,' \
                                 '	"period_pay"	TEXT NOT NULL,' \
                                 '	"value"	REAL,' \
+                                '   "comment" TEXT,' \
                                 'FOREIGN KEY("id_garage") REFERENCES "garage_obj"("id"),' \
                                 'FOREIGN KEY("id_cont_type") REFERENCES "contribution_type"("id")' \
                                 ');'
@@ -94,8 +95,11 @@ TABALE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
                 'contribution_type', 'electric_meter', 'type_size']
 CAR_TABLE = 'automobile'
 OBJ_TABLE = 'garage_obj'
-
+ELECTRIC_TABLE ='electric_meter'
 MEMBER_TABLE = 'garage_member'
+SIZE_TABLE = 'type_size'
+CONTRIB_TYPE_TABLE = 'contribution_type'
+
 OWNER_ID = 'owner_id'
 
 
