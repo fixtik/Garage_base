@@ -62,13 +62,10 @@ class AddGarageSize_front(QtWidgets.QWidget):
             garage_ids.clear()
             comboBox.clear()
             for item in size:
-                cont = GarageSizeStructure()
-                cont.id = item[0]
+                cont = GarageSizeStructure(*item)
+
                 garage_ids.append(cont.id)
-                cont.width = format(item[1]).rstrip('0').rstrip('.')
-                cont.len = format(item[2]).rstrip('0').rstrip('.')
-                cont.height = format(item[3]).rstrip('0').rstrip('.')
-                cont.comment = f'({item[4]})' if item[4] else ''
+                cont.comment = f'({cont.comment})' if cont.comment else ''
                 comboBox.addItem(f'{cont.width} x {cont.len} x {cont.height} {cont.comment}')
 
         return garage_ids
@@ -157,45 +154,4 @@ class GarageSizeStructure():
     comment: str = ''
 
 
-# class AddSizeGarage_front(QtWidgets.QWidget):
-#     """Виджет для добавления размеров гаража в бд"""
 #
-#     def __init__(self, db, parent=None):
-#         super().__init__(parent)
-#         self.ui = addK.Ui_Form()
-#         self.ui.setupUi(self)
-#
-#         self.mainForm = None
-#         self.db = db
-#
-#         self.initUi()
-#
-#     def initUi(self):
-#         self.ui.close_pushButton.clicked.connect(self.close)
-#         self.ui.ok_pushButton.clicked.connect(self.okPushBtnClk)
-#         self.ui.width_lineEdit.setValidator(ui.validators.floatValidator())
-#         self.ui.length_lineEdit.setValidator(ui.validators.floatValidator())
-#         self.ui.height_lineEdit.setValidator(ui.validators.floatValidator())
-#
-#     def okPushBtnClk(self):
-#         """нажатие кнопки ок"""
-#         if self.mainForm:
-#             if not(self.ui.width_lineEdit.text() and self.ui.length_lineEdit.text() and self.ui.height_lineEdit.text()):
-#                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TEXT_PLACE_NOT_FILL)
-#                 return
-#             if self.db.connect:
-#                 self.ui.width_lineEdit.setText(self.ui.width_lineEdit.text().replace(',', '.'))
-#                 self.ui.length_lineEdit.setText(self.ui.length_lineEdit.text().replace(',', '.'))
-#                 self.ui.height_lineEdit.setText(self.ui.height_lineEdit.text().replace(',', '.'))
-#                 try:
-#
-#                     sql = sqlite_qwer.sql_add_new_garage_size(self.ui.width_lineEdit.text(),
-#                                                               self.ui.length_lineEdit.text(),
-#                                                               self.ui.height_lineEdit.text(),
-#                                                               self.ui.comment_lineEdit.text())
-#                     self.db.execute(sql)
-#                 except Exception as e:
-#                     ui.dialogs.onShowError(self, constants.ERROR_SQL_QWERY, str(e))
-#                     return
-#                 self.mainForm.fillGarageSizeFromBase()
-#             self.close()

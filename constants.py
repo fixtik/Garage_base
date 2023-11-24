@@ -2,6 +2,7 @@ import os
 
 STANDART_PATH = ''
 DEFAULT_DB_NAME = 'garage.db'
+DEFAULT_VOA_IMG = 'photo/voa.png'
 
 
 
@@ -36,7 +37,7 @@ SQL_CREATE_TABLE_GARGE_MEMBER = 'CREATE TABLE IF NOT EXISTS "garage_member" (' \
                                 '   "inactive_date"	TEXT,' \
                                 '	"photo"	BLOB' \
                                 ');'
-# с фото подумать - может сделать локальную папку с фотками - имена=id пользователя
+
 
 SQL_CREATE_TABLE_ELECTRIC_METER = 'CREATE TABLE IF NOT EXISTS "electric_meter" (' \
                                   'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
@@ -71,6 +72,7 @@ SQL_CREATE_TABLE_CONTRIBUTION = 'CREATE TABLE IF NOT EXISTS "contribution" (' \
                                 '	"pay_date"	TEXT NOT NULL,' \
                                 '	"period_pay"	TEXT NOT NULL,' \
                                 '	"value"	REAL,' \
+                                '   "comment" TEXT' \
                                 'FOREIGN KEY("id_garage") REFERENCES "garage_obj"("id"),' \
                                 'FOREIGN KEY("id_cont_type") REFERENCES "contribution_type"("id")' \
                                 ');'
@@ -92,7 +94,12 @@ BD_SQL_CREATOR = [SQL_CREATE_TABLE_GARGE_MEMBER, SQL_CREATE_TABLE_ELECTRIC_METER
 TABALE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
                 'contribution_type', 'electric_meter', 'type_size']
 CAR_TABLE = 'automobile'
+OBJ_TABLE = 'garage_obj'
+ELECTRIC_TABLE ='electric_meter'
 MEMBER_TABLE = 'garage_member'
+SIZE_TABLE = 'type_size'
+CONTRIB_TYPE_TABLE = 'contribution_type'
+
 OWNER_ID = 'owner_id'
 
 
@@ -100,6 +107,8 @@ CONTRIB_WIN_EDIT_TITLE = 'Редактирование типа платежа'
 
 PHOTO_H = 100
 PHOTO_W = 100
+IMG_H = 200
+IMG_W = 200
 ELECTRIC_HEIGHT_ADD = 170
 
 ERROR_TEXT_PLACE_NOT_FILL = 'Запоните все обязательные поля!'
@@ -140,6 +149,7 @@ FILTER_BD = '*.db'
 
 BTN_TEXT_ADD = 'Добавить'
 BTN_TEXT_CHANGE = "Изменить"
+BTN_TEXT_CHOOSE = "Выбрать"
 
 LABLEL_TEXT_ADD_DBLCLCK = "Добавление - двойным кликом"
 

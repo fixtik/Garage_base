@@ -79,7 +79,7 @@ class ContribTableViewModel(DBTableView):
         """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.header = ['id', 'Дата платежа', 'Вид платежа','Сумма платежа','Период оплаты']
+        self.header = ['id', 'Дата платежа', 'Вид платежа','Сумма платежа','Период оплаты', 'Комментарий']
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -97,6 +97,8 @@ class ContribTableViewModel(DBTableView):
                 return f'{pay_info.value}'
             if col == 4:
                 return f'{pay_info.payPeriod}'
+            if col == 5:
+                return f'{pay_info.comment}'
 
         elif role == QtCore.Qt.TextAlignmentRole:
             return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
@@ -195,4 +197,33 @@ class ElectricTableViewModel(DBTableView):
             elif role == QtCore.Qt.TextAlignmentRole:
                 return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
+class ObjectTableViewModel(DBTableView):
+    """
+        Модель для отображения данных по объектам в TableView
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.header = ['id', 'Ряд', 'Номер', 'Владелец', 'Телефон владельца', 'Кадастровый номер']
+
+    def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
+        if not index.isValid():
+            return
+        if role == QtCore.Qt.ItemDataRole.DisplayRole:
+            obj = self.items[index.row()]
+            col = index.column()
+            if col == 0:
+                return f'{obj.id}'
+            if col == 1:
+                return f'{obj.row}'
+            if col == 2:
+                return f'{obj.number}'
+            if col == 3:
+                return f'{obj.owner}'
+            if col == 4:
+                return f'{obj.owner_phone}'
+            if col == 5:
+                return f'{obj.kadastr}'
+
+            elif role == QtCore.Qt.TextAlignmentRole:
+                return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 

@@ -16,8 +16,10 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QMainWindow, QMenu, QMenuBar,
-    QSizePolicy, QStatusBar, QWidget)
+from PySide6.QtWidgets import (QApplication, QHBoxLayout, QHeaderView, QLabel,
+    QLineEdit, QMainWindow, QMenu, QMenuBar,
+    QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
+    QTableView, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -44,10 +46,87 @@ class Ui_MainWindow(object):
         self.electric_action.setObjectName(u"electric_action")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+        self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
+
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer)
+
+        self.voa_label = QLabel(self.centralwidget)
+        self.voa_label.setObjectName(u"voa_label")
+
+        self.verticalLayout.addWidget(self.voa_label)
+
+        self.openBase_pushButton = QPushButton(self.centralwidget)
+        self.openBase_pushButton.setObjectName(u"openBase_pushButton")
+
+        self.verticalLayout.addWidget(self.openBase_pushButton)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer_2)
+
+
+        self.horizontalLayout.addLayout(self.verticalLayout)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer_2)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.row_label = QLabel(self.centralwidget)
+        self.row_label.setObjectName(u"row_label")
+
+        self.horizontalLayout_2.addWidget(self.row_label)
+
+        self.row_lineEdit = QLineEdit(self.centralwidget)
+        self.row_lineEdit.setObjectName(u"row_lineEdit")
+
+        self.horizontalLayout_2.addWidget(self.row_lineEdit)
+
+        self.num_label = QLabel(self.centralwidget)
+        self.num_label.setObjectName(u"num_label")
+
+        self.horizontalLayout_2.addWidget(self.num_label)
+
+        self.num_lineEdit = QLineEdit(self.centralwidget)
+        self.num_lineEdit.setObjectName(u"num_lineEdit")
+
+        self.horizontalLayout_2.addWidget(self.num_lineEdit)
+
+
+        self.horizontalLayout_3.addLayout(self.horizontalLayout_2)
+
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
+
+        self.tableView = QTableView(self.centralwidget)
+        self.tableView.setObjectName(u"tableView")
+
+        self.verticalLayout_2.addWidget(self.tableView)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 800, 24))
+        self.menubar.setGeometry(QRect(0, 0, 800, 22))
         self.menubar.setDefaultUp(False)
         self.operation_menu = QMenu(self.menubar)
         self.operation_menu.setObjectName(u"operation_menu")
@@ -93,6 +172,10 @@ class Ui_MainWindow(object):
         self.member_action.setText(QCoreApplication.translate("MainWindow", u"\u0427\u043b\u0435\u043d \u043a\u043e\u043e\u043f\u0435\u0440\u0430\u0442\u0438\u0432\u0430", None))
         self.garage_action.setText(QCoreApplication.translate("MainWindow", u"\u0413\u0430\u0440\u0430\u0436", None))
         self.electric_action.setText(QCoreApplication.translate("MainWindow", u"\u042d\u043b\u0435\u043a\u0442\u0440\u043e\u0441\u0447\u0435\u0442\u0447\u0438\u043a", None))
+        self.voa_label.setText("")
+        self.openBase_pushButton.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0431\u0430\u0437\u0443 \u0434\u0430\u043d\u043d\u044b\u0445", None))
+        self.row_label.setText(QCoreApplication.translate("MainWindow", u"\u0420\u044f\u0434", None))
+        self.num_label.setText(QCoreApplication.translate("MainWindow", u"\u041d\u043e\u043c\u0435\u0440", None))
         self.operation_menu.setTitle(QCoreApplication.translate("MainWindow", u"\u041e\u043f\u0435\u0440\u0430\u0446\u0438\u0438", None))
         self.settings_menu.setTitle(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
         self.about_menu.setTitle(QCoreApplication.translate("MainWindow", u"\u041e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0435", None))

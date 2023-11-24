@@ -47,7 +47,7 @@ def sql_update_electric_meter_by_id(metr_id: int, cur_day: int, cur_night: int =
     :param cur_night: :param cur_night: текущие ночные показания (по умолчанию 0)
     :return: sql-запрос
     """
-    return f'UPDATE electric_meter SET' \
+    return f'UPDATE electric_meter SET ' \
            f'prev_day = (SELECT day FROM electric_meter WHERE id = {metr_id}),' \
            f'prev_night =  (SELECT night FROM electric_meter WHERE id = {metr_id}),' \
            f'day = {cur_day}, night = {cur_night} ' \
@@ -107,12 +107,22 @@ def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = ' '
     """
     return f"INSERT INTO contribution_type (name, value, comment) VALUES ('{contrib_name}', {value}, '{comment}');"
 
-def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, period_pay: str, value: float) -> str:
+def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, period_pay: str, value: float,
+                        comment: str ='') -> str:
     """
     формирование запроса для добавления платежа в БД
     """
-    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, period_pay, value " \
-           f"({id_garage}, {id_cont}, '{pay_date}', '{period_pay}', {value});"
+    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, period_pay, value, comment) VALUES " \
+           f"({id_garage}, {id_cont}, '{pay_date}', '{period_pay}', {value}, '{comment}');"
+
+def sql_full_update_contrib(cont_id: str, id_garage: str, id_cont: str, pay_date: str,
+                            period_pay: str, value: float, comment:str = '') -> str:
+    """
+    формирование запроса для добавления платежа в БД
+    """
+    return f"UPDATE contribution SET id_garage={id_garage}, id_cont_type = {id_cont}, pay_date = '{pay_date}'," \
+           f" period_pay ='{period_pay}', value = {value}, comment = '{comment}' WHERE id = {cont_id};"
+
 
 def sql_update_contrib_type(contrib_id: int, value: float, comment: str = ' ') -> str:
     """
@@ -164,9 +174,15 @@ def sql_get_one_record_by_id(table_name: str, id: int) -> str:
 
 def sql_select_all_by_field_value(table_name: str, field_name: str, value: list) -> str:
     """
-    возвращает одну запись по id
+    возвращает записи по значению поля
     """
     return f"SELECT * FROM {table_name} WHERE {field_name} IN ({value});"
+
+def sql_select_id_by_field_value(table_name: str, field_name: str, value: list) -> str:
+    """
+    возвращает записи по значению поля
+    """
+    return f"SELECT id FROM {table_name} WHERE {field_name} = '{value}';"
 
 
 def sql_update_field_by_table_name_and_id(table_name: str, rec_id: int, field: str, new_value) -> str:
@@ -293,23 +309,6 @@ def sql_select_garaje_id_by_num_and_row(garage_num: int, row: int) -> str:
     """
     return f'SELECT id FROM garage_obj WHERE num_bild = {garage_num} and num_row = {row};'
 
-# это полное говно, так как искать постоянно не удобно
-# def sql_update_garage_member(surname: str, first_name: str, second_name: str, phone_main: str, change_pole: str, new_value: str) -> str:
-#     """
-#     Замена любого поля гаражного члена через id
-#     :param surname: фамилия пользователя
-#     :param first_name: имя пользователя
-#     :param second_name: отчество пользователя
-#     :param phone_main: телефон пользователя
-#     :param change_pole: изменяемое поле
-#     :param new_value: новое значение
-#     :return: sql-запрос
-#     """
-#     return f'UPDATE  garage_member ' \
-#            f'SET {change_pole} = {new_value} ' \
-#            f'WHERE id = (SELECT id FROM GARGE_MEMBER WHERE surname = {surname}, first_name = {first_name}, ' \
-#            f'second_name = {second_name}, phone_main = {phone_main});'
-
 def sql_update_garage_member(id: str, surname: str, first_name: str, birth_date: str, phone_main: str, voa: str,
                        second_name: str = '', address: str = '', second_phone: str = '',
                        email: str = '', photo: str = '') -> str:
@@ -358,14 +357,14 @@ def sql_add_new_garage_size(width: float, length: float, height: float, comment:
     return f'INSERT INTO type_size (width, len, height, comment) VALUES ({width}, {length}, {height}, "{comment}");'
 
 def sql_update_garage_size(size_id: int, width: float, length: float, height: float, comment: str = ' ') -> str:
-    '''
+    """
     Запрос на поиск id по типоразмерам
     :param width: ширина
     :param len: длина
     :param height: высота
     :param comment: комментарий
     :return: sql-запрос
-    '''
+    """
     return f"UPDATE type_size SET width = {width}, len = {length}, height = {height}, comment = '{comment}'" \
            f" WHERE id = {size_id};"
 
@@ -404,8 +403,8 @@ def sql_get_members_by_ogject(row: int = 0, number: int = 0) -> str:
     return sql_string
 
 def sql_get_member_by_id_set(ids: str) -> str:
-    """формирование запроса на получение данных пользователей по списку id"""
-    return f'SELECT * FROM garage_member WHERE id IN ({ids})'
+    """формирование запроса на получение данных пользователей по списку id (только активные)"""
+    return f'SELECT * FROM garage_member WHERE id IN ({ids}) AND active = 1'
 
 def sql_select_cars_and_own_info_by_owner_id(ids: str):
     """запрос на выборку инфо об авто с данными собственника"""
@@ -452,4 +451,53 @@ def sql_add_new_garage(row: str, num: str, ownder_id: str, size_id: str, cr_year
     return f"INSERT INTO garage_obj (num_row, num_bild, kadastr_num, owner_id, arendator_id, size_type_id, " \
            f"create_year, electro220_id, electro380_id) VALUES ({row}, {num}, '{kadastr}', {ownder_id}, " \
            f"'{arenda_ids}', {size_id}, '{cr_year}', {e220}, {e380});"
+
+def sql_full_update_garage(object_id: str, row: str, num: str, ownder_id: str, size_id: str, cr_year: str,
+                       arenda_ids: str ='', kadastr:str = '', e220: str = '0', e380: str ='0') -> str:
+    """
+    Формаирование запроса на изменение данных гаража
+    :param object_id: id редактируемого объекта
+    :param row: ряд
+    :param num: номер
+    :param ownder_id: идентификатор собственника
+    :param size_id: идентификатор размера
+    :param cr_year: год постройки
+    :param arenda_ids: список через пробел идентификаторов арендаторов
+    :param kadastr: кадастровый номер
+    :param e220: идентификатор счетчика 220 В
+    :param e380: идентификатор счетчика 380 В1
+    :return: sql-запрос
+    """
+    return f"UPDATE garage_obj SET num_row = {row}, " \
+           f"num_bild = {num}, kadastr_num = '{kadastr}', owner_id = {ownder_id}, arendator_id = '{arenda_ids}', " \
+           f"size_type_id = {size_id}, create_year ='{cr_year}', electro220_id = {e220}, electro380_id = {e380} " \
+           f"WHERE id = {object_id} ;"
+
+def sql_get_all_objects_for_list_by_row_and_num(row: str = '', num: str = ''):
+    """
+    Формирование запроса на вывод данных из БД в таблицу главного окна
+    :param row: ряд объекта
+    :param num: номер объекта
+    :return: sql-запрос в зависимости от переданных значений
+    """
+    sql = f'SELECT garage_obj.id, garage_obj.num_row, garage_obj.num_bild, garage_member.surname,' \
+           f'garage_member.first_name, garage_member.second_name, garage_member.phone_main, garage_obj.kadastr_num ' \
+           f' FROM garage_obj INNER JOIN garage_member ON garage_member.id = garage_obj.owner_id '
+    if row and not num:
+        sql += f"WHERE garage_obj.num_row = {row} "
+    elif not row and num:
+        sql += f"WHERE garage_obj.num_bild = {num} "
+    elif row and num:
+        sql += f"WHERE garage_obj.num_row = {row} and garage_obj.num_bild = {num} "
+    sql += f'ORDER BY garage_obj.num_row DESC, garage_obj.num_bild;'
+    return sql
+
+def sql_select_contrib_by_object_id(object_id: str) -> str:
+    """Запрос на выдачу всех платежей для конкретного гаража"""
+
+    return f"SELECT contribution.id, contribution_type.name, contribution.pay_date, contribution.period_pay," \
+           f" contribution_type.value, contribution_type.comment FROM main.garage_obj " \
+           f" INNER JOIN contribution ON garage_obj.id = contribution.id_garage " \
+           f" INNER JOIN contribution_type ON contribution_type.id = contribution.id_cont_type" \
+           f" WHERE garage_obj.id = {object_id};"
 

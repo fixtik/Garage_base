@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+from datetime import datetime
+
 from PySide6 import QtCore, QtWidgets, QtGui
 
 
@@ -24,11 +27,13 @@ class Cart_frontend(QtWidgets.QWidget):
     def __init__(self, db, parent=None):
         super().__init__(parent)
 
+
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.db = db          # db-connector
 
         # переменные класса
+        self.obj_id = None
         self.photoPath = None
         self.addCar_form = None
         self.addContrib_form = None
@@ -39,9 +44,13 @@ class Cart_frontend(QtWidgets.QWidget):
         self.garage_size_ids = []  # список id типоразмеров
         self.e220, self.e380 = None, None # для id счетчиков
         self.garage_id = None # id гаража
-        self.button_group = None#QtWidgets.QButtonGroup(self)
+        self.button_group = None # QButtonGroup(self)
+        self.fullObjInfo = None # информация об объекте (полная)
 
         self.initUi()
+
+
+
 
     def initUi(self):
         """Инициализация интерфейса"""
@@ -66,6 +75,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.elMeterModel = ElectricTableViewModel()
         self.ui.electric_tableView.setModel(self.elMeterModel)
         self.ui.electric_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.ui.electric_tableView.doubleClicked.connect(self.showEditElectricForm)
 
         # Обновление комбо бокса сразмерами гаража
         self.updateDataFromDB()              # заполнение данных типоразмера
@@ -73,18 +83,18 @@ class Cart_frontend(QtWidgets.QWidget):
         # слоты кнопок
         self.ui.close_pushButton.clicked.connect(self.close)                        # закрытие формы
         self.ui.image_pushButton.clicked.connect(self.choosePhoto)                  # добавление фото
-        self.ui.carAdd_pushButton.clicked.connect(self.showAddCarForm)              # добавление авто
+
         self.ui.contribAdd_pushButton.clicked.connect(self.showAddContribForm)      # добавление платежки
         self.ui.userAdd_pushButton.clicked.connect(self.showFindUserForm)           # добавление пользрователя
         self.ui.electricAdd_pushButton.clicked.connect(self.showElectricMetr)       # добавленее счетчика
         self.ui.addSize_pushButton.clicked.connect(self.showSizeEditorForm)         # доабвление размеров
 
-        self.ui.carDel_pushButton.clicked.connect(self.delTbView)                   # удаление выделенной строки
+        # удаление выделенной строки
         self.ui.contribDel_pushButton.clicked.connect(self.delTbView)
         self.ui.userDel_pushButton.clicked.connect(self.delTbView)
         self.ui.electricDel_pushButton.clicked.connect(self.delTbView)
-        self.ui.change_pushButton.clicked.connect(self.clearCartForm)  # внесение изменений в БД
-        #self.ui.change_pushButton.clicked.connect(self.addToBasePushBtnclck)       # внесение изменений в БД
+        #self.ui.change_pushButton.clicked.connect(self.clearCartForm)  # внесение изменений в БД
+        self.ui.change_pushButton.clicked.connect(self.addToBasePushBtnclck)       # внесение изменений в БД
 
         # валидаторы
         self.ui.garage_lineEdit.setValidator(ui.validators.onlyNumValidator())
@@ -99,6 +109,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.auto_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         self.ui.electric_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         self.ui.users_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.ui.auto_label.setMinimumWidth(self.ui.userAdd_pushButton.width())
 
 
 
@@ -108,33 +119,27 @@ class Cart_frontend(QtWidgets.QWidget):
             self.garage_size_ids = \
                 ui.new_garage_size_func.AddGarageSize_front.fillGarageSizeFromBase(self.db, self.ui.comboBox)[:]
 
-
-    def itemChanged(self):
-        pass
-        """изменение данных в полях при изменении выбранной позиции"""
-        if self.ui.comboBox.currentIndex() == -1:
-            return
-        self.db.execute(sqlite_qwer.sql_get_one_record_by_id(ui.new_garage_size_func.AddGarageSize_front.TB_NAME,
-                                                             self.garage_size_ids[self.ui.comboBox.currentIndex()]))
-        contrib = self.db.cursor.fetchall()
-
-        self.ui.width_lineEdit.setText(str(contrib[0][1]))
-        self.ui.len_lineEdit.setText(str(contrib[0][2]))
-        self.ui.hight_lineEdit.setText(str(contrib[0][3]))
-        self.ui.width_lineEdit_2.setText(contrib[0][4])
-
     def updateDataFromDB(self):
         """Обновление данных из БД для отображения в полях"""
         self.fillComboBox()
 
     def choosePhoto(self):
         """выбор фото на карточку"""
-        img_path = ui.dialogs.open_file_dialog(constants.TITLE_SELECT_PHOTO, constants.FILTER_PHOTO)[0]
-        if img_path:
-            pix = QtGui.QPixmap(img_path)
+        imgPath = ui.dialogs.open_file_dialog(constants.TITLE_SELECT_PHOTO, constants.FILTER_PHOTO)[0]
+        if imgPath:
+            self.setNewPhoto(imgPath)
+
+    def setNewPhoto(self, image: str):
+        """
+        установка нового фото
+        :param image: путь к фото
+        """
+        if image:
+            pix = QtGui.QPixmap(image)
             pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
             self.ui.photo_label.setPixmap(pix)
-            self.photoPath = img_path
+            self.photoPath = image
+
 
     def showElectricMetr(self):
         """открытие окна для добавления счетчика"""
@@ -145,16 +150,6 @@ class Cart_frontend(QtWidgets.QWidget):
 
         self.addElectric.show()
 
-    def showAddCarForm(self):
-        """открытие формы добавления авто"""
-        users_id = self.getUsersIds()
-        if self.owner_id:
-            users_id.append(self.owner_id)
-        if users_id:
-            self.addCar_form = ui.car_functions.Car_frontend(self.db)
-            self.addCar_form.mainForm = self
-            self.addCar_form.addCarsByUsers(users_id)
-            self.addCar_form.show()
 
     def showAddContribForm(self):
         """открытие формы добавления платежа"""
@@ -176,17 +171,27 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.auto_tableView.clearSpans()
         # взносы
         self.ui.contrib_tableView.clearSpans()
+        self.ui.electric_tableView.clearSpans()
 
     def add_car_to_tableView(self, mark: str, num: str):
         """добавление данных о машине в таблицу"""
         self.ui.auto_tableView.columnCountChanged(0, 3)
         self.ui.auto_tableView.rowCountChanged(0,2)
-        #self.ui.auto_tableView.(0,0) = '1'
+
 
     def showFindUserForm(self):
         """Открывает форму поиска члена кооператива"""
         self.addUser_form = ui.member_functions.FindMember_front(db=self.db, main_form=self)
         self.addUser_form.show()
+
+    def showEditElectricForm(self):
+        """открывает форму редактирования счетчика"""
+        self.addElectric = ui.electric_meter_func.Electric_front(self.db)
+        self.addElectric.mainForm = self
+        elmeter_id = (self.ui.electric_tableView.model().items[self.ui.electric_tableView.selectedIndexes()[0].row()]).id
+        self.addElectric.changeFormElectric(elmeter_id=elmeter_id)
+        self.addElectric.hideFindePlace()
+        self.addElectric.show()
 
     def showEditUserForm(self):
         """Открывает форму редактирования данных о пользователе"""
@@ -198,19 +203,31 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def addRadioButtonToUsersTable(self):
         """Добавление RadioButton в user_tableView"""
+        if self.button_group:
+            del self.button_group
         self.button_group = QtWidgets.QButtonGroup(self)
         self.button_group.buttonClicked.connect(self.get_selected_owner_id)
+
+        if self.owner_id:
+            # дабы не потерять собственника выбранного
+            for indx, item in enumerate(self.userModel.items):
+                if item.id == self.owner_id:
+                    break
+
         for index in range(self.userModel.rowCount()):
             w = QtWidgets.QWidget()
             h_layout = QtWidgets.QHBoxLayout(w)
             h_layout.setContentsMargins(0, 0, 0, 0)
             radio_btn = QtWidgets.QRadioButton("", self)
+            if self.owner_id and indx == index:
+                radio_btn.setChecked(True)
 
             h_layout.addWidget(radio_btn, alignment=QtCore.Qt.AlignCenter)
             self.button_group.addButton(radio_btn, index)
             self.ui.users_tableView.setIndexWidget(self.ui.users_tableView.model().index(index,
                                                                                         self.userModel.columnCount()-1),
                                                                                          w)
+
 
     def showSizeEditorForm(self):
         """открывает форму добавления типоразмера"""
@@ -246,9 +263,8 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def delTbView(self):
         """удаление строки из таблицы"""
-        if self.sender().objectName() == self.ui.carDel_pushButton.objectName():
-            self.delSelectRowFromTableView(self.ui.auto_tableView)
-        elif self.sender().objectName() == self.ui.electricDel_pushButton.objectName():
+
+        if self.sender().objectName() == self.ui.electricDel_pushButton.objectName():
             self.delSelectRowFromTableView(self.ui.electric_tableView)
         elif self.sender().objectName() == self.ui.userDel_pushButton.objectName():
             # при удалении пользователя - удаляем и сслыки на его id
@@ -278,6 +294,7 @@ class Cart_frontend(QtWidgets.QWidget):
 
 
     def checkFillAllFields(self):
+        """проверка заполненения всех полей"""
         if not (self.owner_id):
             ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_NO_OWNER)
             return False
@@ -328,24 +345,60 @@ class Cart_frontend(QtWidgets.QWidget):
                 return True
         return False
 
+    def updateGarage(self) -> bool:
+        if self.db and self.fullObjInfo:
+            arenda_ids = self.getUsersIds()
+            sql = sqlite_qwer.sql_full_update_garage(object_id=self.fullObjInfo.id, row=self.ui.row_lineEdit.text(),
+                                                 num=self.ui.garage_lineEdit.text(),
+                                                 ownder_id=self.owner_id,
+                                                 size_id=self.garage_size_ids[self.ui.comboBox.currentIndex()],
+                                                 cr_year=self.ui.buildingYear_dateEdit.date().toPython(),
+                                                 arenda_ids=" ".join(arenda_ids),
+                                                 kadastr=self.ui.kadastr_lineEdit.text(),
+                                                 e220=self.e220,
+                                                 e380=self.e380)
+            if self.db.execute(sql):
+                return True
+        return False
+
+    def nameContribToKinfId(self, name: str) -> int:
+        """получает id типа платежа по его названию"""
+        if self.db.execute(sqlite_qwer.sql_select_id_by_field_value(constants.CONTRIB_TYPE_TABLE,
+                                                                    'name', name)):
+            return self.db.cursor.fetchone()[0]
+        return -1
+
     def addContributionToBase(self) -> bool:
         """добавление информации о платежах в БД"""
         if self.db:
             contribs = self.ui.contrib_tableView.model().items
             for contr in contribs:
-                sql = sqlite_qwer.sql_add_new_contrib(
-                    id_garage=self.garage_id,
-                    id_cont=contr.kindPay,
-                    pay_date=contr.payDate,
-                    period_pay=contr.payPeriod,
-                    value=contr.value
-                )
+                type_id = self.nameContribToKinfId(contr.kindPay)
+                if type_id == -1:
+                    return False
+                if contr.id: # если уже есть в базе - обновляем данные
+                    sql = sqlite_qwer.sql_full_update_contrib(cont_id=contr.id,
+                                                              id_garage=self.garage_id,
+                                                              id_cont=type_id,
+                                                              pay_date=contr.payDate,
+                                                              period_pay=contr.payPeriod,
+                                                              value=contr.value
+                                                              )
+                else:
+                    sql = sqlite_qwer.sql_add_new_contrib(
+                        id_garage=self.garage_id,
+                        id_cont=type_id,
+                        pay_date=contr.payDate,
+                        period_pay=contr.payPeriod,
+                        value=contr.value
+                    )
                 if not(self.db.execute(sql)):
                     ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
                     return False
             return True
 
-    def checkGarageInDB(self) -> bool:
+
+    def checkGarageInDB(self) -> (bool, int):
         """проверка гаража в БД по ряду и номеру"""
         sql = sqlite_qwer.sql_select_garaje_id_by_num_and_row(
             garage_num=int(self.ui.garage_lineEdit.text()),
@@ -377,22 +430,28 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def addToBasePushBtnclck(self):
         if self.checkFillAllFields():
-            if self.ui.change_pushButton.text() == constants.BTN_TEXT_ADD:
-                # добавляем гараж
-                objInDb = self.checkGarageInDB()
-                if not objInDb: # если объекта в БД нет
-                    if self.add_garage():
-                    # добавляем платежи
-                        if self.addContributionToBase():
-                            ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_ADDED)
-                            self.clearCartForm()
+            # добавляем гараж
+            objInDb = self.checkGarageInDB() if not self.fullObjInfo else True
+            if not objInDb: # если объекта в БД нет
+                if self.add_garage():
+                # добавляем платежи
+                    if self.addContributionToBase():
+                        ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_ADDED)
+                        self.clearCartForm()
 
-                elif objInDb: # если обект уже в бд
-                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_OBJECT_ALREDY_EXIST}\n'
-                                                                        f'{constants.MESSAGE_CHECK_DATA}')
-                else: # если ошибка с подключением к БД
-                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_SQL_QWERY}\n'
-                                                                        f'{constants.MESSAGE_CHECK_DB_CONNECTIONS}')
+            elif objInDb and self.fullObjInfo: # если обект уже в бд и режим редактирования
+                if self.updateGarage():
+                    if self.addContributionToBase():
+                        ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_CHANGED)
+                        self.close()
+
+
+            elif objInDb and not self.fullObjInfo: # если попытка добавить новый объект как дубликат к существующему
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_OBJECT_ALREDY_EXIST}\n'
+                                                                    f'{constants.MESSAGE_CHECK_DATA}')
+            else: # если ошибка с подключением к БД
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_SQL_QWERY}\n'
+                                                                    f'{constants.MESSAGE_CHECK_DB_CONNECTIONS}')
 
 
     def get_selected_owner_id(self):
@@ -402,12 +461,92 @@ class Cart_frontend(QtWidgets.QWidget):
         self.owner_id = item.id
         self.ui.ownerFIO_lineEdit.setText(item.fio)
         self.ui.ownerPhone_lineEdit.setText(item.phone)
+        # здесь запрос в БД на доставание пути к фото
         # сюда бы фото...
 
 
 
+    def fillDataForObjectFromDB(self, object_id: str):
+        """
+        Заполнение формы для объекта при известном id объекта
+        :param object_id: id объекта
+        """
+        if self.db and object_id:
+            if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=constants.OBJ_TABLE, id=object_id)):
+                oi = self.db.cursor.fetchone()
+                self.fullObjInfo = FullObjectInfo(*oi)
+                # заполняем поля об объекте
+                self.ui.row_lineEdit.setText(f'{self.fullObjInfo.num_row}')
+                self.ui.garage_lineEdit.setText(f'{self.fullObjInfo.num_bild}')
+                self.ui.kadastr_lineEdit.setText(f'{self.fullObjInfo.kadastr_num}')
+                self.ui.buildingYear_dateEdit.setDate(datetime.strptime(self.fullObjInfo.create_year, "%Y-%m-%d").date())
+                # заполняем данные о собственнике
+                sql = sqlite_qwer.sql_get_one_record_by_id(constants.MEMBER_TABLE, self.fullObjInfo.owner_id)
+                self.owner_id = self.fullObjInfo.owner_id
+                if self.db.execute(sql):
+                    usinf = ui.member_functions.Member(*self.db.cursor.fetchone())
+                    usinf_lite = ui.member_functions.User_Info()
+                    usinf_lite.memberToUserInfo(usinf)
+                    self.ui.ownerFIO_lineEdit.setText(usinf_lite.fio)
+                    self.ui.ownerPhone_lineEdit.setText(usinf.phone)
+                    self.setNewPhoto(usinf.photo)
+                    self.photoPath = usinf.photo
+                    # заполняем данные данные о арендаторах и их авто
+                    ids = f"{(self.fullObjInfo.arendator_id.replace(' ',','))},{self.owner_id}"
+                    if ui.member_functions.FindMember_front.addUserAndCarsToTV(self.db, ids,
+                                                                               self.userModel, self.carModel):
+                        self.addRadioButtonToUsersTable()
+                    # заполняем данные о счетчиках
+                    if self.fullObjInfo.electro220_id != 0:
+                        if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(constants.ELECTRIC_TABLE,
+                                                                             self.fullObjInfo.electro220_id)):
+                            self.elMeterModel.setItems(ui.electric_meter_func.ElectricMeter(*self.db.cursor.fetchone()))
+                    if self.fullObjInfo.electro380_id != 0:
+                        if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(constants.ELECTRIC_TABLE,
+                                                                             self.fullObjInfo.electro380_id)):
+                            self.elMeterModel.setItems(ui.electric_meter_func.ElectricMeter(*self.db.cursor.fetchone()))
+                    # заполняем данные о типоразмере
+                    if self.fullObjInfo.size_type_id:
+                        for indx, id in enumerate(self.garage_size_ids):
+                            if id == self.fullObjInfo.size_type_id:
+                                self.ui.comboBox.setCurrentIndex(indx)
+                                break
+                    # заполняем данные о платежах
+                    if self.db.execute(sqlite_qwer.sql_select_contrib_by_object_id(self.fullObjInfo.id)):
+                        conribs = self.db.cursor.fetchall()
+                        for conrib in conribs:
+                            con = ui.contribute_functions.Contribution_lite(*conrib)
+                            self.contribModel.setItems(con)
 
-#todo добавление авто реализовано несколько странно
+
+
+
+
+
+@dataclass
+class ObjectInfo():
+    id: str = ''
+    row: str = ''
+    number: str = ''
+    owner: str = ''
+    owner_phone: str = ''
+    kadastr: str = ''
+
+@dataclass
+class FullObjectInfo():
+    id: str = ''
+    num_row: str = ''
+    num_bild: str = ''
+    kadastr_num: str = ""
+    owner_id: str = ''
+    arendator_id: str = ''
+    size_type_id: str = ''
+    create_year: str = ''
+    electro220_id: str = ''
+    electro380_id: str = ''
+
+
+
 
 
 
