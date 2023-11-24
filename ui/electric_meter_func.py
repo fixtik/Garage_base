@@ -248,6 +248,8 @@ class Electric_front(QtWidgets.QWidget):
                     for index, item in enumerate(self.mainForm.ui.electric_tableView.model().items):
                         if item.id == self.meter.id:
                             self.mainForm.ui.electric_tableView.model().items[index] = self.meter
+                            self.mainForm.ui.electric_tableView.setModel(self.mainForm.carModel)
+                            self.mainForm.ui.electric_tableView.setModel(self.mainForm.elMeterModel)
                             break
 
             super().close()
