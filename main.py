@@ -72,6 +72,7 @@ class Form_frontend(QtWidgets.QMainWindow):
             pix = QtGui.QPixmap(constants.DEFAULT_VOA_IMG)
             pix = pix.scaled(constants.IMG_W, constants.IMG_W, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
             self.ui.voa_label.setPixmap(pix)
+            self.setWindowIcon(QtGui.QIcon(pix))
 
     def hideObjectUI(self, flag):
         """скрывает или показывает объекты интерфейса"""
@@ -156,9 +157,6 @@ class Form_frontend(QtWidgets.QMainWindow):
                     item = ui.cart_functions.ObjectInfo(obj[0], obj[1], obj[2], f'{obj[3]} {obj[4]} {obj[5]}', obj[6],
                                                         obj[7])
                     self.obj_model.setItems(item)
-
-
-
 
 
 

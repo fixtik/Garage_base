@@ -66,6 +66,10 @@ class AddGarageSize_front(QtWidgets.QWidget):
 
                 garage_ids.append(cont.id)
                 cont.comment = f'({cont.comment})' if cont.comment else ''
+                # cont.width = format(item[1]).rstrip('0').rstrip('.')
+                # cont.len = format(item[2]).rstrip('0').rstrip('.')
+                # cont.height = format(item[3]).rstrip('0').rstrip('.')
+                # cont.comment = f'({item[4]})' if item[4] else ''
                 comboBox.addItem(f'{cont.width} x {cont.len} x {cont.height} {cont.comment}')
 
         return garage_ids
@@ -152,6 +156,3 @@ class GarageSizeStructure():
     len: str = ''       # длина гаража
     height: str = ''     # высота гаража
     comment: str = ''
-
-
-#

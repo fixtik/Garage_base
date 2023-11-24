@@ -74,20 +74,17 @@ class Electric_front(QtWidgets.QWidget):
         else:
             self.ui.add_pushButton.setText(constants.BTN_TEXT_CHANGE)
             self.ui.del_pushButton.setText(constants.BTN_TEXT_CHOOSE)
-
+            #self.setWindowTitle(constants.TITLE_EDIT_MODE)
 
     def fillFormPlace(self):
         """Заполнение данных"""
         if self.meter:
-            self.ui.meterNum_lineEdit.setText(self.meter.num_meter)
-            if self.meter.type == 220:
-                self.ui.meterType_comboBox.setCurrentIndex(0)
-            else:
-                self.ui.meterType_comboBox.setCurrentIndex(1)
+            self.ui.meterNum_lineEdit.setText(self.meter.number)
+            self.ui.meterType_comboBox.setItemText(0, str(self.meter.type))
             self.ui.curDay_lineEdit.setText(self.meter.prev_day)
             self.ui.curNight_lineEdit.setText(self.meter.prev_night)
-            self.ui.newDay_lineEdit.setText(self.meter.day)
-            self.ui.newNight_lineEdit.setText(self.meter.night)
+            self.ui.newDay_lineEdit.setText(self.meter.curDay)
+            self.ui.newNight_lineEdit.setText(self.meter.curNight)
 
         else:
             ui.dialogs.onShowError(self, constants.INFO_TITLE, constants.INFO_NO_ELECTRIC_METER)
@@ -143,7 +140,6 @@ class Electric_front(QtWidgets.QWidget):
         if self.ui.del_pushButton.text() == constants.BTN_TEXT_CHOOSE:
             self.close()
 
-
     def changeFormElectric(self, elmeter_id: str):
         """подготовка формы к режиму редактирования данных пользователя"""
         self.setWindowTitle(constants.TITLE_EDIT_MODE)
@@ -151,7 +147,6 @@ class Electric_front(QtWidgets.QWidget):
         self.ui.meterType_comboBox.setEnabled(False)
         self.meter.id = elmeter_id
         self.disable_current_lineEdit(False)
-
         self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=self.TABLE_NAME, id=int(self.meter.id)))
         rec = self.db.cursor.fetchone()
         self.fill_from_db(rec)
@@ -162,15 +157,15 @@ class Electric_front(QtWidgets.QWidget):
         """заполнение данных по счетчику из БД"""
         self.meter = ElectricMeter(*rec)
         self.meter.inBase = True
-        self.ui.meterType_comboBox.setCurrentIndex(0) if self.meter.type == 220 else \
-            self.ui.meterType_comboBox.setCurrentIndex(1)
+        self.ui.meterType_comboBox.setItemText(0, str(self.meter.type))
+
 
 
     def getIdFromBase(self):
         """поиск счетчика по номеру, если есть в БД - заполняются данные"""
         if self.db.execute(sqlite_qwer.sql_get_metr_id_by_num(self.ui.meterNum_lineEdit.text(),
                                                               self.ui.meterType_comboBox.itemText(
-                                                                  self.ui.meterType_comboBox.currentIndex()))) \
+                                                              self.ui.meterType_comboBox.currentIndex()))) \
                 and self.db.cursor:
                 id = self.db.cursor.fetchone()
                 if not id:
@@ -189,7 +184,6 @@ class Electric_front(QtWidgets.QWidget):
     def fillPlace(self):
         """заполнение полей карточки если счетчик найден в БД"""
         self.ui.meterNum_lineEdit.setText(str(self.meter.number))
-
         self.ui.curDay_lineEdit.setText(str(self.meter.curDay))
         self.ui.curNight_lineEdit.setText(str(self.meter.curNight))
         # здесь пишем одинаковые значения, так как нет логики - зачем выводить предыдущие значения при внесении новых

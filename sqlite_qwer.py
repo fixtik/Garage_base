@@ -1,10 +1,7 @@
 import sqlite3
 import os
 
-
 from constants import *
-
-
 
 
 def search_db(path: str, db_name: str = DEFAULT_DB_NAME) -> bool:
@@ -22,8 +19,9 @@ def create_db(path: str, db_name: str = DEFAULT_DB_NAME) -> bool:
         print(e)
         return False
 
+
 # Запросы на электросчетчик
-def sql_add_electric_meter(num_meter: str, cur_day: int, cur_night: int = 0, pr_day: int = 0 , pr_night: int = 0,
+def sql_add_electric_meter(num_meter: str, cur_day: int, cur_night: int = 0, pr_day: int = 0, pr_night: int = 0,
                            type: int = 220) -> str:
     """
     Запрос на добавление нового электросчетчика
@@ -36,7 +34,7 @@ def sql_add_electric_meter(num_meter: str, cur_day: int, cur_night: int = 0, pr_
     :return: sql-запрос
     """
     return f'INSERT INTO electric_meter (num_meter, prev_day, prev_night,' \
-           f' day, night, type) VALUES ({num_meter}, {pr_day}, {pr_night}, {cur_day}, {cur_night}, {type});'
+           f' day, night, type) VALUES ("{num_meter}", {pr_day}, {pr_night}, {cur_day}, {cur_night}, {type});'
 
 
 def sql_update_electric_meter_by_id(metr_id: int, cur_day: int, cur_night: int = 0) -> str:
@@ -48,8 +46,8 @@ def sql_update_electric_meter_by_id(metr_id: int, cur_day: int, cur_night: int =
     :return: sql-запрос
     """
     return f'UPDATE electric_meter SET ' \
-           f'prev_day = (SELECT day FROM electric_meter WHERE id = {metr_id}),' \
-           f'prev_night =  (SELECT night FROM electric_meter WHERE id = {metr_id}),' \
+           f'prev_day = (SELECT day FROM electric_meter WHERE id = {metr_id}), ' \
+           f'prev_night =  (SELECT night FROM electric_meter WHERE id = {metr_id}), ' \
            f'day = {cur_day}, night = {cur_night} ' \
            f'WHERE id = {metr_id};'
 
@@ -60,9 +58,9 @@ def sql_get_metr_id_by_num(num_metr: str, type: str = 220) -> str:
     :param num_metr: номер-счетчика
     :param type: тип счетчика
     :return: sql-запрос
-
     """
     return f'SELECT id FROM electric_meter WHERE num_meter = "{num_metr}" and type = {type};'
+
 
 def sql_get_consumed_energi_by_id(metr_id: int) -> str:
     """
@@ -73,8 +71,8 @@ def sql_get_consumed_energi_by_id(metr_id: int) -> str:
     return f'SELECT day - prev_day, night - prev_night FROM electric_meter WHERE id = {metr_id}'
 
 
-#запросы на типоразмер
-def sql_add_new_type_size(width: float = 4.5, len: float = 6, hight: float = 3.2, comment: str ='')-> str:
+# запросы на типоразмер
+def sql_add_new_type_size(width: float = 4.5, len: float = 6, hight: float = 3.2, comment: str = '') -> str:
     """
     Запрос на добавление нового типоразмера объекта недвижимости
     :param width: ширина объекта (4,5 метра по умолчнанию)
@@ -85,7 +83,7 @@ def sql_add_new_type_size(width: float = 4.5, len: float = 6, hight: float = 3.2
     return f'INSERT INTO type_size (width, len, hight, comment) VALUES ({width}, {len}, {hight}, {comment});'
 
 
-def get_type_size_id_by_size(width: float, len:float, height: float) -> str:
+def get_type_size_id_by_size(width: float, len: float, height: float) -> str:
     """
     Запрос на поиск id по типоразмерам
     :param width: ширина
@@ -105,23 +103,26 @@ def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = ' '
     :param comment: комментарий
     :return: sql-запрос
     """
+
     return f"INSERT INTO contribution_type (name, value, comment) VALUES ('{contrib_name}', {value}, '{comment}');"
 
+
 def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, period_pay: str, value: float,
-                        comment: str ='') -> str:
+                        comment: str = '') -> str:
     """
     формирование запроса для добавления платежа в БД
     """
     return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, period_pay, value, comment) VALUES " \
            f"({id_garage}, {id_cont}, '{pay_date}', '{period_pay}', {value}, '{comment}');"
 
+
 def sql_full_update_contrib(cont_id: str, id_garage: str, id_cont: str, pay_date: str,
-                            period_pay: str, value: float, comment:str = '') -> str:
+                            period_pay: str, value: float, comment: str = '') -> str:
     """
     формирование запроса для добавления платежа в БД
     """
-    return f"UPDATE contribution SET id_garage={id_garage}, id_cont_type = {id_cont}, pay_date = '{pay_date}'," \
-           f" period_pay ='{period_pay}', value = {value}, comment = '{comment}' WHERE id = {cont_id};"
+    return f"UPDATE contribution SET id_garage={id_garage}, id_cont_type = {id_cont}, pay_date = '{pay_date}', " \
+           f" period_pay = '{period_pay}', value = {value}, comment = '{comment}' WHERE id = {cont_id};"
 
 
 def sql_update_contrib_type(contrib_id: int, value: float, comment: str = ' ') -> str:
@@ -133,8 +134,8 @@ def sql_update_contrib_type(contrib_id: int, value: float, comment: str = ' ') -
 
 # запросы по членам кооператива
 def sql_add_new_member(surname: str, first_name: str, birth_date: str, phone_main: str, voa: str,
-                       second_name:str ='', address: str = '', second_phone:str = '',
-                       email:str = '', photo ='') -> str:
+                       second_name: str = '', address: str = '', second_phone: str = '',
+                       email: str = '', photo='') -> str:
     """
     Добавление нового члена кооператива или арендатора
     :param surname: фамилия
@@ -150,7 +151,7 @@ def sql_add_new_member(surname: str, first_name: str, birth_date: str, phone_mai
     :return: sql-запрос
     """
     return f"INSERT INTO garage_member (surname, first_name, second_name, birth_date, phone_main," \
-           f" phone_sec, address, email, voa, photo) VALUES ('{surname}', '{first_name}', '{second_name}', '{birth_date}'," \
+           f" phone_sec, address, email, voa, photo) VALUES ('{surname}', '{first_name}', '{second_name}', '{birth_date}', " \
            f"'{phone_main}', '{second_phone}', '{address}', '{email}', '{voa}', '{photo}');"
 
 
@@ -161,10 +162,11 @@ def sql_get_all_active(table_name: str) -> str:
     return f"SELECT * FROM {table_name} WHERE active = 1;"
 
 
-#универсальные запросы
+# универсальные запросы
 def sql_select_all_from_table(table_name: str) -> str:
     """выбор всех значений в таблице table_name"""
     return f"SELECT * FROM {table_name};"
+
 
 def sql_get_one_record_by_id(table_name: str, id: int) -> str:
     """
@@ -172,13 +174,15 @@ def sql_get_one_record_by_id(table_name: str, id: int) -> str:
     """
     return f"SELECT * FROM {table_name} WHERE id = {id};"
 
+
 def sql_select_all_by_field_value(table_name: str, field_name: str, value: list) -> str:
     """
     возвращает записи по значению поля
     """
     return f"SELECT * FROM {table_name} WHERE {field_name} IN ({value});"
 
-def sql_select_id_by_field_value(table_name: str, field_name: str, value: list) -> str:
+
+def sql_select_id_by_field_value(table_name: str, field_name: str, value: str) -> str:
     """
     возвращает записи по значению поля
     """
@@ -206,6 +210,7 @@ def sql_delete_rec_by_table_name_and_id(table_name: str, rec_id: int) -> str:
     """
     return f'DELETE FROM {table_name} WHERE id = {rec_id};'
 
+
 def drop_table_by_name(table_name: str) -> str:
     """
     Удаление таблицы по имени
@@ -215,7 +220,7 @@ def drop_table_by_name(table_name: str) -> str:
     return f'DROP TABLE IF EXISTS {table_name};'
 
 
-#автомобильные запросы
+# автомобильные запросы
 def sql_add_new_car(mark: str, gos_num: str, owner_id: int) -> str:
     """
     Добавление нового автомобиля привязанного к id владельца
@@ -238,6 +243,7 @@ def sql_update_car(gos_num: str, new_mark: str, new_gos_num: str) -> str:
     return f'UPDATE automobile SET mark = {new_mark}, gos_num = {new_gos_num}' \
            f'WHERE id = (SELECT id FROM automobile WHERE gos_num = {gos_num});'
 
+
 def sql_update_car_by_id(id: str, new_mark: str, new_gos_num: str) -> str:
     """
     Обновление марки и номера машины по id авто
@@ -248,6 +254,7 @@ def sql_update_car_by_id(id: str, new_mark: str, new_gos_num: str) -> str:
     """
     return f"UPDATE automobile SET mark = '{new_mark}', gos_num = '{new_gos_num}'" \
            f"WHERE id = {id};"
+
 
 def sql_set_inactive_car_by_id(id: str) -> str:
     """
@@ -294,7 +301,8 @@ def sql_get_car(gos_num: str) -> str:
     """
     return f"SELECT owner_id FROM automobile WHERE gos_num = '{gos_num}';"
 
-def sql_get_car_by_own_id(own_id: str, active = '1') -> str:
+
+def sql_get_car_by_own_id(own_id: str, active='1') -> str:
     """
     Вывод всех активных авто одного пользователя
     :param own_id: id владельца авто
@@ -303,15 +311,17 @@ def sql_get_car_by_own_id(own_id: str, active = '1') -> str:
     """
     return f"SELECT * FROM automobile WHERE owner_id = '{own_id}'and active = {active};"
 
+
 def sql_select_garaje_id_by_num_and_row(garage_num: int, row: int) -> str:
     """
     Поиск id гаража по номеру и ряду
     """
     return f'SELECT id FROM garage_obj WHERE num_bild = {garage_num} and num_row = {row};'
 
+
 def sql_update_garage_member(id: str, surname: str, first_name: str, birth_date: str, phone_main: str, voa: str,
-                       second_name: str = '', address: str = '', second_phone: str = '',
-                       email: str = '', photo: str = '') -> str:
+                             second_name: str = '', address: str = '', second_phone: str = '',
+                             email: str = '', photo: str = '') -> str:
     """
     Редактирование члена кооператива или арендатора
     :param id: идетификатор члена, которого редактируем
@@ -331,6 +341,7 @@ def sql_update_garage_member(id: str, surname: str, first_name: str, birth_date:
            f" birth_date = '{birth_date}', phone_main = '{phone_main}', phone_sec = '{second_phone}', " \
            f"address = '{address}', email = '{email}', voa = '{voa}', photo = '{photo}' WHERE id={id};"
 
+
 def sql_update_garage(num_row: str, num_bild: str, change_pole: str, new_value: str) -> str:
     """
     Замена любого поля гаражного члена через id
@@ -345,6 +356,9 @@ def sql_update_garage(num_row: str, num_bild: str, change_pole: str, new_value: 
            f'WHERE id = (SELECT id FROM garage_member WHERE num_row = {num_row}, num_bild = {num_bild});'
 
 
+'''--------------------------------------------NEW--------------------------------------------------'''
+
+
 def sql_add_new_garage_size(width: float, length: float, height: float, comment: str = ' ') -> str:
     '''
     Добавление размеров гаража
@@ -356,15 +370,16 @@ def sql_add_new_garage_size(width: float, length: float, height: float, comment:
     '''
     return f'INSERT INTO type_size (width, len, height, comment) VALUES ({width}, {length}, {height}, "{comment}");'
 
+
 def sql_update_garage_size(size_id: int, width: float, length: float, height: float, comment: str = ' ') -> str:
-    """
+    '''
     Запрос на поиск id по типоразмерам
     :param width: ширина
     :param len: длина
     :param height: высота
     :param comment: комментарий
     :return: sql-запрос
-    """
+    '''
     return f"UPDATE type_size SET width = {width}, len = {length}, height = {height}, comment = '{comment}'" \
            f" WHERE id = {size_id};"
 
@@ -390,6 +405,7 @@ def sql_member_search(surname: str = '', first_name: str = '', second_name: str 
 
     return sql_string
 
+
 def sql_get_members_by_ogject(row: int = 0, number: int = 0) -> str:
     """
     формирование запроса на получения списка id собственников и арендаторов
@@ -402,9 +418,11 @@ def sql_get_members_by_ogject(row: int = 0, number: int = 0) -> str:
     sql_string += f'num_bild={number}' if number else ''
     return sql_string
 
+
 def sql_get_member_by_id_set(ids: str) -> str:
     """формирование запроса на получение данных пользователей по списку id (только активные)"""
     return f'SELECT * FROM garage_member WHERE id IN ({ids}) AND active = 1'
+
 
 def sql_select_cars_and_own_info_by_owner_id(ids: str):
     """запрос на выборку инфо об авто с данными собственника"""
@@ -417,6 +435,7 @@ def sql_select_cars_and_own_info_by_owner_id(ids: str):
            f" FROM automobile as a " \
            f" INNER JOIN garage_member ON garage_member.id = a.owner_id" \
            f" WHERE a.active = 1 and garage_member.id IN ({ids});"
+
 
 def sql_gos_num_search(mark: str = '', gos_num: str = '', active: int = 1) -> str:
     """Возвращает запрос для вывода автомобилей по номеру или марке"""
@@ -431,10 +450,11 @@ def sql_gos_num_search(mark: str = '', gos_num: str = '', active: int = 1) -> st
 
     return sql_string
 
+
 # --------------------------------------
 # запросы по гаражу
 def sql_add_new_garage(row: str, num: str, ownder_id: str, size_id: str, cr_year: str,
-                       arenda_ids: str ='', kadastr:str = '', e220: str = '0', e380: str ='0') -> str:
+                       arenda_ids: str = '', kadastr: str = '', e220: str = '0', e380: str = '0') -> str:
     """
     Формаирование запроса на добавление нового гаража
     :param row: ряд
@@ -481,8 +501,8 @@ def sql_get_all_objects_for_list_by_row_and_num(row: str = '', num: str = ''):
     :return: sql-запрос в зависимости от переданных значений
     """
     sql = f'SELECT garage_obj.id, garage_obj.num_row, garage_obj.num_bild, garage_member.surname,' \
-           f'garage_member.first_name, garage_member.second_name, garage_member.phone_main, garage_obj.kadastr_num ' \
-           f' FROM garage_obj INNER JOIN garage_member ON garage_member.id = garage_obj.owner_id '
+          f'garage_member.first_name, garage_member.second_name, garage_member.phone_main, garage_obj.kadastr_num ' \
+          f' FROM garage_obj INNER JOIN garage_member ON garage_member.id = garage_obj.owner_id '
     if row and not num:
         sql += f"WHERE garage_obj.num_row = {row} "
     elif not row and num:
@@ -492,12 +512,12 @@ def sql_get_all_objects_for_list_by_row_and_num(row: str = '', num: str = ''):
     sql += f'ORDER BY garage_obj.num_row DESC, garage_obj.num_bild;'
     return sql
 
+
 def sql_select_contrib_by_object_id(object_id: str) -> str:
     """Запрос на выдачу всех платежей для конкретного гаража"""
 
     return f"SELECT contribution.id, contribution_type.name, contribution.pay_date, contribution.period_pay," \
            f" contribution_type.value, contribution_type.comment FROM main.garage_obj " \
            f" INNER JOIN contribution ON garage_obj.id = contribution.id_garage " \
-           f" INNER JOIN contribution_type ON contribution_type.id = contribution.id_cont_type" \
+           f" INNER JOIN contribution_type ON contribution_type.id = contribution.id_cont_type " \
            f" WHERE garage_obj.id = {object_id};"
-
