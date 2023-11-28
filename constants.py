@@ -119,6 +119,7 @@ ERROR_OBJECT_ALREADY_EXIST = 'Объект уже существует в БД!'
 ERROR_MEMBER_ALREADY_EXIST = 'Пользователь с такими данными уже существует в БД! Проверьте правильность введенных ' \
                             'значений'
 ERROR_SIZE_ALREADY_EXIST = 'Такой типоразмер уже есть в БД!'
+ERROR_CONTRIB_TYPE_ALREADY_EXIST = 'Платеж с таким названием уже существует'
 
 MESSAGE_CHECK_DATA = 'Проверьте корректность введенных данных'
 MESSAGE_CHECK_DB_CONNECTIONS = 'Провкерьте подключение к БД'
