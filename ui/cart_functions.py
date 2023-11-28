@@ -135,8 +135,8 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def showElectricMetr(self):
         """открытие окна для добавления счетчика cо спрятанным полем поиска"""
-        self.addElectric = ui.electric_meter_func.Electric_front(self.db)
-        self.addElectric.mainForm = self
+        self.addElectric = ui.electric_meter_func.Electric_front(self.db, self)
+
         self.addElectric.hideFindePlace()
         self.addElectric.show()
 

@@ -9,6 +9,7 @@ from ui.new_car import Ui_Form
 import ui.cart_functions
 import ui.member_functions
 from ui.tableView_Models import *
+import ui.dialogs
 
 
 class Car_frontend(QtWidgets.QWidget):
@@ -124,10 +125,20 @@ class Car_frontend(QtWidgets.QWidget):
             return
         self.carInfo.mark = self.ui.carMark_lineEdit.text()
         self.carInfo.gos_num = self.ui.gosNum_lineEdit.text()
+        if ui.cart_functions.check_rec_in_base(self.db,
+                                                   ('gos_num', self.carInfo.gos_num),
+                                                   ('active', 1),
+                                                   tb_name=constants.CAR_TABLE):
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_OBJECT_ALREADY_EXIST)
+                return None
         self.carInfo.id = ''  # ToDo здесь добавить запрос на id в БД и запрос собственника
         self.carInfo.own_id = ''
         self.mainForm.carInDbModel.setItems(self.carInfo)
         self.close()
+
+    def close(self) -> bool:
+        self.mainForm = None
+        super().close()
 
 
 @dataclass

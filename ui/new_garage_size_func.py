@@ -5,7 +5,7 @@ from PySide6 import QtCore, QtWidgets, QtGui
 import constants
 import db_work
 import ui.new_garage_size as addWid
-import ui.new_garage_size_addSize as addK
+
 import ui.dialogs
 import ui.cart_functions
 import ui.cart_functions
@@ -108,42 +108,46 @@ class AddGarageSize_front(QtWidgets.QWidget):
 
     def okPushBtnClk(self):
         """действие при нажатии Добавить или Применить"""
-        if self.mainForm: # если добаление платежа в карточку
+        if self.mainForm:
             if not (self.ui.width_lineEdit.text() and self.ui.length_lineEdit.text() and self.ui.height_lineEdit.text()):
                 ui.dialogs.onShowError(self, 'Ошибка', 'Вы не заполнили все поля')
                 return
             self.garage = GarageSizeStructure()
-            self.garage.width = self.ui.width_lineEdit.text()
-            self.garage.len = self.ui.length_lineEdit.text()
-            self.garage.height = self.ui.height_lineEdit.text()
+            self.garage.width = self.ui.width_lineEdit.text().replace(',', '.')
+            self.garage.len = self.ui.length_lineEdit.text().replace(',', '.')
+            self.garage.height = self.ui.height_lineEdit.text().replace(',', '.')
             self.garage.comment = self.ui.comment_lineEdit.text()
 
             if self.sender() == self.ui.ok_pushButton:
+                if ui.cart_functions.check_rec_in_base(self.db,
+                                                       ('width', float(self.garage.width)),
+                                                       ('len', float(self.garage.len)),
+                                                       ('height', float(self.garage.height)),
+                                                       tb_name=constants.SIZE_TABLE):
+                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_SIZE_ALREADY_EXIST)
+                    return None
                 # добавляем новый размер
-                sql = sqlite_qwer.sql_add_new_garage_size(float(self.ui.width_lineEdit.text().replace(',', '.')),
-                                                            float(self.ui.length_lineEdit.text().replace(',', '.')),
-                                                            float(self.ui.height_lineEdit.text().replace(',', '.')),
-                                                            self.ui.comment_lineEdit.text())
-                ui.dialogs.onShowError(self, constants.INFO_TITLE, 'ADD')
+                sql = sqlite_qwer.sql_add_new_garage_size(float(self.garage.width),
+                                                          float(self.garage.len),
+                                                          float(self.garage.height),
+                                                          self.garage.comment)
+
             else:
                 # изменяем выбранный
                 sql = sqlite_qwer.sql_update_garage_size(self.garage_ids[self.ui.size_comboBox.currentIndex()],
-                                                            float(self.ui.width_lineEdit.text().replace(',', '.')),
-                                                            float(self.ui.length_lineEdit.text().replace(',', '.')),
-                                                            float(self.ui.height_lineEdit.text().replace(',', '.')),
-                                                            self.ui.comment_lineEdit.text())
-                ui.dialogs.onShowError(self, constants.INFO_TITLE, 'Change')
-
+                                                         float(self.garage.width),
+                                                         float(self.garage.len),
+                                                         float(self.garage.height),
+                                                         self.garage.comment)
             self.db.execute(sql)
             self.updateDataFromDB()
 
     def close(self) -> bool:
         if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
             self.mainForm.updateDataFromDB()
-            super().close()
-            self.mainForm.destroyChildren()
-        else:
-            super().close()
+
+        self.mainForm = None
+        super().close()
 
 
 
