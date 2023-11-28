@@ -122,6 +122,10 @@ class AddContrib_front(QtWidgets.QWidget):
         self.resize(self.width(), 150)
         self.setWindowTitle(constants.CONTRIB_WIN_EDIT_TITLE)
 
+    def close(self) -> bool:
+        self.mainForm = None
+        super().close()
+
 
 
 class Contribution():
@@ -146,6 +150,7 @@ class Contribution_lite():
     value:str = ''         # сумма платежа
     comment:str = ''
 
+
 class AddKindContrib_front(QtWidgets.QWidget):
     """Виджет для добавления платежа в бд"""
 
@@ -156,7 +161,6 @@ class AddKindContrib_front(QtWidgets.QWidget):
 
         self.mainForm = None
         self.db = db
-
 
         self.initUi()
 
@@ -174,6 +178,11 @@ class AddKindContrib_front(QtWidgets.QWidget):
                 return
             if self.db.connect:
                 self.ui.value_lineEdit.setText(self.ui.value_lineEdit.text().replace(',', '.'))
+                if ui.cart_functions.check_rec_in_base(self.db,
+                                                       ('name', self.ui.kind_lineEdit.text()),
+                                                       tb_name=constants.CONTRIB_TYPE_TABLE):
+                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_CONTRIB_TYPE_ALREADY_EXIST)
+                    return None
                 try:
 
                     sql = sqlite_qwer.sql_add_new_contrib_type(self.ui.kind_lineEdit.text(),
@@ -185,6 +194,10 @@ class AddKindContrib_front(QtWidgets.QWidget):
                     return
                 self.mainForm.fillKindContribFromBase()
             self.close()
+
+    def close(self) -> bool:
+        self.mainForm = None
+        super().close()
 
 
 

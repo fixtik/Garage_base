@@ -1,3 +1,4 @@
+import os.path
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -29,7 +30,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.db = db  # db-connector
 
         # переменные класса
-        self.obj_id = None
+
         self.photoPath = None
         self.addCar_form = None
         self.addContrib_form = None
@@ -133,12 +134,10 @@ class Cart_frontend(QtWidgets.QWidget):
             self.photoPath = image
 
     def showElectricMetr(self):
-        """открытие окна для добавления счетчика"""
-        self.addElectric = ui.electric_meter_func.Electric_front(self.db)
-        self.addElectric.mainForm = self
-        if self.ui.change_pushButton.text() == constants.BTN_TEXT_ADD:
-            self.addElectric.hideFindePlace()
+        """открытие окна для добавления счетчика cо спрятанным полем поиска"""
+        self.addElectric = ui.electric_meter_func.Electric_front(self.db, self)
 
+        self.addElectric.hideFindePlace()
         self.addElectric.show()
 
     def showAddContribForm(self):
@@ -180,6 +179,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.addElectric.mainForm = self
         elmeter_id = (self.ui.electric_tableView.model().items[self.ui.electric_tableView.selectedIndexes()[0].row()]).id
         self.addElectric.changeFormElectric(elmeter_id=elmeter_id)
+        self.addElectric.obj_id = self.fullObjInfo.id
         self.addElectric.hideFindePlace()
         self.addElectric.show()
 
@@ -292,15 +292,15 @@ class Cart_frontend(QtWidgets.QWidget):
             if ui.dialogs.onShowСonfirmation(self, constants.INFO_TITLE, constants.INFO_NO_ELECTRIC_METER_TO_ADD):
                 return False
         e_data = self.ui.electric_tableView.model().items
-
+        self.e380, self.e220 = None, None
         for item in e_data:  # Electric()
-            if item.type == constants.TYPE220 and not self.e220:
+            if int(item.type) == constants.TYPE220 and not self.e220:
                 self.e220 = item.id
-            elif item.type == constants.TYPE380 and not self.e380:
+            elif int(item.type) == constants.TYPE380 and not self.e380:
                 self.e380 = item.id
             else:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TOO_MANY_METERS)
-                self.e380, self.e220 = None, None
+
                 return False
 
         self.e220 = '0' if not self.e220 else self.e220
@@ -340,7 +340,7 @@ class Cart_frontend(QtWidgets.QWidget):
                                                      ownder_id=self.owner_id,
                                                      size_id=self.garage_size_ids[self.ui.comboBox.currentIndex()],
                                                      cr_year=self.ui.buildingYear_dateEdit.date().toPython(),
-                                                     arenda_ids=" ".join(arenda_ids),
+                                                     arenda_ids=" ".join(arenda_ids) if arenda_ids else ' ',
                                                      kadastr=self.ui.kadastr_lineEdit.text(),
                                                      e220=self.e220,
                                                      e380=self.e380)
@@ -365,38 +365,35 @@ class Cart_frontend(QtWidgets.QWidget):
                     return False
                 if contr.id:  # если уже есть в базе - обновляем данные
                     sql = sqlite_qwer.sql_full_update_contrib(cont_id=contr.id,
-                                                              id_garage=self.garage_id,
+                                                              id_garage=self.fullObjInfo.id,
                                                               id_cont=str(type_id),
                                                               pay_date=contr.payDate,
                                                               period_pay=contr.payPeriod,
-                                                              value=contr.value
+                                                              value=contr.value,
+                                                              comment=contr.comment if contr.comment else ' '
                                                               )
                 else:
                     sql = sqlite_qwer.sql_add_new_contrib(
-                        id_garage=self.garage_id,
+                        id_garage=self.fullObjInfo.id,
                         id_cont=str(type_id),
                         pay_date=contr.payDate,
                         period_pay=contr.payPeriod,
-                        value=contr.value
+                        value=contr.value,
+                        comment=contr.comment if contr.comment else ' '
                     )
                 if not (self.db.execute(sql)):
                     ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
                     return False
             return True
 
-    def checkGarageInDB(self) -> (bool, int):
+    def checkGarageInDB(self) -> bool:
         """проверка гаража в БД по ряду и номеру"""
-        sql = sqlite_qwer.sql_select_garaje_id_by_num_and_row(
-            garage_num=int(self.ui.garage_lineEdit.text()),
-            row=int(self.ui.row_lineEdit.text()))
-        if self.db.execute(sql):
-            id = self.db.cursor.fetchone()
-            if id:
-                return True
-            else:
-                return False
+        return check_rec_in_base(self.db,
+            ('num_bild', self.ui.garage_lineEdit.text()),
+            ('num_row', self.ui.row_lineEdit.text()),
+            tb_name=constants.OBJ_TABLE
+        )
 
-        return -1
 
     def clearCartForm(self):
         """Очистка данных для заполнения сведений о следующем объекте"""
@@ -473,7 +470,8 @@ class Cart_frontend(QtWidgets.QWidget):
                     usinf_lite.memberToUserInfo(usinf)
                     self.ui.ownerFIO_lineEdit.setText(usinf_lite.fio)
                     self.ui.ownerPhone_lineEdit.setText(usinf.phone)
-                    self.setNewPhoto(usinf.photo)
+                    if usinf.photo and os.path.isfile(usinf.photo):
+                        self.setNewPhoto(usinf.photo)
                     self.photoPath = usinf.photo
                     # заполняем данные данные о арендаторах и их авто
                     ids = f"{(self.fullObjInfo.arendator_id.replace(' ', ','))},{self.owner_id}".lstrip(',')
@@ -501,6 +499,22 @@ class Cart_frontend(QtWidgets.QWidget):
                         for conrib in conribs:
                             con = ui.contribute_functions.Contribution_lite(*conrib)
                             self.contribModel.setItems(con)
+
+
+def check_rec_in_base(db: db_work.Garage_DB, *args, tb_name: str)-> (int, None):
+    """
+    Проверка наличия записи в БД
+    :param db: ссылка на БД
+    :param args: кортеж (<имя поля> <значение>)
+    :param table_name: имя таблицы для поиска
+    :return: id записи - если запись обнаружена в БД
+    """
+    sql = sqlite_qwer.sql_find_id_by_filds(*args, table_name=tb_name)
+    if sql:
+        if db.execute(sql):
+            id = db.cursor.fetchone()
+            return id
+    return None
 
 
 @dataclass

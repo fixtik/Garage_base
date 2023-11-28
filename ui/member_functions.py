@@ -133,7 +133,16 @@ class Member_front(QtWidgets.QWidget):
         self.member.email = self.ui.email_lineEdit.text()
         self.member.voa = self.ui.voa_lineEdit.text()
         self.member.address = self.ui.address_lineEdit.text()
+        # проверка наличия пользователя с такими данными в БД
         if self.ui.add_pushButton.text() == constants.BTN_TEXT_ADD:
+            if ui.cart_functions.check_rec_in_base(self.db,
+                                                   ('surname', self.member.surname),
+                                                   ('first_name', self.member.name),
+                                                   ('second_name', self.member.secondName),
+                                                   ('birth_date', self.member.birthday),
+                                                   tb_name=constants.MEMBER_TABLE):
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_MEMBER_ALREADY_EXIST)
+                return None
             if self.addToBase():
                 self.move_photo()
             # смотрим, кто вызывал
@@ -237,6 +246,10 @@ class Member_front(QtWidgets.QWidget):
     def delRowTV(self):
         """удаление строки из таблицы с авто"""
         ui.cart_functions.Cart_frontend.delSelectRowFromTableView(self.ui.autoMember_tableView)
+
+    def close(self) -> bool:
+        self.parentForm = None
+        super().close()
 
 
 
@@ -352,7 +365,7 @@ class FindMember_front(QtWidgets.QWidget):
             self.addForm.parentForm = self
             self.addForm.show()
         else:
-            self.addForm.destroy()
+            self.addForm.close()
             self.addForm = None
             self.addNewMemberPshBtn()
 
@@ -390,6 +403,11 @@ class FindMember_front(QtWidgets.QWidget):
                 return
 
         ui.dialogs.onShowError(self, constants.ATTANTION_TITLE, constants.INFO_DATA_IS_EMPTY)
+
+
+    def close(self) -> bool:
+        self.parentForm = None
+        super().close()
 
     @staticmethod
     def addUserAndCarsToTV(db: db_work.Garage_DB, ids: str, userModel: QtCore.QAbstractTableModel,
