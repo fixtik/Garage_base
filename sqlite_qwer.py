@@ -521,3 +521,21 @@ def sql_select_contrib_by_object_id(object_id: str) -> str:
            f" INNER JOIN contribution ON garage_obj.id = contribution.id_garage " \
            f" INNER JOIN contribution_type ON contribution_type.id = contribution.id_cont_type " \
            f" WHERE garage_obj.id = {object_id};"
+
+def sql_find_id_by_filds(*args, table_name: str)-> str:
+    """
+    Запрос на поиск id записи по полям
+    :param args: кортеж (<имя поля> <значение>)
+    :param table_name: имя таблицы для поиска
+    """
+    if args:
+        sql = f"SELECT id FROM {table_name} WHERE "
+        for i, item in enumerate(args):
+            sql += f"{item[0]} = {item[1]}" if str(item[1]).isdigit() else f"{item[0]} = '{item[1]}'"
+            if i + 1 < len(args):
+                sql += ' AND '
+            else:
+                sql += ';'
+        return sql
+
+    return None

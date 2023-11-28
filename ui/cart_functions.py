@@ -386,19 +386,14 @@ class Cart_frontend(QtWidgets.QWidget):
                     return False
             return True
 
-    def checkGarageInDB(self) -> (bool, int):
+    def checkGarageInDB(self) -> bool:
         """проверка гаража в БД по ряду и номеру"""
-        sql = sqlite_qwer.sql_select_garaje_id_by_num_and_row(
-            garage_num=int(self.ui.garage_lineEdit.text()),
-            row=int(self.ui.row_lineEdit.text()))
-        if self.db.execute(sql):
-            id = self.db.cursor.fetchone()
-            if id:
-                return True
-            else:
-                return False
+        return check_rec_in_base(self.db,
+            ('num_bild', self.ui.garage_lineEdit.text()),
+            ('num_row', self.ui.row_lineEdit.text()),
+            tb_name=constants.OBJ_TABLE
+        )
 
-        return -1
 
     def clearCartForm(self):
         """Очистка данных для заполнения сведений о следующем объекте"""
@@ -504,6 +499,22 @@ class Cart_frontend(QtWidgets.QWidget):
                         for conrib in conribs:
                             con = ui.contribute_functions.Contribution_lite(*conrib)
                             self.contribModel.setItems(con)
+
+
+def check_rec_in_base(db: db_work.Garage_DB, *args, tb_name: str)-> (int, None):
+    """
+    Проверка наличия записи в БД
+    :param db: ссылка на БД
+    :param args: кортеж (<имя поля> <значение>)
+    :param table_name: имя таблицы для поиска
+    :return: id записи - если запись обнаружена в БД
+    """
+    sql = sqlite_qwer.sql_find_id_by_filds(*args, table_name=tb_name)
+    if sql:
+        if db.execute(sql):
+            id = db.cursor.fetchone()
+            return id
+    return None
 
 
 @dataclass
