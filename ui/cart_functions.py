@@ -100,11 +100,15 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.ownerFIO_lineEdit.setReadOnly(True)
         self.ui.ownerPhone_lineEdit.setReadOnly(True)
 
-        #Автоматичкская подгонка столбцов по ширине
-        self.ui.contrib_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
-        self.ui.auto_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
-        self.ui.electric_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
-        self.ui.users_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        # Автоматичкская подгонка столбцов по ширине
+        self.ui.contrib_tableView.horizontalHeader().setSectionResizeMode(
+            QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.ui.auto_tableView.horizontalHeader().setSectionResizeMode(
+            QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.ui.electric_tableView.horizontalHeader().setSectionResizeMode(
+            QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.ui.users_tableView.horizontalHeader().setSectionResizeMode(
+            QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         self.ui.auto_label.setMinimumWidth(self.ui.userAdd_pushButton.width())
 
     def fillComboBox(self):
@@ -178,7 +182,8 @@ class Cart_frontend(QtWidgets.QWidget):
         """открывает форму редактирования счетчика"""
         self.addElectric = ui.electric_meter_func.Electric_front(self.db)
         self.addElectric.mainForm = self
-        elmeter_id = (self.ui.electric_tableView.model().items[self.ui.electric_tableView.selectedIndexes()[0].row()]).id
+        elmeter_id = (
+        self.ui.electric_tableView.model().items[self.ui.electric_tableView.selectedIndexes()[0].row()]).id
         self.addElectric.changeFormElectric(elmeter_id=elmeter_id)
         self.addElectric.obj_id = self.fullObjInfo.id
         self.addElectric.hideFindePlace()
@@ -282,7 +287,7 @@ class Cart_frontend(QtWidgets.QWidget):
             self.carModel.removeRow(i)
 
     def checkFillAllFields(self):
-        """проверка заполненения всех полей"""
+        """проверка заполнения всех полей"""
         if not (self.owner_id):
             ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_NO_OWNER)
             return False
@@ -393,11 +398,10 @@ class Cart_frontend(QtWidgets.QWidget):
     def checkGarageInDB(self) -> bool:
         """проверка гаража в БД по ряду и номеру"""
         return check_rec_in_base(self.db,
-            ('num_bild', self.ui.garage_lineEdit.text()),
-            ('num_row', self.ui.row_lineEdit.text()),
-            tb_name=constants.OBJ_TABLE
-        )
-
+                                 ('num_bild', self.ui.garage_lineEdit.text()),
+                                 ('num_row', self.ui.row_lineEdit.text()),
+                                 tb_name=constants.OBJ_TABLE
+                                 )
 
     def clearCartForm(self):
         """Очистка данных для заполнения сведений о следующем объекте"""
@@ -510,7 +514,8 @@ class Cart_frontend(QtWidgets.QWidget):
         self.mainForm = None
         super().close()
 
-def check_rec_in_base(db: db_work.Garage_DB, *args, tb_name: str)-> (int, None):
+
+def check_rec_in_base(db: db_work.Garage_DB, *args, tb_name: str) -> (int, None):
     """
     Проверка наличия записи в БД
     :param db: ссылка на БД
