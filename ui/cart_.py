@@ -25,20 +25,18 @@ class Ui_Form(object):
         if not Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(913, 861)
-        self.verticalLayout_10 = QVBoxLayout(Form)
-        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
-        self.horizontalLayout_13 = QHBoxLayout()
-        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.verticalLayout_7 = QVBoxLayout(Form)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.garage_groupBox = QGroupBox(Form)
         self.garage_groupBox.setObjectName(u"garage_groupBox")
         self.garage_groupBox.setMinimumSize(QSize(1, 0))
         self.garage_groupBox.setMaximumSize(QSize(16777215, 99999))
-        self.verticalLayout_8 = QVBoxLayout(self.garage_groupBox)
-        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.verticalLayout_6 = QVBoxLayout(self.garage_groupBox)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.horizontalLayout_12 = QHBoxLayout()
         self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
-        self.verticalLayout_7 = QVBoxLayout()
-        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.verticalLayout_5 = QVBoxLayout()
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.horizontalLayout_11 = QHBoxLayout()
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
         self.horizontalLayout = QHBoxLayout()
@@ -136,12 +134,10 @@ class Ui_Form(object):
         self.horizontalLayout_11.addLayout(self.verticalLayout_2)
 
 
-        self.verticalLayout_7.addLayout(self.horizontalLayout_11)
+        self.verticalLayout_5.addLayout(self.horizontalLayout_11)
 
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.verticalLayout_5 = QVBoxLayout()
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_4 = QVBoxLayout()
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.width_label_2 = QLabel(self.garage_groupBox)
         self.width_label_2.setObjectName(u"width_label_2")
         sizePolicy1 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
@@ -153,38 +149,31 @@ class Ui_Form(object):
         self.width_label_2.setMaximumSize(QSize(9999999, 22))
         self.width_label_2.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_5.addWidget(self.width_label_2)
+        self.verticalLayout_4.addWidget(self.width_label_2)
 
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.comboBox = QComboBox(self.garage_groupBox)
         self.comboBox.setObjectName(u"comboBox")
         self.comboBox.setMinimumSize(QSize(0, 31))
 
-        self.verticalLayout_5.addWidget(self.comboBox)
-
-
-        self.horizontalLayout_2.addLayout(self.verticalLayout_5)
-
-        self.verticalLayout_6 = QVBoxLayout()
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_6.addItem(self.verticalSpacer)
+        self.horizontalLayout_2.addWidget(self.comboBox)
 
         self.addSize_pushButton = QPushButton(self.garage_groupBox)
         self.addSize_pushButton.setObjectName(u"addSize_pushButton")
         self.addSize_pushButton.setMinimumSize(QSize(0, 31))
         self.addSize_pushButton.setMaximumSize(QSize(31, 9999))
 
-        self.verticalLayout_6.addWidget(self.addSize_pushButton)
+        self.horizontalLayout_2.addWidget(self.addSize_pushButton)
 
 
-        self.horizontalLayout_2.addLayout(self.verticalLayout_6)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_2)
 
 
-        self.verticalLayout_7.addLayout(self.horizontalLayout_2)
+        self.verticalLayout_5.addLayout(self.verticalLayout_4)
 
 
-        self.horizontalLayout_12.addLayout(self.verticalLayout_7)
+        self.horizontalLayout_12.addLayout(self.verticalLayout_5)
 
         self.verticalLayout_11 = QVBoxLayout()
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
@@ -261,7 +250,7 @@ class Ui_Form(object):
         self.horizontalLayout_12.addLayout(self.verticalLayout_11)
 
 
-        self.verticalLayout_8.addLayout(self.horizontalLayout_12)
+        self.verticalLayout_6.addLayout(self.horizontalLayout_12)
 
         self.electricMeter_label = QLabel(self.garage_groupBox)
         self.electricMeter_label.setObjectName(u"electricMeter_label")
@@ -269,7 +258,7 @@ class Ui_Form(object):
         self.electricMeter_label.setSizePolicy(sizePolicy)
         self.electricMeter_label.setMaximumSize(QSize(99999, 31))
 
-        self.verticalLayout_8.addWidget(self.electricMeter_label)
+        self.verticalLayout_6.addWidget(self.electricMeter_label)
 
         self.horizontalLayout_6 = QHBoxLayout()
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
@@ -305,13 +294,10 @@ class Ui_Form(object):
         self.horizontalLayout_6.addLayout(self.verticalLayout_39)
 
 
-        self.verticalLayout_8.addLayout(self.horizontalLayout_6)
+        self.verticalLayout_6.addLayout(self.horizontalLayout_6)
 
 
-        self.horizontalLayout_13.addWidget(self.garage_groupBox)
-
-
-        self.verticalLayout_10.addLayout(self.horizontalLayout_13)
+        self.verticalLayout_7.addWidget(self.garage_groupBox)
 
         self.horizontalLayout_15 = QHBoxLayout()
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
@@ -358,7 +344,7 @@ class Ui_Form(object):
         self.horizontalLayout_15.addWidget(self.users_groupBox)
 
 
-        self.verticalLayout_10.addLayout(self.horizontalLayout_15)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_15)
 
         self.car_groupBox = QGroupBox(Form)
         self.car_groupBox.setObjectName(u"car_groupBox")
@@ -392,7 +378,7 @@ class Ui_Form(object):
         self.horizontalLayout_8.addLayout(self.horizontalLayout_18)
 
 
-        self.verticalLayout_10.addWidget(self.car_groupBox)
+        self.verticalLayout_7.addWidget(self.car_groupBox)
 
         self.contribution_groupBox = QGroupBox(Form)
         self.contribution_groupBox.setObjectName(u"contribution_groupBox")
@@ -440,7 +426,7 @@ class Ui_Form(object):
         self.horizontalLayout_9.addLayout(self.horizontalLayout_19)
 
 
-        self.verticalLayout_10.addWidget(self.contribution_groupBox)
+        self.verticalLayout_7.addWidget(self.contribution_groupBox)
 
         self.horizontalLayout_10 = QHBoxLayout()
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
@@ -466,7 +452,7 @@ class Ui_Form(object):
         self.horizontalLayout_10.addLayout(self.horizontalLayout_7)
 
 
-        self.verticalLayout_10.addLayout(self.horizontalLayout_10)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_10)
 
 
         self.retranslateUi(Form)

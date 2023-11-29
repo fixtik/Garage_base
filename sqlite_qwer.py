@@ -509,7 +509,7 @@ def sql_get_all_objects_for_list_by_row_and_num(row: str = '', num: str = ''):
         sql += f"WHERE garage_obj.num_bild = {num} "
     elif row and num:
         sql += f"WHERE garage_obj.num_row = {row} and garage_obj.num_bild = {num} "
-    sql += f'ORDER BY garage_obj.num_row DESC, garage_obj.num_bild;'
+    sql += f'ORDER BY garage_obj.num_row ASC, garage_obj.num_bild;'
     return sql
 
 

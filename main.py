@@ -96,6 +96,7 @@ class Form_frontend(QtWidgets.QMainWindow):
                     self.db = db_work.Garage_DB(new_name)
                 else:
                     self.db.choose_db(new_name)
+                self.fill_main_tableview()
                 self.showStatusBarMessage(f"Файл БД {new_name} открыт")
 
 
@@ -110,7 +111,7 @@ class Form_frontend(QtWidgets.QMainWindow):
 
     def showCartObject_EditMode(self):
         """Отображение окна карточки редактирования объекта"""
-        self.cartObj = ui.cart_functions.Cart_frontend(db=self.db)
+        self.cartObj = ui.cart_functions.Cart_frontend(db=self.db, main_form=self)
         self.cartObj.show()
         self.cartObj.fillDataForObjectFromDB(self.obj_model.items[self.ui.tableView.selectedIndexes()[0].row()].id)
 
@@ -141,7 +142,7 @@ class Form_frontend(QtWidgets.QMainWindow):
 
     def showFullAddCart(self):
         """Отображение окна для добавления всех данных одновременно (на основе карточки объекта)"""
-        self.cartObj = ui.cart_functions.Cart_frontend(db=self.db)
+        self.cartObj = ui.cart_functions.Cart_frontend(db=self.db, main_form=self)
         self.cartObj.ui.change_pushButton.setText(constants.BTN_TEXT_ADD)
         self.cartObj.show()
 
