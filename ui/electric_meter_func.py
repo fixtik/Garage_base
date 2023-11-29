@@ -102,6 +102,7 @@ class Electric_front(QtWidgets.QWidget):
         self.meter.type = self.ui.meterType_comboBox.currentText()
         self.meter.prev_day = self.ui.curDay_lineEdit.text()
         self.meter.prev_night = self.ui.curNight_lineEdit.text()
+        # Проверяем значения текущих и новых показаний (если текущие больше что дублируем их в новые)
         if int(self.ui.curDay_lineEdit.text()) > int(self.ui.newDay_lineEdit.text()):
             self.meter.curDay = self.ui.curDay_lineEdit.text()
         else:
