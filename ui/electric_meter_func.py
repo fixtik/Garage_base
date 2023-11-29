@@ -69,6 +69,7 @@ class Electric_front(QtWidgets.QWidget):
         """Открывает или закрывает возможность установки первоначальных значений"""
         self.ui.curDay_lineEdit.setEnabled(flag)
         self.ui.curNight_lineEdit.setEnabled(flag)
+        self.ui.meterNum_lineEdit.setEnabled(flag)
         self.ui.del_pushButton.setVisible(not flag)
         if flag:
             self.ui.add_pushButton.setText(constants.BTN_TEXT_ADD)

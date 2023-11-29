@@ -430,7 +430,7 @@ class Cart_frontend(QtWidgets.QWidget):
 
 
             elif objInDb and not self.fullObjInfo:  # если попытка добавить новый объект как дубликат к существующему
-                ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_OBJECT_ALREDY_EXIST}\n'
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_OBJECT_ALREADY_EXIST}\n'
                                                                     f'{constants.MESSAGE_CHECK_DATA}')
             else:  # если ошибка с подключением к БД
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_SQL_QWERY}\n'
