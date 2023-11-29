@@ -8,6 +8,7 @@ from ui.cart_ import Ui_Form
 
 import constants
 import db_work
+import main
 import ui.dialogs
 import ui.car_functions
 import ui.contribute_functions
@@ -22,7 +23,7 @@ from ui.tableView_Models import *
 
 
 class Cart_frontend(QtWidgets.QWidget):
-    def __init__(self, db, parent=None):
+    def __init__(self, db, main_form: QtWidgets.QWidget, parent=None):
         super().__init__(parent)
 
         self.ui = Ui_Form()
@@ -30,7 +31,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.db = db  # db-connector
 
         # переменные класса
-
+        self.mainForm = main_form
         self.photoPath = None
         self.addCar_form = None
         self.addContrib_form = None
@@ -291,6 +292,9 @@ class Cart_frontend(QtWidgets.QWidget):
         if not (self.ui.electric_tableView.model().items):
             if ui.dialogs.onShowСonfirmation(self, constants.INFO_TITLE, constants.INFO_NO_ELECTRIC_METER_TO_ADD):
                 return False
+        if not (self.ui.comboBox.currentText()):
+            ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_NO_SIZE)
+            return False
         e_data = self.ui.electric_tableView.model().items
         self.e380, self.e220 = None, None
         for item in e_data:  # Electric()
@@ -430,7 +434,7 @@ class Cart_frontend(QtWidgets.QWidget):
 
 
             elif objInDb and not self.fullObjInfo:  # если попытка добавить новый объект как дубликат к существующему
-                ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_OBJECT_ALREDY_EXIST}\n'
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_OBJECT_ALREADY_EXIST}\n'
                                                                     f'{constants.MESSAGE_CHECK_DATA}')
             else:  # если ошибка с подключением к БД
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, f'{constants.ERROR_SQL_QWERY}\n'
@@ -499,7 +503,13 @@ class Cart_frontend(QtWidgets.QWidget):
                         for conrib in conribs:
                             con = ui.contribute_functions.Contribution_lite(*conrib)
                             self.contribModel.setItems(con)
+    
+    def close(self) -> bool:
 
+        self.mainForm.fill_main_tableview()
+        self.mainForm.cartObj = None
+        self.mainForm = None
+        super().close()
 
 def check_rec_in_base(db: db_work.Garage_DB, *args, tb_name: str)-> (int, None):
     """
