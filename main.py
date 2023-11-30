@@ -103,6 +103,12 @@ class Form_frontend(QtWidgets.QMainWindow):
         """вывод сообщения в статус бар"""
         self.ui.statusbar.showMessage(msg)
 
+    def create_db(self):
+
+        if self.db.create_db():
+            self.hideObjectUI(True)
+            self.fill_main_tableview()
+
     def showCartObject(self):
         """Отображение окна карточки объекта"""
         self.cartObj = ui.cart_functions.Cart_frontend(db=self.db)
