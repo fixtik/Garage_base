@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
+import os
 
 from PySide6 import QtCore, QtWidgets, QtGui
 
@@ -7,7 +8,6 @@ from ui.cart_ import Ui_Form
 
 import constants
 import db_work
-import main
 import ui.dialogs
 import ui.car_functions
 import ui.contribute_functions
@@ -336,6 +336,7 @@ class Cart_frontend(QtWidgets.QWidget):
                                                  e380=self.e380)
             if self.db.execute(sql) and self.db.cursor:
                 self.garage_id = self.db.cursor.lastrowid
+
                 return True
         return False
 
@@ -381,7 +382,7 @@ class Cart_frontend(QtWidgets.QWidget):
                                                               )
                 else:
                     sql = sqlite_qwer.sql_add_new_contrib(
-                        id_garage=self.fullObjInfo.id,
+                        id_garage=self.fullObjInfo.id if self.fullObjInfo else self.garage_id,
                         id_cont=str(type_id),
                         pay_date=contr.payDate,
                         period_pay=contr.payPeriod,

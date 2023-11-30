@@ -25,11 +25,11 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
 
         self.db = db_work.Garage_DB()
-        self.cartObj = None  # для отображения формы с карточкой объекта
-        self.typePay = None  # для отображения формы редактирования видов платежей
+        self.cartObj = None    # для отображения формы с карточкой объекта
+        self.typePay = None    # для отображения формы редактирования видов платежей
         self.newMember = None  # для отображения формы добавления нового члена
-        self.elMeter = None  # для отображения формы с счетчиком
-        self.garageSize = None  # для отображения формы размера гаража
+        self.elMeter = None    # для отображения формы с счетчиком
+        self.garageSize = None # для отображения формы размера гаража
         self.obj_model = ui.tableView_Models.ObjectTableViewModel()
 
         self.initUi()
@@ -37,14 +37,15 @@ class Form_frontend(QtWidgets.QMainWindow):
         res, msg = self.db.autoConnectBD()  # пробуем подключиться к БД по умолчанию
         self.showStatusBarMessage(msg)
         self.hideObjectUI(res)
-        self.fill_main_tableview()
+        if res:
+            self.fill_main_tableview()
 
         # self.initThread
 
     def initUi(self):
         """Инициализация объектов интерфейса"""
         # слоты
-        self.ui.createBD_action.triggered.connect(self.db.create_db)  # создание новой бд
+        self.ui.createBD_action.triggered.connect(self.create_db)  # создание новой бд
         self.ui.chooseBD_action.triggered.connect(self.openDB)  # выбор существующей бд
         self.ui.openBase_pushButton.clicked.connect(self.openDB)
         self.ui.search_action.triggered.connect(self.showCartObject)  # отображение главной карточки объекта
@@ -94,12 +95,19 @@ class Form_frontend(QtWidgets.QMainWindow):
                     self.db = db_work.Garage_DB(new_name)
                 else:
                     self.db.choose_db(new_name)
+                self.hideObjectUI(True)
                 self.fill_main_tableview()
                 self.showStatusBarMessage(f"Файл БД {new_name} открыт")
 
     def showStatusBarMessage(self, msg: str):
         """вывод сообщения в статус бар"""
         self.ui.statusbar.showMessage(msg)
+
+    def create_db(self):
+
+        if self.db.create_db():
+            self.hideObjectUI(True)
+            self.fill_main_tableview()
 
     def showCartObject(self):
         """Отображение окна карточки объекта"""
@@ -145,7 +153,6 @@ class Form_frontend(QtWidgets.QMainWindow):
         """заполнение данных tableview"""
         self.ui.tableView.model().clearItemData()
         if self.db:
-
             sql = sqlite_qwer.sql_get_all_objects_for_list_by_row_and_num(row=self.ui.row_lineEdit.text(),
                                                                           num=self.ui.num_lineEdit.text())
             if self.db.execute(sql):
