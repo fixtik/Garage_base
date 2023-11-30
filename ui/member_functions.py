@@ -307,6 +307,8 @@ class FindMember_front(QtWidgets.QWidget):
         """Заполнение таблицы существующих пользователей из БД"""
         if not (self.ui.surname_lineEdit.text() or self.ui.name_lineEdit.text() or self.ui.secondName_lineEdit.text() or
                 self.ui.phone_lineEdit.text() or self.ui.row_lineEdit.text() or self.ui.number_lineEdit.text()):
+            self.userListModel.resetData()
+            self.ui.userList_tableView.clearSpans()
             self.getUsersListFromDB()
         else:
             # готовим запрос исходя из выбора пользователя
@@ -330,7 +332,7 @@ class FindMember_front(QtWidgets.QWidget):
                     if not ids:
                         self.userListModel.resetData()
                         return  # если в базе нет записей для этого ряда или номера
-                    sql = sqlite_qwer.sql_get_member_by_id_set(ids)
+                    sql = sqlite_qwer.sql_get_member_by_id_set(str(ids))
 
             if self.db.execute(sql) and self.db.cursor:
 

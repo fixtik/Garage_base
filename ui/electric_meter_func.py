@@ -241,13 +241,14 @@ class Electric_front(QtWidgets.QWidget):
         dublicate = False
         if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
             if self.meter and self.sender() != self.ui.close_pushButton:
-                # проверка по счетчику - не используется ли он на других объектах
-                if ui.cart_functions.check_rec_in_base(self.db, ('electro220_id', self.meter.id),
-                                                       tb_name=constants.OBJ_TABLE) or \
-                        ui.cart_functions.check_rec_in_base(self.db, ('electro380_id', self.meter.id),
-                                                            tb_name=constants.OBJ_TABLE):
-                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_METER_ALREADY_USE)
-                    return
+                if self.ui.add_pushButton.text() != constants.BTN_TEXT_CHANGE:
+                    # проверка по счетчику - не используется ли он на других объектах
+                    if ui.cart_functions.check_rec_in_base(self.db, ('electro220_id', self.meter.id),
+                                                           tb_name=constants.OBJ_TABLE) or \
+                            ui.cart_functions.check_rec_in_base(self.db, ('electro380_id', self.meter.id),
+                                                                tb_name=constants.OBJ_TABLE):
+                        ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_METER_ALREADY_USE)
+                        return
                 # проверка по уже введенным данным - не добавлен ли счетчик в таблицу
                 if (self.sender() == self.ui.del_pushButton and \
                     self.ui.del_pushButton.text() == constants.BTN_TEXT_CHOOSE) or \

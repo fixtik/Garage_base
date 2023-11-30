@@ -1,10 +1,15 @@
+import shutil
 import sqlite3
+from os.path import isfile
+from PySide6 import QtCore, QtWidgets, QtGui
 
+import constants
 from constants import *
 import sqlite_qwer
+import ui.dialogs
 
 
-class Garage_DB:
+class Garage_DB():
     """Класс для работы с БД"""
 
     def __init__(self, db_name: str = DEFAULT_DB_NAME):
@@ -34,23 +39,29 @@ class Garage_DB:
         """
         создание новой БД с именем, заданным при создании экземпляра класса
         :return: истина, если БД создана
+        также проверяем создана ли бд и переименовываем ее
         """
-        try:
-            self.connect = sqlite3.connect(self.db_name)
-            self.cursor = self.connect.cursor()
-            for table_name in TABALE_NAMES:
-                self.drop_table(table_name)
-            for item in BD_SQL_CREATOR:
-                try:
-                    self.cursor.execute(item)
-                except Exception as e:
-                    print(item, e)
-                    self.connect.close()
-                    return False
-            return True
-        except Exception as e:
-            print(e)
-            return False
+        if isfile(constants.DEFAULT_DB_NAME):
+            try:
+                shutil.copy(constants.DEFAULT_DB_NAME, constants.DEFAULT_OLD_DB_NAME)
+            except:
+                return False
+            try:
+                self.connect = sqlite3.connect(self.db_name)
+                self.cursor = self.connect.cursor()
+                for table_name in TABALE_NAMES:
+                    self.drop_table(table_name)
+                for item in BD_SQL_CREATOR:
+                    try:
+                        self.cursor.execute(item)
+                    except Exception as e:
+                        print(item, e)
+                        self.connect.close()
+                        return False
+                return True
+            except Exception as e:
+                print(e)
+                return False
 
     def check_base(self, new_name: str) -> bool:
         """
