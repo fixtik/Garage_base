@@ -76,6 +76,7 @@ class AddContrib_front(QtWidgets.QWidget):
             self.contib.kindPay = self.ui.kindContrib_comboBox.currentText()
             self.contib.payPeriod = f'{self.ui.beginContrib_dateEdit.text()} - {self.ui.endContrib_dateEdit.text()}'
             self.contib.payDate = self.ui.payDate_dateEdit.text()
+            self.contib.comment = self.ui.commentContrib_lineEdit.text()
             self.mainForm.contribModel.setItems(self.contib)
             self.close()
             return

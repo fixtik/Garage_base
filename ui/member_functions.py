@@ -1,6 +1,7 @@
 import os
 import shutil
 from dataclasses import dataclass
+from PySide6 import QtCore, QtWidgets, QtGui
 
 import constants
 import db_work

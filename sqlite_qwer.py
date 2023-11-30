@@ -201,14 +201,14 @@ def sql_update_field_by_table_name_and_id(table_name: str, rec_id: int, field: s
     return f'UPDATE {table_name} SET {field} = "{new_value}" WHERE id={rec_id};'
 
 
-def sql_delete_rec_by_table_name_and_id(table_name: str, rec_id: int) -> str:
+def sql_delete_rec_by_table_name_and_id(table_name: str, rec_id: str) -> str:
     """
     удаление записи по имени таблицы и id
     :param table_name: имя таблицы
-    :param rec_id: id
+    :param rec_id: список удаляемых id через ,
     :return: sql-запрос
     """
-    return f'DELETE FROM {table_name} WHERE id = {rec_id};'
+    return f'DELETE FROM {table_name} WHERE id IN ({rec_id});'
 
 
 def drop_table_by_name(table_name: str) -> str:
@@ -517,7 +517,7 @@ def sql_select_contrib_by_object_id(object_id: str) -> str:
     """Запрос на выдачу всех платежей для конкретного гаража"""
 
     return f"SELECT contribution.id, contribution_type.name, contribution.pay_date, contribution.period_pay," \
-           f" contribution_type.value, contribution_type.comment FROM main.garage_obj " \
+           f" contribution_type.value, contribution.comment FROM main.garage_obj " \
            f" INNER JOIN contribution ON garage_obj.id = contribution.id_garage " \
            f" INNER JOIN contribution_type ON contribution_type.id = contribution.id_cont_type " \
            f" WHERE garage_obj.id = {object_id};"
