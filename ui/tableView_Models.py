@@ -3,10 +3,11 @@ from PySide6 import QtCore
 
 class DBTableView(QtCore.QAbstractTableModel):
     """ Модель с для текущей БД"""
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.header = []  # заголовки для столбцов
-        self.items = []   # данные для заполнения
+        self.items = []  # данные для заполнения
 
     def returnItems(self):
         return self.items
@@ -47,6 +48,7 @@ class CarTableViewModel(DBTableView):
     """
     Модель для отображения данных по автомобилям в TableView
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -77,9 +79,10 @@ class ContribTableViewModel(DBTableView):
     """
         Модель для отображения данных по платежам в TableView
         """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.header = ['id', 'Дата платежа', 'Вид платежа','Сумма платежа','Период оплаты', 'Комментарий']
+        self.header = ['id', 'Дата платежа', 'Вид платежа', 'Сумма платежа', 'Период оплаты', 'Комментарий']
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -104,16 +107,14 @@ class ContribTableViewModel(DBTableView):
             return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
 
-
-
 class UsersTableViewModel(DBTableView):
     """
         Модель для отображения данных по пользователям в TableView
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.header = ['id', 'ФИО', 'Дата рождения', 'Телефон', 'Доп. телефон', 'Собственник']
-
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -141,10 +142,10 @@ class UsersTableViewModelLite(DBTableView):
     """
         Модель для отображения данных по пользователям в TableView
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.header = ['id', 'ФИО', 'Дата рождения', 'Телефон', 'Доп. телефон']
-
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -168,6 +169,7 @@ class ElectricTableViewModel(DBTableView):
     """
         Модель для отображения данных по счетчикам в TableView
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.header = ['id', 'Тип', 'Номер счетчика', 'Тек. показания (день)', 'Тек. показания (ночь)', 'Расход день',
@@ -190,17 +192,19 @@ class ElectricTableViewModel(DBTableView):
             if col == 4:
                 return f'{elMeter.curNight}'
             if col == 5:
-                return  f'{int(elMeter.curDay) - int(elMeter.prev_day)}'
+                return f'{int(elMeter.curDay) - int(elMeter.prev_day)}'
             if col == 6:
-                return  f'{int(elMeter.curNight) - int(elMeter.prev_night)}'
+                return f'{int(elMeter.curNight) - int(elMeter.prev_night)}'
             # как вариант - добавить сюда вывод информации о потребленной ЭЭ
             elif role == QtCore.Qt.TextAlignmentRole:
                 return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+
 
 class ObjectTableViewModel(DBTableView):
     """
         Модель для отображения данных по объектам в TableView
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.header = ['id', 'Ряд', 'Номер', 'Владелец', 'Телефон владельца', 'Кадастровый номер']
@@ -226,4 +230,3 @@ class ObjectTableViewModel(DBTableView):
 
             elif role == QtCore.Qt.TextAlignmentRole:
                 return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
-
