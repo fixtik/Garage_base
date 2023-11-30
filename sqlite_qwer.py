@@ -201,14 +201,14 @@ def sql_update_field_by_table_name_and_id(table_name: str, rec_id: int, field: s
     return f'UPDATE {table_name} SET {field} = "{new_value}" WHERE id={rec_id};'
 
 
-def sql_delete_rec_by_table_name_and_id(table_name: str, rec_id: int) -> str:
+def sql_delete_rec_by_table_name_and_id(table_name: str, rec_id: str) -> str:
     """
     удаление записи по имени таблицы и id
     :param table_name: имя таблицы
-    :param rec_id: id
+    :param rec_id: список удаляемых id через ,
     :return: sql-запрос
     """
-    return f'DELETE FROM {table_name} WHERE id = {rec_id};'
+    return f'DELETE FROM {table_name} WHERE id IN ({rec_id});'
 
 
 def drop_table_by_name(table_name: str) -> str:
@@ -472,8 +472,9 @@ def sql_add_new_garage(row: str, num: str, ownder_id: str, size_id: str, cr_year
            f"create_year, electro220_id, electro380_id) VALUES ({row}, {num}, '{kadastr}', {ownder_id}, " \
            f"'{arenda_ids}', {size_id}, '{cr_year}', {e220}, {e380});"
 
+
 def sql_full_update_garage(object_id: str, row: str, num: str, ownder_id: str, size_id: str, cr_year: str,
-                       arenda_ids: str ='', kadastr:str = '', e220: str = '0', e380: str ='0') -> str:
+                           arenda_ids: str = '', kadastr: str = '', e220: str = '0', e380: str = '0') -> str:
     """
     Формаирование запроса на изменение данных гаража
     :param object_id: id редактируемого объекта
@@ -492,6 +493,7 @@ def sql_full_update_garage(object_id: str, row: str, num: str, ownder_id: str, s
            f"num_bild = {num}, kadastr_num = '{kadastr}', owner_id = {ownder_id}, arendator_id = '{arenda_ids}', " \
            f"size_type_id = {size_id}, create_year ='{cr_year}', electro220_id = {e220}, electro380_id = {e380} " \
            f"WHERE id = {object_id} ;"
+
 
 def sql_get_all_objects_for_list_by_row_and_num(row: str = '', num: str = ''):
     """
@@ -517,12 +519,13 @@ def sql_select_contrib_by_object_id(object_id: str) -> str:
     """Запрос на выдачу всех платежей для конкретного гаража"""
 
     return f"SELECT contribution.id, contribution_type.name, contribution.pay_date, contribution.period_pay," \
-           f" contribution_type.value, contribution_type.comment FROM main.garage_obj " \
+           f" contribution_type.value, contribution.comment FROM main.garage_obj " \
            f" INNER JOIN contribution ON garage_obj.id = contribution.id_garage " \
            f" INNER JOIN contribution_type ON contribution_type.id = contribution.id_cont_type " \
            f" WHERE garage_obj.id = {object_id};"
 
-def sql_find_id_by_filds(*args, table_name: str)-> str:
+
+def sql_find_id_by_filds(*args, table_name: str) -> str:
     """
     Запрос на поиск id записи по полям
     :param args: кортеж (<имя поля> <значение>)

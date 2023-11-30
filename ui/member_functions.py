@@ -1,6 +1,7 @@
 import os
 import shutil
 from dataclasses import dataclass
+from PySide6 import QtCore, QtWidgets, QtGui
 
 import constants
 import db_work
@@ -24,12 +25,11 @@ class Member_front(QtWidgets.QWidget):
         self.photoPath = None  # путь к фото
         self.db = db  # сслыка на объект БД
         self.member = Member()  #
-        self.car = None # для отображения авто пользователей
+        self.car = None  # для отображения авто пользователей
         self.parentForm = None  # сслыка на форму вызова для возвращения добавленных объектов
         self.addCar_form = None
 
         self.initUi()
-
 
     def initUi(self):
 
@@ -45,7 +45,8 @@ class Member_front(QtWidgets.QWidget):
         self.ui.addPhone_lineEdit.setValidator(ui.validators.onlyNumValidator())
 
         # автоматическая подгонка ширины
-        self.ui.autoMember_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.ui.autoMember_tableView.horizontalHeader().setSectionResizeMode(
+            QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
 
         self.carInDbModel = CarTableViewModel()
         self.ui.autoMember_tableView.setModel(self.carInDbModel)
@@ -65,7 +66,6 @@ class Member_front(QtWidgets.QWidget):
             pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
             self.ui.photo_label.setPixmap(pix)
             self.photoPath = img_path
-
 
     def addToBase(self) -> bool:
         """Добавление записи о пользователе в базу"""
@@ -120,7 +120,7 @@ class Member_front(QtWidgets.QWidget):
                                                                               self.db.cursor.lastrowid,
                                                                               'photo',
                                                                               constants.DEFAULT_PHOTO_PASS + str(
-                                                                              self.db.cursor.lastrowid) + '.jpg'))
+                                                                                  self.db.cursor.lastrowid) + '.jpg'))
 
     def addPushBtnClk(self):
         """Проверка данных при нажатии 'Добавить' """
@@ -145,7 +145,7 @@ class Member_front(QtWidgets.QWidget):
                 return None
             if self.addToBase():
                 self.move_photo()
-            # смотрим, кто вызывал
+                # смотрим, кто вызывал
                 if isinstance(self.parentForm, FindMember_front):
                     userInfo = User_Info()
                     userInfo.memberToUserInfo(self.member)
@@ -165,8 +165,6 @@ class Member_front(QtWidgets.QWidget):
                             user.brDay = self.ui.dateBirdth_dateEdit.date().toPython()
                             user.phone = self.ui.phone_lineEdit.text()
                             user.addPhone = self.ui.addPhone_lineEdit.text()
-
-
 
                     if self.db.execute(sqlite_qwer.sql_select_cars_and_own_info_by_owner_id(ids)):
                         self.parentForm.carModel.clearItemData()
@@ -209,7 +207,7 @@ class Member_front(QtWidgets.QWidget):
                     if car.id:
                         self.db.execute(sqlite_qwer.sql_update_car_by_id(id=car.id, new_mark=car.mark,
                                                                          new_gos_num=car.gos_num))
-                    else: # добавляем новое авто для пользователя
+                    else:  # добавляем новое авто для пользователя
                         self.db.execute(sqlite_qwer.sql_add_new_car(mark=car.mark, gos_num=car.gos_num, owner_id=id))
 
             return True
@@ -230,7 +228,7 @@ class Member_front(QtWidgets.QWidget):
                 self.ui.surname_lineEdit.setText(user[1])
                 self.ui.name_lineEdit.setText(user[2])
                 self.ui.secondName_lineEdit.setText(user[3])
-                #self.ui.dateBirdth_dateEdit.setDate(user[4])
+                # self.ui.dateBirdth_dateEdit.setDate(user[4])
                 self.ui.address_lineEdit.setText(user[5])
                 self.ui.phone_lineEdit.setText(user[6])
                 self.ui.addPhone_lineEdit.setText(user[7])
@@ -239,9 +237,8 @@ class Member_front(QtWidgets.QWidget):
                 self.photoPath = user[12]
             if self.db.execute(sqlite_qwer.sql_get_car_by_own_id(self.member.id)):
                 for car in self.db.cursor.fetchall():
-                    carInfo = ui.car_functions.CarInfo(car[0],car[1], car[2])
+                    carInfo = ui.car_functions.CarInfo(car[0], car[1], car[2])
                     self.carInDbModel.setItems(carInfo)
-
 
     def delRowTV(self):
         """удаление строки из таблицы с авто"""
@@ -250,7 +247,6 @@ class Member_front(QtWidgets.QWidget):
     def close(self) -> bool:
         self.parentForm = None
         super().close()
-
 
 
 class FindMember_front(QtWidgets.QWidget):
@@ -404,14 +400,13 @@ class FindMember_front(QtWidgets.QWidget):
 
         ui.dialogs.onShowError(self, constants.ATTANTION_TITLE, constants.INFO_DATA_IS_EMPTY)
 
-
     def close(self) -> bool:
         self.parentForm = None
         super().close()
 
     @staticmethod
     def addUserAndCarsToTV(db: db_work.Garage_DB, ids: str, userModel: QtCore.QAbstractTableModel,
-                           carModel:QtCore.QAbstractTableModel) -> bool:
+                           carModel: QtCore.QAbstractTableModel) -> bool:
         """
         Добавление данных в модели пользователей и их машин
         :param db: ссылка на коннектор БД
@@ -433,6 +428,7 @@ class FindMember_front(QtWidgets.QWidget):
                     carModel.setItems(car_info)
                 return True
         return False
+
 
 @dataclass
 class Member():

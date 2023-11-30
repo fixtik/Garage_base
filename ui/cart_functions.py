@@ -1,4 +1,3 @@
-import os.path
 from dataclasses import dataclass
 from datetime import datetime
 import os
@@ -9,7 +8,6 @@ from ui.cart_ import Ui_Form
 
 import constants
 import db_work
-import main
 import ui.dialogs
 import ui.car_functions
 import ui.contribute_functions
@@ -368,14 +366,32 @@ class Cart_frontend(QtWidgets.QWidget):
     def addContributionToBase(self) -> bool:
         """добавление информации о платежах в БД"""
         if self.db:
+            obj_id = self.fullObjInfo.id if self.fullObjInfo else self.garage_id
+            # забираем внесенные платежи
             contribs = self.ui.contrib_tableView.model().items
+            # формируем список id существующих в БД платежей
+            new_cont_ids = {con.id for con in contribs if con.id}
+            old_contr_ids = []
+            # получаем список id платежей из БД (которые были ранее)
+            if self.db.execute(sqlite_qwer.sql_select_contrib_by_object_id(obj_id)):
+                old_conts = self.db.cursor.fetchall()
+                for o_c in old_conts:
+                    old_contr_ids.append(o_c[0])
+            # получаем список удаленных платежей и удаляем их из БД
+            del_cont_ids = ','.join(str(item) for item in set(old_contr_ids).difference(new_cont_ids) if item)
+            if del_cont_ids:
+                if not (self.db.execute(sqlite_qwer.sql_delete_rec_by_table_name_and_id(
+                        table_name=constants.CONTRIB_TABLE, rec_id=del_cont_ids))):
+                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_DELETE_QWERY +
+                                           constants.CONTRIB_TABLE)
+
             for contr in contribs:
                 type_id = self.nameContribToKinfId(contr.kindPay)
                 if type_id == -1:
                     return False
                 if contr.id:  # если уже есть в базе - обновляем данные
                     sql = sqlite_qwer.sql_full_update_contrib(cont_id=contr.id,
-                                                              id_garage=self.fullObjInfo.id,
+                                                              id_garage=obj_id,
                                                               id_cont=str(type_id),
                                                               pay_date=contr.payDate,
                                                               period_pay=contr.payPeriod,
@@ -384,7 +400,7 @@ class Cart_frontend(QtWidgets.QWidget):
                                                               )
                 else:
                     sql = sqlite_qwer.sql_add_new_contrib(
-                        id_garage=self.fullObjInfo.id if self.fullObjInfo else self.garage_id,
+                        id_garage=obj_id,
                         id_cont=str(type_id),
                         pay_date=contr.payDate,
                         period_pay=contr.payPeriod,
@@ -430,6 +446,7 @@ class Cart_frontend(QtWidgets.QWidget):
                     if self.addContributionToBase():
                         ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_ADDED)
                         self.clearCartForm()
+                        self.mainForm.fill_main_tableview()
 
             elif objInDb and self.fullObjInfo:  # если обект уже в бд и режим редактирования
                 if self.updateGarage():

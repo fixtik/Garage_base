@@ -96,6 +96,7 @@ ELECTRIC_TABLE = 'electric_meter'
 MEMBER_TABLE = 'garage_member'
 SIZE_TABLE = 'type_size'
 CONTRIB_TYPE_TABLE = 'contribution_type'
+CONTRIB_TABLE = 'contribution'
 
 OWNER_ID = 'owner_id'
 
@@ -109,6 +110,7 @@ ELECTRIC_HEIGHT_ADD = 170
 
 ERROR_TEXT_PLACE_NOT_FILL = 'Заполните все обязательные поля!'
 ERROR_SQL_QWERY = 'Ошибка выполнения запроса'
+ERROR_DELETE_QWERY = 'Ошибка при удалении данных из таблицы '
 ERROR_NO_BASE_CONNECT = 'Нет подключенной БД!'
 ERROR_ADD_BASE_ERR = "Ошибка при добавлении записи в БД!"
 ERROR_NO_OWNER = 'Не выбран собственник для объекта!'
@@ -131,8 +133,7 @@ ERROR_TITLE = "Ошибка!"
 
 INFO_DATA_IS_EMPTY = "Данных не обнаружено"
 INFO_NO_ELECTRIC_METER = 'Для данного объекта нет счетчика'
-INFO_NO_ELECTRIC_METER_TO_ADD = 'Вы не ввели данные по электросчетчику! \n ' \
-                                'Хотите внести сейчас, или сделаете это позже?'
+INFO_NO_ELECTRIC_METER_TO_ADD = 'Вы не ввели данные по электросчетчику!\nХотите внести сейчас?'
 INFO_NO_OBJECT = "Объекта не обнаружено"
 
 INFO_TITLE = "Информация"

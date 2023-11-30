@@ -1,4 +1,3 @@
-import weakref
 from dataclasses import dataclass
 
 from PySide6 import QtCore, QtWidgets, QtGui
