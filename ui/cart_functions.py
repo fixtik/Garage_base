@@ -448,6 +448,7 @@ class Cart_frontend(QtWidgets.QWidget):
                     if self.addContributionToBase():
                         ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_ADDED)
                         self.clearCartForm()
+                        self.mainForm.fill_main_tableview()
 
             elif objInDb and self.fullObjInfo:  # если обект уже в бд и режим редактирования
                 if self.updateGarage():
