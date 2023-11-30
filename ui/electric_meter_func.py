@@ -95,12 +95,9 @@ class Electric_front(QtWidgets.QWidget):
         """Действия при нажатии кнопки "Добавить" """
         if not self.ui.meterNum_lineEdit.text():
             return
-        if not self.meter:
-            self.meter = ElectricMeter()
-        self.meter.number = self.ui.meterNum_lineEdit.text()
-        self.meter.type = self.ui.meterType_comboBox.currentText()
-        self.meter.prev_day = self.ui.curDay_lineEdit.text()
-        self.meter.prev_night = self.ui.curNight_lineEdit.text()
+        if not self.fillElectricMeterObj():
+            return
+
         # Проверяем значения текущих и новых показаний (если текущие больше что дублируем их в новые)
         if int(self.ui.curDay_lineEdit.text()) > int(self.ui.newDay_lineEdit.text()):
             self.meter.curDay = self.ui.curDay_lineEdit.text()
@@ -200,7 +197,8 @@ class Electric_front(QtWidgets.QWidget):
 
     def fillElectricMeterObj(self) -> bool:
         """заполнение данных из формы"""
-        self.meter = ElectricMeter()
+        if not self.meter:
+            self.meter = ElectricMeter()
         self.meter.number = self.ui.meterNum_lineEdit.text()
         if not self.meter.number:
             return False
