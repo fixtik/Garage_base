@@ -421,7 +421,7 @@ def sql_get_members_by_ogject(row: int = 0, number: int = 0) -> str:
 
 def sql_get_member_by_id_set(ids: str) -> str:
     """формирование запроса на получение данных пользователей по списку id (только активные)"""
-    return f'SELECT * FROM garage_member WHERE id IN ({ids}) AND active = 1'
+    return f'SELECT * FROM garage_member WHERE id IN ({ids.replace("]", "").replace("[", "")}) AND active = 1'
 
 
 def sql_select_cars_and_own_info_by_owner_id(ids: str):

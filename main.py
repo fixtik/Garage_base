@@ -1,5 +1,6 @@
 import sys
 import os
+from os.path import isfile
 
 from PySide6 import QtCore, QtWidgets, QtGui
 
@@ -106,7 +107,9 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.statusbar.showMessage(msg)
 
     def create_db(self):
-
+        if isfile(constants.DEFAULT_DB_NAME):
+            if ui.dialogs.onShowСonfirmation(self, constants.INFO_TITLE, constants.INFO_CREATE_DB):
+                return False
         if self.db.create_db():
             self.hideObjectUI(True)
             self.fill_main_tableview()
