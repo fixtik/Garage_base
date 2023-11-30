@@ -1,4 +1,3 @@
-import os.path
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -100,11 +99,15 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.ownerFIO_lineEdit.setReadOnly(True)
         self.ui.ownerPhone_lineEdit.setReadOnly(True)
 
-        #Автоматичкская подгонка столбцов по ширине
-        self.ui.contrib_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
-        self.ui.auto_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
-        self.ui.electric_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
-        self.ui.users_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        # Автоматичкская подгонка столбцов по ширине
+        self.ui.contrib_tableView.horizontalHeader().setSectionResizeMode(
+            QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.ui.auto_tableView.horizontalHeader().setSectionResizeMode(
+            QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.ui.electric_tableView.horizontalHeader().setSectionResizeMode(
+            QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.ui.users_tableView.horizontalHeader().setSectionResizeMode(
+            QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         self.ui.auto_label.setMinimumWidth(self.ui.userAdd_pushButton.width())
 
     def fillComboBox(self):
@@ -282,7 +285,7 @@ class Cart_frontend(QtWidgets.QWidget):
             self.carModel.removeRow(i)
 
     def checkFillAllFields(self):
-        """проверка заполненения всех полей"""
+        """проверка заполнения всех полей"""
         if not (self.owner_id):
             ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_NO_OWNER)
             return False

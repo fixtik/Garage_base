@@ -1,3 +1,5 @@
+import datetime
+
 from PySide6 import QtCore, QtWidgets, QtGui
 from dataclasses import dataclass
 
@@ -11,24 +13,22 @@ import sqlite_qwer
 import ui.validators
 
 
-
 class AddContrib_front(QtWidgets.QWidget):
     TB_NAME = 'contribution_type'
+
     def __init__(self, db, parent=None):
         super().__init__(parent)
         self.ui = addW.Ui_Form()
         self.ui.setupUi(self)
 
-        self.db = db           # БД
-        self.mainForm = None     # Родительская форма
-        self.addKind_form = None # Форма добавления нового вида платежа
-        self.contib = None       # объект для передачи данных в другую форму
-        self.contib_ids = []   # список с id-платежа из БД, индекс соответствует индексу в combobox
-        self.cur_indx = None   # текущий выбранный индекс в combobox
-
+        self.db = db  # БД
+        self.mainForm = None  # Родительская форма
+        self.addKind_form = None  # Форма добавления нового вида платежа
+        self.contib = None  # объект для передачи данных в другую форму
+        self.contib_ids = []  # список с id-платежа из БД, индекс соответствует индексу в combobox
+        self.cur_indx = None  # текущий выбранный индекс в combobox
 
         self.initUi()
-
 
     def initUi(self):
 
@@ -38,12 +38,16 @@ class AddContrib_front(QtWidgets.QWidget):
         self.ui.delKind_pushButton.clicked.connect(self.delKindContrib)
         self.ui.kindContrib_comboBox.currentIndexChanged.connect(self.itemChanged)
 
+        # Установка текущей даты при создании платежа
+        self.ui.payDate_dateEdit.setDate(datetime.date.today())
+        self.ui.beginContrib_dateEdit.setDate(datetime.date.today())
+        self.ui.endContrib_dateEdit.setDate(datetime.date.today())
+
         self.ui.sumContrib_lineEdit.setValidator(ui.validators.floatValidator())
 
     def updateDataFromDB(self):
         """Обновление данных из БД для отображения в полях"""
         self.fillKindContribFromBase()
-
 
     def addKindContrib(self):
         """вызов окна для добавления нового вида платежа"""
@@ -51,18 +55,19 @@ class AddContrib_front(QtWidgets.QWidget):
         self.addKind_form.mainForm = self
         self.addKind_form.show()
 
-
     def delKindContrib(self):
         """удаление вида платежа из базы"""
-        q = ui.dialogs.onShowСonfirmation(self, "Подтверждение действия", "Вы уверены, что хотите удалить выбранный тип платежа?")
+        q = ui.dialogs.onShowСonfirmation(self, "Подтверждение действия",
+                                          "Вы уверены, что хотите удалить выбранный тип платежа?")
         if q:
             self.db.execute(sqlite_qwer.sql_delete_rec_by_table_name_and_id(self.TB_NAME,
-                                                                            self.contib_ids[self.ui.kindContrib_comboBox.currentIndex()]))
+                                                                            self.contib_ids[
+                                                                                self.ui.kindContrib_comboBox.currentIndex()]))
             self.updateDataFromDB()
 
     def okPushBtnClk(self):
         """действие при нажатии Добавить или Применить"""
-        if self.mainForm: # если добаление платежа в карточку
+        if self.mainForm:  # если добаление платежа в карточку
             if not (self.ui.kindContrib_comboBox.currentText() and self.ui.sumContrib_lineEdit.text()):
                 ui.dialogs.onShowError(self, 'Ошибка', 'Вы не заполнили все поля')
                 return
@@ -74,12 +79,11 @@ class AddContrib_front(QtWidgets.QWidget):
             self.mainForm.contribModel.setItems(self.contib)
             self.close()
             return
-        self.db.execute(sqlite_qwer.sql_update_contrib_type(self.contib_ids[self.ui.kindContrib_comboBox.currentIndex()],
-                                                            float(self.ui.sumContrib_lineEdit.text().replace(',', '.')),
-                                                            self.ui.commentContrib_lineEdit.text()))
+        self.db.execute(
+            sqlite_qwer.sql_update_contrib_type(self.contib_ids[self.ui.kindContrib_comboBox.currentIndex()],
+                                                float(self.ui.sumContrib_lineEdit.text().replace(',', '.')),
+                                                self.ui.commentContrib_lineEdit.text()))
         self.updateDataFromDB()
-
-
 
     def fillKindContribFromBase(self):
         if self.db:
@@ -96,7 +100,6 @@ class AddContrib_front(QtWidgets.QWidget):
                 cont.comment = item[3]
                 self.ui.kindContrib_comboBox.addItem(cont.kindPay)
             self.itemChanged()
-
 
     def itemChanged(self):
         """изменение данных в полях при изменении выбранной позиции"""
@@ -127,7 +130,6 @@ class AddContrib_front(QtWidgets.QWidget):
         super().close()
 
 
-
 class Contribution():
     """Класс информации о платеже"""
 
@@ -150,7 +152,6 @@ class Contribution_lite():
     value:str = ''         # сумма платежа
     comment:str = ''
 
-
 class AddKindContrib_front(QtWidgets.QWidget):
     """Виджет для добавления платежа в бд"""
 
@@ -162,8 +163,8 @@ class AddKindContrib_front(QtWidgets.QWidget):
         self.mainForm = None
         self.db = db
 
-        self.initUi()
 
+        self.initUi()
 
     def initUi(self):
         self.ui.close_pushButton.clicked.connect(self.close)
@@ -173,7 +174,7 @@ class AddKindContrib_front(QtWidgets.QWidget):
     def okPushBtnClk(self):
         """нажатие кнопки ок"""
         if self.mainForm:
-            if not(self.ui.kind_lineEdit.text() and self.ui.value_lineEdit.text()):
+            if not (self.ui.kind_lineEdit.text() and self.ui.value_lineEdit.text()):
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_TEXT_PLACE_NOT_FILL)
                 return
             if self.db.connect:

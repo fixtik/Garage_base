@@ -1,16 +1,16 @@
 import sqlite3
 
-
 from constants import *
 import sqlite_qwer
+
 
 class Garage_DB:
     """Класс для работы с БД"""
 
     def __init__(self, db_name: str = DEFAULT_DB_NAME):
-        self.db_name = db_name   # имя БД
-        self.connect = None      # коннектор БД
-        self.cursor = None       # курсор БД
+        self.db_name = db_name  # имя БД
+        self.connect = None  # коннектор БД
+        self.cursor = None  # курсор БД
 
     def __del__(self):
         if self.connect:
@@ -29,7 +29,6 @@ class Garage_DB:
             self.connect.close()
             return False
         return True
-
 
     def create_db(self) -> bool:
         """

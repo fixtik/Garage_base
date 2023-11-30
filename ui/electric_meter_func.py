@@ -1,4 +1,3 @@
-import weakref
 from dataclasses import dataclass
 
 from PySide6 import QtCore, QtWidgets, QtGui
@@ -11,6 +10,7 @@ import constants
 import ui.validators
 import ui.cart_functions
 from ui.tableView_Models import *
+
 
 class Electric_front(QtWidgets.QWidget):
     TABLE_NAME = "electric_meter"
@@ -69,6 +69,7 @@ class Electric_front(QtWidgets.QWidget):
         """Открывает или закрывает возможность установки первоначальных значений"""
         self.ui.curDay_lineEdit.setEnabled(flag)
         self.ui.curNight_lineEdit.setEnabled(flag)
+        self.ui.meterNum_lineEdit.setEnabled(flag)
         self.ui.del_pushButton.setVisible(not flag)
         if flag:
             self.ui.add_pushButton.setText(constants.BTN_TEXT_ADD)
@@ -100,8 +101,16 @@ class Electric_front(QtWidgets.QWidget):
         self.meter.type = self.ui.meterType_comboBox.currentText()
         self.meter.prev_day = self.ui.curDay_lineEdit.text()
         self.meter.prev_night = self.ui.curNight_lineEdit.text()
-        self.meter.curDay = self.ui.newDay_lineEdit.text()
-        self.meter.curNight = self.ui.newNight_lineEdit.text()
+        # Проверяем значения текущих и новых показаний (если текущие больше что дублируем их в новые)
+        if int(self.ui.curDay_lineEdit.text()) > int(self.ui.newDay_lineEdit.text()):
+            self.meter.curDay = self.ui.curDay_lineEdit.text()
+        else:
+            self.meter.curDay = self.ui.newDay_lineEdit.text()
+
+        if int(self.ui.curNight_lineEdit.text()) > int(self.ui.newNight_lineEdit.text()):
+            self.meter.curNight = self.ui.curNight_lineEdit.text()
+        else:
+            self.meter.curNight = self.ui.newNight_lineEdit.text()
 
         if not self.db:
             ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_NO_BASE_CONNECT)
@@ -121,18 +130,18 @@ class Electric_front(QtWidgets.QWidget):
         if not self.meter.id:
             if not self.meter.inBase:
                 self.db.execute(sqlite_qwer.sql_add_electric_meter(
-                        num_meter=self.meter.number,
-                        cur_day=int(self.meter.curDay),
-                        cur_night=int(self.meter.curNight),
-                        pr_day=int(self.meter.prev_day),
-                        pr_night=int(self.meter.prev_night),
-                        type=int(self.meter.type)))
+                    num_meter=self.meter.number,
+                    cur_day=int(self.meter.curDay),
+                    cur_night=int(self.meter.curNight),
+                    pr_day=int(self.meter.prev_day),
+                    pr_night=int(self.meter.prev_night),
+                    type=int(self.meter.type)))
                 self.meter.id = self.db.cursor.lastrowid
         else:
             self.db.execute(sqlite_qwer.sql_update_electric_meter_by_id(
-                        metr_id=int(self.meter.id),
-                        cur_day=int(self.meter.curDay),
-                        cur_night=int(self.meter.curNight)))
+                metr_id=int(self.meter.id),
+                cur_day=int(self.meter.curDay),
+                cur_night=int(self.meter.curNight)))
             ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_CHANGED)
         self.close()
 
@@ -166,21 +175,21 @@ class Electric_front(QtWidgets.QWidget):
         """поиск счетчика по номеру, если есть в БД - заполняются данные"""
         if self.db.execute(sqlite_qwer.sql_get_metr_id_by_num(self.ui.meterNum_lineEdit.text(),
                                                               self.ui.meterType_comboBox.itemText(
-                                                              self.ui.meterType_comboBox.currentIndex()))) \
+                                                                  self.ui.meterType_comboBox.currentIndex()))) \
                 and self.db.cursor:
-                id = self.db.cursor.fetchone()
-                if not id:
-                    self.meter = None
-                    self.disable_current_lineEdit(True)
-                    self.setDefaultValue()
-                    return None
-                if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=self.TABLE_NAME, id=id[0])):
-                    rec = self.db.cursor.fetchone()
-                    self.fill_from_db(rec)
-                    self.meter.inBase = True
+            id = self.db.cursor.fetchone()
+            if not id:
+                self.meter = None
+                self.disable_current_lineEdit(True)
+                self.setDefaultValue()
+                return None
+            if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=self.TABLE_NAME, id=id[0])):
+                rec = self.db.cursor.fetchone()
+                self.fill_from_db(rec)
+                self.meter.inBase = True
 
-                    self.disable_current_lineEdit(False)
-                    self.fillPlace()
+                self.disable_current_lineEdit(False)
+                self.fillPlace()
 
     def fillPlace(self):
         """заполнение полей карточки если счетчик найден в БД"""
