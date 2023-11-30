@@ -181,7 +181,8 @@ class Cart_frontend(QtWidgets.QWidget):
         """открывает форму редактирования счетчика"""
         self.addElectric = ui.electric_meter_func.Electric_front(self.db)
         self.addElectric.mainForm = self
-        elmeter_id = (self.ui.electric_tableView.model().items[self.ui.electric_tableView.selectedIndexes()[0].row()]).id
+        elmeter_id = (
+            self.ui.electric_tableView.model().items[self.ui.electric_tableView.selectedIndexes()[0].row()]).id
         self.addElectric.changeFormElectric(elmeter_id=elmeter_id)
         self.addElectric.obj_id = self.fullObjInfo.id
         self.addElectric.hideFindePlace()
@@ -336,7 +337,6 @@ class Cart_frontend(QtWidgets.QWidget):
                                                  e380=self.e380)
             if self.db.execute(sql) and self.db.cursor:
                 self.garage_id = self.db.cursor.lastrowid
-
                 return True
         return False
 
@@ -381,7 +381,7 @@ class Cart_frontend(QtWidgets.QWidget):
             del_cont_ids = ','.join(str(item) for item in set(old_contr_ids).difference(new_cont_ids) if item)
             if del_cont_ids:
                 if not (self.db.execute(sqlite_qwer.sql_delete_rec_by_table_name_and_id(
-                    table_name=constants.CONTRIB_TABLE, rec_id=del_cont_ids))):
+                        table_name=constants.CONTRIB_TABLE, rec_id=del_cont_ids))):
                     ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_DELETE_QWERY +
                                            constants.CONTRIB_TABLE)
 
@@ -389,7 +389,6 @@ class Cart_frontend(QtWidgets.QWidget):
                 type_id = self.nameContribToKinfId(contr.kindPay)
                 if type_id == -1:
                     return False
-
                 if contr.id:  # если уже есть в базе - обновляем данные
                     sql = sqlite_qwer.sql_full_update_contrib(cont_id=contr.id,
                                                               id_garage=obj_id,
@@ -416,11 +415,10 @@ class Cart_frontend(QtWidgets.QWidget):
     def checkGarageInDB(self) -> bool:
         """проверка гаража в БД по ряду и номеру"""
         return check_rec_in_base(self.db,
-            ('num_bild', self.ui.garage_lineEdit.text()),
-            ('num_row', self.ui.row_lineEdit.text()),
-            tb_name=constants.OBJ_TABLE
-        )
-
+                                 ('num_bild', self.ui.garage_lineEdit.text()),
+                                 ('num_row', self.ui.row_lineEdit.text()),
+                                 tb_name=constants.OBJ_TABLE
+                                 )
 
     def clearCartForm(self):
         """Очистка данных для заполнения сведений о следующем объекте"""
@@ -527,15 +525,15 @@ class Cart_frontend(QtWidgets.QWidget):
                         for conrib in conribs:
                             con = ui.contribute_functions.Contribution_lite(*conrib)
                             self.contribModel.setItems(con)
-    
-    def close(self) -> bool:
 
+    def close(self) -> bool:
         self.mainForm.fill_main_tableview()
         self.mainForm.cartObj = None
         self.mainForm = None
         super().close()
 
-def check_rec_in_base(db: db_work.Garage_DB, *args, tb_name: str)-> (int, None):
+
+def check_rec_in_base(db: db_work.Garage_DB, *args, tb_name: str) -> (int, None):
     """
     Проверка наличия записи в БД
     :param db: ссылка на БД

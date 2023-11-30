@@ -76,7 +76,7 @@ class Electric_front(QtWidgets.QWidget):
         else:
             self.ui.add_pushButton.setText(constants.BTN_TEXT_CHANGE)
             self.ui.del_pushButton.setText(constants.BTN_TEXT_CHOOSE)
-            #self.setWindowTitle(constants.TITLE_EDIT_MODE)
+            # self.setWindowTitle(constants.TITLE_EDIT_MODE)
 
     def fillFormPlace(self):
         """Заполнение данных"""
@@ -169,8 +169,6 @@ class Electric_front(QtWidgets.QWidget):
         self.meter.inBase = True
         self.ui.meterType_comboBox.setItemText(0, str(self.meter.type))
 
-
-
     def getIdFromBase(self):
         """поиск счетчика по номеру, если есть в БД - заполняются данные"""
         if self.db.execute(sqlite_qwer.sql_get_metr_id_by_num(self.ui.meterNum_lineEdit.text(),
@@ -243,13 +241,14 @@ class Electric_front(QtWidgets.QWidget):
         dublicate = False
         if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
             if self.meter and self.sender() != self.ui.close_pushButton:
-                # проверка по счетчику - не используется ли он на других объектах
-                if ui.cart_functions.check_rec_in_base(self.db, ('electro220_id', self.meter.id),
-                                                       tb_name=constants.OBJ_TABLE) or\
-                        ui.cart_functions.check_rec_in_base(self.db, ('electro380_id', self.meter.id),
-                                                            tb_name=constants.OBJ_TABLE):
-                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_METER_ALREADY_USE)
-                    return
+                if self.ui.add_pushButton.text() != constants.BTN_TEXT_CHANGE:
+                    # проверка по счетчику - не используется ли он на других объектах
+                    if ui.cart_functions.check_rec_in_base(self.db, ('electro220_id', self.meter.id),
+                                                           tb_name=constants.OBJ_TABLE) or \
+                            ui.cart_functions.check_rec_in_base(self.db, ('electro380_id', self.meter.id),
+                                                                tb_name=constants.OBJ_TABLE):
+                        ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_METER_ALREADY_USE)
+                        return
                 # проверка по уже введенным данным - не добавлен ли счетчик в таблицу
                 if (self.sender() == self.ui.del_pushButton and \
                     self.ui.del_pushButton.text() == constants.BTN_TEXT_CHOOSE) or \
@@ -276,7 +275,6 @@ class Electric_front(QtWidgets.QWidget):
         super().close()
 
 
-
 @dataclass
 class ElectricMeter():
     id: str = ''
@@ -287,7 +285,3 @@ class ElectricMeter():
     curDay: str = ''
     curNight: str = ''
     inBase: bool = False
-
-
-
-
