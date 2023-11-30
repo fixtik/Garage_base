@@ -37,7 +37,8 @@ class Form_frontend(QtWidgets.QMainWindow):
         res, msg = self.db.autoConnectBD()  # пробуем подключиться к БД по умолчанию
         self.showStatusBarMessage(msg)
         self.hideObjectUI(res)
-        self.fill_main_tableview()
+        if res:
+            self.fill_main_tableview()
 
         # self.initThread
 
@@ -94,6 +95,7 @@ class Form_frontend(QtWidgets.QMainWindow):
                     self.db = db_work.Garage_DB(new_name)
                 else:
                     self.db.choose_db(new_name)
+                self.hideObjectUI(True)
                 self.fill_main_tableview()
                 self.showStatusBarMessage(f"Файл БД {new_name} открыт")
 

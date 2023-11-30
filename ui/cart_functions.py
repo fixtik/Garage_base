@@ -1,6 +1,7 @@
 import os.path
 from dataclasses import dataclass
 from datetime import datetime
+import os
 
 from PySide6 import QtCore, QtWidgets, QtGui
 
@@ -183,7 +184,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.addElectric = ui.electric_meter_func.Electric_front(self.db)
         self.addElectric.mainForm = self
         elmeter_id = (
-        self.ui.electric_tableView.model().items[self.ui.electric_tableView.selectedIndexes()[0].row()]).id
+            self.ui.electric_tableView.model().items[self.ui.electric_tableView.selectedIndexes()[0].row()]).id
         self.addElectric.changeFormElectric(elmeter_id=elmeter_id)
         self.addElectric.obj_id = self.fullObjInfo.id
         self.addElectric.hideFindePlace()
@@ -383,7 +384,7 @@ class Cart_frontend(QtWidgets.QWidget):
                                                               )
                 else:
                     sql = sqlite_qwer.sql_add_new_contrib(
-                        id_garage=self.fullObjInfo.id,
+                        id_garage=self.fullObjInfo.id if self.fullObjInfo else self.garage_id,
                         id_cont=str(type_id),
                         pay_date=contr.payDate,
                         period_pay=contr.payPeriod,
