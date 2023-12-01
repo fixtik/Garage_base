@@ -46,22 +46,22 @@ class Garage_DB():
                 shutil.copy(constants.DEFAULT_DB_NAME, constants.DEFAULT_OLD_DB_NAME)
             except:
                 return False
-            try:
-                self.connect = sqlite3.connect(self.db_name)
-                self.cursor = self.connect.cursor()
-                for table_name in TABALE_NAMES:
-                    self.drop_table(table_name)
-                for item in BD_SQL_CREATOR:
-                    try:
-                        self.cursor.execute(item)
-                    except Exception as e:
-                        print(item, e)
-                        self.connect.close()
-                        return False
-                return True
-            except Exception as e:
-                print(e)
-                return False
+        try:
+            self.connect = sqlite3.connect(self.db_name)
+            self.cursor = self.connect.cursor()
+            for table_name in TABALE_NAMES:
+                self.drop_table(table_name)
+            for item in BD_SQL_CREATOR:
+                try:
+                    self.cursor.execute(item)
+                except Exception as e:
+                    print(item, e)
+                    self.connect.close()
+                    return False
+            return True
+        except Exception as e:
+            print(e)
+            return False
 
     def check_base(self, new_name: str) -> bool:
         """
