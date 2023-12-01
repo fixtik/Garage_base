@@ -533,6 +533,8 @@ class Cart_frontend(QtWidgets.QWidget):
         super().close()
 
 
+
+
 def check_rec_in_base(db: db_work.Garage_DB, *args, tb_name: str) -> (int, None):
     """
     Проверка наличия записи в БД

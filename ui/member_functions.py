@@ -303,6 +303,9 @@ class FindMember_front(QtWidgets.QWidget):
         self.ui.number_lineEdit.textChanged.connect(self.liveUpdateRequest)
         self.ui.row_lineEdit.textChanged.connect(self.liveUpdateRequest)
 
+        self.ui.row_lineEdit.setValidator(ui.validators.onlyNumValidator())
+        self.ui.number_lineEdit.setValidator(ui.validators.onlyNumValidator())
+
     def liveUpdateRequest(self):
         """Заполнение таблицы существующих пользователей из БД"""
         if not (self.ui.surname_lineEdit.text() or self.ui.name_lineEdit.text() or self.ui.secondName_lineEdit.text() or
