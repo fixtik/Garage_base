@@ -110,6 +110,9 @@ class Cart_frontend(QtWidgets.QWidget):
             QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         self.ui.auto_label.setMinimumWidth(self.ui.userAdd_pushButton.width())
 
+        self.ui.image_pushButton.setVisible(False)
+        self.ui.photo_label.setVisible(False)
+
     def fillComboBox(self):
         """Заполнение данных о размере в комбобокс"""
         if self.db:
@@ -469,8 +472,20 @@ class Cart_frontend(QtWidgets.QWidget):
         self.owner_id = item.id
         self.ui.ownerFIO_lineEdit.setText(item.fio)
         self.ui.ownerPhone_lineEdit.setText(item.phone)
-        # здесь запрос в БД на доставание пути к фото
-        # сюда бы фото...
+
+        self.photoPath = constants.DEFAULT_PHOTO_DIR_PASS + str(self.owner_id) + '.jpg'
+        print(self.photoPath)
+        pix = QtGui.QPixmap(self.photoPath)
+        pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
+        self.ui.photo_label.setPixmap(pix)
+
+        # if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(constants.MEMBER_TABLE, self.owner_id)):
+        #     sql = self.db.cursor.fetchall()
+        #     self.photoPath = constants.DEFAULT_PHOTO_DIR_PASS + sql[0][12]
+        #     print(self.photoPath)
+        #     pix = QtGui.QPixmap(self.photoPath)
+        #     pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
+        #     self.ui.photo_label.setPixmap(pix)
 
     def fillDataForObjectFromDB(self, object_id: str):
         """
@@ -481,6 +496,7 @@ class Cart_frontend(QtWidgets.QWidget):
             if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(table_name=constants.OBJ_TABLE, id=int(object_id))):
                 oi = self.db.cursor.fetchone()
                 self.fullObjInfo = FullObjectInfo(*oi)
+
                 # заполняем поля об объекте
                 self.ui.row_lineEdit.setText(f'{self.fullObjInfo.num_row}')
                 self.ui.garage_lineEdit.setText(f'{self.fullObjInfo.num_bild}')
@@ -497,6 +513,8 @@ class Cart_frontend(QtWidgets.QWidget):
                     self.ui.ownerFIO_lineEdit.setText(usinf_lite.fio)
                     self.ui.ownerPhone_lineEdit.setText(usinf.phone)
                     if usinf.photo and os.path.isfile(usinf.photo):
+                        self.ui.photo_label.setVisible(True)
+                        print(usinf.photo)
                         self.setNewPhoto(usinf.photo)
                     self.photoPath = usinf.photo
                     # заполняем данные данные о арендаторах и их авто
