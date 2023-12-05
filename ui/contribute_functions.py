@@ -135,25 +135,23 @@ class Contribution():
     """Класс информации о платеже"""
 
     def __init__(self):
-        self.id = ''  # id платежа
-        self.garage_id = ''  # id гаража
-        self.kindPay = ''  # вид платежа
-        self.payDate = ''  # дата платежа
-        self.payPeriod = ''  # период платежа
-        self.value = ''  # сумма платежа
+        self.id = ''            # id платежа
+        self.garage_id = ''     # id гаража
+        self.kindPay = ''       # вид платежа
+        self.payDate = ''       # дата платежа
+        self.payPeriod = ''     # период платежа
+        self.value = ''         # сумма платежа
         self.comment = ''
-
 
 @dataclass
 class Contribution_lite():
     """Класс информации о платеже"""
-    id: str = ''  # id платежа
-    kindPay: str = ''  # вид платежа
-    payDate: str = ''  # дата платежа
-    payPeriod: str = ''  # период платежа
-    value: str = ''  # сумма платежа
-    comment: str = ''
-
+    id:str = ''            # id платежа
+    kindPay:str = ''       # вид платежа
+    payDate:str = ''       # дата платежа
+    payPeriod:str = ''     # период платежа
+    value:str = ''         # сумма платежа
+    comment:str = ''
 
 class AddKindContrib_front(QtWidgets.QWidget):
     """Виджет для добавления платежа в бд"""
@@ -165,6 +163,7 @@ class AddKindContrib_front(QtWidgets.QWidget):
 
         self.mainForm = None
         self.db = db
+
 
         self.initUi()
 
@@ -201,3 +200,6 @@ class AddKindContrib_front(QtWidgets.QWidget):
     def close(self) -> bool:
         self.mainForm = None
         super().close()
+
+
+
