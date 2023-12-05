@@ -169,8 +169,10 @@ TITLE_ADD_NEW = "Режим добавления нового объекта"
 
 DEFAULT_VALUE = '0'
 
-DEFAULT_PHOTO_PASS = os.getcwd() + '\\photo\\member\\'  # os.getcwd() - возвращает текущую директорию
-DEFAULT_BILLS_PASS = os.getcwd() + '\\photo\\bills\\'  # os.getcwd() - возвращает текущую директорию
+DEFAULT_PHOTO_DIR_PASS = os.getcwd() + '\\photo\\member\\'  # os.getcwd() - возвращает текущую директорию
+DEFAULT_BILLS_DIR_PASS = os.getcwd() + '\\photo\\bills\\'  # os.getcwd() - возвращает текущую директорию
+DEFAULT_PHOTO_PASS = '\\photo\\member\\'  # os.getcwd() - возвращает текущую директорию
+DEFAULT_BILLS_PASS = '\\photo\\bills\\'  # os.getcwd() - возвращает текущую директорию
 
 WINDOW_TITLE_ADD_SIZE = 'Редактирование типоразмеров'
 
