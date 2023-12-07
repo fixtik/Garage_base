@@ -127,6 +127,7 @@ class Cart_frontend(QtWidgets.QWidget):
         """выбор фото на карточку"""
         imgPath = ui.dialogs.open_file_dialog(constants.TITLE_SELECT_PHOTO, constants.FILTER_PHOTO)[0]
         if imgPath:
+            self.ui.photo_label.setVisible(True)
             self.setNewPhoto(imgPath)
 
     def setNewPhoto(self, image: str):
@@ -474,18 +475,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.ownerPhone_lineEdit.setText(item.phone)
 
         self.photoPath = constants.DEFAULT_PHOTO_DIR_PASS + str(self.owner_id) + '.jpg'
-        print(self.photoPath)
-        pix = QtGui.QPixmap(self.photoPath)
-        pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
-        self.ui.photo_label.setPixmap(pix)
-
-        # if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(constants.MEMBER_TABLE, self.owner_id)):
-        #     sql = self.db.cursor.fetchall()
-        #     self.photoPath = constants.DEFAULT_PHOTO_DIR_PASS + sql[0][12]
-        #     print(self.photoPath)
-        #     pix = QtGui.QPixmap(self.photoPath)
-        #     pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
-        #     self.ui.photo_label.setPixmap(pix)
+        self.setNewPhoto(self.photoPath)
 
     def fillDataForObjectFromDB(self, object_id: str):
         """
@@ -512,11 +502,14 @@ class Cart_frontend(QtWidgets.QWidget):
                     usinf_lite.memberToUserInfo(usinf)
                     self.ui.ownerFIO_lineEdit.setText(usinf_lite.fio)
                     self.ui.ownerPhone_lineEdit.setText(usinf.phone)
+                    # вставляем фото
+                    usinf.photo = os.getcwd() + usinf.photo  # создаем абсолютный путь
                     if usinf.photo and os.path.isfile(usinf.photo):
                         self.ui.photo_label.setVisible(True)
-                        print(usinf.photo)
                         self.setNewPhoto(usinf.photo)
-                    self.photoPath = usinf.photo
+                        self.photoPath = usinf.photo
+                    else:
+                        self.ui.photo_label.setVisible(False)
                     # заполняем данные данные о арендаторах и их авто
                     ids = f"{(self.fullObjInfo.arendator_id.replace(' ', ','))},{self.owner_id}".lstrip(',')
                     if ui.member_functions.FindMember_front.addUserAndCarsToTV(self.db, ids,
