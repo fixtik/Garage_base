@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import shutil
 from dataclasses import dataclass
@@ -62,10 +63,8 @@ class Member_front(QtWidgets.QWidget):
         """выбор фото на карточку"""
         img_path = ui.dialogs.open_file_dialog(constants.TITLE_SELECT_PHOTO, constants.FILTER_PHOTO)[0]
         if img_path:
-            pix = QtGui.QPixmap(img_path)
-            pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
-            self.ui.photo_label.setPixmap(pix)
             self.photoPath = img_path
+            self.setPhoto(self.photoPath)
 
     def addToBase(self) -> bool:
         """Добавление записи о пользователе в базу"""
@@ -106,21 +105,29 @@ class Member_front(QtWidgets.QWidget):
         self.ui.voa_lineEdit.clear()
         self.ui.address_lineEdit.clear()
 
-    def move_photo(self):
+    def move_photo(self, id: str = None):
         '''Перемещение фото в директорию'''
-        if not os.path.isdir(constants.DEFAULT_PHOTO_PASS):  # Проверяем создана директория или нет.
-            os.makedirs(constants.DEFAULT_PHOTO_PASS, mode=0o777)  # Создаем директорию.
+        if not os.path.isdir(constants.DEFAULT_PHOTO_DIR_PASS):  # Проверяем создана директория или нет.
+            os.makedirs(constants.DEFAULT_PHOTO_DIR_PASS, mode=0o777)  # Создаем директорию.
         if self.photoPath is not None:
-            if os.path.exists(constants.DEFAULT_PHOTO_PASS + str(self.db.cursor.lastrowid) + '.jpg'):
-                os.remove(constants.DEFAULT_PHOTO_PASS + str(self.db.cursor.lastrowid) + '.jpg')
-            shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_PASS + str(
-                self.db.cursor.lastrowid) + '.jpg')  # Перемещаем фотографию и сразу переименовываем
-            # Обновляем путь в бд после переноса фотографии
-            self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id('garage_member',
-                                                                              self.db.cursor.lastrowid,
-                                                                              'photo',
-                                                                              constants.DEFAULT_PHOTO_PASS + str(
-                                                                                  self.db.cursor.lastrowid) + '.jpg'))
+            if os.path.isfile(constants.DEFAULT_PHOTO_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg'):
+                os.remove(constants.DEFAULT_PHOTO_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg')
+            if id:
+                shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_DIR_PASS + str(id) + '.jpg')
+                self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(constants.MEMBER_TABLE,
+                                                                                  id,
+                                                                                  'photo',
+                                                                                  constants.DEFAULT_PHOTO_PASS + str(id)
+                                                                                  + '.jpg'))
+            else:
+                shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_DIR_PASS + str(
+                    self.db.cursor.lastrowid) + '.jpg')  # Перемещаем фотографию и сразу переименовываем
+                # Обновляем путь в бд после переноса фотографии
+                self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(constants.MEMBER_TABLE,
+                                                                                  self.db.cursor.lastrowid,
+                                                                                  'photo',
+                                                                                  constants.DEFAULT_PHOTO_PASS + str(
+                                                                                      self.db.cursor.lastrowid) + '.jpg'))
 
     def addPushBtnClk(self):
         """Проверка данных при нажатии 'Добавить' """
@@ -154,8 +161,8 @@ class Member_front(QtWidgets.QWidget):
                     self.close()
         else:
             if self.changeRecordsInBd(self.member.id):
-                ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_CHANGED)
                 if isinstance(self.parentForm, ui.cart_functions.Cart_frontend):
+                    self.move_photo(self.member.id)
                     # забираем из главной формы id добавленных пользователей
                     ids = ', '.join([str(user.id) for user in self.parentForm.userModel.items])
                     for user in self.parentForm.userModel.items:
@@ -173,6 +180,7 @@ class Member_front(QtWidgets.QWidget):
                             car_info = ui.car_functions.CarInfo(car[0], car[1], car[2], f'{car[3]} {car[4]} {car[5]}',
                                                                 car[6])
                             self.parentForm.carModel.setItems(car_info)
+                ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_CHANGED)
                 self.close()
             else:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
@@ -228,17 +236,24 @@ class Member_front(QtWidgets.QWidget):
                 self.ui.surname_lineEdit.setText(user[1])
                 self.ui.name_lineEdit.setText(user[2])
                 self.ui.secondName_lineEdit.setText(user[3])
-                # self.ui.dateBirdth_dateEdit.setDate(user[4])
+                self.ui.dateBirdth_dateEdit.setDate(datetime.strptime(user[4], '%Y-%m-%d'))
                 self.ui.address_lineEdit.setText(user[5])
                 self.ui.phone_lineEdit.setText(user[6])
                 self.ui.addPhone_lineEdit.setText(user[7])
                 self.ui.email_lineEdit.setText(user[8])
                 self.ui.voa_lineEdit.setText(user[9])
                 self.photoPath = user[12]
+                if self.photoPath:
+                    self.setPhoto(constants.DEFAULT_PHOTO_DIR_PASS + str(self.member.id))
             if self.db.execute(sqlite_qwer.sql_get_car_by_own_id(self.member.id)):
                 for car in self.db.cursor.fetchall():
                     carInfo = ui.car_functions.CarInfo(car[0], car[1], car[2])
                     self.carInDbModel.setItems(carInfo)
+
+    def setPhoto(self, photo: str):
+        pix = QtGui.QPixmap(photo)
+        pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
+        self.ui.photo_label.setPixmap(pix)
 
     def delRowTV(self):
         """удаление строки из таблицы с авто"""
@@ -335,7 +350,8 @@ class FindMember_front(QtWidgets.QWidget):
                     if not ids:
                         self.userListModel.resetData()
                         return  # если в базе нет записей для этого ряда или номера
-                    sql = sqlite_qwer.sql_get_member_by_id_set(str(ids))
+                    searching_ids = ','.join(str(item) for item in ids)
+                    sql = sqlite_qwer.sql_get_member_by_id_set(searching_ids)
 
             if self.db.execute(sql) and self.db.cursor:
 
