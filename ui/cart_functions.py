@@ -136,6 +136,7 @@ class Cart_frontend(QtWidgets.QWidget):
         :param image: путь к фото
         """
         if image:
+            self.ui.photo_label.setVisible(True)
             pix = QtGui.QPixmap(image)
             pix = pix.scaled(constants.PHOTO_W, constants.PHOTO_H, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
             self.ui.photo_label.setPixmap(pix)
