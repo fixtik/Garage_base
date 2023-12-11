@@ -13,6 +13,7 @@ import ui.new_member
 import ui.validators
 import ui.car_functions
 import ui.cart_functions
+# import ui.cart_
 from ui.tableView_Models import *
 
 
@@ -21,10 +22,12 @@ class Member_front(QtWidgets.QWidget):
     def __init__(self, db, parent=None):
         super().__init__(parent)
         self.ui = ui.new_member.Ui_Form()
+        # self.cartForm = ui.cart_.Ui_Form()
         self.ui.setupUi(self)
 
         self.photoPath = None  # путь к фото
         self.db = db  # сслыка на объект БД
+        # self.updateCart = ui.cart_functions.Cart_frontend(db=self.db, main_form=self)
         self.member = Member()  #
         self.car = None  # для отображения авто пользователей
         self.parentForm = None  # сслыка на форму вызова для возвращения добавленных объектов
@@ -105,19 +108,20 @@ class Member_front(QtWidgets.QWidget):
         self.ui.voa_lineEdit.clear()
         self.ui.address_lineEdit.clear()
 
-    def move_photo(self, id: str = None):
+    def move_photo(self, id_photo: str = None, id_Bills: str = None):
         '''Перемещение фото в директорию'''
         if not os.path.isdir(constants.DEFAULT_PHOTO_DIR_PASS):  # Проверяем создана директория или нет.
             os.makedirs(constants.DEFAULT_PHOTO_DIR_PASS, mode=0o777)  # Создаем директорию.
         if self.photoPath is not None:
             if os.path.isfile(constants.DEFAULT_PHOTO_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg'):
                 os.remove(constants.DEFAULT_PHOTO_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg')
-            if id:
-                shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_DIR_PASS + str(id) + '.jpg')
+            if id_photo:
+                shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_DIR_PASS + str(id_photo) + '.jpg')
                 self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(constants.MEMBER_TABLE,
-                                                                                  id,
+                                                                                  int(id_photo),
                                                                                   'photo',
-                                                                                  constants.DEFAULT_PHOTO_PASS + str(id)
+                                                                                  constants.DEFAULT_PHOTO_PASS + str(
+                                                                                      id_photo)
                                                                                   + '.jpg'))
             else:
                 shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_DIR_PASS + str(
@@ -184,6 +188,11 @@ class Member_front(QtWidgets.QWidget):
                 self.close()
             else:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
+
+    # def updatePhoto(self, id: str):
+    #     if self.db and self.db.execute(f"SELECT id FROM garage_obj WHERE owner_id = {id};"):
+    #         sql = str(self.db.cursor.fetchone())[1:2]
+    #         self.updateCart.fillDataForObjectFromDB(sql)
 
     def changeRecordsInBd(self, id: str) -> bool:
         """вносит изменения в БД для члена"""
