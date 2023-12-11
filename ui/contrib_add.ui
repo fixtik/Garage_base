@@ -87,35 +87,42 @@
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="periodDate_verticalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="QLabel" name="dateContrib_label">
+      <widget class="QLabel" name="typePay_label">
        <property name="text">
-        <string>Период оплаты:</string>
+        <string>Оплата:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="cache_radioButton">
+       <property name="text">
+        <string>наличными</string>
        </property>
       </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QLabel" name="label_5">
+        <widget class="QRadioButton" name="card_radioButton">
          <property name="text">
-          <string>с</string>
+          <string>безналичная</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QDateEdit" name="beginContrib_dateEdit"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_4">
+        <widget class="QPushButton" name="chooseCheck_pushButton">
+         <property name="maximumSize">
+          <size>
+           <width>22</width>
+           <height>22</height>
+          </size>
+         </property>
          <property name="text">
-          <string>по</string>
+          <string>...</string>
          </property>
         </widget>
-       </item>
-       <item>
-        <widget class="QDateEdit" name="endContrib_dateEdit"/>
        </item>
        <item>
         <spacer name="horizontalSpacer_3">

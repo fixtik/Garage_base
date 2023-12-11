@@ -162,6 +162,7 @@
     </property>
     <addaction name="chooseBD_action"/>
     <addaction name="createBD_action"/>
+    <addaction name="updateBD_action"/>
    </widget>
    <widget class="QMenu" name="about_menu">
     <property name="title">
@@ -226,6 +227,11 @@
   <action name="electric_action">
    <property name="text">
     <string>Электросчетчик</string>
+   </property>
+  </action>
+  <action name="updateBD_action">
+   <property name="text">
+    <string>Обновить БД</string>
    </property>
   </action>
  </widget>

@@ -40,8 +40,8 @@ class AddContrib_front(QtWidgets.QWidget):
 
         # Установка текущей даты при создании платежа
         self.ui.payDate_dateEdit.setDate(datetime.date.today())
-        self.ui.beginContrib_dateEdit.setDate(datetime.date.today())
-        self.ui.endContrib_dateEdit.setDate(datetime.date.today())
+
+
 
         self.ui.sumContrib_lineEdit.setValidator(ui.validators.floatValidator())
 
@@ -74,7 +74,7 @@ class AddContrib_front(QtWidgets.QWidget):
             self.contib = Contribution()
             self.contib.value = self.ui.sumContrib_lineEdit.text()
             self.contib.kindPay = self.ui.kindContrib_comboBox.currentText()
-            self.contib.payPeriod = f'{self.ui.beginContrib_dateEdit.text()} - {self.ui.endContrib_dateEdit.text()}'
+            #self.contib.payPeriod = f'{self.ui.beginContrib_dateEdit.text()} - {self.ui.endContrib_dateEdit.text()}'
             self.contib.payDate = self.ui.payDate_dateEdit.text()
             self.contib.comment = self.ui.commentContrib_lineEdit.text()
             self.mainForm.contribModel.setItems(self.contib)
@@ -117,8 +117,8 @@ class AddContrib_front(QtWidgets.QWidget):
     def hideDateField(self, hidden: bool):
         """скрывает или отображает возможность выбора дат на форме"""
         self.ui.payDate_dateEdit.setVisible(hidden)
-        self.ui.endContrib_dateEdit.setVisible(hidden)
-        self.ui.beginContrib_dateEdit.setVisible(hidden)
+
+
         self.ui.payDate_label.setVisible(hidden)
         self.ui.label_4.setVisible(hidden)
         self.ui.label_5.setVisible(hidden)
@@ -139,9 +139,10 @@ class Contribution():
         self.garage_id = ''     # id гаража
         self.kindPay = ''       # вид платежа
         self.payDate = ''       # дата платежа
-        self.payPeriod = ''     # период платежа
+        self.typePay = ''       # тип оплаты (нал / безнал)
         self.value = ''         # сумма платежа
-        self.comment = ''
+        self.comment = ''       # комментарий
+        self.checkPath = ''     # путь к чеку
 
 @dataclass
 class Contribution_lite():
@@ -149,9 +150,10 @@ class Contribution_lite():
     id:str = ''            # id платежа
     kindPay:str = ''       # вид платежа
     payDate:str = ''       # дата платежа
-    payPeriod:str = ''     # период платежа
+    typePay:str = ''     # период платежа
     value:str = ''         # сумма платежа
     comment:str = ''
+    checkPath: str = ''
 
 class AddKindContrib_front(QtWidgets.QWidget):
     """Виджет для добавления платежа в бд"""

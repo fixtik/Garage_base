@@ -24,9 +24,9 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(913, 861)
-        self.verticalLayout_7 = QVBoxLayout(Form)
-        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        Form.resize(913, 922)
+        self.verticalLayout_14 = QVBoxLayout(Form)
+        self.verticalLayout_14.setObjectName(u"verticalLayout_14")
         self.garage_groupBox = QGroupBox(Form)
         self.garage_groupBox.setObjectName(u"garage_groupBox")
         self.garage_groupBox.setMinimumSize(QSize(1, 0))
@@ -297,7 +297,7 @@ class Ui_Form(object):
         self.verticalLayout_6.addLayout(self.horizontalLayout_6)
 
 
-        self.verticalLayout_7.addWidget(self.garage_groupBox)
+        self.verticalLayout_14.addWidget(self.garage_groupBox)
 
         self.horizontalLayout_15 = QHBoxLayout()
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
@@ -344,7 +344,7 @@ class Ui_Form(object):
         self.horizontalLayout_15.addWidget(self.users_groupBox)
 
 
-        self.verticalLayout_7.addLayout(self.horizontalLayout_15)
+        self.verticalLayout_14.addLayout(self.horizontalLayout_15)
 
         self.car_groupBox = QGroupBox(Form)
         self.car_groupBox.setObjectName(u"car_groupBox")
@@ -378,12 +378,12 @@ class Ui_Form(object):
         self.horizontalLayout_8.addLayout(self.horizontalLayout_18)
 
 
-        self.verticalLayout_7.addWidget(self.car_groupBox)
+        self.verticalLayout_14.addWidget(self.car_groupBox)
 
         self.contribution_groupBox = QGroupBox(Form)
         self.contribution_groupBox.setObjectName(u"contribution_groupBox")
-        self.horizontalLayout_9 = QHBoxLayout(self.contribution_groupBox)
-        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.verticalLayout_13 = QVBoxLayout(self.contribution_groupBox)
+        self.verticalLayout_13.setObjectName(u"verticalLayout_13")
         self.horizontalLayout_19 = QHBoxLayout()
         self.horizontalLayout_19.setObjectName(u"horizontalLayout_19")
         self.verticalLayout_20 = QVBoxLayout()
@@ -423,10 +423,112 @@ class Ui_Form(object):
         self.horizontalLayout_19.addLayout(self.verticalLayout_40)
 
 
-        self.horizontalLayout_9.addLayout(self.horizontalLayout_19)
+        self.verticalLayout_13.addLayout(self.horizontalLayout_19)
+
+        self.horizontalLayout_13 = QHBoxLayout()
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.verticalLayout_7 = QVBoxLayout()
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.earlyDebt_label = QLabel(self.contribution_groupBox)
+        self.earlyDebt_label.setObjectName(u"earlyDebt_label")
+        sizePolicy1.setHeightForWidth(self.earlyDebt_label.sizePolicy().hasHeightForWidth())
+        self.earlyDebt_label.setSizePolicy(sizePolicy1)
+        self.earlyDebt_label.setMinimumSize(QSize(0, 22))
+        self.earlyDebt_label.setMaximumSize(QSize(999999, 22))
+        self.earlyDebt_label.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_7.addWidget(self.earlyDebt_label)
+
+        self.earlyDebt_lineEdit = QLineEdit(self.contribution_groupBox)
+        self.earlyDebt_lineEdit.setObjectName(u"earlyDebt_lineEdit")
+        self.earlyDebt_lineEdit.setMinimumSize(QSize(180, 31))
+        self.earlyDebt_lineEdit.setMaximumSize(QSize(180, 16777215))
+
+        self.verticalLayout_7.addWidget(self.earlyDebt_lineEdit)
 
 
-        self.verticalLayout_7.addWidget(self.contribution_groupBox)
+        self.horizontalLayout_9.addLayout(self.verticalLayout_7)
+
+        self.verticalLayout_8 = QVBoxLayout()
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.prevDebt_label = QLabel(self.contribution_groupBox)
+        self.prevDebt_label.setObjectName(u"prevDebt_label")
+        sizePolicy1.setHeightForWidth(self.prevDebt_label.sizePolicy().hasHeightForWidth())
+        self.prevDebt_label.setSizePolicy(sizePolicy1)
+        self.prevDebt_label.setMinimumSize(QSize(0, 22))
+        self.prevDebt_label.setMaximumSize(QSize(999993, 22))
+        self.prevDebt_label.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_8.addWidget(self.prevDebt_label)
+
+        self.prevDebt_lineEdit = QLineEdit(self.contribution_groupBox)
+        self.prevDebt_lineEdit.setObjectName(u"prevDebt_lineEdit")
+        self.prevDebt_lineEdit.setMinimumSize(QSize(180, 31))
+        self.prevDebt_lineEdit.setMaximumSize(QSize(180, 16777215))
+
+        self.verticalLayout_8.addWidget(self.prevDebt_lineEdit)
+
+
+        self.horizontalLayout_9.addLayout(self.verticalLayout_8)
+
+        self.verticalLayout_9 = QVBoxLayout()
+        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.calc_label = QLabel(self.contribution_groupBox)
+        self.calc_label.setObjectName(u"calc_label")
+        sizePolicy1.setHeightForWidth(self.calc_label.sizePolicy().hasHeightForWidth())
+        self.calc_label.setSizePolicy(sizePolicy1)
+        self.calc_label.setMinimumSize(QSize(0, 22))
+        self.calc_label.setMaximumSize(QSize(999999, 22))
+        self.calc_label.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_9.addWidget(self.calc_label)
+
+        self.calc_lineEdit = QLineEdit(self.contribution_groupBox)
+        self.calc_lineEdit.setObjectName(u"calc_lineEdit")
+        self.calc_lineEdit.setMinimumSize(QSize(180, 31))
+        self.calc_lineEdit.setMaximumSize(QSize(180, 16777215))
+
+        self.verticalLayout_9.addWidget(self.calc_lineEdit)
+
+
+        self.horizontalLayout_9.addLayout(self.verticalLayout_9)
+
+        self.verticalLayout_10 = QVBoxLayout()
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+        self.balance_label = QLabel(self.contribution_groupBox)
+        self.balance_label.setObjectName(u"balance_label")
+        sizePolicy1.setHeightForWidth(self.balance_label.sizePolicy().hasHeightForWidth())
+        self.balance_label.setSizePolicy(sizePolicy1)
+        self.balance_label.setMinimumSize(QSize(0, 22))
+        self.balance_label.setMaximumSize(QSize(999999, 22))
+        self.balance_label.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_10.addWidget(self.balance_label)
+
+        self.balance_lineEdit = QLineEdit(self.contribution_groupBox)
+        self.balance_lineEdit.setObjectName(u"balance_lineEdit")
+        self.balance_lineEdit.setMinimumSize(QSize(180, 31))
+        self.balance_lineEdit.setMaximumSize(QSize(180, 16777215))
+
+        self.verticalLayout_10.addWidget(self.balance_lineEdit)
+
+
+        self.horizontalLayout_9.addLayout(self.verticalLayout_10)
+
+
+        self.horizontalLayout_13.addLayout(self.horizontalLayout_9)
+
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_13.addItem(self.horizontalSpacer_3)
+
+
+        self.verticalLayout_13.addLayout(self.horizontalLayout_13)
+
+
+        self.verticalLayout_14.addWidget(self.contribution_groupBox)
 
         self.horizontalLayout_10 = QHBoxLayout()
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
@@ -452,7 +554,7 @@ class Ui_Form(object):
         self.horizontalLayout_10.addLayout(self.horizontalLayout_7)
 
 
-        self.verticalLayout_7.addLayout(self.horizontalLayout_10)
+        self.verticalLayout_14.addLayout(self.horizontalLayout_10)
 
 
         self.retranslateUi(Form)
@@ -485,6 +587,10 @@ class Ui_Form(object):
         self.contribution_groupBox.setTitle(QCoreApplication.translate("Form", u"\u041f\u043b\u0430\u0442\u0435\u0436\u0438:", None))
         self.contribAdd_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
         self.contribDel_pushButton.setText(QCoreApplication.translate("Form", u"-", None))
+        self.earlyDebt_label.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u043b\u0433 \u0437\u0430 \u0440\u0430\u043d\u043d\u0438\u0439 \u043f\u0435\u0440\u0438\u043e\u0434", None))
+        self.prevDebt_label.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u043b\u0433 \u0437\u0430 \u043f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0438\u0439 \u043f\u0435\u0440\u0438\u043e\u0434", None))
+        self.calc_label.setText(QCoreApplication.translate("Form", u"\u0422\u0435\u043a\u0443\u0449\u0438\u0435 \u043d\u0430\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u044f", None))
+        self.balance_label.setText(QCoreApplication.translate("Form", u"\u0411\u0430\u043b\u0430\u043d\u0441 \u0441\u0447\u0435\u0442\u0430", None))
         self.change_pushButton.setText(QCoreApplication.translate("Form", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c", None))
         self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
     # retranslateUi

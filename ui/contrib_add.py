@@ -16,8 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QDateEdit, QHBoxLayout,
-    QLabel, QLineEdit, QPushButton, QSizePolicy,
-    QSpacerItem, QVBoxLayout, QWidget)
+    QLabel, QLineEdit, QPushButton, QRadioButton,
+    QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -88,44 +88,40 @@ class Ui_Form(object):
 
         self.verticalLayout_5.addLayout(self.verticalLayout_2)
 
-        self.periodDate_verticalLayout = QVBoxLayout()
-        self.periodDate_verticalLayout.setObjectName(u"periodDate_verticalLayout")
-        self.dateContrib_label = QLabel(Form)
-        self.dateContrib_label.setObjectName(u"dateContrib_label")
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.typePay_label = QLabel(Form)
+        self.typePay_label.setObjectName(u"typePay_label")
 
-        self.periodDate_verticalLayout.addWidget(self.dateContrib_label)
+        self.verticalLayout_3.addWidget(self.typePay_label)
+
+        self.cache_radioButton = QRadioButton(Form)
+        self.cache_radioButton.setObjectName(u"cache_radioButton")
+
+        self.verticalLayout_3.addWidget(self.cache_radioButton)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.label_5 = QLabel(Form)
-        self.label_5.setObjectName(u"label_5")
+        self.card_radioButton = QRadioButton(Form)
+        self.card_radioButton.setObjectName(u"card_radioButton")
 
-        self.horizontalLayout_2.addWidget(self.label_5)
+        self.horizontalLayout_2.addWidget(self.card_radioButton)
 
-        self.beginContrib_dateEdit = QDateEdit(Form)
-        self.beginContrib_dateEdit.setObjectName(u"beginContrib_dateEdit")
+        self.chooseCheck_pushButton = QPushButton(Form)
+        self.chooseCheck_pushButton.setObjectName(u"chooseCheck_pushButton")
+        self.chooseCheck_pushButton.setMaximumSize(QSize(22, 22))
 
-        self.horizontalLayout_2.addWidget(self.beginContrib_dateEdit)
-
-        self.label_4 = QLabel(Form)
-        self.label_4.setObjectName(u"label_4")
-
-        self.horizontalLayout_2.addWidget(self.label_4)
-
-        self.endContrib_dateEdit = QDateEdit(Form)
-        self.endContrib_dateEdit.setObjectName(u"endContrib_dateEdit")
-
-        self.horizontalLayout_2.addWidget(self.endContrib_dateEdit)
+        self.horizontalLayout_2.addWidget(self.chooseCheck_pushButton)
 
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_3)
 
 
-        self.periodDate_verticalLayout.addLayout(self.horizontalLayout_2)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
 
 
-        self.verticalLayout_5.addLayout(self.periodDate_verticalLayout)
+        self.verticalLayout_5.addLayout(self.verticalLayout_3)
 
         self.payDate_horizontalLayout = QHBoxLayout()
         self.payDate_horizontalLayout.setObjectName(u"payDate_horizontalLayout")
@@ -182,9 +178,10 @@ class Ui_Form(object):
         self.delKind_pushButton.setText(QCoreApplication.translate("Form", u"-", None))
         self.sumContrib_label.setText(QCoreApplication.translate("Form", u"\u0421\u0443\u043c\u043c\u0430:", None))
         self.commentContrib_label.setText(QCoreApplication.translate("Form", u"\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439:", None))
-        self.dateContrib_label.setText(QCoreApplication.translate("Form", u"\u041f\u0435\u0440\u0438\u043e\u0434 \u043e\u043f\u043b\u0430\u0442\u044b:", None))
-        self.label_5.setText(QCoreApplication.translate("Form", u"\u0441", None))
-        self.label_4.setText(QCoreApplication.translate("Form", u"\u043f\u043e", None))
+        self.typePay_label.setText(QCoreApplication.translate("Form", u"\u041e\u043f\u043b\u0430\u0442\u0430:", None))
+        self.cache_radioButton.setText(QCoreApplication.translate("Form", u"\u043d\u0430\u043b\u0438\u0447\u043d\u044b\u043c\u0438", None))
+        self.card_radioButton.setText(QCoreApplication.translate("Form", u"\u0431\u0435\u0437\u043d\u0430\u043b\u0438\u0447\u043d\u0430\u044f", None))
+        self.chooseCheck_pushButton.setText(QCoreApplication.translate("Form", u"...", None))
         self.payDate_label.setText(QCoreApplication.translate("Form", u"\u0414\u0430\u0442\u0430 \u043f\u043b\u0430\u0442\u0435\u0436\u0430:", None))
         self.ok_pushButton.setText(QCoreApplication.translate("Form", u"\u041f\u0440\u0438\u043c\u0435\u043d\u0438\u0442\u044c", None))
         self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
