@@ -69,9 +69,10 @@ SQL_CREATE_TABLE_CONTRIBUTION = 'CREATE TABLE IF NOT EXISTS "contribution" (' \
                                 '	"id_garage"	INTEGER NOT NULL,' \
                                 '	"id_cont_type"	INTEGER NOT NULL,' \
                                 '	"pay_date"	TEXT NOT NULL,' \
-                                '	"period_pay"	TEXT NOT NULL,' \
-                                '	"value"	REAL,' \
-                                '   "comment" TEXT,' \
+                                '	"pay_kind"	TEXT,' \
+                                '	"value"	REAL, ' \
+                                '   "comment" TEXT, ' \
+                                '   "check_photo" BLOB, ' \
                                 'FOREIGN KEY("id_garage") REFERENCES "garage_obj"("id"),' \
                                 'FOREIGN KEY("id_cont_type") REFERENCES "contribution_type"("id")' \
                                 ');'
@@ -86,12 +87,34 @@ SQL_CREATE_TABLE_AUTOMOBILE = 'CREATE TABLE IF NOT EXISTS "automobile" ( ' \
                               'FOREIGN KEY("owner_id") REFERENCES "garage_member"("id")' \
                               ');'
 
+SQL_CREATE_TABLE_METER_PAYMENT = 'CREATE TABLE IF NOT EXISTS "meter_payment" ( ' \
+                                 'id INTEGER PRIMARY KEY AUTOINCREMENT, ' \
+                                 '"type" INTEGER NOT NULL, ' \
+                                 '"value_day" real DEFAULT 0.0, ' \
+                                 '"value_night" REAL DEFAULT 0.0' \
+                                 ');'
+
+SQL_CREATE_TABLE_OBJECT_ACCOUNT = 'CREATE TABLE IF NOT EXISTS "object_account" ( ' \
+                                  'id INTEGER PRIMARY KEY AUTOINCREMENT, ' \
+                                  '"obj_id" INTEGER NOT NULL, ' \
+                                  '"early_dabt" REAL DEFAULT 0.0, ' \
+                                  '"current_debt" REAL DEFAULT 0.0, ' \
+                                  '"calculation" REAL DEFAULT 0.0, ' \
+                                  '"balance" REAL DEFAULT 0.0, ' \
+                                  'FOREIGN KEY("obj_id") REFERENCES "garage_obj"("id")' \
+                                  ');'
+
+SQL_ALTER_TABLE_CONTRIBUTIONS = 'ALTER TABLE "contribution" ' \
+                                'ADD pay_kind TEXT, ' \
+                                'ADD check_photo BLOB, ' \
+                                'DROP period_pay;'
+
 BD_SQL_CREATOR = [SQL_CREATE_TABLE_GARGE_MEMBER, SQL_CREATE_TABLE_ELECTRIC_METER, SQL_CREATE_TABLE_TYPE_SIZE,
                   SQL_CREATE_TABLE_CONTRIBUTION_TYPE, SQL_CREATE_TABLE_GARAGE, SQL_CREATE_TABLE_CONTRIBUTION,
-                  SQL_CREATE_TABLE_AUTOMOBILE]
+                  SQL_CREATE_TABLE_AUTOMOBILE, SQL_CREATE_TABLE_METER_PAYMENT, SQL_CREATE_TABLE_OBJECT_ACCOUNT]
 
 TABALE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
-                'contribution_type', 'electric_meter', 'type_size']
+                'contribution_type', 'electric_meter', 'type_size', 'meter_payment', 'object_account']
 CAR_TABLE = 'automobile'
 OBJ_TABLE = 'garage_obj'
 ELECTRIC_TABLE = 'electric_meter'
