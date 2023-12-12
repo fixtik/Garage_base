@@ -36,10 +36,12 @@ class AddGarageSize_front(QtWidgets.QWidget):
         self.ui.change_pushButton.clicked.connect(self.okPushBtnClk)
         self.ui.delSize_pushButton.clicked.connect(self. delGarageSize)
 
+
         # валидаторы
         self.ui.width_lineEdit.setValidator(ui.validators.floatValidator())
         self.ui.length_lineEdit.setValidator(ui.validators.floatValidator())
         self.ui.height_lineEdit.setValidator(ui.validators.floatValidator())
+        self.ui.contrib_lineEdit.setValidator(ui.validators.floatValidator())
         # заголовки
         self.setWindowTitle(constants.WINDOW_TITLE_ADD_SIZE)
 
@@ -84,15 +86,17 @@ class AddGarageSize_front(QtWidgets.QWidget):
 
         self.db.execute(sqlite_qwer.sql_get_one_record_by_id(self.TB_NAME,
                                                              self.garage_ids[self.ui.size_comboBox.currentIndex()]))
-        contrib = self.db.cursor.fetchall()
-        self.ui.width_lineEdit.setText(str(contrib[0][1]))
-        self.ui.length_lineEdit.setText(str(contrib[0][2]))
-        self.ui.height_lineEdit.setText(str(contrib[0][3]))
-        self.ui.comment_lineEdit.setText(contrib[0][4])
+        g = GarageSizeStructure(*self.db.cursor.fetchone())
+        self.ui.width_lineEdit.setText(str(g.width))
+        self.ui.length_lineEdit.setText(str(g.len))
+        self.ui.height_lineEdit.setText(str(g.height))
+        self.ui.comment_lineEdit.setText(g.comment)
+        self.ui.contrib_lineEdit.setText(str(g.contrib))
 
     def updateDataFromDB(self):
         """Обновление данных из БД для отображения в полях"""
         self.garage_ids = self.fillGarageSizeFromBase(self.db, self.ui.size_comboBox)[:]
+        self.itemChanged()
         # кнопка Изменить доступна только тогда, когда есть хоть одна запись в комбобоксе
         self.ui.change_pushButton.setEnabled(self.ui.size_comboBox.count())
 
@@ -116,6 +120,7 @@ class AddGarageSize_front(QtWidgets.QWidget):
             self.garage.width = self.ui.width_lineEdit.text().replace(',', '.')
             self.garage.len = self.ui.length_lineEdit.text().replace(',', '.')
             self.garage.height = self.ui.height_lineEdit.text().replace(',', '.')
+            self.garage.contrib = self.ui.contrib_lineEdit.text().replace(',', '.')
             self.garage.comment = self.ui.comment_lineEdit.text()
 
             if self.sender() == self.ui.ok_pushButton:
@@ -130,6 +135,7 @@ class AddGarageSize_front(QtWidgets.QWidget):
                 sql = sqlite_qwer.sql_add_new_garage_size(float(self.garage.width),
                                                           float(self.garage.len),
                                                           float(self.garage.height),
+                                                          float(self.garage.contrib),
                                                           self.garage.comment)
 
             else:
@@ -138,6 +144,7 @@ class AddGarageSize_front(QtWidgets.QWidget):
                                                          float(self.garage.width),
                                                          float(self.garage.len),
                                                          float(self.garage.height),
+                                                         float(self.garage.contrib),
                                                          self.garage.comment)
             self.db.execute(sql)
             self.updateDataFromDB()
@@ -159,4 +166,5 @@ class GarageSizeStructure():
     width: str = ''       # ширина гаража
     len: str = ''       # длина гаража
     height: str = ''     # высота гаража
-    comment: str = ''
+    comment: str = ''   # комментарий
+    contrib: str = ''  # размер платы за год

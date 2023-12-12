@@ -24,8 +24,8 @@ class Ui_Form(object):
         if not Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(357, 224)
-        self.verticalLayout = QVBoxLayout(Form)
-        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout_2 = QVBoxLayout(Form)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.verticalLayout_5 = QVBoxLayout()
@@ -62,7 +62,7 @@ class Ui_Form(object):
         self.horizontalLayout_4.addLayout(self.verticalLayout_3)
 
 
-        self.verticalLayout.addLayout(self.horizontalLayout_4)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_4)
 
         self.size_horizontalLayout_5 = QHBoxLayout()
         self.size_horizontalLayout_5.setObjectName(u"size_horizontalLayout_5")
@@ -121,22 +121,42 @@ class Ui_Form(object):
         self.size_horizontalLayout_5.addLayout(self.verticalLayout_23)
 
 
-        self.verticalLayout.addLayout(self.size_horizontalLayout_5)
+        self.verticalLayout_2.addLayout(self.size_horizontalLayout_5)
 
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.comment_verticalLayout_9 = QVBoxLayout()
         self.comment_verticalLayout_9.setObjectName(u"comment_verticalLayout_9")
-        self.commentContrib_label_2 = QLabel(Form)
-        self.commentContrib_label_2.setObjectName(u"commentContrib_label_2")
+        self.contrib_label = QLabel(Form)
+        self.contrib_label.setObjectName(u"contrib_label")
 
-        self.comment_verticalLayout_9.addWidget(self.commentContrib_label_2)
+        self.comment_verticalLayout_9.addWidget(self.contrib_label)
+
+        self.contrib_lineEdit = QLineEdit(Form)
+        self.contrib_lineEdit.setObjectName(u"contrib_lineEdit")
+
+        self.comment_verticalLayout_9.addWidget(self.contrib_lineEdit)
+
+
+        self.horizontalLayout.addLayout(self.comment_verticalLayout_9)
+
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.comment_label = QLabel(Form)
+        self.comment_label.setObjectName(u"comment_label")
+
+        self.verticalLayout.addWidget(self.comment_label)
 
         self.comment_lineEdit = QLineEdit(Form)
         self.comment_lineEdit.setObjectName(u"comment_lineEdit")
 
-        self.comment_verticalLayout_9.addWidget(self.comment_lineEdit)
+        self.verticalLayout.addWidget(self.comment_lineEdit)
 
 
-        self.verticalLayout.addLayout(self.comment_verticalLayout_9)
+        self.horizontalLayout.addLayout(self.verticalLayout)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout)
 
         self.horizontalLayout_11 = QHBoxLayout()
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
@@ -160,14 +180,14 @@ class Ui_Form(object):
         self.horizontalLayout_11.addWidget(self.close_pushButton)
 
 
-        self.verticalLayout.addLayout(self.horizontalLayout_11)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_11)
 
         QWidget.setTabOrder(self.size_comboBox, self.delSize_pushButton)
         QWidget.setTabOrder(self.delSize_pushButton, self.width_lineEdit)
         QWidget.setTabOrder(self.width_lineEdit, self.length_lineEdit)
         QWidget.setTabOrder(self.length_lineEdit, self.height_lineEdit)
-        QWidget.setTabOrder(self.height_lineEdit, self.comment_lineEdit)
-        QWidget.setTabOrder(self.comment_lineEdit, self.close_pushButton)
+        QWidget.setTabOrder(self.height_lineEdit, self.contrib_lineEdit)
+        QWidget.setTabOrder(self.contrib_lineEdit, self.close_pushButton)
 
         self.retranslateUi(Form)
 
@@ -181,7 +201,8 @@ class Ui_Form(object):
         self.sumContrib_label_2.setText(QCoreApplication.translate("Form", u"\u0428\u0438\u0440\u0438\u043d\u0430:", None))
         self.sumContrib_label_3.setText(QCoreApplication.translate("Form", u"\u0414\u043b\u0438\u043d\u0430:", None))
         self.sumContrib_label_4.setText(QCoreApplication.translate("Form", u"\u0412\u044b\u0441\u043e\u0442\u0430:", None))
-        self.commentContrib_label_2.setText(QCoreApplication.translate("Form", u"\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439:", None))
+        self.contrib_label.setText(QCoreApplication.translate("Form", u"\u0420\u0430\u0437\u043c\u0435\u0440 \u043f\u043b\u0430\u0442\u0435\u0436\u0430:", None))
+        self.comment_label.setText(QCoreApplication.translate("Form", u"\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439:", None))
         self.ok_pushButton.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043d\u043e\u0432\u044b\u0439", None))
         self.change_pushButton.setText(QCoreApplication.translate("Form", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c", None))
         self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))

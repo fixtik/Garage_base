@@ -87,19 +87,16 @@ class AddContrib_front(QtWidgets.QWidget):
         self.updateDataFromDB()
 
     def fillKindContribFromBase(self):
+        """заполнение данных в combobox с видами платежей из БД """
         if self.db:
             self.db.execute(sqlite_qwer.sql_select_all_from_table(self.TB_NAME))
             contrib = self.db.cursor.fetchall()
             self.contib_ids.clear()
             self.ui.kindContrib_comboBox.clear()
             for item in contrib:
-                cont = Contribution()
-                cont.id = item[0]
+                cont = Cotrib_type(*item)
                 self.contib_ids.append(cont.id)
-                cont.kindPay = item[1]
-                cont.value = item[2]
-                cont.comment = item[3]
-                self.ui.kindContrib_comboBox.addItem(cont.kindPay)
+                self.ui.kindContrib_comboBox.addItem(cont.name)
             self.itemChanged()
 
     def itemChanged(self):
@@ -109,10 +106,10 @@ class AddContrib_front(QtWidgets.QWidget):
         self.db.execute(sqlite_qwer.sql_get_one_record_by_id(self.TB_NAME,
                                                              self.contib_ids[
                                                                  self.ui.kindContrib_comboBox.currentIndex()]))
-        contrib = self.db.cursor.fetchall()
+        contrib = self.db.cursor.fetchone()
 
-        self.ui.sumContrib_lineEdit.setText(str(contrib[0][2]))
-        self.ui.commentContrib_lineEdit.setText(contrib[0][3])
+        self.ui.sumContrib_lineEdit.setText(str(contrib[2]))
+        self.ui.commentContrib_lineEdit.setText(contrib[3])
 
     def hideDateField(self, hidden: bool):
         """скрывает или отображает возможность выбора дат на форме"""
@@ -130,19 +127,25 @@ class AddContrib_front(QtWidgets.QWidget):
         self.mainForm = None
         super().close()
 
-
+@dataclass
 class Contribution():
     """Класс информации о платеже"""
+    id:str = ''            # id платежа
+    garage_id:str = ''     # id гаража
+    kindPay:str = ''       # вид платежа
+    payDate:str = ''       # дата платежа
+    typePay:str = ''       # тип оплаты (нал / безнал)
+    value:str = ''         # сумма платежа
+    comment:str = ''       # комментарий
+    checkPath:str = ''     # путь к чеку
 
-    def __init__(self):
-        self.id = ''            # id платежа
-        self.garage_id = ''     # id гаража
-        self.kindPay = ''       # вид платежа
-        self.payDate = ''       # дата платежа
-        self.typePay = ''       # тип оплаты (нал / безнал)
-        self.value = ''         # сумма платежа
-        self.comment = ''       # комментарий
-        self.checkPath = ''     # путь к чеку
+@dataclass
+class Cotrib_type():
+    """Класс доступных видах платежа"""
+    id: str = ''
+    name: str = ''
+    value: str = ''
+    comment: str = ''
 
 @dataclass
 class Contribution_lite():

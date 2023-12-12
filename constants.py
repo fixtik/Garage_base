@@ -54,7 +54,8 @@ SQL_CREATE_TABLE_TYPE_SIZE = 'CREATE TABLE IF NOT EXISTS "type_size" (' \
                              '	"width"	REAL NOT NULL,' \
                              '	"len" REAL NOT NULL,' \
                              '	"height"	REAL NOT NULL,' \
-                             '	"comment"	TEXT' \
+                             '	"comment"	TEXT,' \
+                             '  "cont_value" REAL DEFAULT 0.0 ' \
                              ');'
 
 SQL_CREATE_TABLE_CONTRIBUTION_TYPE = 'CREATE TABLE IF NOT EXISTS "contribution_type" (' \
@@ -104,10 +105,15 @@ SQL_CREATE_TABLE_OBJECT_ACCOUNT = 'CREATE TABLE IF NOT EXISTS "object_account" (
                                   'FOREIGN KEY("obj_id") REFERENCES "garage_obj"("id")' \
                                   ');'
 
-SQL_ALTER_TABLE_CONTRIBUTIONS = 'ALTER TABLE "contribution" ' \
-                                'ADD pay_kind TEXT, ' \
-                                'ADD check_photo BLOB, ' \
-                                'DROP period_pay;'
+SQL_ALTER_TABLE_CONTRIBUTIONS = 'ALTER TABLE "contribution" ADD COLUMN "pay_kind" TEXT; '
+SQL_ALTER_TABLE_CONTRIBUTIONS1 = 'ALTER TABLE "contribution" ADD COLUMN "check_photo" BLOB;'
+SQL_ALTER_TABLE_CONTRIBUTIONS2 = 'ALTER TABLE "contribution" DROP COLUMN "period_pay";'
+
+SQL_ALTER_TABLE_TYPE_SIZE = 'ALTER TABLE "type_size" ' \
+                                'ADD COLUMN "cont_value" REAL DEFAULT 0.0;'
+
+
+
 
 BD_SQL_CREATOR = [SQL_CREATE_TABLE_GARGE_MEMBER, SQL_CREATE_TABLE_ELECTRIC_METER, SQL_CREATE_TABLE_TYPE_SIZE,
                   SQL_CREATE_TABLE_CONTRIBUTION_TYPE, SQL_CREATE_TABLE_GARAGE, SQL_CREATE_TABLE_CONTRIBUTION,
@@ -150,9 +156,11 @@ ERROR_SIZE_ALREADY_EXIST = 'Такой типоразмер уже есть в �
 ERROR_CONTRIB_TYPE_ALREADY_EXIST = 'Платеж с таким названием уже существует'
 ERROR_NO_COPY = ('Не удалось скопировать БД!\n'
                  'Скопируйте вручную!')
+ERROR_UPDATE_DB_FAIL = 'Обновление базы данных завершилось ошибкой'
 
 MESSAGE_CHECK_DATA = 'Проверьте корректность введенных данных'
 MESSAGE_CHECK_DB_CONNECTIONS = 'Проверьте подключение к БД'
+MESSAGE_UPDATE_DB_OK = 'База данных успешно обновлена'
 
 TITLE_SELECT_BD = "Выберите файл БД"
 TITLE_EDIT_MODE = 'Редактирование'

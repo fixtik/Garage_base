@@ -50,6 +50,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.chooseBD_action.triggered.connect(self.openDB)  # выбор существующей бд
         self.ui.openBase_pushButton.clicked.connect(self.openDB)
         self.ui.search_action.triggered.connect(self.showCartObject)  # отображение главной карточки объекта
+        self.ui.updateBD_action.triggered.connect(self.updateDB)
         self.ui.search_action.setVisible(False)
         self.ui.exit_action.triggered.connect(self.close)
         self.ui.kindPay_action.triggered.connect(
@@ -165,6 +166,25 @@ class Form_frontend(QtWidgets.QMainWindow):
                     item = ui.cart_functions.ObjectInfo(obj[0], obj[1], obj[2], f'{obj[3]} {obj[4]} {obj[5]}', obj[6],
                                                         obj[7])
                     self.obj_model.setItems(item)
+
+    def updateDB(self):
+        if self.db:
+            try:
+                if self.db.execute(sqlite_qwer.sql_check_column_exists_in_table(constants.CONTRIB_TABLE, 'pay_kind')):
+                    _ = self.db.cursor.fetchone()[0]
+                    if not _:
+                        self.db.execute(constants.SQL_ALTER_TABLE_CONTRIBUTIONS)
+                        self.db.execute(constants.SQL_ALTER_TABLE_CONTRIBUTIONS1)
+                        self.db.execute(constants.SQL_ALTER_TABLE_CONTRIBUTIONS2)
+
+                if self.db.execute(sqlite_qwer.sql_check_column_exists_in_table(constants.SIZE_TABLE, 'cont_value')):
+                        _ = self.db.cursor.fetchone()[0]
+                        if not _:
+                            self.db.execute(constants.SQL_ALTER_TABLE_TYPE_SIZE)
+                ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)
+            except Exception as e:
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_UPDATE_DB_FAIL)
+
 
 
 if __name__ == "__main__":

@@ -359,19 +359,20 @@ def sql_update_garage(num_row: str, num_bild: str, change_pole: str, new_value: 
 '''--------------------------------------------NEW--------------------------------------------------'''
 
 
-def sql_add_new_garage_size(width: float, length: float, height: float, comment: str = ' ') -> str:
+def sql_add_new_garage_size(width: float, length: float, height: float, cont_value: float, comment: str = ' ') -> str:
     '''
     Добавление размеров гаража
     :param width: ширина
     :param len: длина
     :param height: высота
+    :param cont_value: сумма платежа
     :param comment: комментарий
     :return: sql-запрос
     '''
-    return f'INSERT INTO type_size (width, len, height, comment) VALUES ({width}, {length}, {height}, "{comment}");'
+    return f'INSERT INTO type_size (width, len, height, cont_value, comment) VALUES ({width}, {length}, {height}, {cont_value}, "{comment}");'
 
 
-def sql_update_garage_size(size_id: int, width: float, length: float, height: float, comment: str = ' ') -> str:
+def sql_update_garage_size(size_id: int, width: float, length: float, height: float, cont_value: float, comment: str = ' ') -> str:
     '''
     Запрос на поиск id по типоразмерам
     :param width: ширина
@@ -380,7 +381,7 @@ def sql_update_garage_size(size_id: int, width: float, length: float, height: fl
     :param comment: комментарий
     :return: sql-запрос
     '''
-    return f"UPDATE type_size SET width = {width}, len = {length}, height = {height}, comment = '{comment}'" \
+    return f"UPDATE type_size SET width = {width}, len = {length}, height = {height}, cont_value = {cont_value}, comment = '{comment}'" \
            f" WHERE id = {size_id};"
 
 
@@ -542,3 +543,13 @@ def sql_find_id_by_filds(*args, table_name: str) -> str:
         return sql
 
     return None
+
+
+def sql_check_column_exists_in_table(table_name: str, column_name: str)-> str:
+    """
+    Запрос на проверку наличия поля в таблице
+    :param table_name: имя таблицы
+    :param column_name: имя поля
+    :return: sql-запрос
+    """
+    return f"SELECT COUNT(*) AS CNTREC FROM pragma_table_info('{table_name}') WHERE name='{column_name}'"
