@@ -94,6 +94,10 @@ class Cart_frontend(QtWidgets.QWidget):
         # валидаторы
         self.ui.garage_lineEdit.setValidator(ui.validators.onlyNumValidator())
         self.ui.row_lineEdit.setValidator(ui.validators.onlyNumValidator())
+        self.ui.earlyDebt_lineEdit.setValidator(ui.validators.floatValidator())
+        self.ui.prevDebt_lineEdit.setValidator(ui.validators.floatValidator())
+        self.ui.calc_lineEdit.setValidator(ui.validators.floatValidator())
+        self.ui.balance_lineEdit.setValidator(ui.validators.floatValidator())
 
         # установка в readOnly
         self.ui.ownerFIO_lineEdit.setReadOnly(True)
