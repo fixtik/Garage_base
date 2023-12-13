@@ -26,11 +26,11 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
 
         self.db = db_work.Garage_DB()
-        self.cartObj = None    # для отображения формы с карточкой объекта
-        self.typePay = None    # для отображения формы редактирования видов платежей
+        self.cartObj = None  # для отображения формы с карточкой объекта
+        self.typePay = None  # для отображения формы редактирования видов платежей
         self.newMember = None  # для отображения формы добавления нового члена
-        self.elMeter = None    # для отображения формы с счетчиком
-        self.garageSize = None # для отображения формы размера гаража
+        self.elMeter = None  # для отображения формы с счетчиком
+        self.garageSize = None  # для отображения формы размера гаража
         self.obj_model = ui.tableView_Models.ObjectTableViewModel()
 
         self.initUi()
@@ -178,13 +178,12 @@ class Form_frontend(QtWidgets.QMainWindow):
                         self.db.execute(constants.SQL_ALTER_TABLE_CONTRIBUTIONS2)
 
                 if self.db.execute(sqlite_qwer.sql_check_column_exists_in_table(constants.SIZE_TABLE, 'cont_value')):
-                        _ = self.db.cursor.fetchone()[0]
-                        if not _:
-                            self.db.execute(constants.SQL_ALTER_TABLE_TYPE_SIZE)
+                    _ = self.db.cursor.fetchone()[0]
+                    if not _:
+                        self.db.execute(constants.SQL_ALTER_TABLE_TYPE_SIZE)
                 ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)
             except Exception as e:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_UPDATE_DB_FAIL)
-
 
 
 if __name__ == "__main__":

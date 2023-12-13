@@ -101,7 +101,7 @@ class ContribTableViewModel(DBTableView):
             if col == 3:
                 return f'{pay_info.value}'
             if col == 4:
-                return constants.CASH if pay_info.typePay == 1 else constants.CASHLESS
+                return constants.CASH if int(pay_info.typePay) == 1 else constants.CASHLESS
             if col == 5:
                 return f'{pay_info.comment}'
             if col == 6:

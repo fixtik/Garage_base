@@ -397,18 +397,20 @@ class Cart_frontend(QtWidgets.QWidget):
                                                               id_garage=obj_id,
                                                               id_cont=str(type_id),
                                                               pay_date=contr.payDate,
-                                                              period_pay=contr.payPeriod,
+                                                              pay_kind=contr.typePay,
                                                               value=contr.value,
-                                                              comment=contr.comment if contr.comment else ' '
+                                                              comment=contr.comment if contr.comment else ' ',
+                                                              check_photo=contr.checkPath if contr.checkPath else ' '
                                                               )
                 else:
                     sql = sqlite_qwer.sql_add_new_contrib(
                         id_garage=obj_id,
                         id_cont=str(type_id),
                         pay_date=contr.payDate,
-                        period_pay=contr.payPeriod,
+                        pay_kind=contr.typePay,
                         value=contr.value,
-                        comment=contr.comment if contr.comment else ' '
+                        comment=contr.comment if contr.comment else ' ',
+                        check_photo=contr.checkPath if contr.checkPath else ' '
                     )
                 if not (self.db.execute(sql)):
                     ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
@@ -541,8 +543,6 @@ class Cart_frontend(QtWidgets.QWidget):
         self.mainForm.cartObj = None
         self.mainForm = None
         super().close()
-
-
 
 
 def check_rec_in_base(db: db_work.Garage_DB, *args, tb_name: str) -> (int, None):
