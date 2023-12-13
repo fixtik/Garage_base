@@ -107,29 +107,33 @@ def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = ' '
     return f"INSERT INTO contribution_type (name, value, comment) VALUES ('{contrib_name}', {value}, '{comment}');"
 
 
-def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, period_pay: str, value: float,
-                        comment: str = '') -> str:
+def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, pay_kind: int, value: float,
+                        comment: str = '', check_photo: str = '') -> str:
     """
     формирование запроса для добавления платежа в БД
     """
-    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, period_pay, value, comment) VALUES " \
-           f"({id_garage}, {id_cont}, '{pay_date}', '{period_pay}', {value}, '{comment}');"
+    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, pay_kind, value, comment, check_photo) " \
+           f"VALUES " \
+           f"({id_garage}, {id_cont}, '{pay_date}', '{pay_kind}', {value}, '{comment}','{check_photo}');"
 
 
 def sql_full_update_contrib(cont_id: str, id_garage: str, id_cont: str, pay_date: str,
-                            period_pay: str, value: float, comment: str = '') -> str:
+                            value: float, pay_kind: int,  comment: str = '', check_photo: str = '') -> str:
     """
-    формирование запроса для добавления платежа в БД
+    формирование запроса для добавления платежа в БД (pay_kind = 1 если нал, 2 - безнал)
     """
     return f"UPDATE contribution SET id_garage={id_garage}, id_cont_type = {id_cont}, pay_date = '{pay_date}', " \
-           f" period_pay = '{period_pay}', value = {value}, comment = '{comment}' WHERE id = {cont_id};"
+           f" pay_kind = {pay_kind}, value = {value}, comment = '{comment}', check_photo ='{check_photo}' " \
+           f"WHERE id = {cont_id};"
 
 
-def sql_update_contrib_type(contrib_id: int, value: float, comment: str = ' ') -> str:
+def sql_update_contrib_type(contrib_id: int, value: float, pay_kind: int,
+                            comment: str = '', check_photo: str = '') -> str:
     """
     обновление заначений полей по id
     """
-    return f"UPDATE contribution_type SET value = {value}, comment = '{comment}' WHERE id = {contrib_id};"
+    return f"UPDATE contribution_type SET value = {value}, pay_kind = {pay_kind}, " \
+           f"comment = '{comment}', check_photo ='{check_photo}' WHERE id = {contrib_id};"
 
 
 # запросы по членам кооператива
@@ -519,8 +523,9 @@ def sql_get_all_objects_for_list_by_row_and_num(row: str = '', num: str = ''):
 def sql_select_contrib_by_object_id(object_id: str) -> str:
     """Запрос на выдачу всех платежей для конкретного гаража"""
 
-    return f"SELECT contribution.id, contribution_type.name, contribution.pay_date, contribution.period_pay," \
-           f" contribution_type.value, contribution.comment FROM main.garage_obj " \
+    return f"SELECT contribution.id, contribution_type.name, contribution.pay_date, " \
+           f" contribution_type.value, contribution.comment, contribution.pay_kind ,contribution.check_photo" \
+           f" FROM main.garage_obj " \
            f" INNER JOIN contribution ON garage_obj.id = contribution.id_garage " \
            f" INNER JOIN contribution_type ON contribution_type.id = contribution.id_cont_type " \
            f" WHERE garage_obj.id = {object_id};"
