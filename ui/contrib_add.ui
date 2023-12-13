@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>308</height>
+    <height>323</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -96,7 +96,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QRadioButton" name="cache_radioButton">
+      <widget class="QRadioButton" name="cash_radioButton">
        <property name="text">
         <string>наличными</string>
        </property>

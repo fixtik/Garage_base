@@ -35,19 +35,26 @@ class AddContrib_front(QtWidgets.QWidget):
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.ok_pushButton.clicked.connect(self.okPushBtnClk)
         self.ui.addKind_pushButton.clicked.connect(self.addKindContrib)
-        self.ui.delKind_pushButton.clicked.connect(self.delKindContrib)
+        #self.ui.delKind_pushButton.clicked.connect(self.delKindContrib) убрали сию функцию
         self.ui.kindContrib_comboBox.currentIndexChanged.connect(self.itemChanged)
+        self.ui.card_radioButton.clicked.connect(self.setEnabledChooseCheckProto)
+        self.ui.cash_radioButton.clicked.connect(self.setEnabledChooseCheckProto)
 
         # Установка текущей даты при создании платежа
         self.ui.payDate_dateEdit.setDate(datetime.date.today())
+        self.ui.cash_radioButton.setChecked(True)
 
-
+        self.setEnabledChooseCheckProto()
 
         self.ui.sumContrib_lineEdit.setValidator(ui.validators.floatValidator())
 
     def updateDataFromDB(self):
         """Обновление данных из БД для отображения в полях"""
         self.fillKindContribFromBase()
+
+    def setEnabledChooseCheckProto(self):
+        """изменяет доступность кнопки выбора фото чека"""
+        self.ui.chooseCheck_pushButton.setEnabled(self.ui.card_radioButton.isChecked())
 
     def addKindContrib(self):
         """вызов окна для добавления нового вида платежа"""
@@ -74,6 +81,7 @@ class AddContrib_front(QtWidgets.QWidget):
             self.contib = Contribution()
             self.contib.value = self.ui.sumContrib_lineEdit.text()
             self.contib.kindPay = self.ui.kindContrib_comboBox.currentText()
+            self.contib.typePay = 1 if self.ui.cash_radioButton.isChecked() else 2
             #self.contib.payPeriod = f'{self.ui.beginContrib_dateEdit.text()} - {self.ui.endContrib_dateEdit.text()}'
             self.contib.payDate = self.ui.payDate_dateEdit.text()
             self.contib.comment = self.ui.commentContrib_lineEdit.text()
@@ -117,9 +125,6 @@ class AddContrib_front(QtWidgets.QWidget):
 
 
         self.ui.payDate_label.setVisible(hidden)
-        self.ui.label_4.setVisible(hidden)
-        self.ui.label_5.setVisible(hidden)
-        self.ui.dateContrib_label.setVisible(hidden)
         self.resize(self.width(), 150)
         self.setWindowTitle(constants.CONTRIB_WIN_EDIT_TITLE)
 
@@ -134,9 +139,9 @@ class Contribution():
     garage_id:str = ''     # id гаража
     kindPay:str = ''       # вид платежа
     payDate:str = ''       # дата платежа
-    typePay:str = ''       # тип оплаты (нал / безнал)
     value:str = ''         # сумма платежа
     comment:str = ''       # комментарий
+    typePay: str = ''  # тип оплаты (нал / безнал)
     checkPath:str = ''     # путь к чеку
 
 @dataclass
@@ -153,9 +158,9 @@ class Contribution_lite():
     id:str = ''            # id платежа
     kindPay:str = ''       # вид платежа
     payDate:str = ''       # дата платежа
-    typePay:str = ''     # период платежа
     value:str = ''         # сумма платежа
     comment:str = ''
+    typePay: str = ''
     checkPath: str = ''
 
 class AddKindContrib_front(QtWidgets.QWidget):

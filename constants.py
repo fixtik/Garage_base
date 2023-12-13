@@ -70,9 +70,9 @@ SQL_CREATE_TABLE_CONTRIBUTION = 'CREATE TABLE IF NOT EXISTS "contribution" (' \
                                 '	"id_garage"	INTEGER NOT NULL,' \
                                 '	"id_cont_type"	INTEGER NOT NULL,' \
                                 '	"pay_date"	TEXT NOT NULL,' \
-                                '	"pay_kind"	TEXT,' \
                                 '	"value"	REAL, ' \
                                 '   "comment" TEXT, ' \
+                                '	"pay_kind"	TEXT,' \
                                 '   "check_photo" BLOB, ' \
                                 'FOREIGN KEY("id_garage") REFERENCES "garage_obj"("id"),' \
                                 'FOREIGN KEY("id_cont_type") REFERENCES "contribution_type"("id")' \
@@ -209,3 +209,6 @@ WINDOW_TITLE_ADD_SIZE = 'Редактирование типоразмеров'
 
 TYPE220 = 220
 TYPE380 = 380
+
+CASH = 'наличные'
+CASHLESS = "безналичная"

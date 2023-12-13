@@ -23,7 +23,7 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(350, 308)
+        Form.resize(350, 323)
         self.verticalLayout_5 = QVBoxLayout(Form)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.horizontalLayout_3 = QHBoxLayout()
@@ -95,10 +95,10 @@ class Ui_Form(object):
 
         self.verticalLayout_3.addWidget(self.typePay_label)
 
-        self.cache_radioButton = QRadioButton(Form)
-        self.cache_radioButton.setObjectName(u"cache_radioButton")
+        self.cash_radioButton = QRadioButton(Form)
+        self.cash_radioButton.setObjectName(u"cash_radioButton")
 
-        self.verticalLayout_3.addWidget(self.cache_radioButton)
+        self.verticalLayout_3.addWidget(self.cash_radioButton)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
@@ -179,7 +179,7 @@ class Ui_Form(object):
         self.sumContrib_label.setText(QCoreApplication.translate("Form", u"\u0421\u0443\u043c\u043c\u0430:", None))
         self.commentContrib_label.setText(QCoreApplication.translate("Form", u"\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439:", None))
         self.typePay_label.setText(QCoreApplication.translate("Form", u"\u041e\u043f\u043b\u0430\u0442\u0430:", None))
-        self.cache_radioButton.setText(QCoreApplication.translate("Form", u"\u043d\u0430\u043b\u0438\u0447\u043d\u044b\u043c\u0438", None))
+        self.cash_radioButton.setText(QCoreApplication.translate("Form", u"\u043d\u0430\u043b\u0438\u0447\u043d\u044b\u043c\u0438", None))
         self.card_radioButton.setText(QCoreApplication.translate("Form", u"\u0431\u0435\u0437\u043d\u0430\u043b\u0438\u0447\u043d\u0430\u044f", None))
         self.chooseCheck_pushButton.setText(QCoreApplication.translate("Form", u"...", None))
         self.payDate_label.setText(QCoreApplication.translate("Form", u"\u0414\u0430\u0442\u0430 \u043f\u043b\u0430\u0442\u0435\u0436\u0430:", None))
