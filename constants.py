@@ -98,7 +98,6 @@ SQL_CREATE_TABLE_METER_PAYMENT = 'CREATE TABLE IF NOT EXISTS "meter_payment" ( '
 SQL_CREATE_TABLE_OBJECT_ACCOUNT = 'CREATE TABLE IF NOT EXISTS "object_account" ( ' \
                                   'id INTEGER PRIMARY KEY AUTOINCREMENT, ' \
                                   '"obj_id" INTEGER NOT NULL, ' \
-                                  '"early_dabt" REAL DEFAULT 0.0, ' \
                                   '"current_debt" REAL DEFAULT 0.0, ' \
                                   '"calculation" REAL DEFAULT 0.0, ' \
                                   '"balance" REAL DEFAULT 0.0, ' \
@@ -110,10 +109,7 @@ SQL_ALTER_TABLE_CONTRIBUTIONS1 = 'ALTER TABLE "contribution" ADD COLUMN "check_p
 SQL_ALTER_TABLE_CONTRIBUTIONS2 = 'ALTER TABLE "contribution" DROP COLUMN "period_pay";'
 
 SQL_ALTER_TABLE_TYPE_SIZE = 'ALTER TABLE "type_size" ' \
-                                'ADD COLUMN "cont_value" REAL DEFAULT 0.0;'
-
-
-
+                            'ADD COLUMN "cont_value" REAL DEFAULT 0.0;'
 
 BD_SQL_CREATOR = [SQL_CREATE_TABLE_GARGE_MEMBER, SQL_CREATE_TABLE_ELECTRIC_METER, SQL_CREATE_TABLE_TYPE_SIZE,
                   SQL_CREATE_TABLE_CONTRIBUTION_TYPE, SQL_CREATE_TABLE_GARAGE, SQL_CREATE_TABLE_CONTRIBUTION,

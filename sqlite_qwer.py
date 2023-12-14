@@ -376,7 +376,8 @@ def sql_add_new_garage_size(width: float, length: float, height: float, cont_val
     return f'INSERT INTO type_size (width, len, height, cont_value, comment) VALUES ({width}, {length}, {height}, {cont_value}, "{comment}");'
 
 
-def sql_update_garage_size(size_id: int, width: float, length: float, height: float, cont_value: float, comment: str = ' ') -> str:
+def sql_update_garage_size(size_id: int, width: float, length: float, height: float, cont_value: float,
+                           comment: str = ' ') -> str:
     '''
     Запрос на поиск id по типоразмерам
     :param width: ширина
@@ -550,7 +551,7 @@ def sql_find_id_by_filds(*args, table_name: str) -> str:
     return None
 
 
-def sql_check_column_exists_in_table(table_name: str, column_name: str)-> str:
+def sql_check_column_exists_in_table(table_name: str, column_name: str) -> str:
     """
     Запрос на проверку наличия поля в таблице
     :param table_name: имя таблицы
@@ -558,3 +559,24 @@ def sql_check_column_exists_in_table(table_name: str, column_name: str)-> str:
     :return: sql-запрос
     """
     return f"SELECT COUNT(*) AS CNTREC FROM pragma_table_info('{table_name}') WHERE name='{column_name}'"
+
+
+def sql_add_new_meter_payment(type: str = '', value_day: float = 0, value_night: float = 0) -> str:
+    return (f'INSERT INTO meter_payment (type, value_day, value_night) '
+            f'VALUES ("{type}", {value_day}, {value_night});')
+
+
+def sql_update_meter_payment(type: str = '', value_day: float = 0, value_night: float = 0) -> str:
+    return f"UPDATE meter_payment SET value_day = {value_day}, value_night = {value_night}'" \
+           f" WHERE type = '{type}';"
+
+
+def sql_add_new_object_account(obj_id: int, current_debt: float = 0, calculation: float = 0, balance: float = 0) -> str:
+    return (f'INSERT INTO object_account (obj_id, current_debt, calculation, balance) '
+            f'VALUES ({obj_id}, {current_debt}, {calculation}, {balance});')
+
+
+def sql_update_object_account(obj_id: int, current_debt: float = 0, calculation: float = 0,
+                              balance: float = 0) -> str:
+    return f"UPDATE object_account SET current_debt = {current_debt}, calculation = {calculation}, balance = {balance}" \
+           f" WHERE obj_id = {obj_id};"
