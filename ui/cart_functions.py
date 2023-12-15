@@ -94,7 +94,6 @@ class Cart_frontend(QtWidgets.QWidget):
         # валидаторы
         self.ui.garage_lineEdit.setValidator(ui.validators.onlyNumValidator())
         self.ui.row_lineEdit.setValidator(ui.validators.onlyNumValidator())
-        self.ui.earlyDebt_lineEdit.setValidator(ui.validators.floatValidator())
         self.ui.prevDebt_lineEdit.setValidator(ui.validators.floatValidator())
         self.ui.calc_lineEdit.setValidator(ui.validators.floatValidator())
         self.ui.balance_lineEdit.setValidator(ui.validators.floatValidator())
@@ -541,6 +540,21 @@ class Cart_frontend(QtWidgets.QWidget):
                         for conrib in conribs:
                             con = ui.contribute_functions.Contribution_lite(*conrib)
                             self.contribModel.setItems(con)
+                    # заполняем данные о текущем счете
+                    if self.db.execute(sqlite_qwer.sql_select_obj_account_by_object_id(self.fullObjInfo.id)):
+                        account = self.db.cursor.fetchone()
+                        self.setAccountItems(ui.contribute_functions.ObjAccount(*account)) if account else  \
+                            self.setAccountItems(ui.contribute_functions.ObjAccount(account))
+
+    def setAccountItems(self, account_info: ui.contribute_functions.ObjAccount):
+        if account_info:
+            self.ui.prevDebt_lineEdit.setText(account_info.debt) if account_info.debt \
+                else self.ui.prevDebt_lineEdit.setText('0')
+            self.ui.calc_lineEdit.setText(account_info.calculation) if account_info.calculation \
+                else self.ui.calc_lineEdit.setText('0')
+            self.ui.balance_lineEdit.setText(account_info.balance) if account_info.calculation \
+                else self.ui.balance_lineEdit.setText('0')
+
 
     def close(self) -> bool:
         self.mainForm.fill_main_tableview()

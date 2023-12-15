@@ -82,7 +82,7 @@ class AddContrib_front(QtWidgets.QWidget):
             self.contib.value = self.ui.sumContrib_lineEdit.text()
             self.contib.kindPay = self.ui.kindContrib_comboBox.currentText()
             self.contib.typePay = 1 if self.ui.cash_radioButton.isChecked() else 2
-            #self.contib.payPeriod = f'{self.ui.beginContrib_dateEdit.text()} - {self.ui.endContrib_dateEdit.text()}'
+
             self.contib.payDate = self.ui.payDate_dateEdit.text()
             self.contib.comment = self.ui.commentContrib_lineEdit.text()
             self.mainForm.contribModel.setItems(self.contib)
@@ -162,6 +162,16 @@ class Contribution_lite():
     comment:str = ''
     typePay: str = ''
     checkPath: str = ''
+
+@dataclass
+class ObjAccount():
+    """класс описания текущего состояния счета"""
+    id: str = ''            # id записи (для изменения)
+    obj_id: str = ''        # id объекта
+    debt: str = ''          # текущая задолжность
+    calculation: str = ''   # начисления
+    balance: str = ''       # баланс
+
 
 class AddKindContrib_front(QtWidgets.QWidget):
     """Виджет для добавления платежа в бд"""

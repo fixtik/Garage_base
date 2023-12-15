@@ -90,7 +90,7 @@ SQL_CREATE_TABLE_AUTOMOBILE = 'CREATE TABLE IF NOT EXISTS "automobile" ( ' \
 
 SQL_CREATE_TABLE_METER_PAYMENT = 'CREATE TABLE IF NOT EXISTS "meter_payment" ( ' \
                                  'id INTEGER PRIMARY KEY AUTOINCREMENT, ' \
-                                 '"type" INTEGER NOT NULL, ' \
+                                 '"type_meter" INTEGER NOT NULL, ' \
                                  '"value_day" real DEFAULT 0.0, ' \
                                  '"value_night" REAL DEFAULT 0.0' \
                                  ');'
