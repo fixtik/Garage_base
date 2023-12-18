@@ -580,3 +580,9 @@ def sql_update_object_account(obj_id: int, current_debt: float = 0, calculation:
                               balance: float = 0) -> str:
     return f"UPDATE object_account SET current_debt = {current_debt}, calculation = {calculation}, balance = {balance}" \
            f" WHERE obj_id = {obj_id};"
+
+
+def sql_select_obj_account_by_object_id(object_id: str) -> str:
+    """Запрос на выдачу текущего состояния счета объекта"""
+
+    return f"SELECT * FROM object_account WHERE obj_id = {object_id};"

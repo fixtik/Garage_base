@@ -429,28 +429,6 @@ class Ui_Form(object):
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
         self.horizontalLayout_9 = QHBoxLayout()
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.verticalLayout_7 = QVBoxLayout()
-        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.earlyDebt_label = QLabel(self.contribution_groupBox)
-        self.earlyDebt_label.setObjectName(u"earlyDebt_label")
-        sizePolicy1.setHeightForWidth(self.earlyDebt_label.sizePolicy().hasHeightForWidth())
-        self.earlyDebt_label.setSizePolicy(sizePolicy1)
-        self.earlyDebt_label.setMinimumSize(QSize(0, 22))
-        self.earlyDebt_label.setMaximumSize(QSize(999999, 22))
-        self.earlyDebt_label.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_7.addWidget(self.earlyDebt_label)
-
-        self.earlyDebt_lineEdit = QLineEdit(self.contribution_groupBox)
-        self.earlyDebt_lineEdit.setObjectName(u"earlyDebt_lineEdit")
-        self.earlyDebt_lineEdit.setMinimumSize(QSize(180, 31))
-        self.earlyDebt_lineEdit.setMaximumSize(QSize(180, 16777215))
-
-        self.verticalLayout_7.addWidget(self.earlyDebt_lineEdit)
-
-
-        self.horizontalLayout_9.addLayout(self.verticalLayout_7)
-
         self.verticalLayout_8 = QVBoxLayout()
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
         self.prevDebt_label = QLabel(self.contribution_groupBox)
@@ -587,7 +565,6 @@ class Ui_Form(object):
         self.contribution_groupBox.setTitle(QCoreApplication.translate("Form", u"\u041f\u043b\u0430\u0442\u0435\u0436\u0438:", None))
         self.contribAdd_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
         self.contribDel_pushButton.setText(QCoreApplication.translate("Form", u"-", None))
-        self.earlyDebt_label.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u043b\u0433 \u0437\u0430 \u0440\u0430\u043d\u043d\u0438\u0439 \u043f\u0435\u0440\u0438\u043e\u0434", None))
         self.prevDebt_label.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u043b\u0433 \u0437\u0430 \u043f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0438\u0439 \u043f\u0435\u0440\u0438\u043e\u0434", None))
         self.calc_label.setText(QCoreApplication.translate("Form", u"\u0422\u0435\u043a\u0443\u0449\u0438\u0435 \u043d\u0430\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u044f", None))
         self.balance_label.setText(QCoreApplication.translate("Form", u"\u0411\u0430\u043b\u0430\u043d\u0441 \u0441\u0447\u0435\u0442\u0430", None))
