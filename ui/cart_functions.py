@@ -293,13 +293,17 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def checkFillAllFields(self):
         """проверка заполнения всех полей"""
-        if not (self.owner_id):
+        if not (self.owner_id): # не выбран собственник
             ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_NO_OWNER)
             return False
-        if not (self.ui.row_lineEdit.text() and self.ui.garage_lineEdit.text()):
+        if not (self.ui.row_lineEdit.text() and self.ui.garage_lineEdit.text()): # не заполнены ряд и номер
             ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_NO_DATA_OBJECT)
             return False
-        if not (self.ui.electric_tableView.model().items):
+        if not (self.ui.prevDebt_lineEdit.text() and self.ui.calc_lineEdit.text() and self.ui.balance_lineEdit.text()):
+            # не заполнены данные о текущем состоянии счета по объекту
+            ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_NO_ACCOUNT_DATA)
+            return False
+        if not (self.ui.electric_tableView.model().items): # нет счетчика
             if ui.dialogs.onShowСonfirmation(self, constants.INFO_TITLE, constants.INFO_NO_ELECTRIC_METER_TO_ADD):
                 return False
         if not (self.ui.comboBox.currentText()):
@@ -451,14 +455,15 @@ class Cart_frontend(QtWidgets.QWidget):
             if not objInDb:  # если объекта в БД нет
                 if self.add_garage():
                     # добавляем платежи
-                    if self.addContributionToBase():
+                    if self.addContributionToBase() and self.addAccountInfoToBase():
                         ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_ADDED)
                         self.clearCartForm()
                         self.mainForm.fill_main_tableview()
 
             elif objInDb and self.fullObjInfo:  # если обект уже в бд и режим редактирования
                 if self.updateGarage():
-                    if self.addContributionToBase():
+
+                    if self.addContributionToBase() and self.addAccountInfoToBase():
                         ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_CHANGED)
                         self.close()
 
@@ -547,13 +552,34 @@ class Cart_frontend(QtWidgets.QWidget):
                             self.setAccountItems(ui.contribute_functions.ObjAccount(account))
 
     def setAccountItems(self, account_info: ui.contribute_functions.ObjAccount):
+        """Заполнение данных о текущем счете объекта"""
         if account_info:
-            self.ui.prevDebt_lineEdit.setText(account_info.debt) if account_info.debt \
+            self.ui.prevDebt_lineEdit.setText(str(account_info.debt)) if account_info.debt \
                 else self.ui.prevDebt_lineEdit.setText('0')
-            self.ui.calc_lineEdit.setText(account_info.calculation) if account_info.calculation \
+            self.ui.calc_lineEdit.setText(str(account_info.calculation)) if account_info.calculation \
                 else self.ui.calc_lineEdit.setText('0')
-            self.ui.balance_lineEdit.setText(account_info.balance) if account_info.calculation \
+            self.ui.balance_lineEdit.setText(str(account_info.balance)) if account_info.calculation \
                 else self.ui.balance_lineEdit.setText('0')
+
+    def addAccountInfoToBase(self) -> bool:
+        """добавление данных о текущем счете объекта в БД"""
+        if self.db:
+            obj_id = self.garage_id if self.garage_id else self.fullObjInfo.id
+            if not check_rec_in_base(self.db, ('obj_id', obj_id), tb_name=constants.ACCOUNT_TABLE):
+                sql = sqlite_qwer.sql_add_new_object_account(obj_id=obj_id,
+                                                             current_debt=self.ui.prevDebt_lineEdit.text(),
+                                                             calculation=self.ui.calc_lineEdit.text(),
+                                                             balance=self.ui.balance_lineEdit.text())
+            else:
+                sql = sqlite_qwer.sql_update_object_account(obj_id=obj_id,
+                                                             current_debt=self.ui.prevDebt_lineEdit.text(),
+                                                             calculation=self.ui.calc_lineEdit.text(),
+                                                             balance=self.ui.balance_lineEdit.text())
+            if self.db.execute(sql):
+                return True
+            return False
+        
+
 
 
     def close(self) -> bool:

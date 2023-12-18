@@ -373,7 +373,8 @@ def sql_add_new_garage_size(width: float, length: float, height: float, cont_val
     :param comment: комментарий
     :return: sql-запрос
     '''
-    return f'INSERT INTO type_size (width, len, height, cont_value, comment) VALUES ({width}, {length}, {height}, {cont_value}, "{comment}");'
+    return f'INSERT INTO type_size (width, len, height, cont_value, comment) VALUES ({width}, {length}, {height}, ' \
+           f'{cont_value}, "{comment}");'
 
 
 def sql_update_garage_size(size_id: int, width: float, length: float, height: float, cont_value: float,

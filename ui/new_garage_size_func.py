@@ -135,7 +135,7 @@ class AddGarageSize_front(QtWidgets.QWidget):
                 sql = sqlite_qwer.sql_add_new_garage_size(float(self.garage.width),
                                                           float(self.garage.len),
                                                           float(self.garage.height),
-                                                          float(self.garage.contrib),
+                                                          float(self.garage.contrib) if self.garage.contrib else 0,
                                                           self.garage.comment)
 
             else:
@@ -144,7 +144,7 @@ class AddGarageSize_front(QtWidgets.QWidget):
                                                          float(self.garage.width),
                                                          float(self.garage.len),
                                                          float(self.garage.height),
-                                                         float(self.garage.contrib),
+                                                         float(self.garage.contrib) if self.garage.contrib else 0,
                                                          self.garage.comment)
             self.db.execute(sql)
             self.updateDataFromDB()
