@@ -16,6 +16,7 @@ import ui.electric_meter_func
 import ui.new_garage_size_func
 import ui.tableView_Models
 import ui.validators
+import ui.tarif_function
 
 
 class Form_frontend(QtWidgets.QMainWindow):
@@ -31,6 +32,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.newMember = None  # для отображения формы добавления нового члена
         self.elMeter = None    # для отображения формы с счетчиком
         self.garageSize = None # для отображения формы размера гаража
+        self.tarif = None      # для отображения формы редактирования тарифа счетчика
         self.obj_model = ui.tableView_Models.ObjectTableViewModel()
 
         self.initUi()
@@ -58,7 +60,8 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.member_action.triggered.connect(self.showAddMemberWindow)  # окно добавления нового члена
         self.ui.electric_action.triggered.connect(self.showElMeterWindow)
         self.ui.garage_action.triggered.connect(self.showGarageSizeWindow)  # окно добавления размеров гаража
-        self.ui.add_action.triggered.connect(self.showFullAddCart)  # окно добавления всех данных
+        self.ui.add_action.triggered.connect(self.showFullAddCart)          # окно добавления всех данных
+        self.ui.tarif_e.triggered.connect(self.showTarifMeter)              # окно редактирования тарифа
         # таблица для отображения полей
         self.ui.tableView.setModel(self.obj_model)
         self.ui.tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
@@ -154,6 +157,12 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.cartObj = ui.cart_functions.Cart_frontend(db=self.db, main_form=self)
         self.cartObj.ui.change_pushButton.setText(constants.BTN_TEXT_ADD)
         self.cartObj.show()
+
+    def showTarifMeter(self):
+        """Отображение окна для добавления всех данных одновременно (на основе карточки объекта)"""
+        self.tarif = ui.tarif_function.Tarif_frontend(db=self.db, main_form=self)
+
+        self.tarif.show()
 
     def fill_main_tableview(self):
         """заполнение данных tableview"""
