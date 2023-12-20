@@ -1,6 +1,7 @@
 from PySide6 import QtCore, QtWidgets, QtGui
 
-from ui.tarif import Ui_Form
+
+# from ui.tarif import Ui_Form
 
 class Tarif_frontend(QtWidgets.QWidget):
     def __init__(self, db, main_form: QtWidgets.QWidget, parent=None):
@@ -12,12 +13,9 @@ class Tarif_frontend(QtWidgets.QWidget):
         self.main_form = main_form
         self.initUi()
 
-
     def initUi(self):
         self.ui.meterType_comboBox.addItem('220')
         self.ui.meterType_comboBox.addItem('380')
-
-
 
     def close(self) -> bool:
         self.main_form = None
