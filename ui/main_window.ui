@@ -177,6 +177,7 @@
     <addaction name="member_action"/>
     <addaction name="garage_action"/>
     <addaction name="electric_action"/>
+    <addaction name="tarif_e"/>
    </widget>
    <addaction name="operation_menu"/>
    <addaction name="settings_menu"/>
@@ -232,6 +233,11 @@
   <action name="updateBD_action">
    <property name="text">
     <string>Обновить БД</string>
+   </property>
+  </action>
+  <action name="tarif_e">
+   <property name="text">
+    <string>Ввод данных по тарифам</string>
    </property>
   </action>
  </widget>
