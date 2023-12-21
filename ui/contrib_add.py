@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'contrib_add.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.6.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -113,6 +113,11 @@ class Ui_Form(object):
 
         self.horizontalLayout_2.addWidget(self.chooseCheck_pushButton)
 
+        self.label = QLabel(Form)
+        self.label.setObjectName(u"label")
+
+        self.horizontalLayout_2.addWidget(self.label)
+
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_3)
@@ -182,6 +187,7 @@ class Ui_Form(object):
         self.cash_radioButton.setText(QCoreApplication.translate("Form", u"\u043d\u0430\u043b\u0438\u0447\u043d\u044b\u043c\u0438", None))
         self.card_radioButton.setText(QCoreApplication.translate("Form", u"\u0431\u0435\u0437\u043d\u0430\u043b\u0438\u0447\u043d\u0430\u044f", None))
         self.chooseCheck_pushButton.setText(QCoreApplication.translate("Form", u"...", None))
+        self.label.setText("")
         self.payDate_label.setText(QCoreApplication.translate("Form", u"\u0414\u0430\u0442\u0430 \u043f\u043b\u0430\u0442\u0435\u0436\u0430:", None))
         self.ok_pushButton.setText(QCoreApplication.translate("Form", u"\u041f\u0440\u0438\u043c\u0435\u043d\u0438\u0442\u044c", None))
         self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
