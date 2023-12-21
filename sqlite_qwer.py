@@ -531,7 +531,7 @@ def sql_select_contrib_by_object_id(object_id: str) -> str:
            f" INNER JOIN contribution ON garage_obj.id = contribution.id_garage " \
            f" INNER JOIN contribution_type ON contribution_type.id = contribution.id_cont_type " \
            f" WHERE garage_obj.id = {object_id} " \
-           f"ORDER BY contribution.id DESC;"
+           f" ORDER BY contribution.id DESC;"
 
 
 def sql_find_id_by_filds(*args, table_name: str) -> str:
