@@ -108,30 +108,44 @@ class Member_front(QtWidgets.QWidget):
         self.ui.voa_lineEdit.clear()
         self.ui.address_lineEdit.clear()
 
-    def move_photo(self, id_photo: str = None, id_Bills: str = None):
+    @staticmethod
+    def move_photo(self, id_photo: str = None, billPhotoPath: str = None):
         '''Перемещение фото в директорию'''
-        if not os.path.isdir(constants.DEFAULT_PHOTO_DIR_PASS):  # Проверяем создана директория или нет.
-            os.makedirs(constants.DEFAULT_PHOTO_DIR_PASS, mode=0o777)  # Создаем директорию.
-        if self.photoPath is not None:
-            if os.path.isfile(constants.DEFAULT_PHOTO_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg'):
-                os.remove(constants.DEFAULT_PHOTO_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg')
-            if id_photo:
-                shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_DIR_PASS + str(id_photo) + '.jpg')
-                self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(constants.MEMBER_TABLE,
-                                                                                  int(id_photo),
-                                                                                  'photo',
-                                                                                  constants.DEFAULT_PHOTO_PASS + str(
-                                                                                      id_photo)
-                                                                                  + '.jpg'))
-            else:
-                shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_DIR_PASS + str(
-                    self.db.cursor.lastrowid) + '.jpg')  # Перемещаем фотографию и сразу переименовываем
-                # Обновляем путь в бд после переноса фотографии
-                self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(constants.MEMBER_TABLE,
-                                                                                  self.db.cursor.lastrowid,
-                                                                                  'photo',
-                                                                                  constants.DEFAULT_PHOTO_PASS + str(
-                                                                                      self.db.cursor.lastrowid) + '.jpg'))
+        if id_photo:
+            if not os.path.isdir(constants.DEFAULT_PHOTO_DIR_PASS):  # Проверяем создана директория или нет.
+                os.makedirs(constants.DEFAULT_PHOTO_DIR_PASS, mode=0o777)  # Создаем директорию.
+            if self.photoPath is not None:
+                if os.path.isfile(constants.DEFAULT_PHOTO_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg'):
+                    os.remove(constants.DEFAULT_PHOTO_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg')
+                if id_photo:
+                    shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_DIR_PASS + str(id_photo) + '.jpg')
+                    self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(constants.MEMBER_TABLE,
+                                                                                      int(id_photo),
+                                                                                      'photo',
+                                                                                      constants.DEFAULT_PHOTO_PASS + str(
+                                                                                          id_photo)
+                                                                                      + '.jpg'))
+                else:
+                    shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_DIR_PASS + str(
+                        self.db.cursor.lastrowid) + '.jpg')  # Перемещаем фотографию и сразу переименовываем
+                    # Обновляем путь в бд после переноса фотографии
+                    self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(constants.MEMBER_TABLE,
+                                                                                      self.db.cursor.lastrowid,
+                                                                                      'photo',
+                                                                                      constants.DEFAULT_PHOTO_PASS + str(
+                                                                                          self.db.cursor.lastrowid) + '.jpg'))
+        if billPhotoPath:
+            if not os.path.isdir(constants.DEFAULT_BILLS_DIR_PASS):  # Проверяем создана директория или нет.
+                os.makedirs(constants.DEFAULT_BILLS_DIR_PASS, mode=0o777)  # Создаем директорию.
+            if os.path.isfile(constants.DEFAULT_BILLS_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg'):
+                os.remove(constants.DEFAULT_BILLS_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg')
+            shutil.copy(billPhotoPath, constants.DEFAULT_BILLS_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg')
+            self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(constants.CONTRIB_TABLE,
+                                                                              self.db.cursor.lastrowid,
+                                                                              'check_photo',
+                                                                              constants.DEFAULT_BILLS_PASS + str(
+                                                                                  self.db.cursor.lastrowid)
+                                                                              + '.jpg'))
 
     def addPushBtnClk(self):
         """Проверка данных при нажатии 'Добавить' """
@@ -155,7 +169,7 @@ class Member_front(QtWidgets.QWidget):
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_MEMBER_ALREADY_EXIST)
                 return None
             if self.addToBase():
-                self.move_photo()
+                self.move_photo(self, id_photo=self.member.id)
                 # смотрим, кто вызывал
                 if isinstance(self.parentForm, FindMember_front):
                     userInfo = User_Info()
@@ -166,7 +180,7 @@ class Member_front(QtWidgets.QWidget):
         else:
             if self.changeRecordsInBd(self.member.id):
                 if isinstance(self.parentForm, ui.cart_functions.Cart_frontend):
-                    self.move_photo(self.member.id)
+                    self.move_photo(self, id_photo=self.member.id)
                     # забираем из главной формы id добавленных пользователей
                     ids = ', '.join([str(user.id) for user in self.parentForm.userModel.items])
                     for user in self.parentForm.userModel.items:
