@@ -46,6 +46,8 @@ class Ui_MainWindow(object):
         self.electric_action.setObjectName(u"electric_action")
         self.updateBD_action = QAction(MainWindow)
         self.updateBD_action.setObjectName(u"updateBD_action")
+        self.tarif_e = QAction(MainWindow)
+        self.tarif_e.setObjectName(u"tarif_e")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
@@ -158,6 +160,7 @@ class Ui_MainWindow(object):
         self.menu.addAction(self.member_action)
         self.menu.addAction(self.garage_action)
         self.menu.addAction(self.electric_action)
+        self.menu.addAction(self.tarif_e)
 
         self.retranslateUi(MainWindow)
 
@@ -176,6 +179,7 @@ class Ui_MainWindow(object):
         self.garage_action.setText(QCoreApplication.translate("MainWindow", u"\u0413\u0430\u0440\u0430\u0436", None))
         self.electric_action.setText(QCoreApplication.translate("MainWindow", u"\u042d\u043b\u0435\u043a\u0442\u0440\u043e\u0441\u0447\u0435\u0442\u0447\u0438\u043a", None))
         self.updateBD_action.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0431\u043d\u043e\u0432\u0438\u0442\u044c \u0411\u0414", None))
+        self.tarif_e.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0432\u043e\u0434 \u0434\u0430\u043d\u043d\u044b\u0445 \u043f\u043e \u0442\u0430\u0440\u0438\u0444\u0430\u043c", None))
         self.voa_label.setText("")
         self.openBase_pushButton.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0431\u0430\u0437\u0443 \u0434\u0430\u043d\u043d\u044b\u0445", None))
         self.row_label.setText(QCoreApplication.translate("MainWindow", u"\u0420\u044f\u0434", None))

@@ -48,15 +48,15 @@ class Form_frontend(QtWidgets.QMainWindow):
     def initUi(self):
         """Инициализация объектов интерфейса"""
         # слоты
-        self.ui.createBD_action.triggered.connect(self.create_db)  # создание новой бд
-        self.ui.chooseBD_action.triggered.connect(self.openDB)  # выбор существующей бд
+        self.ui.createBD_action.triggered.connect(self.create_db)       # создание новой бд
+        self.ui.chooseBD_action.triggered.connect(self.openDB)        # выбор существующей бд
         self.ui.openBase_pushButton.clicked.connect(self.openDB)
         self.ui.search_action.triggered.connect(self.showCartObject)  # отображение главной карточки объекта
         self.ui.updateBD_action.triggered.connect(self.updateDB)
         self.ui.search_action.setVisible(False)
         self.ui.exit_action.triggered.connect(self.close)
         self.ui.kindPay_action.triggered.connect(
-            self.showKindPayWindow)  # отображение окна редактирования типов платежей
+            self.showKindPayWindow)                                        # отображение окна редактирования типов платежей
         self.ui.member_action.triggered.connect(self.showAddMemberWindow)  # окно добавления нового члена
         self.ui.electric_action.triggered.connect(self.showElMeterWindow)
         self.ui.garage_action.triggered.connect(self.showGarageSizeWindow)  # окно добавления размеров гаража

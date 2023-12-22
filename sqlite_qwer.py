@@ -587,4 +587,18 @@ def sql_select_obj_account_by_object_id(object_id: str) -> str:
     """Запрос на выдачу текущего состояния счета объекта"""
     return f"SELECT * FROM object_account WHERE obj_id = {object_id};"
 
+# тарифы на ЭЭ
+def sql_get_current_tarif(meter_type: str):
+    """Запрос на получение актуальных тарифов на счетчик"""
+    return f"SELECT * FROM meter_payment WHERE type_meter = {meter_type};"
 
+def sql_set_current_tarif(meter_type: str, value_day: str = 0, value_night: str = 0):
+    """Запрос на установку актуальных тарифов на счетчик"""
+    return f"UPDATE meter_payment SET value_day = {value_day}, " \
+                                 f"value_night = {value_night} " \
+                            f"WHERE type_meter = {meter_type};"
+
+def sql_add_current_tarif(meter_type: str, value_day: str = 0, value_night: str = 0):
+    """Запрос на добавление записи для счетчика"""
+    return f"INSERT INTO meter_payment (type_meter, value_day, value_night) VALUES ({meter_type}, {value_day}," \
+           f" {value_night}); "
