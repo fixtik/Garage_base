@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from datetime import datetime
 import os
+import sys
+import subprocess
 
 from PySide6 import QtCore, QtWidgets, QtGui
 
@@ -43,6 +45,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.garage_id = None  # id гаража
         self.button_group = None  # QButtonGroup(self)
         self.fullObjInfo = None  # информация об объекте (полная)
+        self.moveBillPhoto = ui.member_functions.Member_front(db)
 
         self.initUi()
 
@@ -59,6 +62,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.contribModel = ContribTableViewModel()
         self.ui.contrib_tableView.setModel(self.contribModel)
         self.ui.contrib_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.ui.contrib_tableView.doubleClicked.connect(self.openImage)
 
         # пользовательская таблица
         self.userModel = UsersTableViewModel()
@@ -132,6 +136,14 @@ class Cart_frontend(QtWidgets.QWidget):
         if imgPath:
             self.ui.photo_label.setVisible(True)
             self.setNewPhoto(imgPath)
+
+    def openImage(self):
+        imageViewerFromCommandLine = {'linux': 'xdg-open',
+                                      'win32': 'explorer',
+                                      'darwin': 'open'}[sys.platform]
+        contrib_photo_pass = os.getcwd() + (
+            self.ui.contrib_tableView.model().items[self.ui.contrib_tableView.selectedIndexes()[0].row()]).checkPath
+        subprocess.run([imageViewerFromCommandLine, contrib_photo_pass])
 
     def setNewPhoto(self, image: str):
         """
@@ -409,6 +421,10 @@ class Cart_frontend(QtWidgets.QWidget):
                                                               comment=contr.comment if contr.comment else ' ',
                                                               check_photo=contr.checkPath if contr.checkPath else ' '
                                                               )
+                    if not (self.db.execute(sql)):
+                        ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
+                        return False
+
                 else:
                     sql = sqlite_qwer.sql_add_new_contrib(
                         id_garage=obj_id,
@@ -419,9 +435,12 @@ class Cart_frontend(QtWidgets.QWidget):
                         comment=contr.comment if contr.comment else ' ',
                         check_photo=contr.checkPath if contr.checkPath else ' '
                     )
-                if not (self.db.execute(sql)):
-                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
-                    return False
+                    if not (self.db.execute(sql)):
+                        ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
+                        return False
+                    else:
+                        self.moveBillPhoto.move_photo(self, billPhotoPath=contr.checkPath)
+
             return True
 
     def checkGarageInDB(self) -> bool:
@@ -578,7 +597,7 @@ class Cart_frontend(QtWidgets.QWidget):
             if self.db.execute(sql):
                 return True
             return False
-        
+
 
 
 

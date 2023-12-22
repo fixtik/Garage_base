@@ -39,6 +39,7 @@ class AddContrib_front(QtWidgets.QWidget):
         self.ui.kindContrib_comboBox.currentIndexChanged.connect(self.itemChanged)
         self.ui.card_radioButton.clicked.connect(self.setEnabledChooseCheckProto)
         self.ui.cash_radioButton.clicked.connect(self.setEnabledChooseCheckProto)
+        self.ui.chooseCheck_pushButton.clicked.connect(self.chooseBillPhoto)
 
         # Установка текущей даты при создании платежа
         self.ui.payDate_dateEdit.setDate(datetime.date.today())
@@ -51,6 +52,13 @@ class AddContrib_front(QtWidgets.QWidget):
     def updateDataFromDB(self):
         """Обновление данных из БД для отображения в полях"""
         self.fillKindContribFromBase()
+
+    def chooseBillPhoto(self):
+        """выбор фото на карточку"""
+        img_path = ui.dialogs.open_file_dialog(constants.TITLE_SELECT_PHOTO, constants.FILTER_PHOTO)[0]
+        if img_path:
+            self.billPhotoPath = img_path
+            self.ui.label.setText(img_path)
 
     def setEnabledChooseCheckProto(self):
         """изменяет доступность кнопки выбора фото чека"""
@@ -131,6 +139,7 @@ class AddContrib_front(QtWidgets.QWidget):
     def close(self) -> bool:
         self.mainForm = None
         super().close()
+
 
 @dataclass
 class Contribution():

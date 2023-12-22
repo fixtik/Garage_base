@@ -23,10 +23,10 @@ class AddGarageSize_front(QtWidgets.QWidget):
 
         self.db = db  # БД
         self.mainForm = None  # Родительская форма
-        self.garageSize_form = None # Форма добавления нового вида платежа
-        self.garage = None       # объект для передачи данных в другую форму
-        self.garage_ids = []   # список с id-платежа из БД, индекс соответствует индексу в combobox
-        self.cur_indx = None   # текущий выбранный индекс в combobox
+        self.garageSize_form = None  # Форма добавления нового вида платежа
+        self.garage = None  # объект для передачи данных в другую форму
+        self.garage_ids = []  # список с id-платежа из БД, индекс соответствует индексу в combobox
+        self.cur_indx = None  # текущий выбранный индекс в combobox
 
         self.initUi()
 
@@ -34,8 +34,7 @@ class AddGarageSize_front(QtWidgets.QWidget):
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.ok_pushButton.clicked.connect(self.okPushBtnClk)
         self.ui.change_pushButton.clicked.connect(self.okPushBtnClk)
-        self.ui.delSize_pushButton.clicked.connect(self. delGarageSize)
-
+        self.ui.delSize_pushButton.clicked.connect(self.delGarageSize)
 
         # валидаторы
         self.ui.width_lineEdit.setValidator(ui.validators.floatValidator())
@@ -47,7 +46,6 @@ class AddGarageSize_front(QtWidgets.QWidget):
 
         self.updateDataFromDB()
         self.ui.size_comboBox.currentIndexChanged.connect(self.itemChanged)
-
 
     @staticmethod
     def fillGarageSizeFromBase(db: db_work.Garage_DB, comboBox: QtWidgets.QComboBox) -> list:
@@ -75,7 +73,6 @@ class AddGarageSize_front(QtWidgets.QWidget):
                 comboBox.addItem(f'{cont.width} x {cont.len} x {cont.height} {cont.comment}')
 
         return garage_ids
-
 
     def itemChanged(self):
         """изменение данных в полях при изменении выбранной позиции"""
@@ -107,13 +104,15 @@ class AddGarageSize_front(QtWidgets.QWidget):
         q = ui.dialogs.onShowСonfirmation(self, constants.ATTANTION_ACCEPT, constants.QUESTION_DELETE_TYPE_SIZE)
         if q:
             self.db.execute(sqlite_qwer.sql_delete_rec_by_table_name_and_id(self.TB_NAME,
-                                                                            self.garage_ids[self.ui.size_comboBox.currentIndex()]))
+                                                                            self.garage_ids[
+                                                                                self.ui.size_comboBox.currentIndex()]))
             self.updateDataFromDB()
 
     def okPushBtnClk(self):
         """действие при нажатии Добавить или Применить"""
         if self.mainForm:
-            if not (self.ui.width_lineEdit.text() and self.ui.length_lineEdit.text() and self.ui.height_lineEdit.text()):
+            if not (
+                    self.ui.width_lineEdit.text() and self.ui.length_lineEdit.text() and self.ui.height_lineEdit.text()):
                 ui.dialogs.onShowError(self, 'Ошибка', 'Вы не заполнили все поля')
                 return
             self.garage = GarageSizeStructure()
@@ -157,14 +156,13 @@ class AddGarageSize_front(QtWidgets.QWidget):
         super().close()
 
 
-
 @dataclass
 class GarageSizeStructure():
     """Класс информации о размерах гаража"""
 
-    id: str = ''             # id записи
-    width: str = ''       # ширина гаража
-    len: str = ''       # длина гаража
-    height: str = ''     # высота гаража
-    comment: str = ''   # комментарий
+    id: str = ''  # id записи
+    width: str = ''  # ширина гаража
+    len: str = ''  # длина гаража
+    height: str = ''  # высота гаража
+    comment: str = ''  # комментарий
     contrib: str = ''  # размер платы за год

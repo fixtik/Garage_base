@@ -141,7 +141,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -169,7 +169,7 @@
      <string>О программе</string>
     </property>
    </widget>
-   <widget class="QMenu" name="menu">
+   <widget class="QMenu" name="rabota_with_BD">
     <property name="title">
      <string>Работа с БД</string>
     </property>
@@ -179,10 +179,18 @@
     <addaction name="electric_action"/>
     <addaction name="tarif_e"/>
    </widget>
+   <widget class="QMenu" name="vigruzki">
+    <property name="title">
+     <string>Выгрузки</string>
+    </property>
+    <addaction name="spisok_action"/>
+    <addaction name="smeta_action"/>
+   </widget>
    <addaction name="operation_menu"/>
    <addaction name="settings_menu"/>
    <addaction name="about_menu"/>
-   <addaction name="menu"/>
+   <addaction name="rabota_with_BD"/>
+   <addaction name="vigruzki"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="search_action">
@@ -238,6 +246,16 @@
   <action name="tarif_e">
    <property name="text">
     <string>Ввод данных по тарифам</string>
+   </property>
+  </action>
+  <action name="smeta_action">
+   <property name="text">
+    <string>Смета</string>
+   </property>
+  </action>
+  <action name="spisok_action">
+   <property name="text">
+    <string>Список</string>
    </property>
   </action>
  </widget>
