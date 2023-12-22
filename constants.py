@@ -125,6 +125,7 @@ SIZE_TABLE = 'type_size'
 CONTRIB_TYPE_TABLE = 'contribution_type'
 CONTRIB_TABLE = 'contribution'
 ACCOUNT_TABLE = 'object_account'
+TARIF_TABLE = 'meter_payment'
 
 OWNER_ID = 'owner_id'
 

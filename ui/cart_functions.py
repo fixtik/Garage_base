@@ -92,7 +92,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.contribDel_pushButton.clicked.connect(self.delTbView)
         self.ui.userDel_pushButton.clicked.connect(self.delTbView)
         self.ui.electricDel_pushButton.clicked.connect(self.delTbView)
-        # self.ui.change_pushButton.clicked.connect(self.clearCartForm)  # внесение изменений в БД
+
         self.ui.change_pushButton.clicked.connect(self.addToBasePushBtnclck)  # внесение изменений в БД
 
         # валидаторы
@@ -138,12 +138,13 @@ class Cart_frontend(QtWidgets.QWidget):
             self.setNewPhoto(imgPath)
 
     def openImage(self):
-        imageViewerFromCommandLine = {'linux': 'xdg-open',
-                                      'win32': 'explorer',
-                                      'darwin': 'open'}[sys.platform]
-        contrib_photo_pass = os.getcwd() + (
-            self.ui.contrib_tableView.model().items[self.ui.contrib_tableView.selectedIndexes()[0].row()]).checkPath
-        subprocess.run([imageViewerFromCommandLine, contrib_photo_pass])
+        if self.ui.contrib_tableView.model().items[self.ui.contrib_tableView.selectedIndexes()[0].row()].checkPath:
+            imageViewerFromCommandLine = {'linux': 'xdg-open',
+                                          'win32': 'explorer',
+                                          'darwin': 'open'}[sys.platform]
+            contrib_photo_pass = os.getcwd() + (
+                self.ui.contrib_tableView.model().items[self.ui.contrib_tableView.selectedIndexes()[0].row()]).checkPath
+            subprocess.run([imageViewerFromCommandLine, contrib_photo_pass])
 
     def setNewPhoto(self, image: str):
         """
