@@ -9,6 +9,7 @@ from PySide6 import QtCore, QtWidgets, QtGui
 from ui.cart_ import Ui_Form
 
 import constants
+import ui.tarif_function
 import db_work
 import ui.dialogs
 import ui.car_functions
@@ -548,11 +549,16 @@ class Cart_frontend(QtWidgets.QWidget):
                     if self.fullObjInfo.electro220_id != 0:
                         if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(constants.ELECTRIC_TABLE,
                                                                                 int(self.fullObjInfo.electro220_id))):
-                            self.elMeterModel.setItems(ui.electric_meter_func.ElectricMeter(*self.db.cursor.fetchone()))
+                            meter220 = ui.electric_meter_func.ElectricMeter(*self.db.cursor.fetchone())
+                            meter220.bill = self.get_tarif(meter220)
+                            self.elMeterModel.setItems(meter220)
                     if self.fullObjInfo.electro380_id != 0:
                         if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(constants.ELECTRIC_TABLE,
                                                                                 int(self.fullObjInfo.electro380_id))):
-                            self.elMeterModel.setItems(ui.electric_meter_func.ElectricMeter(*self.db.cursor.fetchone()))
+                            meter380 = ui.electric_meter_func.ElectricMeter(*self.db.cursor.fetchone())
+                            meter380.bill = self.get_tarif(meter380)
+                            self.elMeterModel.setItems(meter380)
+
                     # заполняем данные о типоразмере
                     if self.fullObjInfo.size_type_id:
                         for indx, id in enumerate(self.garage_size_ids):
@@ -598,6 +604,15 @@ class Cart_frontend(QtWidgets.QWidget):
             if self.db.execute(sql):
                 return True
             return False
+
+    def get_tarif(self, meter: ui.electric_meter_func.ElectricMeter) -> str:
+        if self.db:
+            if self.db.execute(sqlite_qwer.sql_get_current_tarif(meter.type)):
+                tarif = ui.tarif_function.Tarif(*self.db.cursor.fetchone())
+                return str(round(float(tarif.value_day) * (int(meter.curDay) - int(meter.prev_day)) + \
+                           float(tarif.value_night) *(int(meter.curNight) - int(meter.prev_night)), 2))
+
+
 
 
 

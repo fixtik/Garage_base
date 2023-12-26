@@ -177,7 +177,7 @@ class ElectricTableViewModel(DBTableView):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.header = ['id', 'Тип', 'Номер счетчика', 'Тек. показания (день)', 'Тек. показания (ночь)', 'Расход день',
-                       'Расход ночь']
+                       'Расход ночь', 'Выст. счет']
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -199,7 +199,9 @@ class ElectricTableViewModel(DBTableView):
                 return f'{int(elMeter.curDay) - int(elMeter.prev_day)}'
             if col == 6:
                 return f'{int(elMeter.curNight) - int(elMeter.prev_night)}'
-            # как вариант - добавить сюда вывод информации о потребленной ЭЭ
+            if col == 7:
+                return f'{elMeter.bill}'
+
             elif role == QtCore.Qt.TextAlignmentRole:
                 return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
