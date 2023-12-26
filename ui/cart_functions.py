@@ -613,6 +613,22 @@ class Cart_frontend(QtWidgets.QWidget):
                            float(tarif.value_night) *(int(meter.curNight) - int(meter.prev_night)), 2))
 
 
+    def set_new_value_acc(self, value: [float, ui.contribute_functions.Contribution]):
+        """работа с балансом при добавлении платежа"""
+        if isinstance(value, ui.contribute_functions.Contribution):
+            if not self.ui.balance_lineEdit.text():
+                self.ui.balance_lineEdit.setText('0')
+            val = float(value.value)
+            calc = float(self.ui.calc_lineEdit.text()) if self.ui.calc_lineEdit.text() else 0
+            if calc > 0:
+                if calc < val:
+                    self.ui.calc_lineEdit.setText('0')
+                    val -= calc
+                else:
+                    self.ui.calc_lineEdit.setText(str(calc - val))
+                    val = 0
+            balance = float(self.ui.balance_lineEdit.text())+val if self.ui.balance_lineEdit.text() else val
+            self.ui.balance_lineEdit.setText(str(balance))
 
 
 

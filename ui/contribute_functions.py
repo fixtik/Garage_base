@@ -24,10 +24,9 @@ class AddContrib_front(QtWidgets.QWidget):
         self.db = db  # БД
         self.mainForm = None  # Родительская форма
         self.addKind_form = None  # Форма добавления нового вида платежа
-        self.contib = None  # объект для передачи данных в другую форму
+        self.contib = None    # объект для передачи данных в другую форму
         self.contib_ids = []  # список с id-платежа из БД, индекс соответствует индексу в combobox
         self.cur_indx = None  # текущий выбранный индекс в combobox
-
         self.initUi()
 
     def initUi(self):
@@ -94,6 +93,8 @@ class AddContrib_front(QtWidgets.QWidget):
             self.contib.payDate = self.ui.payDate_dateEdit.text()
             self.contib.comment = self.ui.commentContrib_lineEdit.text()
             self.mainForm.contribModel.setItems(self.contib)
+            if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
+                self.mainForm.set_new_value_acc(self.contib)
             self.close()
             return
         self.db.execute(
@@ -101,6 +102,8 @@ class AddContrib_front(QtWidgets.QWidget):
                                                 float(self.ui.sumContrib_lineEdit.text().replace(',', '.')),
                                                 self.ui.commentContrib_lineEdit.text()))
         self.updateDataFromDB()
+
+
 
     def fillKindContribFromBase(self):
         """заполнение данных в combobox с видами платежей из БД """
