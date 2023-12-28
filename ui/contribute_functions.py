@@ -94,6 +94,8 @@ class AddContrib_front(QtWidgets.QWidget):
             self.contib.payDate = self.ui.payDate_dateEdit.text()
             self.contib.comment = self.ui.commentContrib_lineEdit.text()
             self.mainForm.contribModel.setItems(self.contib)
+            if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
+                self.mainForm.set_new_value_acc(self.contib)
             self.close()
             return
         self.db.execute(

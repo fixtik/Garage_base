@@ -257,12 +257,16 @@ class Electric_front(QtWidgets.QWidget):
                             dublicate = True
                             break
                     if not dublicate:
+                        if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
+                            self.meter.bill = self.mainForm.get_tarif(self.meter)
                         self.mainForm.elMeterModel.setItems(self.meter)
 
                 else:
                     # обновление данных после редактирования
                     for index, item in enumerate(self.mainForm.ui.electric_tableView.model().items):
                         if item.id == self.meter.id:
+                            if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
+                                self.meter.bill = self.mainForm.get_tarif(self.meter)
                             self.mainForm.ui.electric_tableView.model().items[index] = self.meter
                             self.mainForm.ui.electric_tableView.setModel(self.mainForm.carModel)
                             self.mainForm.ui.electric_tableView.setModel(self.mainForm.elMeterModel)
@@ -283,3 +287,4 @@ class ElectricMeter():
     curDay: str = ''
     curNight: str = ''
     inBase: bool = False
+    bill: str = ''
