@@ -538,7 +538,7 @@ class Cart_frontend(QtWidgets.QWidget):
                         self.photoPath = usinf.photo
                     else:
                         self.ui.photo_label.setVisible(False)
-                    # заполняем данные данные о арендаторах и их авто
+                    # заполняем данные об арендаторах и их авто
                     ids = f"{(self.fullObjInfo.arendator_id.replace(' ', ','))},{self.owner_id}".lstrip(',')
                     if ui.member_functions.FindMember_front.addUserAndCarsToTV(self.db, ids,
                                                                                self.userModel, self.carModel):

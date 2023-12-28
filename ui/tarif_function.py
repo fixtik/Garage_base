@@ -34,7 +34,7 @@ class Tarif_frontend(QtWidgets.QWidget):
             if self.db.execute(sqlite_qwer.sql_select_id_by_field_value(table_name=constants.TARIF_TABLE,
                                                                         field_name='type_meter',
                                                                         value=meter_type)):
-                if not self.db.cursor.fetchone()[0]:
+                if not self.db.cursor.fetchone():
                     self.db.execute(sqlite_qwer.sql_add_current_tarif(meter_type))
                 return True
         return False
