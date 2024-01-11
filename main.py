@@ -17,6 +17,7 @@ import ui.new_garage_size_func
 import ui.tableView_Models
 import ui.validators
 import ui.tarif_function
+import ui.vigruzki_functions
 
 
 class Form_frontend(QtWidgets.QMainWindow):
@@ -62,6 +63,10 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.garage_action.triggered.connect(self.showGarageSizeWindow)  # окно добавления размеров гаража
         self.ui.add_action.triggered.connect(self.showFullAddCart)  # окно добавления всех данных
         self.ui.tarif_e.triggered.connect(self.showTarifMeter)  # окно редактирования тарифа
+        # ------------- Выгрузки excel ------------- #
+        self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
+        self.ui.smeta_action.triggered.connect(ui.vigruzki_functions.smeta_action())
+        # -------------
         # таблица для отображения полей
         self.ui.tableView.setModel(self.obj_model)
         self.ui.tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
