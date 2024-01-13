@@ -118,13 +118,14 @@ class Member_front(QtWidgets.QWidget):
                 if os.path.isfile(constants.DEFAULT_PHOTO_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg'):
                     os.remove(constants.DEFAULT_PHOTO_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg')
                 if id_photo:
-                    shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_DIR_PASS + str(id_photo) + '.jpg')
-                    self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(constants.MEMBER_TABLE,
-                                                                                      int(id_photo),
-                                                                                      'photo',
-                                                                                      constants.DEFAULT_PHOTO_PASS + str(
-                                                                                          id_photo)
-                                                                                      + '.jpg'))
+                    if not (os.getcwd() + self.photoPath) == (constants.DEFAULT_PHOTO_DIR_PASS + str(id_photo) + '.jpg'):
+                        shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_DIR_PASS + str(id_photo) + '.jpg')
+                        self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(constants.MEMBER_TABLE,
+                                                                                          int(id_photo),
+                                                                                          'photo',
+                                                                                          constants.DEFAULT_PHOTO_PASS + str(
+                                                                                              id_photo)
+                                                                                          + '.jpg'))
                 else:
                     shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_DIR_PASS + str(
                         self.db.cursor.lastrowid) + '.jpg')  # Перемещаем фотографию и сразу переименовываем

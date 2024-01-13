@@ -162,7 +162,7 @@ class Ui_Form(object):
         self.addSize_pushButton = QPushButton(self.garage_groupBox)
         self.addSize_pushButton.setObjectName(u"addSize_pushButton")
         self.addSize_pushButton.setMinimumSize(QSize(0, 31))
-        self.addSize_pushButton.setMaximumSize(QSize(31, 9999))
+        self.addSize_pushButton.setMaximumSize(QSize(31, 31))
 
         self.horizontalLayout_2.addWidget(self.addSize_pushButton)
 
