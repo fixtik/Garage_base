@@ -292,6 +292,12 @@ class Cart_frontend(QtWidgets.QWidget):
             self.del_car_by_fio(self.userModel.items[indx[0].row()].fio)
             self.delSelectRowFromTableView(self.ui.users_tableView)
         elif self.sender().objectName() == self.ui.contribDel_pushButton.objectName():
+
+            model = self.ui.contrib_tableView.model()
+            if self.ui.contrib_tableView.selectionModel().selectedRows():
+                indxs =  self.ui.contrib_tableView.selectionModel().selectedRows()[0].row()
+                value = float(model.items[indxs].value)
+                self.del_one_payment(value)
             self.delSelectRowFromTableView(self.ui.contrib_tableView)
         else:
             pass
@@ -615,22 +621,36 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def set_new_value_acc(self, value: [float, ui.contribute_functions.Contribution]):
         """работа с балансом при добавлении платежа"""
+
+        def debt_work(lineEdit: QtWidgets.QLineEdit, val: float) -> float:
+            cal = float(lineEdit.text()) if lineEdit.text() else 0
+            if cal > 0:
+                if cal < val:
+                    lineEdit.setText('0')
+                    val -= cal
+
+                else:
+                    lineEdit.setText(str(cal - val))
+                    val = 0
+            return val
+
         if isinstance(value, ui.contribute_functions.Contribution):
             if not self.ui.balance_lineEdit.text():
                 self.ui.balance_lineEdit.setText('0')
-            val = float(value.value)
-            calc = float(self.ui.calc_lineEdit.text()) if self.ui.calc_lineEdit.text() else 0
-            if calc > 0:
-                if calc < val:
-                    self.ui.calc_lineEdit.setText('0')
-                    val -= calc
-                else:
-                    self.ui.calc_lineEdit.setText(str(calc - val))
-                    val = 0
+            val = debt_work(self.ui.calc_lineEdit, float(value.value))
+            val = debt_work(self.ui.prevDebt_lineEdit, val)
             balance = float(self.ui.balance_lineEdit.text())+val if self.ui.balance_lineEdit.text() else val
             self.ui.balance_lineEdit.setText(str(balance))
 
-
+    def del_one_payment(self, value: [float, ui.contribute_functions.Contribution]):
+        """работа с балансом при удалении платежа"""
+        balance = float(self.ui.balance_lineEdit.text()) - value if self.ui.balance_lineEdit.text() else 0
+        if balance > 0:
+            self.ui.balance_lineEdit.setText(str(balance))
+        else:
+            self.ui.balance_lineEdit.setText('0')
+            self.ui.calc_lineEdit.setText(str(float(self.ui.calc_lineEdit.text())+abs(balance))) \
+                if self.ui.calc_lineEdit.text() else self.ui.calc_lineEdit.setText(str(abs(balance)))
 
 
     def close(self) -> bool:
