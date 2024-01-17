@@ -54,7 +54,7 @@ class AddContrib_front(QtWidgets.QWidget):
         self.fillKindContribFromBase()
 
     def chooseBillPhoto(self):
-        """выбор фото на карточку"""
+        """выбор фото чека"""
         img_path = ui.dialogs.open_file_dialog(constants.TITLE_SELECT_PHOTO, constants.FILTER_PHOTO)[0]
         if img_path:
             self.billPhotoPath = img_path
