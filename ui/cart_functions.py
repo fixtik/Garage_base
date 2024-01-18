@@ -592,7 +592,7 @@ class Cart_frontend(QtWidgets.QWidget):
                 else self.ui.prevDebt_lineEdit.setText('0')
             self.ui.calc_lineEdit.setText(str(account_info.calculation)) if account_info.calculation \
                 else self.ui.calc_lineEdit.setText('0')
-            self.ui.balance_lineEdit.setText(str(account_info.balance)) if account_info.calculation \
+            self.ui.balance_lineEdit.setText(str(account_info.balance)) if account_info.balance \
                 else self.ui.balance_lineEdit.setText('0')
 
     def addAccountInfoToBase(self) -> bool:
