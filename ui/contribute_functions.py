@@ -95,7 +95,7 @@ class AddContrib_front(QtWidgets.QWidget):
             self.contib.payDate = self.ui.payDate_dateEdit.text()
             self.contib.comment = self.ui.commentContrib_lineEdit.text()
             self.contib.checkPath = self.billPhotoPath
-            self.mainForm.contribModel.setItems(0, self.contib)
+            self.mainForm.contribModel.setItems(self.contib)
             if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
                 self.mainForm.set_new_value_acc(self.contib)
             self.close()
