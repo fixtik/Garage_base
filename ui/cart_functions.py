@@ -139,13 +139,16 @@ class Cart_frontend(QtWidgets.QWidget):
             self.setNewPhoto(imgPath)
 
     def openImage(self):
-        if self.ui.contrib_tableView.model().items[self.ui.contrib_tableView.selectedIndexes()[0].row()].checkPath:
+        if os.path.isfile(os.getcwd() + self.ui.contrib_tableView.model().items[self.ui.contrib_tableView.selectedIndexes()[0].row()].checkPath):
             imageViewerFromCommandLine = {'linux': 'xdg-open',
                                           'win32': 'explorer',
                                           'darwin': 'open'}[sys.platform]
             contrib_photo_pass = os.getcwd() + (
                 self.ui.contrib_tableView.model().items[self.ui.contrib_tableView.selectedIndexes()[0].row()]).checkPath
             subprocess.run([imageViewerFromCommandLine, contrib_photo_pass])
+        else:
+            ui.dialogs.onShowError(self, 'Ошибка', 'Отсутствует фото чека')
+            return
 
     def setNewPhoto(self, image: str):
         """
