@@ -27,6 +27,7 @@ class AddContrib_front(QtWidgets.QWidget):
         self.contib = None  # объект для передачи данных в другую форму
         self.contib_ids = []  # список с id-платежа из БД, индекс соответствует индексу в combobox
         self.cur_indx = None  # текущий выбранный индекс в combobox
+        self.billPhotoPath = None # путь фотографии чека
 
         self.initUi()
 
@@ -93,7 +94,8 @@ class AddContrib_front(QtWidgets.QWidget):
 
             self.contib.payDate = self.ui.payDate_dateEdit.text()
             self.contib.comment = self.ui.commentContrib_lineEdit.text()
-            self.mainForm.contribModel.setItems(self.contib)
+            self.contib.checkPath = self.billPhotoPath
+            self.mainForm.contribModel.setItems(0, self.contib)
             if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
                 self.mainForm.set_new_value_acc(self.contib)
             self.close()
