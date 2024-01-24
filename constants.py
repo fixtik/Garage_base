@@ -212,8 +212,9 @@ DEFAULT_VALUE = '0'
 
 DEFAULT_PHOTO_DIR_PASS = os.getcwd() + '\\photo\\member\\'  # os.getcwd() - возвращает текущую директорию
 DEFAULT_BILLS_DIR_PASS = os.getcwd() + '\\photo\\bills\\'  # os.getcwd() - возвращает текущую директорию
-DEFAULT_PHOTO_PASS = '\\photo\\member\\'  # os.getcwd() - возвращает текущую директорию
-DEFAULT_BILLS_PASS = '\\photo\\bills\\'  # os.getcwd() - возвращает текущую директорию
+DEFAULT_DOCS_DIR_PASS = os.getcwd() + '\\docs\\'
+DEFAULT_PHOTO_PASS = '\\photo\\member\\'
+DEFAULT_BILLS_PASS = '\\photo\\bills\\'
 
 WINDOW_TITLE_ADD_SIZE = 'Редактирование типоразмеров'
 

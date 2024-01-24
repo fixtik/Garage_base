@@ -591,7 +591,7 @@ def sql_select_obj_account_by_object_id(object_id: str) -> str:
 # тарифы на ЭЭ
 def sql_get_current_tarif(meter_type: str):
     """Запрос на получение актуальных тарифов на счетчик"""
-    return f"SELECT * FROM meter_payment WHERE type_meter = {meter_type};"
+    return f"SELECT * FROM meter_payment WHERE type_meter = '{meter_type}';"
 
 def sql_set_current_tarif(meter_type: str, value_day: str = 0, value_night: str = 0):
     """Запрос на установку актуальных тарифов на счетчик"""

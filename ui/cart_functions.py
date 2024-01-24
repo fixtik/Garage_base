@@ -139,13 +139,16 @@ class Cart_frontend(QtWidgets.QWidget):
             self.setNewPhoto(imgPath)
 
     def openImage(self):
-        if self.ui.contrib_tableView.model().items[self.ui.contrib_tableView.selectedIndexes()[0].row()].checkPath:
+        if os.path.isfile(os.getcwd() + self.ui.contrib_tableView.model().items[self.ui.contrib_tableView.selectedIndexes()[0].row()].checkPath):
             imageViewerFromCommandLine = {'linux': 'xdg-open',
                                           'win32': 'explorer',
                                           'darwin': 'open'}[sys.platform]
             contrib_photo_pass = os.getcwd() + (
                 self.ui.contrib_tableView.model().items[self.ui.contrib_tableView.selectedIndexes()[0].row()]).checkPath
             subprocess.run([imageViewerFromCommandLine, contrib_photo_pass])
+        else:
+            ui.dialogs.onShowError(self, 'Ошибка', 'Отсутствует фото чека')
+            return
 
     def setNewPhoto(self, image: str):
         """
@@ -313,17 +316,17 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def checkFillAllFields(self):
         """проверка заполнения всех полей"""
-        if not (self.owner_id): # не выбран собственник
+        if not (self.owner_id):  # не выбран собственник
             ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_NO_OWNER)
             return False
-        if not (self.ui.row_lineEdit.text() and self.ui.garage_lineEdit.text()): # не заполнены ряд и номер
+        if not (self.ui.row_lineEdit.text() and self.ui.garage_lineEdit.text()):  # не заполнены ряд и номер
             ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_NO_DATA_OBJECT)
             return False
         if not (self.ui.prevDebt_lineEdit.text() and self.ui.calc_lineEdit.text() and self.ui.balance_lineEdit.text()):
             # не заполнены данные о текущем состоянии счета по объекту
             ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_NO_ACCOUNT_DATA)
             return False
-        if not (self.ui.electric_tableView.model().items): # нет счетчика
+        if not (self.ui.electric_tableView.model().items):  # нет счетчика
             if ui.dialogs.onShowСonfirmation(self, constants.INFO_TITLE, constants.INFO_NO_ELECTRIC_METER_TO_ADD):
                 return False
         if not (self.ui.comboBox.currentText()):
@@ -489,7 +492,6 @@ class Cart_frontend(QtWidgets.QWidget):
 
             elif objInDb and self.fullObjInfo:  # если обект уже в бд и режим редактирования
                 if self.updateGarage():
-
                     if self.addContributionToBase() and self.addAccountInfoToBase():
                         ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.INFO_SUCCESS_CHANGED)
                         self.close()
@@ -546,7 +548,7 @@ class Cart_frontend(QtWidgets.QWidget):
                         self.photoPath = usinf.photo
                     else:
                         self.ui.photo_label.setVisible(False)
-                    # заполняем данные данные о арендаторах и их авто
+                    # заполняем данные об арендаторах и их авто
                     ids = f"{(self.fullObjInfo.arendator_id.replace(' ', ','))},{self.owner_id}".lstrip(',')
                     if ui.member_functions.FindMember_front.addUserAndCarsToTV(self.db, ids,
                                                                                self.userModel, self.carModel):
@@ -580,7 +582,7 @@ class Cart_frontend(QtWidgets.QWidget):
                     # заполняем данные о текущем счете
                     if self.db.execute(sqlite_qwer.sql_select_obj_account_by_object_id(self.fullObjInfo.id)):
                         account = self.db.cursor.fetchone()
-                        self.setAccountItems(ui.contribute_functions.ObjAccount(*account)) if account else  \
+                        self.setAccountItems(ui.contribute_functions.ObjAccount(*account)) if account else \
                             self.setAccountItems(ui.contribute_functions.ObjAccount(account))
 
     def setAccountItems(self, account_info: ui.contribute_functions.ObjAccount):
