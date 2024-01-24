@@ -34,6 +34,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.elMeter = None    # для отображения формы с счетчиком
         self.garageSize = None # для отображения формы размера гаража
         self.tarif = None      # для отображения формы редактирования тарифа счетчика
+        self.memberCont = None # для отображения формы добавления членского взноса
         self.obj_model = ui.tableView_Models.ObjectTableViewModel()
 
         self.initUi()
@@ -44,7 +45,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         if res:
             self.fill_main_tableview()
 
-        # self.initThread
+
 
     def initUi(self):
         """Инициализация объектов интерфейса"""
@@ -57,14 +58,15 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.search_action.setVisible(False)
         self.ui.exit_action.triggered.connect(self.close)
         self.ui.kindPay_action.triggered.connect(
-            self.showKindPayWindow)                                        # отображение окна редактирования типов платежей
-        self.ui.member_action.triggered.connect(self.showAddMemberWindow)  # окно добавления нового члена
+            self.showKindPayWindow)                                         # отображение окна редактирования типов платежей
+        self.ui.member_action.triggered.connect(self.showAddMemberWindow)   # окно добавления нового члена
         self.ui.electric_action.triggered.connect(self.showElMeterWindow)
         self.ui.garage_action.triggered.connect(self.showGarageSizeWindow)  # окно добавления размеров гаража
         self.ui.add_action.triggered.connect(self.showFullAddCart)          # окно добавления всех данных
         self.ui.tarif_e.triggered.connect(self.showTarifMeter)              # окно редактирования тарифа
-        self.ui.add_action.triggered.connect(self.showFullAddCart)  # окно добавления всех данных
-        self.ui.tarif_e.triggered.connect(self.showTarifMeter)  # окно редактирования тарифа
+        self.ui.add_action.triggered.connect(self.showFullAddCart)          # окно добавления всех данных
+        self.ui.tarif_e.triggered.connect(self.showTarifMeter)              # окно редактирования тарифа
+        self.ui.memberCont_action.triggered.connect(self.showMemberCont)
         # ------------- Выгрузки excel ------------- #
         self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
         self.ui.smeta_action.triggered.connect(ui.vigruzki_functions.smeta_action())
@@ -182,6 +184,12 @@ class Form_frontend(QtWidgets.QMainWindow):
                     item = ui.cart_functions.ObjectInfo(obj[0], obj[1], obj[2], f'{obj[3]} {obj[4]} {obj[5]}', obj[6],
                                                         obj[7])
                     self.obj_model.setItems(item)
+
+    def showMemberCont(self):
+        if self.db:
+            self.memberCont = ui.contribute_functions.Member_contrib_ui(db=self.db)
+            self.memberCont.mainForm = self
+            self.memberCont.show()
 
     def updateDB(self):
         if self.db:

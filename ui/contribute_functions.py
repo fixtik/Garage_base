@@ -11,6 +11,8 @@ import ui.cart_functions
 import ui.cart_functions
 import sqlite_qwer
 import ui.validators
+import ui.members_contrib
+import ui.new_garage_size_func
 
 
 class AddContrib_front(QtWidgets.QWidget):
@@ -235,3 +237,40 @@ class AddKindContrib_front(QtWidgets.QWidget):
     def close(self) -> bool:
         self.mainForm = None
         super().close()
+
+class Member_contrib_ui(QtWidgets.QWidget):
+    """класс для отображения окна установки членского взноса"""
+    def __init__(self, db, parent=None):
+        super().__init__(parent)
+        self.ui = ui.members_contrib.Ui_Form()
+        self.ui.setupUi(self)
+
+        self.db = db  # БД
+        self.mainForm = None  # Родительская форма
+        self.size_ids = []    # Cписок size_id
+        self.initUI()
+
+    def initUI(self):
+        self.ui.close_pushButton.clicked.connect(self.close)
+        self.get_size_from_db()
+        self.setYear()
+
+        self.ui.year_comboBox.setEditable(True)
+        self.ui.year_comboBox.setValidator(ui.validators.onlyNumValidator())
+
+    def setYear(self):
+        """Установка диапазона годов"""
+
+        end_year = int(datetime.datetime.now().year)
+        start_year = end_year-3
+        for y in range(start_year, end_year+3):
+            self.ui.year_comboBox.addItem(str(y))
+        self.ui.year_comboBox.setCurrentText(str(end_year))
+
+
+    def get_size_from_db(self):
+        """Заполнение комбобокса с размерами и получение их ids"""
+        self.size_ids = \
+            ui.new_garage_size_func.AddGarageSize_front.fillGarageSizeFromBase(self.db, self.ui.typeSize_comboBox)
+
+# todo добавить валидатор и проверку введенных данных, организовать добавление в бд

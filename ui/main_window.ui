@@ -141,7 +141,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -178,6 +178,7 @@
     <addaction name="garage_action"/>
     <addaction name="electric_action"/>
     <addaction name="tarif_e"/>
+    <addaction name="memberCont_action"/>
    </widget>
    <widget class="QMenu" name="vigruzki">
     <property name="title">
@@ -256,6 +257,11 @@
   <action name="spisok_action">
    <property name="text">
     <string>Список</string>
+   </property>
+  </action>
+  <action name="memberCont_action">
+   <property name="text">
+    <string>Ввод размера членского взноса</string>
    </property>
   </action>
  </widget>

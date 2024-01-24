@@ -688,6 +688,7 @@ class ObjectInfo():
     kadastr: str = ''
 
 
+
 @dataclass
 class FullObjectInfo():
     id: str = ''
