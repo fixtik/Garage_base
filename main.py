@@ -191,7 +191,8 @@ class Form_frontend(QtWidgets.QMainWindow):
                         if not _:
                             self.db.execute(constants.SQL_ALTER_TABLE_TYPE_SIZE)
                 if self.db.execute(constants.SQL_CREATE_TABLE_METER_PAYMENT) and \
-                        self.db.execute(constants.SQL_CREATE_TABLE_OBJECT_ACCOUNT):
+                        self.db.execute(constants.SQL_CREATE_TABLE_OBJECT_ACCOUNT) and \
+                        self.db.execute(constants.SQL_CREATE_TABLE_MEMBERS_CONTRIB):
 
                     ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)
             except Exception as e:

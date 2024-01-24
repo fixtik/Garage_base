@@ -104,6 +104,16 @@ SQL_CREATE_TABLE_OBJECT_ACCOUNT = 'CREATE TABLE IF NOT EXISTS "object_account" (
                                   'FOREIGN KEY("obj_id") REFERENCES "garage_obj"("id")' \
                                   ');'
 
+SQL_CREATE_TABLE_MEMBERS_CONTRIB = 'CREATE TABLE IF NOT EXISTS "members_contrib" ( ' \
+                                 'id INTEGER PRIMARY KEY AUTOINCREMENT, ' \
+                                 '"size_id" INTEGER NOT NULL, ' \
+                                 '"value" REAL DEFAULT 0.0, ' \
+                                 '"year"  INTEGER DEFAULT 0, ' \
+                                 '"date_add" TEXT DEFAULT 0,' \
+                                 '"date_biling" TEXT DEFAULT 0,' \
+                                 'FOREIGN KEY("size_id") REFERENCES "type_size"("id")' \
+                                 ');'
+
 SQL_ALTER_TABLE_CONTRIBUTIONS = 'ALTER TABLE "contribution" ADD COLUMN "pay_kind" TEXT; '
 SQL_ALTER_TABLE_CONTRIBUTIONS1 = 'ALTER TABLE "contribution" ADD COLUMN "check_photo" BLOB;'
 SQL_ALTER_TABLE_CONTRIBUTIONS2 = 'ALTER TABLE "contribution" DROP COLUMN "period_pay";'
@@ -126,6 +136,7 @@ CONTRIB_TYPE_TABLE = 'contribution_type'
 CONTRIB_TABLE = 'contribution'
 ACCOUNT_TABLE = 'object_account'
 TARIF_TABLE = 'meter_payment'
+MEMBERS_CONTRIB = 'members_contrib'
 
 OWNER_ID = 'owner_id'
 
