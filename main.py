@@ -35,6 +35,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.garageSize = None  # для отображения формы размера гаража
         self.tarif = None  # для отображения формы редактирования тарифа счетчика
         self.memberCont = None  # для отображения формы добавления членского взноса
+        self.bilingCont = None  # для отображения формы выставления счета
         self.obj_model = ui.tableView_Models.ObjectTableViewModel()
 
         self.initUi()
@@ -64,7 +65,9 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.tarif_e.triggered.connect(self.showTarifMeter)  # окно редактирования тарифа
         self.ui.add_action.triggered.connect(self.showFullAddCart)  # окно добавления всех данных
         self.ui.tarif_e.triggered.connect(self.showTarifMeter)  # окно редактирования тарифа
-        self.ui.memberCont_action.triggered.connect(self.showMemberCont)
+        self.ui.memberCont_action.triggered.connect(self.showMemberCont)  # окно редатирования членского взноса
+        self.ui.bilingContrib_action.triggered.connect(self.showBilingCont)  # окно выставления счета
+
         # ------------- Выгрузки excel ------------- #
         self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
         self.ui.smeta_action.triggered.connect(ui.vigruzki_functions.smeta_action())
@@ -188,6 +191,12 @@ class Form_frontend(QtWidgets.QMainWindow):
             self.memberCont = ui.contribute_functions.Member_contrib_ui(db=self.db)
             self.memberCont.mainForm = self
             self.memberCont.show()
+
+    def showBilingCont(self):
+        if self.db:
+            self.bilingCont = ui.contribute_functions.Biling_contrib_ui(db=self.db)
+            self.bilingCont.mainForm = self
+            self.bilingCont.show()
 
     def updateDB(self):
         if self.db:

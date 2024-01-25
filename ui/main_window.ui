@@ -179,6 +179,7 @@
                 <addaction name="electric_action"/>
                 <addaction name="tarif_e"/>
                 <addaction name="memberCont_action"/>
+                <addaction name="bilingContrib_action"/>
             </widget>
             <widget class="QMenu" name="vigruzki">
                 <property name="title">
@@ -262,6 +263,11 @@
         <action name="memberCont_action">
             <property name="text">
                 <string>Ввод размера членского взноса</string>
+            </property>
+        </action>
+        <action name="bilingContrib_action">
+            <property name="text">
+                <string>Выставить счет</string>
             </property>
         </action>
     </widget>

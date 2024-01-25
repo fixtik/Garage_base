@@ -111,5 +111,6 @@ class Ui_Form(object):
                                                            u"\u0413\u043e\u0434 \u043d\u0430\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u044f",
                                                            None))
         self.add_pushButton.setText(QCoreApplication.translate("Form", u"\u0412\u043d\u0435\u0441\u0442\u0438", None))
-        self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u041e\u0442\u043c\u0435\u043d\u0430", None))
+        self.close_pushButton.setText(
+            QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
     # retranslateUi
