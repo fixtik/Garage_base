@@ -14,6 +14,7 @@ import sqlite_qwer
 import ui.validators
 import ui.members_contrib
 import ui.new_garage_size_func
+import ui.bilingForm
 
 
 class AddContrib_front(QtWidgets.QWidget):
@@ -144,9 +145,11 @@ class AddContrib_front(QtWidgets.QWidget):
         self.resize(self.width(), 150)
         self.setWindowTitle(constants.CONTRIB_WIN_EDIT_TITLE)
 
-    def close(self) -> bool:
+    def closeEvent(self, event) -> bool:
+        if isinstance(self.mainForm, main.Form_frontend):
+            self.mainForm.typePay = None
         self.mainForm = None
-        super().close()
+        super().closeEvent()
 
 
 @dataclass
@@ -235,9 +238,9 @@ class AddKindContrib_front(QtWidgets.QWidget):
                 self.mainForm.fillKindContribFromBase()
             self.close()
 
-    def close(self) -> bool:
+    def closeEvent(self, event) -> bool:
         self.mainForm = None
-        super().close()
+        super().closeEvent(event)
 
 class Member_contrib_ui(QtWidgets.QWidget):
     """класс для отображения окна установки членского взноса"""
@@ -344,11 +347,30 @@ class Member_contrib_ui(QtWidgets.QWidget):
                 return True
         return False
         
-    def close(self) -> bool:
+
+    def closeEvent(self, event):
         if isinstance(self.mainForm, main.Form_frontend):
             self.mainForm.memberCont = None
         self.mainForm = None
-        super().close()
+        super().closeEvent(event)
+
+
+class Biling_contrib_ui(QtWidgets.QWidget):
+    """класс для отображения выставления счета членского взноса"""
+    def __init__(self, db, parent=None):
+        super().__init__(parent)
+        self.ui = ui.bilingForm.Ui_Form()
+        self.ui.setupUi(self)
+
+        self.db = db  # БД
+        self.mainForm = None
+
+        # todo 1) запрос в БД на выгрузку "годов"
+        #      2) запрос в БД на выгрузку "размеров" и размеров платежей
+        #      3) модель представления tableview для отображения "размер гаража - сумма членского взноса"
+        #      4) проверка ранее выставленных платежей (мало ли нет выставления какому-то из размеров, а остальным есть)
+        #      5) проверка и запрет на повторное выставление платежей
+
 
 
 

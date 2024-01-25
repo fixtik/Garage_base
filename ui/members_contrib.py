@@ -107,6 +107,6 @@ class Ui_Form(object):
         self.value_label.setText(QCoreApplication.translate("Form", u"\u0420\u0430\u0437\u043c\u0435\u0440 \u0433\u043e\u0434\u043e\u0432\u043e\u0433\u043e \u0447\u043b\u0435\u043d\u0441\u043a\u043e\u0433\u043e \u0432\u0437\u043d\u043e\u0441\u0430", None))
         self.year_label.setText(QCoreApplication.translate("Form", u"\u0413\u043e\u0434 \u043d\u0430\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u044f", None))
         self.add_pushButton.setText(QCoreApplication.translate("Form", u"\u0412\u043d\u0435\u0441\u0442\u0438", None))
-        self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u041e\u0442\u043c\u0435\u043d\u0430", None))
+        self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
     # retranslateUi
 
