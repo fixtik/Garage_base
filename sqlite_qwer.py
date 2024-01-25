@@ -611,7 +611,7 @@ def sql_add_new_members_contrib(size_id: int, value: float, year: int):
 
 def sql_biling_members_contrib(year: int):
     """Запрос на установку даты выставления счета"""
-    return f"UPDATE INTO members_contrib SET date_biling = '{datetime.datetime.now().isoformat()}' WHERE year = {year};"
+    return f"UPDATE members_contrib SET date_biling = '{datetime.datetime.now().isoformat()}' WHERE year = {year};"
 
 def sql_get_value_members_contrib(size_id: int, year: int):
     """запрос на получение значений размеров платежа по типоразмеру объекта за определенный год"""
@@ -621,3 +621,7 @@ def sql_update_value_members_contrib(size_id: int, value: float, year: int):
     """Запрос на установку новго значения счета (при условии, что счет еще не был выставлен ранее)"""
     return  f"UPDATE INTO members_contrib SET value = {value}, date_add = '{datetime.datetime.now().isoformat()}' " \
             f"WHERE year = {year} and size_id = {size_id} and date_biling ='0';"
+
+def sql_get_biling_members_contrib_date(size_id: int, year: int):
+    """Возвращает дату выставления счета для указанного года и типоразмера"""
+    return f"SELECT date_biling FROM members_contrib WHERE size_id = {size_id} and year = {year};"
