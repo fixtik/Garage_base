@@ -34,6 +34,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.elMeter = None  # для отображения формы с счетчиком
         self.garageSize = None  # для отображения формы размера гаража
         self.tarif = None  # для отображения формы редактирования тарифа счетчика
+        self.memberCont = None  # для отображения формы добавления членского взноса
         self.obj_model = ui.tableView_Models.ObjectTableViewModel()
 
         self.initUi()
@@ -43,8 +44,6 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.hideObjectUI(res)
         if res:
             self.fill_main_tableview()
-
-        # self.initThread
 
     def initUi(self):
         """Инициализация объектов интерфейса"""
@@ -63,6 +62,9 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.garage_action.triggered.connect(self.showGarageSizeWindow)  # окно добавления размеров гаража
         self.ui.add_action.triggered.connect(self.showFullAddCart)  # окно добавления всех данных
         self.ui.tarif_e.triggered.connect(self.showTarifMeter)  # окно редактирования тарифа
+        self.ui.add_action.triggered.connect(self.showFullAddCart)  # окно добавления всех данных
+        self.ui.tarif_e.triggered.connect(self.showTarifMeter)  # окно редактирования тарифа
+        self.ui.memberCont_action.triggered.connect(self.showMemberCont)
         # ------------- Выгрузки excel ------------- #
         self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
         self.ui.smeta_action.triggered.connect(ui.vigruzki_functions.smeta_action())
@@ -181,6 +183,12 @@ class Form_frontend(QtWidgets.QMainWindow):
                                                         obj[7])
                     self.obj_model.setItems(item)
 
+    def showMemberCont(self):
+        if self.db:
+            self.memberCont = ui.contribute_functions.Member_contrib_ui(db=self.db)
+            self.memberCont.mainForm = self
+            self.memberCont.show()
+
     def updateDB(self):
         if self.db:
             try:
@@ -196,7 +204,8 @@ class Form_frontend(QtWidgets.QMainWindow):
                     if not _:
                         self.db.execute(constants.SQL_ALTER_TABLE_TYPE_SIZE)
                 if self.db.execute(constants.SQL_CREATE_TABLE_METER_PAYMENT) and \
-                        self.db.execute(constants.SQL_CREATE_TABLE_OBJECT_ACCOUNT):
+                        self.db.execute(constants.SQL_CREATE_TABLE_OBJECT_ACCOUNT) and \
+                        self.db.execute(constants.SQL_CREATE_TABLE_MEMBERS_CONTRIB):
                     ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)
             except Exception as e:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_UPDATE_DB_FAIL)

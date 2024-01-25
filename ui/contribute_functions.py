@@ -4,6 +4,7 @@ from PySide6 import QtCore, QtWidgets, QtGui
 from dataclasses import dataclass
 
 import constants
+import main
 import ui.contrib_add as addW
 import ui.contrib_addKind as addK
 import ui.dialogs
@@ -11,6 +12,8 @@ import ui.cart_functions
 import ui.cart_functions
 import sqlite_qwer
 import ui.validators
+import ui.members_contrib
+import ui.new_garage_size_func
 
 
 class AddContrib_front(QtWidgets.QWidget):
@@ -27,7 +30,7 @@ class AddContrib_front(QtWidgets.QWidget):
         self.contib = None  # объект для передачи данных в другую форму
         self.contib_ids = []  # список с id-платежа из БД, индекс соответствует индексу в combobox
         self.cur_indx = None  # текущий выбранный индекс в combobox
-        self.billPhotoPath = None # путь фотографии чека
+        self.billPhotoPath = None  # путь фотографии чека
 
         self.initUi()
 
@@ -232,5 +235,118 @@ class AddKindContrib_front(QtWidgets.QWidget):
             self.close()
 
     def close(self) -> bool:
+        self.mainForm = None
+        super().close()
+
+
+class Member_contrib_ui(QtWidgets.QWidget):
+    """класс для отображения окна установки членского взноса"""
+
+    def __init__(self, db, parent=None):
+        super().__init__(parent)
+        self.ui = ui.members_contrib.Ui_Form()
+        self.ui.setupUi(self)
+
+        self.db = db  # БД
+        self.mainForm = None  # Родительская форма
+        self.size_ids = []  # Cписок size_id
+        self.initUI()
+
+    def initUI(self):
+        self.ui.close_pushButton.clicked.connect(self.close)
+        self.get_size_from_db()
+
+        self.ui.year_comboBox.setEditable(True)
+        self.ui.year_comboBox.setValidator(ui.validators.onlyNumValidator())
+        self.setYear()
+
+        self.ui.value_lineEdit.setValidator(ui.validators.floatValidator())
+
+        self.ui.typeSize_comboBox.currentIndexChanged.connect(self.set_value_to_field)
+        self.ui.year_comboBox.currentIndexChanged.connect(self.set_value_to_field)
+        self.ui.year_comboBox.currentTextChanged.connect(self.set_value_to_field)
+        self.ui.add_pushButton.clicked.connect(self.addButton_pressed)
+        self.set_value_to_field()
+
+    def setYear(self):
+        """Установка диапазона годов"""
+
+        end_year = int(datetime.datetime.now().year)
+        start_year = end_year - 3
+        for y in range(start_year, end_year + 3):
+            self.ui.year_comboBox.addItem(str(y))
+        self.ui.year_comboBox.setCurrentText(str(end_year))
+
+    def set_value_to_field(self):
+        value = self.get_value_from_db()
+        self.ui.value_lineEdit.setText(str(value))
+
+    def get_size_from_db(self):
+        """Заполнение комбобокса с размерами и получение их ids"""
+        self.size_ids = \
+            ui.new_garage_size_func.AddGarageSize_front.fillGarageSizeFromBase(self.db, self.ui.typeSize_comboBox)
+
+    def get_value_from_db(self) -> str:
+        """возвращает значение платежа из БД"""
+        value = ''
+        if not self.checker(False):
+            return value
+        if self.db:
+            sql = sqlite_qwer.sql_get_value_members_contrib(
+                size_id=self.size_ids[self.ui.typeSize_comboBox.currentIndex()],
+                year=self.ui.year_comboBox.currentText())
+            if self.db.execute(sql):
+                value = self.db.cursor.fetchone()
+        return value[0] if value else ''
+
+    def get_bilingDate_from_db(self) -> str:
+        """возвращает дату выставления счета из БД"""
+        bilDate = ''
+        if not self.checker(False):
+            return bilDate
+        if self.db:
+            sql = sqlite_qwer.sql_get_biling_members_contrib_date(
+                size_id=self.size_ids[self.ui.typeSize_comboBox.currentIndex()],
+                year=self.ui.year_comboBox.currentText())
+            if self.db.execute(sql):
+                bilDate = self.db.cursor.fetchone()
+        return bilDate if bilDate != '0' else ''
+
+    def checker(self, value_in: bool) -> bool:
+        return (self.ui.year_comboBox.currentText() and self.ui.typeSize_comboBox.currentText() and
+                self.ui.value_lineEdit.text()) if value_in else \
+            (self.ui.year_comboBox.currentText() and self.ui.typeSize_comboBox.currentText())
+
+    def addButton_pressed(self):
+        """действие по нажатию кнопки Внести"""
+        if not self.checker(True):
+            ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.INFO_DATA_IS_EMPTY)
+            return False
+        value = self.get_value_from_db()
+        if value == self.ui.value_lineEdit.text():
+            return False
+        if value != 0 and value:
+            if not (ui.dialogs.onShowСonfirmation(self, constants.INFO_TITLE, constants.QUESTION_UPDATE_MEMBER_CONT)):
+                return False
+        if self.get_bilingDate_from_db():
+            ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_CONTRIB_TYPE_ALREADY_BILING)
+            return False
+        if self.db:
+            sql = sqlite_qwer.sql_update_value_members_contrib(
+                size_id=self.size_ids[self.ui.typeSize_comboBox.currentIndex()],
+                value=self.ui.value_lineEdit.text(),
+                year=self.ui.year_comboBox.currentText()
+            ) if (value != 0 and value) else sqlite_qwer.sql_add_new_members_contrib(
+                size_id=self.size_ids[self.ui.typeSize_comboBox.currentIndex()],
+                value=self.ui.value_lineEdit.text(),
+                year=self.ui.year_comboBox.currentText())
+            if self.db.execute(sql):
+                ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)
+                return True
+        return False
+
+    def close(self) -> bool:
+        if isinstance(self.mainForm, main.Form_frontend):
+            self.mainForm.memberCont = None
         self.mainForm = None
         super().close()

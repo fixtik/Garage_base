@@ -3,7 +3,9 @@ from datetime import datetime
 import os
 import shutil
 import constants
-import pandas
+
+
+# import pandas
 
 
 def spisok_action():

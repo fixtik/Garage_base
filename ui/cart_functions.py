@@ -139,7 +139,8 @@ class Cart_frontend(QtWidgets.QWidget):
             self.setNewPhoto(imgPath)
 
     def openImage(self):
-        if os.path.isfile(os.getcwd() + self.ui.contrib_tableView.model().items[self.ui.contrib_tableView.selectedIndexes()[0].row()].checkPath):
+        if os.path.isfile(os.getcwd() + self.ui.contrib_tableView.model().items[
+            self.ui.contrib_tableView.selectedIndexes()[0].row()].checkPath):
             imageViewerFromCommandLine = {'linux': 'xdg-open',
                                           'win32': 'explorer',
                                           'darwin': 'open'}[sys.platform]
@@ -298,7 +299,7 @@ class Cart_frontend(QtWidgets.QWidget):
 
             model = self.ui.contrib_tableView.model()
             if self.ui.contrib_tableView.selectionModel().selectedRows():
-                indxs =  self.ui.contrib_tableView.selectionModel().selectedRows()[0].row()
+                indxs = self.ui.contrib_tableView.selectionModel().selectedRows()[0].row()
                 value = float(model.items[indxs].value)
                 self.del_one_payment(value)
             self.delSelectRowFromTableView(self.ui.contrib_tableView)
@@ -640,7 +641,7 @@ class Cart_frontend(QtWidgets.QWidget):
                 self.ui.balance_lineEdit.setText('0')
             val = debt_work(self.ui.calc_lineEdit, float(value.value))
             val = debt_work(self.ui.prevDebt_lineEdit, val)
-            balance = float(self.ui.balance_lineEdit.text())+val if self.ui.balance_lineEdit.text() else val
+            balance = float(self.ui.balance_lineEdit.text()) + val if self.ui.balance_lineEdit.text() else val
             self.ui.balance_lineEdit.setText(str(balance))
 
     def del_one_payment(self, value: [float, ui.contribute_functions.Contribution]):
@@ -650,9 +651,8 @@ class Cart_frontend(QtWidgets.QWidget):
             self.ui.balance_lineEdit.setText(str(balance))
         else:
             self.ui.balance_lineEdit.setText('0')
-            self.ui.calc_lineEdit.setText(str(float(self.ui.calc_lineEdit.text())+abs(balance))) \
+            self.ui.calc_lineEdit.setText(str(float(self.ui.calc_lineEdit.text()) + abs(balance))) \
                 if self.ui.calc_lineEdit.text() else self.ui.calc_lineEdit.setText(str(abs(balance)))
-
 
     def close(self) -> bool:
         self.mainForm.fill_main_tableview()

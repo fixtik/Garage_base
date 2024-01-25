@@ -1,264 +1,270 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>800</width>
-    <height>600</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string> Всеволожский Р.С. ВОА</string>
-  </property>
-  <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+    <class>MainWindow</class>
+    <widget class="QMainWindow" name="MainWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>800</width>
+                <height>600</height>
+            </rect>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
+        <property name="windowTitle">
+            <string>Всеволожский Р.С. ВОА</string>
         </property>
-       </spacer>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="voa_label">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="openBase_pushButton">
-          <property name="text">
-           <string>Открыть базу данных</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QLabel" name="row_label">
-          <property name="text">
-           <string>Ряд</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="row_lineEdit"/>
-        </item>
-        <item>
-         <widget class="QLabel" name="num_label">
-          <property name="text">
-           <string>Номер</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="num_lineEdit"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QTableView" name="tableView"/>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="defaultUp">
-    <bool>false</bool>
-   </property>
-   <widget class="QMenu" name="operation_menu">
-    <property name="title">
-     <string>Операции</string>
-    </property>
-    <addaction name="search_action"/>
-    <addaction name="add_action"/>
-    <addaction name="separator"/>
-    <addaction name="exit_action"/>
-   </widget>
-   <widget class="QMenu" name="settings_menu">
-    <property name="title">
-     <string>Настройки</string>
-    </property>
-    <addaction name="chooseBD_action"/>
-    <addaction name="createBD_action"/>
-    <addaction name="updateBD_action"/>
-   </widget>
-   <widget class="QMenu" name="about_menu">
-    <property name="title">
-     <string>О программе</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="rabota_with_BD">
-    <property name="title">
-     <string>Работа с БД</string>
-    </property>
-    <addaction name="kindPay_action"/>
-    <addaction name="member_action"/>
-    <addaction name="garage_action"/>
-    <addaction name="electric_action"/>
-    <addaction name="tarif_e"/>
-   </widget>
-   <widget class="QMenu" name="vigruzki">
-    <property name="title">
-     <string>Выгрузки</string>
-    </property>
-    <addaction name="spisok_action"/>
-    <addaction name="smeta_action"/>
-   </widget>
-   <addaction name="operation_menu"/>
-   <addaction name="settings_menu"/>
-   <addaction name="about_menu"/>
-   <addaction name="rabota_with_BD"/>
-   <addaction name="vigruzki"/>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
-  <action name="search_action">
-   <property name="text">
-    <string>Поиск</string>
-   </property>
-  </action>
-  <action name="add_action">
-   <property name="text">
-    <string>Добавить</string>
-   </property>
-  </action>
-  <action name="chooseBD_action">
-   <property name="text">
-    <string>Выбор БД</string>
-   </property>
-  </action>
-  <action name="createBD_action">
-   <property name="text">
-    <string>Создать БД</string>
-   </property>
-  </action>
-  <action name="exit_action">
-   <property name="text">
-    <string>Выход</string>
-   </property>
-  </action>
-  <action name="kindPay_action">
-   <property name="text">
-    <string>Тип платежа</string>
-   </property>
-  </action>
-  <action name="member_action">
-   <property name="text">
-    <string>Член кооператива</string>
-   </property>
-  </action>
-  <action name="garage_action">
-   <property name="text">
-    <string>Гараж</string>
-   </property>
-  </action>
-  <action name="electric_action">
-   <property name="text">
-    <string>Электросчетчик</string>
-   </property>
-  </action>
-  <action name="updateBD_action">
-   <property name="text">
-    <string>Обновить БД</string>
-   </property>
-  </action>
-  <action name="tarif_e">
-   <property name="text">
-    <string>Ввод данных по тарифам</string>
-   </property>
-  </action>
-  <action name="smeta_action">
-   <property name="text">
-    <string>Смета</string>
-   </property>
-  </action>
-  <action name="spisok_action">
-   <property name="text">
-    <string>Список</string>
-   </property>
-  </action>
- </widget>
- <resources/>
- <connections/>
+        <widget class="QWidget" name="centralwidget">
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+                <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout">
+                        <item>
+                            <spacer name="horizontalSpacer">
+                                <property name="orientation">
+                                    <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                    <size>
+                                        <width>40</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </item>
+                        <item>
+                            <layout class="QVBoxLayout" name="verticalLayout">
+                                <item>
+                                    <spacer name="verticalSpacer">
+                                        <property name="orientation">
+                                            <enum>Qt::Vertical</enum>
+                                        </property>
+                                        <property name="sizeHint" stdset="0">
+                                            <size>
+                                                <width>20</width>
+                                                <height>40</height>
+                                            </size>
+                                        </property>
+                                    </spacer>
+                                </item>
+                                <item>
+                                    <widget class="QLabel" name="voa_label">
+                                        <property name="text">
+                                            <string/>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item>
+                                    <widget class="QPushButton" name="openBase_pushButton">
+                                        <property name="text">
+                                            <string>Открыть базу данных</string>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item>
+                                    <spacer name="verticalSpacer_2">
+                                        <property name="orientation">
+                                            <enum>Qt::Vertical</enum>
+                                        </property>
+                                        <property name="sizeHint" stdset="0">
+                                            <size>
+                                                <width>20</width>
+                                                <height>40</height>
+                                            </size>
+                                        </property>
+                                    </spacer>
+                                </item>
+                            </layout>
+                        </item>
+                        <item>
+                            <spacer name="horizontalSpacer_2">
+                                <property name="orientation">
+                                    <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                    <size>
+                                        <width>40</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </item>
+                    </layout>
+                </item>
+                <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_3">
+                        <item>
+                            <layout class="QHBoxLayout" name="horizontalLayout_2">
+                                <item>
+                                    <widget class="QLabel" name="row_label">
+                                        <property name="text">
+                                            <string>Ряд</string>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item>
+                                    <widget class="QLineEdit" name="row_lineEdit"/>
+                                </item>
+                                <item>
+                                    <widget class="QLabel" name="num_label">
+                                        <property name="text">
+                                            <string>Номер</string>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item>
+                                    <widget class="QLineEdit" name="num_lineEdit"/>
+                                </item>
+                            </layout>
+                        </item>
+                        <item>
+                            <spacer name="horizontalSpacer_3">
+                                <property name="orientation">
+                                    <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                    <size>
+                                        <width>40</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </item>
+                    </layout>
+                </item>
+                <item>
+                    <widget class="QTableView" name="tableView"/>
+                </item>
+            </layout>
+        </widget>
+        <widget class="QMenuBar" name="menubar">
+            <property name="geometry">
+                <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>800</width>
+                    <height>22</height>
+                </rect>
+            </property>
+            <property name="defaultUp">
+                <bool>false</bool>
+            </property>
+            <widget class="QMenu" name="operation_menu">
+                <property name="title">
+                    <string>Операции</string>
+                </property>
+                <addaction name="search_action"/>
+                <addaction name="add_action"/>
+                <addaction name="separator"/>
+                <addaction name="exit_action"/>
+            </widget>
+            <widget class="QMenu" name="settings_menu">
+                <property name="title">
+                    <string>Настройки</string>
+                </property>
+                <addaction name="chooseBD_action"/>
+                <addaction name="createBD_action"/>
+                <addaction name="updateBD_action"/>
+            </widget>
+            <widget class="QMenu" name="about_menu">
+                <property name="title">
+                    <string>О программе</string>
+                </property>
+            </widget>
+            <widget class="QMenu" name="rabota_with_BD">
+                <property name="title">
+                    <string>Работа с БД</string>
+                </property>
+                <addaction name="kindPay_action"/>
+                <addaction name="member_action"/>
+                <addaction name="garage_action"/>
+                <addaction name="electric_action"/>
+                <addaction name="tarif_e"/>
+                <addaction name="memberCont_action"/>
+            </widget>
+            <widget class="QMenu" name="vigruzki">
+                <property name="title">
+                    <string>Выгрузки</string>
+                </property>
+                <addaction name="spisok_action"/>
+                <addaction name="smeta_action"/>
+            </widget>
+            <addaction name="operation_menu"/>
+            <addaction name="settings_menu"/>
+            <addaction name="about_menu"/>
+            <addaction name="rabota_with_BD"/>
+            <addaction name="vigruzki"/>
+        </widget>
+        <widget class="QStatusBar" name="statusbar"/>
+        <action name="search_action">
+            <property name="text">
+                <string>Поиск</string>
+            </property>
+        </action>
+        <action name="add_action">
+            <property name="text">
+                <string>Добавить</string>
+            </property>
+        </action>
+        <action name="chooseBD_action">
+            <property name="text">
+                <string>Выбор БД</string>
+            </property>
+        </action>
+        <action name="createBD_action">
+            <property name="text">
+                <string>Создать БД</string>
+            </property>
+        </action>
+        <action name="exit_action">
+            <property name="text">
+                <string>Выход</string>
+            </property>
+        </action>
+        <action name="kindPay_action">
+            <property name="text">
+                <string>Тип платежа</string>
+            </property>
+        </action>
+        <action name="member_action">
+            <property name="text">
+                <string>Член кооператива</string>
+            </property>
+        </action>
+        <action name="garage_action">
+            <property name="text">
+                <string>Гараж</string>
+            </property>
+        </action>
+        <action name="electric_action">
+            <property name="text">
+                <string>Электросчетчик</string>
+            </property>
+        </action>
+        <action name="updateBD_action">
+            <property name="text">
+                <string>Обновить БД</string>
+            </property>
+        </action>
+        <action name="tarif_e">
+            <property name="text">
+                <string>Ввод данных по тарифам</string>
+            </property>
+        </action>
+        <action name="smeta_action">
+            <property name="text">
+                <string>Смета</string>
+            </property>
+        </action>
+        <action name="spisok_action">
+            <property name="text">
+                <string>Список</string>
+            </property>
+        </action>
+        <action name="memberCont_action">
+            <property name="text">
+                <string>Ввод размера членского взноса</string>
+            </property>
+        </action>
+    </widget>
+    <resources/>
+    <connections/>
 </ui>

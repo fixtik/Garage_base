@@ -1,5 +1,6 @@
 import sqlite3
 import os
+import datetime
 
 from constants import *
 
@@ -607,3 +608,30 @@ def sql_add_current_tarif(meter_type: str, value_day: str = 0, value_night: str 
     """Запрос на добавление записи для счетчика"""
     return f"INSERT INTO meter_payment (type_meter, value_day, value_night) VALUES ({meter_type}, {value_day}," \
            f" {value_night}); "
+
+
+def sql_add_new_members_contrib(size_id: int, value: float, year: int):
+    """Запрос на внесение годового членского взноса"""
+    return f"INSERT INTO members_contrib (size_id, value, year, date_add) VALUES " \
+           f"({size_id}, {value}, {year}, '{datetime.datetime.now().isoformat()}');"
+
+
+def sql_biling_members_contrib(year: int):
+    """Запрос на установку даты выставления счета"""
+    return f"UPDATE members_contrib SET date_biling = '{datetime.datetime.now().isoformat()}' WHERE year = {year};"
+
+
+def sql_get_value_members_contrib(size_id: int, year: int):
+    """запрос на получение значений размеров платежа по типоразмеру объекта за определенный год"""
+    return f"SELECT value FROM members_contrib WHERE size_id = {size_id} and year = {year};"
+
+
+def sql_update_value_members_contrib(size_id: int, value: float, year: int):
+    """Запрос на установку новго значения счета (при условии, что счет еще не был выставлен ранее)"""
+    return f"UPDATE INTO members_contrib SET value = {value}, date_add = '{datetime.datetime.now().isoformat()}' " \
+           f"WHERE year = {year} and size_id = {size_id} and date_biling ='0';"
+
+
+def sql_get_biling_members_contrib_date(size_id: int, year: int):
+    """Возвращает дату выставления счета для указанного года и типоразмера"""
+    return f"SELECT date_biling FROM members_contrib WHERE size_id = {size_id} and year = {year};"
