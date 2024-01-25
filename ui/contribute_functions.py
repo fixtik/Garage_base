@@ -15,6 +15,7 @@ import ui.validators
 import ui.members_contrib
 import ui.new_garage_size_func
 import ui.bilingForm
+import ui.tableView_Models
 
 
 class AddContrib_front(QtWidgets.QWidget):
@@ -364,10 +365,44 @@ class Biling_contrib_ui(QtWidgets.QWidget):
 
         self.db = db  # БД
         self.mainForm = None
+        self.tb_model = None
 
-        # todo 1) запрос в БД на выгрузку "годов"
-        #      2) запрос в БД на выгрузку "размеров" и размеров платежей
-        #      3) модель представления tableview для отображения "размер гаража - сумма членского взноса"
+        self.initUI()
+
+    def initUI(self):
+        self.fill_year()
+        self.ui.close_pushButton.clicked.connect(self.close)
+
+        self.tb_model = ui.tableView_Models.MemberContribTableViewModel()
+        self.ui.contrib_tableView.setModel(self.tb_model)
+        self.ui.contrib_tableView.horizontalHeader().setSectionResizeMode(
+            QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+
+    def fill_year(self):
+        """Заполнение годами из БД"""
+        if self.db:
+            if self.db.execute(sqlite_qwer.sql_get_unic_year()):
+                years = self.db.cursor.fetchall()
+                for year in years:
+                    self.ui.year_comboBox.addItem(str(year[0]))
+
+    def fill_date_bd(self):
+        pass
+@dataclass
+class MemberContrib_data():
+    """Класс для работы с членскими взносами"""
+    id: str = ''        # id записи
+    size_id: str = ''   # вид типоразмера
+    width: str = ''     # размеры
+    length: str = ''
+    height: str = ''
+    year: str = ''      # год за который платят1
+    value: str = ''     # сумма взноса
+    bilingDate: str = ''# дата выставления счета
+
+
+        # todo
+        #      2) запрос в БД на выгрузку "размеров" и размеров платежей (сделан, но не подключен)
         #      4) проверка ранее выставленных платежей (мало ли нет выставления какому-то из размеров, а остальным есть)
         #      5) проверка и запрет на повторное выставление платежей
 

@@ -625,3 +625,12 @@ def sql_update_value_members_contrib(size_id: int, value: float, year: int):
 def sql_get_biling_members_contrib_date(size_id: int, year: int):
     """Возвращает дату выставления счета для указанного года и типоразмера"""
     return f"SELECT date_biling FROM members_contrib WHERE size_id = {size_id} and year = {year};"
+
+def sql_get_unic_year():
+    """Запрос на получение значений годов, для которых есть данные для выставления счета"""
+    return "SELECT DISTINCT year FROM members_contrib;"
+
+def sql_get_data_to_table(year: int):
+    return f"SELECT members_contrib.size_id, type_size.width, type_size.len, type_size.height, members_contrib.value," \
+           f"members_contrib.year, members_contrib.date_biling FROM   type_size " \
+           f" INNER JOIN members_contrib ON type_size.id = members_contrib.size_id WHERE year='{year}';"

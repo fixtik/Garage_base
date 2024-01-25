@@ -236,3 +236,32 @@ class ObjectTableViewModel(DBTableView):
 
             elif role == QtCore.Qt.TextAlignmentRole:
                 return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+
+class MemberContribTableViewModel(DBTableView):
+    """
+        Модель для отображения данных по ежегодныам членским взносам в TableView
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.header = ['id', 'Размер', 'Год', 'Размер членского взноса', 'Счет выставлен']
+
+    def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
+        if not index.isValid():
+            return
+        if role == QtCore.Qt.ItemDataRole.DisplayRole:
+            obj = self.items[index.row()]
+            col = index.column()
+            if col == 0:
+                return f'{obj.size_id}'
+            if col == 1:
+                return f'{obj.width}м х {obj.length}м х {height}м'
+            if col == 2:
+                return f'{obj.year}'
+            if col == 3:
+                return f'{obj.value}'
+            if col == 4:
+                return f'{obj.bilingDate}' if obj.bilingDate != 0 and obj.bilingDate else ""
+
+            elif role == QtCore.Qt.TextAlignmentRole:
+                return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
