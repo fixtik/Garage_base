@@ -50,9 +50,7 @@ class AddContrib_front(QtWidgets.QWidget):
         # Установка текущей даты при создании платежа
         self.ui.payDate_dateEdit.setDate(datetime.date.today())
         self.ui.cash_radioButton.setChecked(True)
-
         self.setEnabledChooseCheckProto()
-
         self.ui.sumContrib_lineEdit.setValidator(ui.validators.floatValidator())
 
     def updateDataFromDB(self):
@@ -150,7 +148,7 @@ class AddContrib_front(QtWidgets.QWidget):
         if isinstance(self.mainForm, main.Form_frontend):
             self.mainForm.typePay = None
         self.mainForm = None
-        super().closeEvent()
+        super().closeEvent(event)
 
 
 @dataclass
@@ -205,8 +203,6 @@ class AddKindContrib_front(QtWidgets.QWidget):
 
         self.mainForm = None
         self.db = db
-
-
         self.initUi()
 
     def initUi(self):
@@ -377,6 +373,8 @@ class Biling_contrib_ui(QtWidgets.QWidget):
         self.ui.contrib_tableView.setModel(self.tb_model)
         self.ui.contrib_tableView.horizontalHeader().setSectionResizeMode(
             QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.fill_date_bd()
+        self.ui.ok_pushButton.clicked.connect(self.biling_contrib)
 
     def fill_year(self):
         """Заполнение годами из БД"""
@@ -387,11 +385,44 @@ class Biling_contrib_ui(QtWidgets.QWidget):
                     self.ui.year_comboBox.addItem(str(year[0]))
 
     def fill_date_bd(self):
-        pass
+        """Заполнение данных в таблицу"""
+        year = self.ui.year_comboBox.currentText()
+        if self.db and year:
+            if self.db.execute(sqlite_qwer.sql_get_data_to_table(year)):
+                items = self.db.cursor.fetchall()
+                for item in items:
+                    self.ui.contrib_tableView.model().setItems(MemberContrib_data(*item))
+
+    def biling_contrib(self):
+        """Выставление счета"""
+        if self.check_already_biling() and self.db:
+            items = self.ui.contrib_tableView.model().items
+            try:
+                for item in items:
+                    self.db.execute(sqlite_qwer.sql_set_billing_by_size_id(value=item.value, size_id=item.size_id))
+                    self.db.execute(sqlite_qwer.sql_biling_members_contrib(size_id=item.size_id, year=item.year))
+                    item.bilingDate = datetime.datetime.now().isoformat()
+            except Exception as e:
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, e)
+            ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)
+
+
+    def check_already_biling(self) -> bool:
+        """проверка на уже выставленный счет"""
+        items = self.ui.contrib_tableView.model().items
+        for item in items:
+            if (item.bilingDate and item.bilingDate !='0'):
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_SIZE_ALREADY_EXIST)
+                return False
+        return True
+
+
+
+
 @dataclass
 class MemberContrib_data():
     """Класс для работы с членскими взносами"""
-    id: str = ''        # id записи
+
     size_id: str = ''   # вид типоразмера
     width: str = ''     # размеры
     length: str = ''
@@ -402,9 +433,7 @@ class MemberContrib_data():
 
 
         # todo
-        #      2) запрос в БД на выгрузку "размеров" и размеров платежей (сделан, но не подключен)
         #      4) проверка ранее выставленных платежей (мало ли нет выставления какому-то из размеров, а остальным есть)
-        #      5) проверка и запрет на повторное выставление платежей
 
 
 

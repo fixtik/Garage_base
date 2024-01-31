@@ -609,9 +609,10 @@ def sql_add_new_members_contrib(size_id: int, value: float, year: int):
     return f"INSERT INTO members_contrib (size_id, value, year, date_add) VALUES " \
            f"({size_id}, {value}, {year}, '{datetime.datetime.now().isoformat()}');"
 
-def sql_biling_members_contrib(year: int):
+def sql_biling_members_contrib(year: int, size_id: int):
     """Запрос на установку даты выставления счета"""
-    return f"UPDATE members_contrib SET date_biling = '{datetime.datetime.now().isoformat()}' WHERE year = {year};"
+    return f"UPDATE members_contrib SET date_biling = '{datetime.datetime.now().isoformat()}' WHERE " \
+           f"size_id = {size_id} and year = {year};"
 
 def sql_get_value_members_contrib(size_id: int, year: int):
     """запрос на получение значений размеров платежа по типоразмеру объекта за определенный год"""
@@ -631,6 +632,35 @@ def sql_get_unic_year():
     return "SELECT DISTINCT year FROM members_contrib;"
 
 def sql_get_data_to_table(year: int):
-    return f"SELECT members_contrib.size_id, type_size.width, type_size.len, type_size.height, members_contrib.value," \
-           f"members_contrib.year, members_contrib.date_biling FROM   type_size " \
+    """запрос на получение даты выставления счета"""
+    return f"SELECT members_contrib.size_id, type_size.width, type_size.len, type_size.height, " \
+           f"members_contrib.year, members_contrib.value, members_contrib.date_biling FROM   type_size " \
            f" INNER JOIN members_contrib ON type_size.id = members_contrib.size_id WHERE year='{year}';"
+
+def sql_set_billing_by_size_id(value: str, size_id: str)-> str:
+    """
+    Запрос на выставление счета по типоразмеру
+    :param value: сумма платежа
+    :param size_id: id-типоразмера
+    """
+    return f"UPDATE object_account SET current_debt = 0 + current_debt + calculation, calculation = {value} " \
+           f"WHERE [obj_id] IN (SELECT [main].[garage_obj].[id] FROM   [main].[type_size] " \
+           f"INNER JOIN [main].[members_contrib] ON [main].[type_size].[id] = [main].[members_contrib].[size_id] " \
+           f"INNER JOIN [main].[garage_obj] ON [main].[type_size].[id] = [main].[garage_obj].[size_type_id] " \
+           f"WHERE [main].[type_size].[id] = {size_id});"
+
+def sql_get_ids_by_type_size_id(type_size_id: str):
+    """Запрос на получение id объектов с заданным типоразмером"""
+    return f"SELECT garage_obj.id  FROM garage_obj WHERE garage_obj.size_type_id = {type_size_id};"
+
+def sql_set_default_value_to_account(obj_id: str):
+    """Запрос на создание записи аккаунта для каждого объекта"""
+    return f"INSERT INTO object_account (obj_id) VALUES ({obj_id});"
+
+def sql_get_item_whithout_accaunt(obj_id: str):
+    """запрос на проверку наличия аккаунта для объекта"""
+    return f"SELECT id FROM object_account WHERE obj_id={obj_id};"
+
+def sql_gel_all_obj_ids():
+    """Запрос на получение id всех объектов"""
+    return f"SELECT id FROM garage_obj;"

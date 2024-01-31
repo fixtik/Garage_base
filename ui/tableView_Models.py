@@ -255,13 +255,13 @@ class MemberContribTableViewModel(DBTableView):
             if col == 0:
                 return f'{obj.size_id}'
             if col == 1:
-                return f'{obj.width}м х {obj.length}м х {height}м'
+                return f'{obj.width}м х {obj.length}м х {obj.height}м'
             if col == 2:
                 return f'{obj.year}'
             if col == 3:
                 return f'{obj.value}'
             if col == 4:
-                return f'{obj.bilingDate}' if obj.bilingDate != 0 and obj.bilingDate else ""
+                return f'{obj.bilingDate}' if obj.bilingDate != '0' and obj.bilingDate else ""
 
             elif role == QtCore.Qt.TextAlignmentRole:
                 return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
