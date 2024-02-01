@@ -215,6 +215,14 @@ class Form_frontend(QtWidgets.QMainWindow):
                 if self.db.execute(constants.SQL_CREATE_TABLE_METER_PAYMENT) and \
                         self.db.execute(constants.SQL_CREATE_TABLE_OBJECT_ACCOUNT) and \
                         self.db.execute(constants.SQL_CREATE_TABLE_MEMBERS_CONTRIB):
+                    if self.db.execute(sqlite_qwer.sql_gel_all_obj_ids()):
+                        ids = self.db.cursor.fetchall()
+                        for id in ids:
+                            if self.db.execute(sqlite_qwer.sql_get_item_whithout_accaunt(id[0])):
+                                f = self.db.cursor.fetchall()
+                                if not f:
+                                    self.db.execute(sqlite_qwer.sql_set_default_value_to_account(id[0]))
+
                     ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)
             except Exception as e:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_UPDATE_DB_FAIL)
