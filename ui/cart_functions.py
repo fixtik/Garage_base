@@ -182,6 +182,7 @@ class Cart_frontend(QtWidgets.QWidget):
         # гараж
         self.ui.row_lineEdit.setText('')
         self.ui.garage_lineEdit.setText('')
+        self.ui.kadastr_lineEdit.setText('')
 
         # собственник
 
