@@ -183,6 +183,9 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.row_lineEdit.setText('')
         self.ui.garage_lineEdit.setText('')
         self.ui.kadastr_lineEdit.setText('')
+        self.ui.prevDebt_lineEdit.setText('0')
+        self.ui.calc_lineEdit.setText('0')
+        self.ui.balance_lineEdit.setText('0')
 
         # собственник
 
@@ -468,6 +471,10 @@ class Cart_frontend(QtWidgets.QWidget):
         """Очистка данных для заполнения сведений о следующем объекте"""
         self.ui.row_lineEdit.clear()
         self.ui.garage_lineEdit.clear()
+        self.ui.kadastr_lineEdit.clear()
+        self.ui.prevDebt_lineEdit.setText('0')
+        self.ui.calc_lineEdit.setText('0')
+        self.ui.balance_lineEdit.setText('0')
         self.ui.users_tableView.model().clearItemData()
         self.ui.auto_tableView.model().clearItemData()
         self.ui.contrib_tableView.model().clearItemData()

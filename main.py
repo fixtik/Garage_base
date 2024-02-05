@@ -167,6 +167,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.cartObj = ui.cart_functions.Cart_frontend(db=self.db, main_form=self)
         self.cartObj.ui.change_pushButton.setText(constants.BTN_TEXT_ADD)
         self.cartObj.show()
+        self.cartObj.clearCartForm()
 
     def showTarifMeter(self):
         """Отображение окна для добавления всех данных одновременно (на основе карточки объекта)"""
