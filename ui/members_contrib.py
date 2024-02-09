@@ -9,15 +9,16 @@
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+                           QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter,
+                           QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QLabel,
-    QLineEdit, QPushButton, QSizePolicy, QSpacerItem,
-    QVBoxLayout, QWidget)
+                               QLineEdit, QPushButton, QSizePolicy, QSpacerItem,
+                               QVBoxLayout, QWidget)
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -92,21 +93,28 @@ class Ui_Form(object):
 
         self.horizontalLayout.addWidget(self.close_pushButton)
 
-
         self.verticalLayout_5.addLayout(self.horizontalLayout)
-
 
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
+
     # setupUi
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0440\u0430\u0437\u043c\u0435\u0440\u0430 \u0447\u043b\u0435\u043d\u0441\u043a\u0438\u0445 \u0432\u0437\u043d\u043e\u0441\u043e\u0432", None))
-        self.typeSize_label.setText(QCoreApplication.translate("Form", u"\u0420\u0430\u0437\u043c\u0435\u0440 \u0433\u0430\u0440\u0430\u0436\u0430", None))
-        self.value_label.setText(QCoreApplication.translate("Form", u"\u0420\u0430\u0437\u043c\u0435\u0440 \u0433\u043e\u0434\u043e\u0432\u043e\u0433\u043e \u0447\u043b\u0435\u043d\u0441\u043a\u043e\u0433\u043e \u0432\u0437\u043d\u043e\u0441\u0430", None))
-        self.year_label.setText(QCoreApplication.translate("Form", u"\u0413\u043e\u0434 \u043d\u0430\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u044f", None))
+        Form.setWindowTitle(QCoreApplication.translate("Form",
+                                                       u"\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0440\u0430\u0437\u043c\u0435\u0440\u0430 \u0447\u043b\u0435\u043d\u0441\u043a\u0438\u0445 \u0432\u0437\u043d\u043e\u0441\u043e\u0432",
+                                                       None))
+        self.typeSize_label.setText(QCoreApplication.translate("Form",
+                                                               u"\u0420\u0430\u0437\u043c\u0435\u0440 \u0433\u0430\u0440\u0430\u0436\u0430",
+                                                               None))
+        self.value_label.setText(QCoreApplication.translate("Form",
+                                                            u"\u0420\u0430\u0437\u043c\u0435\u0440 \u0433\u043e\u0434\u043e\u0432\u043e\u0433\u043e \u0447\u043b\u0435\u043d\u0441\u043a\u043e\u0433\u043e \u0432\u0437\u043d\u043e\u0441\u0430",
+                                                            None))
+        self.year_label.setText(QCoreApplication.translate("Form",
+                                                           u"\u0413\u043e\u0434 \u043d\u0430\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u044f",
+                                                           None))
         self.add_pushButton.setText(QCoreApplication.translate("Form", u"\u0412\u043d\u0435\u0441\u0442\u0438", None))
-        self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
+        self.close_pushButton.setText(
+            QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
     # retranslateUi
-

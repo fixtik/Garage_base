@@ -32,7 +32,7 @@ class AddContrib_front(QtWidgets.QWidget):
         self.contib = None    # объект для передачи данных в другую форму
         self.contib_ids = []  # список с id-платежа из БД, индекс соответствует индексу в combobox
         self.cur_indx = None  # текущий выбранный индекс в combobox
-        self.billPhotoPath = None # путь фотографии чека
+        self.billPhotoPath = None  # путь фотографии чека
 
         self.initUi()
 
@@ -163,6 +163,7 @@ class Contribution():
     typePay: str = ''  # тип оплаты (нал / безнал)
     checkPath:str = ''     # путь к чеку
 
+
 @dataclass
 class Cotrib_type():
     """Класс доступных видах платежа"""
@@ -170,6 +171,7 @@ class Cotrib_type():
     name: str = ''
     value: str = ''
     comment: str = ''
+
 
 @dataclass
 class Contribution_lite():
@@ -343,7 +345,7 @@ class Member_contrib_ui(QtWidgets.QWidget):
                 ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)
                 return True
         return False
-        
+
 
     def closeEvent(self, event):
         if isinstance(self.mainForm, main.Form_frontend):
