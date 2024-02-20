@@ -10,6 +10,7 @@ import ui.cart_functions
 import ui.member_functions
 from ui.tableView_Models import *
 import ui.dialogs
+import ui.css
 
 
 class Car_frontend(QtWidgets.QWidget):
@@ -24,7 +25,8 @@ class Car_frontend(QtWidgets.QWidget):
         self.mainForm = None
         self.carInfo = CarInfo()
         self.memberInfo = MemberInfo()
-        self.addFlag = False            # флаг для dblclick по carTV
+        self.addFlag = False  # флаг для dblclick по carTV
+        self.css = ui.css  # для красоты
 
         self.initUi()
 
@@ -38,17 +40,18 @@ class Car_frontend(QtWidgets.QWidget):
         self.ui.carInDb_tableView.setModel(self.carInDbModel)
         self.ui.carInDb_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
 
-
         # Автоматичкская подгонка столбцов по ширине
         self.ui.carInDb_tableView.horizontalHeader().setSectionResizeMode(
             QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
-
 
         self.getCarsFromDB()
 
         # моментальное обновление carInDb_tableView после ввода символов
         self.ui.carMark_lineEdit.textChanged.connect(self.liveUpdateRequest)
         self.ui.gosNum_lineEdit.textChanged.connect(self.liveUpdateRequest)
+
+        # add a little bit of spice
+        self.css.SetIcon.icon(self, window_icon=1)
 
     def liveUpdateRequest(self):
         """Заполнение таблицы существующих пользователей из БД"""
@@ -87,7 +90,7 @@ class Car_frontend(QtWidgets.QWidget):
             data = self.ui.carInDb_tableView.model().items[self.ui.carInDb_tableView.selectedIndexes()[0].row()]
             if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
                 already_id = [car.id for car in self.mainForm.ui.auto_tableView.model().items]
-                if not(data.id in already_id):
+                if not (data.id in already_id):
                     self.mainForm.ui.auto_tableView.model().setItems(data)
 
     def addCarsByUsers(self, ids: list):
@@ -100,9 +103,6 @@ class Car_frontend(QtWidgets.QWidget):
         self.ui.add_pushButton.setVisible(False)
         self.ui.gosNum_label.setText(constants.LABLEL_TEXT_ADD_DBLCLCK)
         self.getUsersCarsFromBbByListID(ids)
-
-
-
 
     def getCarsFromDB(self):
         """Заполнение таблицы существующих пользователей из БД"""
@@ -117,7 +117,6 @@ class Car_frontend(QtWidgets.QWidget):
                         cars_info = CarInfo(car[0], car[1], car[2], f'{member[1]} {member[2]} {member[3]}', member[6])
                         self.carInDbModel.setItems(cars_info)
 
-
     def add_car(self):
         if not self.ui.carMark_lineEdit.text():
             return
@@ -126,11 +125,11 @@ class Car_frontend(QtWidgets.QWidget):
         self.carInfo.mark = self.ui.carMark_lineEdit.text()
         self.carInfo.gos_num = self.ui.gosNum_lineEdit.text()
         if ui.cart_functions.check_rec_in_base(self.db,
-                                                   ('gos_num', self.carInfo.gos_num),
-                                                   ('active', 1),
-                                                   tb_name=constants.CAR_TABLE):
-                ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_OBJECT_ALREADY_EXIST)
-                return None
+                                               ('gos_num', self.carInfo.gos_num),
+                                               ('active', 1),
+                                               tb_name=constants.CAR_TABLE):
+            ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_OBJECT_ALREADY_EXIST)
+            return None
         self.carInfo.id = ''  # ToDo здесь добавить запрос на id в БД и запрос собственника
         self.carInfo.own_id = ''
         self.mainForm.carInDbModel.setItems(self.carInfo)
@@ -161,4 +160,3 @@ class MemberInfo():
     name: str = None
     secondName: str = ''
     phone: str = None
-

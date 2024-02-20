@@ -18,6 +18,7 @@ import ui.electric_meter_func
 import ui.member_functions
 import ui.new_garage_size_func
 import ui.validators
+import ui.css
 
 import sqlite_qwer
 
@@ -47,6 +48,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.button_group = None  # QButtonGroup(self)
         self.fullObjInfo = None  # информация об объекте (полная)
         self.moveBillPhoto = ui.member_functions.Member_front(db)
+        self.css = ui.css  # для красоты
 
         self.initUi()
 
@@ -120,6 +122,9 @@ class Cart_frontend(QtWidgets.QWidget):
 
         self.ui.image_pushButton.setVisible(False)
         self.ui.photo_label.setVisible(False)
+
+        # add a little bit of spice
+        self.css.SetIcon.icon(self, window_icon=1)
 
     def fillComboBox(self):
         """Заполнение данных о размере в комбобокс"""

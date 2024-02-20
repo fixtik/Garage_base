@@ -15,6 +15,7 @@ import ui.car_functions
 import ui.cart_functions
 # import ui.cart_
 from ui.tableView_Models import *
+import ui.css
 
 
 class Member_front(QtWidgets.QWidget):
@@ -32,6 +33,7 @@ class Member_front(QtWidgets.QWidget):
         self.car = None  # для отображения авто пользователей
         self.parentForm = None  # сслыка на форму вызова для возвращения добавленных объектов
         self.addCar_form = None
+        self.css = ui.css  # для красоты
 
         self.initUi()
 
@@ -55,6 +57,9 @@ class Member_front(QtWidgets.QWidget):
         self.carInDbModel = CarTableViewModel()
         self.ui.autoMember_tableView.setModel(self.carInDbModel)
         self.ui.autoMember_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+
+        # add a little bit of spice
+        self.css.SetIcon.icon(self, window_icon=1)
 
     def showAddCarForm(self):
         """открытие формы добавления авто"""
@@ -118,7 +123,8 @@ class Member_front(QtWidgets.QWidget):
                 if os.path.isfile(constants.DEFAULT_PHOTO_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg'):
                     os.remove(constants.DEFAULT_PHOTO_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg')
                 if id_photo:
-                    if not (os.getcwd() + self.photoPath) == (constants.DEFAULT_PHOTO_DIR_PASS + str(id_photo) + '.jpg'):
+                    if not (os.getcwd() + self.photoPath) == (
+                            constants.DEFAULT_PHOTO_DIR_PASS + str(id_photo) + '.jpg'):
                         shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_DIR_PASS + str(id_photo) + '.jpg')
                         self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(constants.MEMBER_TABLE,
                                                                                           int(id_photo),
@@ -301,6 +307,7 @@ class FindMember_front(QtWidgets.QWidget):
         self.parentForm = main_form  # сслыка на форму вызова для возвращения добавленных объектов
         self.addForm = None  # ссылка на добавление нового члена
         self.addIdsUsers = []  # список id добавляемых пользователей
+        self.css = ui.css  # для красоты
 
         self.initUi()
 
@@ -344,6 +351,10 @@ class FindMember_front(QtWidgets.QWidget):
 
         self.ui.row_lineEdit.setValidator(ui.validators.onlyNumValidator())
         self.ui.number_lineEdit.setValidator(ui.validators.onlyNumValidator())
+
+        # add a little bit of spice
+        self.css.SetIcon.icon(self, window_icon=1)
+        0
 
     def liveUpdateRequest(self):
         """Заполнение таблицы существующих пользователей из БД"""
