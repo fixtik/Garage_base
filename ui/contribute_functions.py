@@ -43,7 +43,7 @@ class AddContrib_front(QtWidgets.QWidget):
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.ok_pushButton.clicked.connect(self.okPushBtnClk)
         self.ui.addKind_pushButton.clicked.connect(self.addKindContrib)
-        # self.ui.delKind_pushButton.clicked.connect(self.delKindContrib) убрали сию функцию
+        self.ui.delKind_pushButton.clicked.connect(self.delKindContrib)
         self.ui.kindContrib_comboBox.currentIndexChanged.connect(self.itemChanged)
         self.ui.card_radioButton.clicked.connect(self.setEnabledChooseCheckProto)
         self.ui.cash_radioButton.clicked.connect(self.setEnabledChooseCheckProto)
@@ -82,14 +82,21 @@ class AddContrib_front(QtWidgets.QWidget):
         self.addKind_form.show()
 
     def delKindContrib(self):
-        """удаление вида платежа из базы"""
+        """удаление вида платежа из базы (с проверкой использования)"""
         q = ui.dialogs.onShowСonfirmation(self, "Подтверждение действия",
                                           "Вы уверены, что хотите удалить выбранный тип платежа?")
         if q:
-            self.db.execute(sqlite_qwer.sql_delete_rec_by_table_name_and_id(self.TB_NAME,
-                                                                            self.contib_ids[
-                                                                                self.ui.kindContrib_comboBox.currentIndex()]))
-            self.updateDataFromDB()
+            if self.db.execute(sqlite_qwer.sql_select_contrib_by_contr_type_id(
+                    id_cont_type=self.contib_ids[self.ui.kindContrib_comboBox.currentIndex()])):
+                f = self.db.cursor.fetchall()
+                if not f:
+                    self.db.execute(sqlite_qwer.sql_delete_rec_by_table_name_and_id(self.TB_NAME,
+                                                                                    self.contib_ids[
+                                                                                        self.ui.kindContrib_comboBox.currentIndex()]))
+                    self.updateDataFromDB(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)
+                    ui.dialogs.onShowOkMessage()
+                else:
+                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_DELETE_CONTRIB_KIND)
 
     def okPushBtnClk(self):
         """действие при нажатии Добавить или Применить"""
@@ -106,7 +113,8 @@ class AddContrib_front(QtWidgets.QWidget):
             self.contib.comment = self.ui.commentContrib_lineEdit.text()
             self.contib.checkPath = self.billPhotoPath
             self.mainForm.contribModel.setItems(self.contib)
-            if isinstance(self.mainForm, ui.cart_functions.Cart_frontend):
+            if isinstance(self.mainForm,
+                          ui.cart_functions.Cart_frontend) and not self.ui.nonBalance_checkBox.isChecked():
                 self.mainForm.set_new_value_acc(self.contib)
             self.close()
             return
@@ -136,10 +144,12 @@ class AddContrib_front(QtWidgets.QWidget):
         self.db.execute(sqlite_qwer.sql_get_one_record_by_id(self.TB_NAME,
                                                              self.contib_ids[
                                                                  self.ui.kindContrib_comboBox.currentIndex()]))
-        contrib = self.db.cursor.fetchone()
+        contrib = Cotrib_type(*self.db.cursor.fetchone())
 
-        self.ui.sumContrib_lineEdit.setText(str(contrib[2]))
-        self.ui.commentContrib_lineEdit.setText(contrib[3])
+        self.ui.sumContrib_lineEdit.setText(str(contrib.value))
+        self.ui.commentContrib_lineEdit.setText(contrib.comment)
+        if contrib.electric and contrib.electric == 1:
+            self.ui.nonBalance_checkBox.setChecked(True)
 
     def hideDateField(self, hidden: bool):
         """скрывает или отображает возможность выбора дат на форме"""
@@ -176,6 +186,7 @@ class Cotrib_type():
     name: str = ''
     value: str = ''
     comment: str = ''
+    electric: str = ''
 
 
 @dataclass
@@ -238,7 +249,9 @@ class AddKindContrib_front(QtWidgets.QWidget):
 
                     sql = sqlite_qwer.sql_add_new_contrib_type(self.ui.kind_lineEdit.text(),
                                                                self.ui.value_lineEdit.text(),
-                                                               self.ui.comment_lineEdit.text())
+                                                               self.ui.comment_lineEdit.text(),
+                                                               1 if self.ui.electric_checkBox.isChecked() else 0
+                                                               )
                     self.db.execute(sql)
                 except Exception as e:
                     ui.dialogs.onShowError(self, constants.ERROR_SQL_QWERY, str(e))

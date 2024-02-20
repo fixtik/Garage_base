@@ -9,21 +9,22 @@
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QLineEdit,
-    QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout,
-    QWidget)
+                           QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter,
+                           QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QHBoxLayout, QLabel,
+                               QLineEdit, QPushButton, QSizePolicy, QSpacerItem,
+                               QVBoxLayout, QWidget)
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(297, 141)
+        Form.resize(297, 161)
         self.verticalLayout_3 = QVBoxLayout(Form)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.horizontalLayout = QHBoxLayout()
@@ -48,7 +49,6 @@ class Ui_Form(object):
 
         self.verticalLayout.addWidget(self.label_3)
 
-
         self.horizontalLayout.addLayout(self.verticalLayout)
 
         self.verticalLayout_2 = QVBoxLayout()
@@ -68,11 +68,14 @@ class Ui_Form(object):
 
         self.verticalLayout_2.addWidget(self.comment_lineEdit)
 
-
         self.horizontalLayout.addLayout(self.verticalLayout_2)
 
-
         self.verticalLayout_3.addLayout(self.horizontalLayout)
+
+        self.electric_checkBox = QCheckBox(Form)
+        self.electric_checkBox.setObjectName(u"electric_checkBox")
+
+        self.verticalLayout_3.addWidget(self.electric_checkBox)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
@@ -90,21 +93,32 @@ class Ui_Form(object):
 
         self.horizontalLayout_2.addWidget(self.close_pushButton)
 
-
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
-
 
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
+
     # setupUi
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0432\u0438\u0434\u0430 \u043f\u043b\u0430\u0442\u0435\u0436\u0430", None))
-        self.label.setText(QCoreApplication.translate("Form", u"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u043f\u043b\u0430\u0442\u0435\u0436\u0430:", None))
-        self.label_2.setText(QCoreApplication.translate("Form", u"\u0420\u0430\u0437\u043c\u0435\u0440 \u043f\u043b\u0430\u0442\u0435\u0436\u0430:", None))
-        self.label_3.setText(QCoreApplication.translate("Form", u"\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439:", None))
-        self.ok_pushButton.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", None))
-        self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
+        Form.setWindowTitle(QCoreApplication.translate("Form",
+                                                       u"\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0432\u0438\u0434\u0430 \u043f\u043b\u0430\u0442\u0435\u0436\u0430",
+                                                       None))
+        self.label.setText(QCoreApplication.translate("Form",
+                                                      u"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u043f\u043b\u0430\u0442\u0435\u0436\u0430:",
+                                                      None))
+        self.label_2.setText(QCoreApplication.translate("Form",
+                                                        u"\u0420\u0430\u0437\u043c\u0435\u0440 \u043f\u043b\u0430\u0442\u0435\u0436\u0430:",
+                                                        None))
+        self.label_3.setText(
+            QCoreApplication.translate("Form", u"\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439:",
+                                       None))
+        self.electric_checkBox.setText(QCoreApplication.translate("Form",
+                                                                  u"\u041f\u043b\u0430\u0442\u0435\u0436 \u0437\u0430 \u044d\u043b\u0435\u043a\u0442\u0440\u043e\u044d\u043d\u0435\u0440\u0433\u0438\u044e",
+                                                                  None))
+        self.ok_pushButton.setText(
+            QCoreApplication.translate("Form", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", None))
+        self.close_pushButton.setText(
+            QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
     # retranslateUi
-

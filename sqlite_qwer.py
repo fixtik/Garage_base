@@ -96,7 +96,7 @@ def get_type_size_id_by_size(width: float, len: float, height: float) -> str:
 
 
 # запросы на тип взноса
-def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = ' ') -> str:
+def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = ' ', electric=0) -> str:
     """
     добавление нового типа взноса
     :param contrib_name: название взноса
@@ -105,7 +105,8 @@ def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = ' '
     :return: sql-запрос
     """
 
-    return f"INSERT INTO contribution_type (name, value, comment) VALUES ('{contrib_name}', {value}, '{comment}');"
+    return f"INSERT INTO contribution_type (name, value, comment, electric) VALUES ('{contrib_name}', {value}, " \
+           f"'{comment}', {electric});"
 
 
 def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, pay_kind: int, value: float,
@@ -533,6 +534,12 @@ def sql_select_contrib_by_object_id(object_id: str) -> str:
            f" INNER JOIN contribution_type ON contribution_type.id = contribution.id_cont_type " \
            f" WHERE garage_obj.id = {object_id} " \
            f" ORDER BY contribution.id DESC;"
+
+
+def sql_select_contrib_by_contr_type_id(id_cont_type: str) -> str:
+    """Запрос на выдачу всех платежей конкретного типа"""
+
+    return f"SELECT * FROM  contribution WHERE id_cont_type = {id_cont_type}; "
 
 
 def sql_find_id_by_filds(*args, table_name: str) -> str:

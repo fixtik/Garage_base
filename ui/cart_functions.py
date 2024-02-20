@@ -652,8 +652,9 @@ class Cart_frontend(QtWidgets.QWidget):
         if isinstance(value, ui.contribute_functions.Contribution):
             if not self.ui.balance_lineEdit.text():
                 self.ui.balance_lineEdit.setText('0')
-            val = debt_work(self.ui.calc_lineEdit, float(value.value))
-            val = debt_work(self.ui.prevDebt_lineEdit, val)
+            val = debt_work(self.ui.prevDebt_lineEdit, float(value.value))
+            val = debt_work(self.ui.calc_lineEdit, val)
+
             balance = float(self.ui.balance_lineEdit.text()) + val if self.ui.balance_lineEdit.text() else val
             self.ui.balance_lineEdit.setText(str(balance))
 

@@ -62,7 +62,8 @@ SQL_CREATE_TABLE_CONTRIBUTION_TYPE = 'CREATE TABLE IF NOT EXISTS "contribution_t
                                      'id INTEGER PRIMARY KEY AUTOINCREMENT,' \
                                      '	"name"	TEXT,' \
                                      '	"value"	REAL,' \
-                                     '	"comment"	TEXT' \
+                                     '	"comment"	TEXT,' \
+                                     '  "electric" INTEGER DEFAULT 0' \
                                      ');'
 
 SQL_CREATE_TABLE_CONTRIBUTION = 'CREATE TABLE IF NOT EXISTS "contribution" (' \
@@ -73,7 +74,7 @@ SQL_CREATE_TABLE_CONTRIBUTION = 'CREATE TABLE IF NOT EXISTS "contribution" (' \
                                 '	"value"	REAL, ' \
                                 '   "comment" TEXT, ' \
                                 '	"pay_kind"	TEXT,' \
-                                '   "check_photo" BLOB, ' \
+                                '   "check_photo" BLOB,' \
                                 'FOREIGN KEY("id_garage") REFERENCES "garage_obj"("id"),' \
                                 'FOREIGN KEY("id_cont_type") REFERENCES "contribution_type"("id")' \
                                 ');'
@@ -117,6 +118,7 @@ SQL_CREATE_TABLE_MEMBERS_CONTRIB = 'CREATE TABLE IF NOT EXISTS "members_contrib"
 SQL_ALTER_TABLE_CONTRIBUTIONS = 'ALTER TABLE "contribution" ADD COLUMN "pay_kind" TEXT; '
 SQL_ALTER_TABLE_CONTRIBUTIONS1 = 'ALTER TABLE "contribution" ADD COLUMN "check_photo" BLOB;'
 SQL_ALTER_TABLE_CONTRIBUTIONS2 = 'ALTER TABLE "contribution" DROP COLUMN "period_pay";'
+SQL_ALTER_TABLE_CONTRIBUTIONS3 = 'ALTER TABLE "contribution_type" ADD COLUMN "electric" INTEGER DEFAULT 0;'
 
 SQL_ALTER_TABLE_TYPE_SIZE = 'ALTER TABLE "type_size" ' \
                             'ADD COLUMN "cont_value" REAL DEFAULT 0.0;'
@@ -168,6 +170,7 @@ ERROR_NO_COPY = ('Не удалось скопировать БД!\n'
                  'Скопируйте вручную!')
 ERROR_UPDATE_DB_FAIL = 'Обновление базы данных завершилось ошибкой'
 ERROR_CONTRIB_TYPE_ALREADY_BILING = "Нельзя внести изменения по уже выставленным счетам!"
+ERROR_DELETE_CONTRIB_KIND = "Указанный тип платежа используется в БД. Удаление невозможно"
 
 MESSAGE_CHECK_DATA = 'Проверьте корректность введенных данных'
 MESSAGE_CHECK_DB_CONNECTIONS = 'Проверьте подключение к БД'

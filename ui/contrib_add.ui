@@ -1,226 +1,233 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>350</width>
-    <height>323</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string>Добавление платежа</string>
-  </property>
-  <layout class="QVBoxLayout" name="verticalLayout_5">
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
-       <item>
-        <widget class="QLabel" name="kindContrib_label">
-         <property name="text">
-          <string>Вид платежа:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="kindContrib_comboBox"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QPushButton" name="addKind_pushButton">
-         <property name="maximumSize">
-          <size>
-           <width>25</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>+</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="delKind_pushButton">
-         <property name="maximumSize">
-          <size>
-           <width>25</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>-</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <widget class="QLabel" name="sumContrib_label">
-       <property name="text">
-        <string>Сумма:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="sumContrib_lineEdit"/>
-     </item>
-     <item>
-      <widget class="QLabel" name="commentContrib_label">
-       <property name="text">
-        <string>Комментарий:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="commentContrib_lineEdit"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
-     <item>
-      <widget class="QLabel" name="typePay_label">
-       <property name="text">
-        <string>Оплата:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="cash_radioButton">
-       <property name="text">
-        <string>наличными</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QRadioButton" name="card_radioButton">
-         <property name="text">
-          <string>безналичная</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="chooseCheck_pushButton">
-         <property name="maximumSize">
-          <size>
-           <width>22</width>
-           <height>22</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>...</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="payDate_horizontalLayout">
-     <item>
-      <widget class="QLabel" name="payDate_label">
-       <property name="text">
-        <string>Дата платежа:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QDateEdit" name="payDate_dateEdit"/>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="ok_pushButton">
-       <property name="text">
-        <string>Применить</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="close_pushButton">
-       <property name="text">
-        <string>Закрыть</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-  </layout>
- </widget>
- <resources/>
- <connections/>
+    <class>Form</class>
+    <widget class="QWidget" name="Form">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>349</width>
+                <height>349</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>Добавление платежа</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                    <item>
+                        <layout class="QVBoxLayout" name="verticalLayout_4">
+                            <item>
+                                <widget class="QLabel" name="kindContrib_label">
+                                    <property name="text">
+                                        <string>Вид платежа:</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item>
+                                <widget class="QComboBox" name="kindContrib_comboBox"/>
+                            </item>
+                        </layout>
+                    </item>
+                    <item>
+                        <layout class="QVBoxLayout" name="verticalLayout">
+                            <item>
+                                <widget class="QPushButton" name="addKind_pushButton">
+                                    <property name="maximumSize">
+                                        <size>
+                                            <width>25</width>
+                                            <height>25</height>
+                                        </size>
+                                    </property>
+                                    <property name="text">
+                                        <string>+</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item>
+                                <widget class="QPushButton" name="delKind_pushButton">
+                                    <property name="maximumSize">
+                                        <size>
+                                            <width>25</width>
+                                            <height>25</height>
+                                        </size>
+                                    </property>
+                                    <property name="text">
+                                        <string>-</string>
+                                    </property>
+                                </widget>
+                            </item>
+                        </layout>
+                    </item>
+                </layout>
+            </item>
+            <item>
+                <layout class="QVBoxLayout" name="verticalLayout_2">
+                    <item>
+                        <widget class="QLabel" name="sumContrib_label">
+                            <property name="text">
+                                <string>Сумма:</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLineEdit" name="sumContrib_lineEdit"/>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="commentContrib_label">
+                            <property name="text">
+                                <string>Комментарий:</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLineEdit" name="commentContrib_lineEdit"/>
+                    </item>
+                </layout>
+            </item>
+            <item>
+                <layout class="QVBoxLayout" name="verticalLayout_3">
+                    <item>
+                        <widget class="QLabel" name="typePay_label">
+                            <property name="text">
+                                <string>Оплата:</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QRadioButton" name="cash_radioButton">
+                            <property name="text">
+                                <string>наличными</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <layout class="QHBoxLayout" name="horizontalLayout_2">
+                            <item>
+                                <widget class="QRadioButton" name="card_radioButton">
+                                    <property name="text">
+                                        <string>безналичная</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item>
+                                <widget class="QPushButton" name="chooseCheck_pushButton">
+                                    <property name="maximumSize">
+                                        <size>
+                                            <width>22</width>
+                                            <height>22</height>
+                                        </size>
+                                    </property>
+                                    <property name="text">
+                                        <string>...</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item>
+                                <widget class="QLabel" name="label">
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item>
+                                <spacer name="horizontalSpacer_3">
+                                    <property name="orientation">
+                                        <enum>Qt::Horizontal</enum>
+                                    </property>
+                                    <property name="sizeHint" stdset="0">
+                                        <size>
+                                            <width>40</width>
+                                            <height>20</height>
+                                        </size>
+                                    </property>
+                                </spacer>
+                            </item>
+                        </layout>
+                    </item>
+                </layout>
+            </item>
+            <item>
+                <widget class="QCheckBox" name="nonBalance_checkBox">
+                    <property name="text">
+                        <string>Не учитывать в балансе объекта</string>
+                    </property>
+                </widget>
+            </item>
+            <item>
+                <layout class="QHBoxLayout" name="payDate_horizontalLayout">
+                    <item>
+                        <widget class="QLabel" name="payDate_label">
+                            <property name="text">
+                                <string>Дата платежа:</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QDateEdit" name="payDate_dateEdit"/>
+                    </item>
+                    <item>
+                        <spacer name="horizontalSpacer_2">
+                            <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                            </property>
+                            <property name="sizeHint" stdset="0">
+                                <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </item>
+                </layout>
+            </item>
+            <item>
+                <spacer name="verticalSpacer">
+                    <property name="orientation">
+                        <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                        <size>
+                            <width>20</width>
+                            <height>40</height>
+                        </size>
+                    </property>
+                </spacer>
+            </item>
+            <item>
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                    <item>
+                        <spacer name="horizontalSpacer">
+                            <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                            </property>
+                            <property name="sizeHint" stdset="0">
+                                <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </item>
+                    <item>
+                        <widget class="QPushButton" name="ok_pushButton">
+                            <property name="text">
+                                <string>Применить</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QPushButton" name="close_pushButton">
+                            <property name="text">
+                                <string>Закрыть</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </item>
+        </layout>
+    </widget>
+    <resources/>
+    <connections/>
 </ui>

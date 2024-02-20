@@ -208,6 +208,12 @@ class Form_frontend(QtWidgets.QMainWindow):
                         self.db.execute(constants.SQL_ALTER_TABLE_CONTRIBUTIONS1)
                         self.db.execute(constants.SQL_ALTER_TABLE_CONTRIBUTIONS2)
 
+                if self.db.execute(
+                        sqlite_qwer.sql_check_column_exists_in_table(constants.CONTRIB_TYPE_TABLE, 'electric')):
+                    _ = self.db.cursor.fetchone()[0]
+                    if not _:
+                        self.db.execute(constants.SQL_ALTER_TABLE_CONTRIBUTIONS3)
+
                 if self.db.execute(sqlite_qwer.sql_check_column_exists_in_table(constants.SIZE_TABLE, 'cont_value')):
                     _ = self.db.cursor.fetchone()[0]
                     if not _:
