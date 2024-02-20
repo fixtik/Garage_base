@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>350</width>
-    <height>323</height>
+    <width>349</width>
+    <height>349</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -147,6 +147,13 @@
       </layout>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="nonBalance_checkBox">
+     <property name="text">
+      <string>Не учитывать в балансе объекта</string>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="payDate_horizontalLayout">

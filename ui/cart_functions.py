@@ -635,6 +635,7 @@ class Cart_frontend(QtWidgets.QWidget):
 
         def debt_work(lineEdit: QtWidgets.QLineEdit, val: float) -> float:
             cal = float(lineEdit.text()) if lineEdit.text() else 0
+
             if cal > 0:
                 if cal < val:
                     lineEdit.setText('0')
