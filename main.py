@@ -18,7 +18,7 @@ import ui.tableView_Models
 import ui.validators
 import ui.tarif_function
 import ui.vigruzki_functions
-
+import ui.css
 
 
 class Form_frontend(QtWidgets.QMainWindow):
@@ -38,6 +38,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.memberCont = None # для отображения формы добавления членского взноса
         self.bilingCont = None # для отображения формы выставления счета
         self.obj_model = ui.tableView_Models.ObjectTableViewModel()
+        self.css = ui.css  # для красоты
 
         self.initUi()
 
@@ -46,8 +47,6 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.hideObjectUI(res)
         if res:
             self.fill_main_tableview()
-
-
 
     def initUi(self):
         """Инициализация объектов интерфейса"""
@@ -87,11 +86,8 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.row_lineEdit.textEdited.connect(self.fill_main_tableview)
         self.ui.num_lineEdit.textEdited.connect(self.fill_main_tableview)
 
-        if os.path.isfile(constants.DEFAULT_VOA_IMG):
-            pix = QtGui.QPixmap(constants.DEFAULT_VOA_IMG)
-            pix = pix.scaled(constants.IMG_W, constants.IMG_W, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
-            self.ui.voa_label.setPixmap(pix)
-            self.setWindowIcon(QtGui.QIcon(pix))
+        # add a little bit of spice
+        self.css.SetIcon.icon(self, label=1, window_icon=1)
 
     def hideObjectUI(self, flag):
         """скрывает или показывает объекты интерфейса"""
@@ -237,7 +233,6 @@ class Form_frontend(QtWidgets.QMainWindow):
                     ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)
             except Exception as e:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_UPDATE_DB_FAIL)
-
 
 
 if __name__ == "__main__":

@@ -9,8 +9,8 @@
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
@@ -41,7 +41,6 @@ class Ui_Form(object):
 
         self.verticalLayout_4.addWidget(self.kindContrib_comboBox)
 
-
         self.horizontalLayout_3.addLayout(self.verticalLayout_4)
 
         self.verticalLayout = QVBoxLayout()
@@ -58,9 +57,7 @@ class Ui_Form(object):
 
         self.verticalLayout.addWidget(self.delKind_pushButton)
 
-
         self.horizontalLayout_3.addLayout(self.verticalLayout)
-
 
         self.verticalLayout_5.addLayout(self.horizontalLayout_3)
 
@@ -85,7 +82,6 @@ class Ui_Form(object):
         self.commentContrib_lineEdit.setObjectName(u"commentContrib_lineEdit")
 
         self.verticalLayout_2.addWidget(self.commentContrib_lineEdit)
-
 
         self.verticalLayout_5.addLayout(self.verticalLayout_2)
 
@@ -123,9 +119,7 @@ class Ui_Form(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_3)
 
-
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
-
 
         self.verticalLayout_5.addLayout(self.verticalLayout_3)
 
@@ -150,7 +144,6 @@ class Ui_Form(object):
 
         self.payDate_horizontalLayout.addItem(self.horizontalSpacer_2)
 
-
         self.verticalLayout_5.addLayout(self.payDate_horizontalLayout)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -173,30 +166,42 @@ class Ui_Form(object):
 
         self.horizontalLayout.addWidget(self.close_pushButton)
 
-
         self.verticalLayout_5.addLayout(self.horizontalLayout)
-
 
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
+
     # setupUi
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043f\u043b\u0430\u0442\u0435\u0436\u0430", None))
-        self.kindContrib_label.setText(QCoreApplication.translate("Form", u"\u0412\u0438\u0434 \u043f\u043b\u0430\u0442\u0435\u0436\u0430:", None))
+        Form.setWindowTitle(QCoreApplication.translate("Form",
+                                                       u"\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043f\u043b\u0430\u0442\u0435\u0436\u0430",
+                                                       None))
+        self.kindContrib_label.setText(
+            QCoreApplication.translate("Form", u"\u0412\u0438\u0434 \u043f\u043b\u0430\u0442\u0435\u0436\u0430:", None))
         self.addKind_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
         self.delKind_pushButton.setText(QCoreApplication.translate("Form", u"-", None))
         self.sumContrib_label.setText(QCoreApplication.translate("Form", u"\u0421\u0443\u043c\u043c\u0430:", None))
-        self.commentContrib_label.setText(QCoreApplication.translate("Form", u"\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439:", None))
+        self.commentContrib_label.setText(
+            QCoreApplication.translate("Form", u"\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439:",
+                                       None))
         self.typePay_label.setText(QCoreApplication.translate("Form", u"\u041e\u043f\u043b\u0430\u0442\u0430:", None))
-        self.cash_radioButton.setText(QCoreApplication.translate("Form", u"\u043d\u0430\u043b\u0438\u0447\u043d\u044b\u043c\u0438", None))
-        self.card_radioButton.setText(QCoreApplication.translate("Form", u"\u0431\u0435\u0437\u043d\u0430\u043b\u0438\u0447\u043d\u0430\u044f", None))
+        self.cash_radioButton.setText(
+            QCoreApplication.translate("Form", u"\u043d\u0430\u043b\u0438\u0447\u043d\u044b\u043c\u0438", None))
+        self.card_radioButton.setText(
+            QCoreApplication.translate("Form", u"\u0431\u0435\u0437\u043d\u0430\u043b\u0438\u0447\u043d\u0430\u044f",
+                                       None))
         self.chooseCheck_pushButton.setText(QCoreApplication.translate("Form", u"...", None))
         self.label.setText("")
-        self.nonBalance_checkBox.setText(QCoreApplication.translate("Form", u"\u041d\u0435 \u0443\u0447\u0438\u0442\u044b\u0432\u0430\u0442\u044c \u0432 \u0431\u0430\u043b\u0430\u043d\u0441\u0435 \u043e\u0431\u044a\u0435\u043a\u0442\u0430", None))
-        self.payDate_label.setText(QCoreApplication.translate("Form", u"\u0414\u0430\u0442\u0430 \u043f\u043b\u0430\u0442\u0435\u0436\u0430:", None))
-        self.ok_pushButton.setText(QCoreApplication.translate("Form", u"\u041f\u0440\u0438\u043c\u0435\u043d\u0438\u0442\u044c", None))
-        self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
+        self.nonBalance_checkBox.setText(QCoreApplication.translate("Form",
+                                                                    u"\u041d\u0435 \u0443\u0447\u0438\u0442\u044b\u0432\u0430\u0442\u044c \u0432 \u0431\u0430\u043b\u0430\u043d\u0441\u0435 \u043e\u0431\u044a\u0435\u043a\u0442\u0430",
+                                                                    None))
+        self.payDate_label.setText(
+            QCoreApplication.translate("Form", u"\u0414\u0430\u0442\u0430 \u043f\u043b\u0430\u0442\u0435\u0436\u0430:",
+                                       None))
+        self.ok_pushButton.setText(
+            QCoreApplication.translate("Form", u"\u041f\u0440\u0438\u043c\u0435\u043d\u0438\u0442\u044c", None))
+        self.close_pushButton.setText(
+            QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
     # retranslateUi
-

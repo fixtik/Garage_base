@@ -16,6 +16,7 @@ import ui.members_contrib
 import ui.new_garage_size_func
 import ui.bilingForm
 import ui.tableView_Models
+import ui.css
 
 
 class AddContrib_front(QtWidgets.QWidget):
@@ -33,6 +34,7 @@ class AddContrib_front(QtWidgets.QWidget):
         self.contib_ids = []  # список с id-платежа из БД, индекс соответствует индексу в combobox
         self.cur_indx = None  # текущий выбранный индекс в combobox
         self.billPhotoPath = None  # путь фотографии чека
+        self.css = ui.css  # для красоты
 
         self.initUi()
 
@@ -53,12 +55,15 @@ class AddContrib_front(QtWidgets.QWidget):
         self.setEnabledChooseCheckProto()
         self.ui.sumContrib_lineEdit.setValidator(ui.validators.floatValidator())
 
+        # add a little bit of spice
+        self.css.SetIcon.icon(self, window_icon=1)
+
     def updateDataFromDB(self):
         """Обновление данных из БД для отображения в полях"""
         self.fillKindContribFromBase()
 
     def chooseBillPhoto(self):
-        """выбор фото на карточку"""
+        """выбор фото чека"""
         img_path = ui.dialogs.open_file_dialog(constants.TITLE_SELECT_PHOTO, constants.FILTER_PHOTO)[0]
         if img_path:
             self.billPhotoPath = img_path
@@ -217,12 +222,16 @@ class AddKindContrib_front(QtWidgets.QWidget):
 
         self.mainForm = None
         self.db = db
+
         self.initUi()
 
     def initUi(self):
         self.ui.close_pushButton.clicked.connect(self.close)
         self.ui.ok_pushButton.clicked.connect(self.okPushBtnClk)
         self.ui.value_lineEdit.setValidator(ui.validators.floatValidator())
+
+        # add a little bit of spice
+        self.css.SetIcon.icon(self, window_icon=1)
 
     def okPushBtnClk(self):
         """нажатие кнопки ок"""
@@ -313,7 +322,6 @@ class Member_contrib_ui(QtWidgets.QWidget):
                 value = self.db.cursor.fetchone()
         return value[0] if value else ''
 
-
     def get_bilingDate_from_db(self) -> str:
         """возвращает дату выставления счета из БД"""
         bilDate = ''
@@ -359,7 +367,6 @@ class Member_contrib_ui(QtWidgets.QWidget):
                 ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)
                 return True
         return False
-
 
     def closeEvent(self, event):
         if isinstance(self.mainForm, main.Form_frontend):
