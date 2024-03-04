@@ -72,7 +72,7 @@ class Form_frontend(QtWidgets.QMainWindow):
 
         # ------------- Выгрузки excel ------------- #
         self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
-        self.ui.smeta_action.triggered.connect(ui.vigruzki_functions.smeta_action())
+        self.ui.smeta_action.triggered.connect(self.smeta)
         # -------------
         # таблица для отображения полей
         self.ui.tableView.setModel(self.obj_model)
@@ -197,6 +197,9 @@ class Form_frontend(QtWidgets.QMainWindow):
             self.bilingCont = ui.contribute_functions.Biling_contrib_ui(db=self.db)
             self.bilingCont.mainForm = self
             self.bilingCont.show()
+
+    def smeta(self):
+        ui.vigruzki_functions.Smeta(db=self.db).smeta_action()
 
     def updateDB(self):
         if self.db:

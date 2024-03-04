@@ -474,7 +474,8 @@ class FindMember_front(QtWidgets.QWidget):
         if db.execute(sqlite_qwer.sql_get_member_by_id_set(ids)):
             users = db.cursor.fetchall()
             for user in users:
-                us_info = User_Info(user[0], f'{user[1]} {user[2]} {user[3]}', user[4], user[6], user[7])
+                us_info = User_Info(user[0], f'{user[1]} {user[2]} {user[3]}',
+                                    datetime.strptime(user[4], "%Y-%m-%d").strftime('%d.%m.%Y'), user[6], user[7])
                 userModel.setItems(us_info)
             # теперь их авто:
             if db.execute(sqlite_qwer.sql_select_cars_and_own_info_by_owner_id(ids)):
