@@ -93,8 +93,8 @@ class AddContrib_front(QtWidgets.QWidget):
                     self.db.execute(sqlite_qwer.sql_delete_rec_by_table_name_and_id(self.TB_NAME,
                                                                                     self.contib_ids[
                                                                                         self.ui.kindContrib_comboBox.currentIndex()]))
-                    self.updateDataFromDB(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)
-                    ui.dialogs.onShowOkMessage()
+                    self.updateDataFromDB()
+                    ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)
                 else:
                     ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_DELETE_CONTRIB_KIND)
 
@@ -148,8 +148,8 @@ class AddContrib_front(QtWidgets.QWidget):
 
         self.ui.sumContrib_lineEdit.setText(str(contrib.value))
         self.ui.commentContrib_lineEdit.setText(contrib.comment)
-        if contrib.electric and contrib.electric == 1:
-            self.ui.nonBalance_checkBox.setChecked(True)
+
+        self.ui.nonBalance_checkBox.setChecked(contrib.electric)
 
     def hideDateField(self, hidden: bool):
         """скрывает или отображает возможность выбора дат на форме"""
@@ -221,7 +221,8 @@ class AddKindContrib_front(QtWidgets.QWidget):
 
         self.mainForm = None
         self.db = db
-        self.css = ui.css  # для красоты
+        self.css = ui.css
+
         self.initUi()
 
     def initUi(self):
@@ -421,13 +422,14 @@ class Biling_contrib_ui(QtWidgets.QWidget):
 
     def biling_contrib(self):
         """Выставление счета"""
-        if self.check_already_biling() and self.db:
+        if self.db:
             items = self.ui.contrib_tableView.model().items
             try:
                 for item in items:
-                    self.db.execute(sqlite_qwer.sql_set_billing_by_size_id(value=item.value, size_id=item.size_id))
-                    self.db.execute(sqlite_qwer.sql_biling_members_contrib(size_id=item.size_id, year=item.year))
-                    item.bilingDate = datetime.datetime.now().isoformat()
+                    if not (item.bilingDate and item.bilingDate != '0'):
+                        self.db.execute(sqlite_qwer.sql_set_billing_by_size_id(value=item.value, size_id=item.size_id))
+                        self.db.execute(sqlite_qwer.sql_biling_members_contrib(size_id=item.size_id, year=item.year))
+                        item.bilingDate = datetime.datetime.now().isoformat()
             except Exception as e:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, e)
             ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)

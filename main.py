@@ -204,6 +204,7 @@ class Form_frontend(QtWidgets.QMainWindow):
     def updateDB(self):
         if self.db:
             try:
+                self.db.execute(sqlite_qwer.fixBug_updateTypeSizeId())  # typesize_id = 1
                 if self.db.execute(sqlite_qwer.sql_check_column_exists_in_table(constants.CONTRIB_TABLE, 'pay_kind')):
                     _ = self.db.cursor.fetchone()[0]
                     if not _:
