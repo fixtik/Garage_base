@@ -650,10 +650,11 @@ def sql_set_billing_by_size_id(value: str, size_id: str)-> str:
     :param size_id: id-типоразмера
     """
     return f"UPDATE object_account SET current_debt = 0 + current_debt + calculation, calculation = {value} " \
-           f"WHERE [obj_id] IN (SELECT [main].[garage_obj].[id] FROM   [main].[type_size] " \
-           f"INNER JOIN [main].[members_contrib] ON [main].[type_size].[id] = [main].[members_contrib].[size_id] " \
+           f"WHERE [object_account].[obj_id] IN " \
+           f"(SELECT [garage_obj].[id] FROM [main].[type_size] " \
            f"INNER JOIN [main].[garage_obj] ON [main].[type_size].[id] = [main].[garage_obj].[size_type_id] " \
            f"WHERE [main].[type_size].[id] = {size_id});"
+
 
 def sql_get_ids_by_type_size_id(type_size_id: str):
     """Запрос на получение id объектов с заданным типоразмером"""
@@ -670,3 +671,11 @@ def sql_get_item_whithout_accaunt(obj_id: str):
 def sql_gel_all_obj_ids():
     """Запрос на получение id всех объектов"""
     return f"SELECT id FROM garage_obj;"
+
+
+def fixBug_updateTypeSizeId():
+    """Запрос на исправление косяка с typeSize_id = 1"""
+    return "UPDATE [garage_obj] SET [size_type_id] = 2 " \
+           "WHERE [main].[garage_obj].[id] IN (SELECT [main].[garage_obj].[id] " \
+           "FROM   [main].[garage_obj] " \
+           " WHERE [main].[garage_obj].[size_type_id] = 1);"
