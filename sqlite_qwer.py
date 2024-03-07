@@ -675,7 +675,7 @@ def sql_gel_all_obj_ids():
 
 def fixBug_updateTypeSizeId():
     """Запрос на исправление косяка с typeSize_id = 1"""
-    return "UPDATE [garage_obj] SET [size_type_id] = 2 " \
+    return "UPDATE [garage_obj] SET [size_type_id] = 6 " \
            "WHERE [main].[garage_obj].[id] IN (SELECT [main].[garage_obj].[id] " \
            "FROM   [main].[garage_obj] " \
            " WHERE [main].[garage_obj].[size_type_id] = 1);"
