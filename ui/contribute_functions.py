@@ -107,7 +107,7 @@ class AddContrib_front(QtWidgets.QWidget):
             self.contib.kindPay = self.ui.kindContrib_comboBox.currentText()
             self.contib.typePay = 1 if self.ui.cash_radioButton.isChecked() else 2
 
-            self.contib.payDate = self.ui.payDate_dateEdit.text()
+            self.contib.payDate = self.ui.payDate_dateEdit.date().toPython()
             self.contib.comment = self.ui.commentContrib_lineEdit.text()
             self.contib.checkPath = self.billPhotoPath
             self.mainForm.contribModel.setItems(self.contib)

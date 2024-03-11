@@ -592,6 +592,11 @@ class Cart_frontend(QtWidgets.QWidget):
                         conribs = self.db.cursor.fetchall()
                         for conrib in conribs:
                             con = ui.contribute_functions.Contribution_lite(*conrib)
+                            try:
+                                con.payDate = datetime.strptime(con.payDate, "%Y-%m-%d").strftime('%d.%m.%Y')
+                            except:
+                                self.contribModel.setItems(con)
+                                continue
                             self.contribModel.setItems(con)
                     # заполняем данные о текущем счете
                     if self.db.execute(sqlite_qwer.sql_select_obj_account_by_object_id(self.fullObjInfo.id)):

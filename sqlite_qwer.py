@@ -538,7 +538,7 @@ def sql_select_contrib_by_object_id(object_id: str) -> str:
 def sql_select_contrib_by_contr_type_id(id_cont_type: str) -> str:
     """Запрос на выдачу всех платежей конкретного типа"""
 
-    return f"SELECT * FROM  contribution WHERE id_cont_type = {id_cont_type}; " \
+    return f"SELECT * FROM  contribution WHERE id_cont_type = {id_cont_type}; "
 
 
 def sql_find_id_by_filds(*args, table_name: str) -> str:
@@ -590,6 +590,7 @@ def sql_update_object_account(obj_id: int, current_debt: float = 0, calculation:
     return f"UPDATE object_account SET current_debt = {current_debt}, calculation = {calculation}, balance = {balance}" \
            f" WHERE obj_id = {obj_id};"
 
+
 def sql_select_obj_account_by_object_id(object_id: str) -> str:
     """Запрос на выдачу текущего состояния счета объекта"""
     return f"SELECT * FROM object_account WHERE obj_id = {object_id};"
@@ -602,8 +603,8 @@ def sql_get_current_tarif(meter_type: str):
 def sql_set_current_tarif(meter_type: str, value_day: str = 0, value_night: str = 0):
     """Запрос на установку актуальных тарифов на счетчик"""
     return f"UPDATE meter_payment SET value_day = {value_day}, " \
-                                 f"value_night = {value_night} " \
-                            f"WHERE type_meter = {meter_type};"
+           f"value_night = {value_night} " \
+           f"WHERE type_meter = {meter_type};"
 
 def sql_add_current_tarif(meter_type: str, value_day: str = 0, value_night: str = 0):
     """Запрос на добавление записи для счетчика"""
