@@ -680,3 +680,5 @@ def fixBug_updateTypeSizeId():
            "WHERE [main].[garage_obj].[id] IN (SELECT [main].[garage_obj].[id] " \
            "FROM   [main].[garage_obj] " \
            " WHERE [main].[garage_obj].[size_type_id] = 1);"
+
+# nnn
