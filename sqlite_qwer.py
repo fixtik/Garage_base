@@ -627,8 +627,8 @@ def sql_get_value_members_contrib(size_id: int, year: int):
 
 def sql_update_value_members_contrib(size_id: int, value: float, year: int):
     """Запрос на установку новго значения счета (при условии, что счет еще не был выставлен ранее)"""
-    return  f"UPDATE INTO members_contrib SET value = {value}, date_add = '{datetime.datetime.now().isoformat()}' " \
-            f"WHERE year = {year} and size_id = {size_id} and date_biling ='0';"
+    return f"UPDATE members_contrib SET value = {value}, date_add = '{datetime.datetime.now().isoformat()}' " \
+           f"WHERE year = {year} and size_id = {size_id} and date_biling ='0';"
 
 def sql_get_biling_members_contrib_date(size_id: int, year: int):
     """Возвращает дату выставления счета для указанного года и типоразмера"""

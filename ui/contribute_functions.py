@@ -333,8 +333,8 @@ class Member_contrib_ui(QtWidgets.QWidget):
                 size_id=self.size_ids[self.ui.typeSize_comboBox.currentIndex()],
                 year=self.ui.year_comboBox.currentText())
             if self.db.execute(sql):
-                bilDate = self.db.cursor.fetchone()
-        return bilDate if bilDate != '0' else ''
+                bilDate = self.db.cursor.fetchone()[0]
+        return bilDate if bilDate != 0 and bilDate != '0' else ''
 
     def checker(self, value_in: bool) -> bool:
         return (self.ui.year_comboBox.currentText() and self.ui.typeSize_comboBox.currentText() and
@@ -350,9 +350,10 @@ class Member_contrib_ui(QtWidgets.QWidget):
         if value == self.ui.value_lineEdit.text():
             return False
         if value != 0 and value:
-            if not (ui.dialogs.onShowСonfirmation(self,constants.INFO_TITLE, constants.QUESTION_UPDATE_MEMBER_CONT)):
+            if not (ui.dialogs.onShowСonfirmation(self, constants.INFO_TITLE, constants.QUESTION_UPDATE_MEMBER_CONT)):
                 return False
-        if self.get_bilingDate_from_db():
+        date = self.get_bilingDate_from_db()
+        if date:
             ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_CONTRIB_TYPE_ALREADY_BILING)
             return False
         if self.db:
