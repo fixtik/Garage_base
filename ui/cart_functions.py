@@ -635,9 +635,10 @@ class Cart_frontend(QtWidgets.QWidget):
     def get_tarif(self, meter: ui.electric_meter_func.ElectricMeter) -> str:
         if self.db:
             if self.db.execute(sqlite_qwer.sql_get_current_tarif(meter.type)):
-                if not self.db.cursor.fetchone():
+                trf = self.db.cursor.fetchone()
+                if not trf:
                     return "0"
-                tarif = ui.tarif_function.Tarif(*self.db.cursor.fetchone())
+                tarif = ui.tarif_function.Tarif(*trf)
                 return str(round(float(tarif.value_day) * (int(meter.curDay) - int(meter.prev_day)) + \
                                  float(tarif.value_night) * (int(meter.curNight) - int(meter.prev_night)), 2))
 
