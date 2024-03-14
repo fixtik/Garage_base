@@ -90,6 +90,9 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.userAdd_pushButton.clicked.connect(self.showFindUserForm)  # добавление пользрователя
         self.ui.electricAdd_pushButton.clicked.connect(self.showElectricMetr)  # добавленее счетчика
         self.ui.addSize_pushButton.clicked.connect(self.showSizeEditorForm)  # доабвление размеров
+        self.ui.balance_lineEdit.editingFinished.connect(self.rebalance)  # перерасчет баланса
+        self.ui.calc_lineEdit.editingFinished.connect(self.rebalance)  # перерасчет баланса
+        self.ui.prevDebt_lineEdit.editingFinished.connect(self.rebalance)  # перерасчет баланса
 
         # удаление выделенной строки
         self.ui.contribDel_pushButton.clicked.connect(self.delTbView)
@@ -635,9 +638,10 @@ class Cart_frontend(QtWidgets.QWidget):
     def get_tarif(self, meter: ui.electric_meter_func.ElectricMeter) -> str:
         if self.db:
             if self.db.execute(sqlite_qwer.sql_get_current_tarif(meter.type)):
-                if not self.db.cursor.fetchone():
+                trf = self.db.cursor.fetchone()
+                if not trf:
                     return "0"
-                tarif = ui.tarif_function.Tarif(*self.db.cursor.fetchone())
+                tarif = ui.tarif_function.Tarif(*trf)
                 return str(round(float(tarif.value_day) * (int(meter.curDay) - int(meter.prev_day)) + \
                                  float(tarif.value_night) * (int(meter.curNight) - int(meter.prev_night)), 2))
 
@@ -657,13 +661,14 @@ class Cart_frontend(QtWidgets.QWidget):
             return val
 
         if isinstance(value, ui.contribute_functions.Contribution):
-            if not self.ui.balance_lineEdit.text():
-                self.ui.balance_lineEdit.setText('0')
-            val = debt_work(self.ui.prevDebt_lineEdit, float(value.value))
-            val = debt_work(self.ui.calc_lineEdit, val)
+            value = float(value.value)
 
-            balance = float(self.ui.balance_lineEdit.text()) + val if self.ui.balance_lineEdit.text() else val
-            self.ui.balance_lineEdit.setText(str(balance))
+        if not self.ui.balance_lineEdit.text():
+            self.ui.balance_lineEdit.setText('0')
+        val = debt_work(self.ui.prevDebt_lineEdit, value)
+        val = debt_work(self.ui.calc_lineEdit, val)
+
+        self.ui.balance_lineEdit.setText(str(val))
 
     def del_one_payment(self, value: [float, ui.contribute_functions.Contribution]):
         """работа с балансом при удалении платежа"""
@@ -674,6 +679,10 @@ class Cart_frontend(QtWidgets.QWidget):
             self.ui.balance_lineEdit.setText('0')
             self.ui.calc_lineEdit.setText(str(float(self.ui.calc_lineEdit.text()) + abs(balance))) \
                 if self.ui.calc_lineEdit.text() else self.ui.calc_lineEdit.setText(str(abs(balance)))
+
+    def rebalance(self):
+        deb = float(self.ui.balance_lineEdit.text())
+        self.set_new_value_acc(deb)
 
     def close(self) -> bool:
         self.mainForm.fill_main_tableview()
