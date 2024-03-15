@@ -606,6 +606,7 @@ class Cart_frontend(QtWidgets.QWidget):
                         account = self.db.cursor.fetchone()
                         self.setAccountItems(ui.contribute_functions.ObjAccount(*account)) if account else \
                             self.setAccountItems(ui.contribute_functions.ObjAccount(account))
+                    self.rebalance()
 
     def setAccountItems(self, account_info: ui.contribute_functions.ObjAccount):
         """Заполнение данных о текущем счете объекта"""
