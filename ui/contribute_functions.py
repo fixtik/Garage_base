@@ -333,7 +333,9 @@ class Member_contrib_ui(QtWidgets.QWidget):
                 size_id=self.size_ids[self.ui.typeSize_comboBox.currentIndex()],
                 year=self.ui.year_comboBox.currentText())
             if self.db.execute(sql):
-                bilDate = self.db.cursor.fetchone()[0]
+                bilDate = self.db.cursor.fetchone()
+                if bilDate:
+                    bilDate = bilDate[0]
         return bilDate if bilDate != 0 and bilDate != '0' else ''
 
     def checker(self, value_in: bool) -> bool:
@@ -400,6 +402,7 @@ class Biling_contrib_ui(QtWidgets.QWidget):
             QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         self.fill_date_bd()
         self.ui.ok_pushButton.clicked.connect(self.biling_contrib)
+        self.ui.year_comboBox.currentIndexChanged.connect(self.chandge_year)
 
     def fill_year(self):
         """Заполнение годами из БД"""
@@ -408,6 +411,10 @@ class Biling_contrib_ui(QtWidgets.QWidget):
                 years = self.db.cursor.fetchall()
                 for year in years:
                     self.ui.year_comboBox.addItem(str(year[0]))
+
+    def chandge_year(self):
+        self.ui.contrib_tableView.model().resetData()
+        self.fill_date_bd()
 
     def fill_date_bd(self):
         """Заполнение данных в таблицу"""
