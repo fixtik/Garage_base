@@ -85,6 +85,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.row_lineEdit.setValidator(ui.validators.onlyNumValidator())
         self.ui.row_lineEdit.textEdited.connect(self.fill_main_tableview)
         self.ui.num_lineEdit.textEdited.connect(self.fill_main_tableview)
+        self.ui.fam_lineEdit.textEdited.connect(self.fill_main_tableview)
 
         # add a little bit of spice
         self.css.SetIcon.icon(self, label=1, window_icon=1)
@@ -179,7 +180,8 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.tableView.model().clearItemData()
         if self.db:
             sql = sqlite_qwer.sql_get_all_objects_for_list_by_row_and_num(row=self.ui.row_lineEdit.text(),
-                                                                          num=self.ui.num_lineEdit.text())
+                                                                          num=self.ui.num_lineEdit.text(),
+                                                                          surname=self.ui.fam_lineEdit.text())
             if self.db.execute(sql):
                 for obj in self.db.cursor.fetchall():
                     item = ui.cart_functions.ObjectInfo(obj[0], obj[1], obj[2], f'{obj[3]} {obj[4]} {obj[5]}', obj[6],
