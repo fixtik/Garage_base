@@ -24,7 +24,7 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(913, 922)
+        Form.resize(930, 806)
         self.verticalLayout_14 = QVBoxLayout(Form)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
         self.garage_groupBox = QGroupBox(Form)
@@ -196,11 +196,13 @@ class Ui_Form(object):
 
         self.verticalLayout_3.addWidget(self.image_pushButton)
 
-
         self.horizontalLayout_20.addLayout(self.verticalLayout_3)
 
-
         self.verticalLayout_11.addLayout(self.horizontalLayout_20)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_11.addItem(self.verticalSpacer)
 
         self.horizontalLayout_14 = QHBoxLayout()
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
@@ -264,7 +266,7 @@ class Ui_Form(object):
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.electric_tableView = QTableView(self.garage_groupBox)
         self.electric_tableView.setObjectName(u"electric_tableView")
-        self.electric_tableView.setMaximumSize(QSize(16777215, 95))
+        self.electric_tableView.setMaximumSize(QSize(16777215, 90))
 
         self.horizontalLayout_6.addWidget(self.electric_tableView)
 

@@ -4,10 +4,10 @@
  <widget class="QWidget" name="Form">
   <property name="geometry">
    <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>913</width>
-    <height>922</height>
+       <x>0</x>
+       <y>0</y>
+       <width>930</width>
+       <height>806</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -306,63 +306,76 @@
               </item>
               <item>
                <widget class="QPushButton" name="image_pushButton">
-                <property name="text">
-                 <string>...</string>
-                </property>
+                   <property name="text">
+                       <string>...</string>
+                   </property>
                </widget>
               </item>
              </layout>
             </item>
            </layout>
           </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_14">
-            <item>
-             <widget class="QLabel" name="ownerFIO_label">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>119</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Собственник</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="ownerFIO_lineEdit">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>31</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>99999</width>
-                <height>16777215</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
+             <item>
+                 <spacer name="verticalSpacer">
+                     <property name="orientation">
+                         <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                         <size>
+                             <width>20</width>
+                             <height>40</height>
+                         </size>
+                     </property>
+                 </spacer>
+             </item>
+             <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_14">
+                     <item>
+                         <widget class="QLabel" name="ownerFIO_label">
+                             <property name="sizePolicy">
+                                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+                                     <horstretch>0</horstretch>
+                                     <verstretch>0</verstretch>
+                                 </sizepolicy>
+                             </property>
+                             <property name="minimumSize">
+                                 <size>
+                                     <width>0</width>
+                                     <height>22</height>
+                                 </size>
+                             </property>
+                             <property name="maximumSize">
+                                 <size>
+                                     <width>119</width>
+                                     <height>22</height>
+                                 </size>
+                             </property>
+                             <property name="text">
+                                 <string>Собственник</string>
+                             </property>
+                             <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                             </property>
+                         </widget>
+                     </item>
+                     <item>
+                         <widget class="QLineEdit" name="ownerFIO_lineEdit">
+                             <property name="minimumSize">
+                                 <size>
+                                     <width>0</width>
+                                     <height>31</height>
+                                 </size>
+                             </property>
+                             <property name="maximumSize">
+                                 <size>
+                                     <width>99999</width>
+                                     <height>16777215</height>
+                                 </size>
+                             </property>
+                         </widget>
+                     </item>
+                 </layout>
+             </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_17">
             <item>
@@ -441,7 +454,7 @@
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>95</height>
+               <height>90</height>
            </size>
           </property>
          </widget>
