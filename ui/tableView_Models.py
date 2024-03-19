@@ -176,7 +176,8 @@ class ElectricTableViewModel(DBTableView):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.header = ['id', 'Тип', 'Номер счетчика', 'Тек. показания (день)', 'Тек. показания (ночь)', 'Расход день',
+        self.header = ['id', 'Тип', 'Номер счетчика', 'Пред. показания (день)', 'Тек. показания (день)',
+                       'Тек. показания (ночь)', 'Пред. показания (ночь)', 'Расход день',
                        'Расход ночь', 'Выст. счет']
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):

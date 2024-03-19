@@ -21,7 +21,6 @@ from PySide6.QtWidgets import (QApplication, QHBoxLayout, QHeaderView, QLabel,
                                QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
                                QTableView, QVBoxLayout, QWidget)
 
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
@@ -87,16 +86,16 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addItem(self.verticalSpacer_2)
 
+
         self.horizontalLayout.addLayout(self.verticalLayout)
 
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer_2)
 
+
         self.verticalLayout_2.addLayout(self.horizontalLayout)
 
-        self.horizontalLayout_3 = QHBoxLayout()
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.row_label = QLabel(self.centralwidget)
@@ -119,13 +118,21 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.num_lineEdit)
 
-        self.horizontalLayout_3.addLayout(self.horizontalLayout_2)
+        self.fam_label = QLabel(self.centralwidget)
+        self.fam_label.setObjectName(u"fam_label")
+
+        self.horizontalLayout_2.addWidget(self.fam_label)
+
+        self.fam_lineEdit = QLineEdit(self.centralwidget)
+        self.fam_lineEdit.setObjectName(u"fam_lineEdit")
+
+        self.horizontalLayout_2.addWidget(self.fam_lineEdit)
 
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_3)
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
         self.tableView = QTableView(self.centralwidget)
         self.tableView.setObjectName(u"tableView")
@@ -177,7 +184,6 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         QMetaObject.connectSlotsByName(MainWindow)
-
     # setupUi
 
     def retranslateUi(self, MainWindow):
@@ -223,6 +229,8 @@ class Ui_MainWindow(object):
                                                                     None))
         self.row_label.setText(QCoreApplication.translate("MainWindow", u"\u0420\u044f\u0434", None))
         self.num_label.setText(QCoreApplication.translate("MainWindow", u"\u041d\u043e\u043c\u0435\u0440", None))
+        self.fam_label.setText(
+            QCoreApplication.translate("MainWindow", u"\u0424\u0430\u043c\u0438\u043b\u0438\u044f", None))
         self.operation_menu.setTitle(
             QCoreApplication.translate("MainWindow", u"\u041e\u043f\u0435\u0440\u0430\u0446\u0438\u0438", None))
         self.settings_menu.setTitle(
@@ -235,3 +243,4 @@ class Ui_MainWindow(object):
         self.vigruzki.setTitle(
             QCoreApplication.translate("MainWindow", u"\u0412\u044b\u0433\u0440\u0443\u0437\u043a\u0438", None))
     # retranslateUi
+

@@ -504,7 +504,7 @@ def sql_full_update_garage(object_id: str, row: str, num: str, ownder_id: str, s
            f"WHERE id = {object_id} ;"
 
 
-def sql_get_all_objects_for_list_by_row_and_num(row: str = '', num: str = ''):
+def sql_get_all_objects_for_list_by_row_and_num(row: str = '', num: str = '', surname: str = ''):
     """
     Формирование запроса на вывод данных из БД в таблицу главного окна
     :param row: ряд объекта
@@ -520,6 +520,16 @@ def sql_get_all_objects_for_list_by_row_and_num(row: str = '', num: str = ''):
         sql += f"WHERE garage_obj.num_bild = {num} "
     elif row and num:
         sql += f"WHERE garage_obj.num_row = {row} and garage_obj.num_bild = {num} "
+
+    if surname:
+        sub_sql = f"SELECT garage_obj.id FROM garage_obj " \
+                  f"INNER JOIN garage_member ON garage_member.id = garage_obj.owner_id " \
+                  f"WHERE garage_member.surname LIKE '{surname}%'"
+    if surname and (row or num):
+        sql += f"AND garage_obj.id IN ({sub_sql})"
+    elif surname:
+        sql += f"WHERE garage_obj.id IN ({sub_sql})"
+
     sql += f'ORDER BY garage_obj.num_row ASC, garage_obj.num_bild;'
     return sql
 

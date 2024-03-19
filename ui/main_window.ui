@@ -90,30 +90,36 @@
                     </layout>
                 </item>
                 <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_3">
+                    <layout class="QHBoxLayout" name="horizontalLayout_2">
                         <item>
-                            <layout class="QHBoxLayout" name="horizontalLayout_2">
-                                <item>
-                                    <widget class="QLabel" name="row_label">
-                                        <property name="text">
-                                            <string>Ряд</string>
-                                        </property>
-                                    </widget>
-                                </item>
-                                <item>
-                                    <widget class="QLineEdit" name="row_lineEdit"/>
-                                </item>
-                                <item>
-                                    <widget class="QLabel" name="num_label">
-                                        <property name="text">
-                                            <string>Номер</string>
-                                        </property>
-                                    </widget>
-                                </item>
-                                <item>
-                                    <widget class="QLineEdit" name="num_lineEdit"/>
-                                </item>
-                            </layout>
+                            <widget class="QLabel" name="row_label">
+                                <property name="text">
+                                    <string>Ряд</string>
+                                </property>
+                            </widget>
+                        </item>
+                        <item>
+                            <widget class="QLineEdit" name="row_lineEdit"/>
+                        </item>
+                        <item>
+                            <widget class="QLabel" name="num_label">
+                                <property name="text">
+                                    <string>Номер</string>
+                                </property>
+                            </widget>
+                        </item>
+                        <item>
+                            <widget class="QLineEdit" name="num_lineEdit"/>
+                        </item>
+                        <item>
+                            <widget class="QLabel" name="fam_label">
+                                <property name="text">
+                                    <string>Фамилия</string>
+                                </property>
+                            </widget>
+                        </item>
+                        <item>
+                            <widget class="QLineEdit" name="fam_lineEdit"/>
                         </item>
                         <item>
                             <spacer name="horizontalSpacer_3">
