@@ -176,7 +176,8 @@ class ElectricTableViewModel(DBTableView):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.header = ['id', 'Тип', 'Номер счетчика', 'Тек. показания (день)', 'Тек. показания (ночь)', 'Расход день',
+        self.header = ['id', 'Тип', 'Номер счетчика', 'Пред. показания (день)', 'Тек. показания (день)',
+                       'Тек. показания (ночь)', 'Пред. показания (ночь)', 'Расход день',
                        'Расход ночь', 'Выст. счет']
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
@@ -194,12 +195,16 @@ class ElectricTableViewModel(DBTableView):
             if col == 3:
                 return f'{elMeter.curDay}'
             if col == 4:
-                return f'{elMeter.curNight}'
+                return f'{elMeter.prev_day}'
             if col == 5:
-                return f'{int(elMeter.curDay) - int(elMeter.prev_day)}'
+                return f'{elMeter.curNight}'
             if col == 6:
-                return f'{int(elMeter.curNight) - int(elMeter.prev_night)}'
+                return f'{elMeter.prev_night}'
             if col == 7:
+                return f'{int(elMeter.curDay) - int(elMeter.prev_day)}'
+            if col == 8:
+                return f'{int(elMeter.curNight) - int(elMeter.prev_night)}'
+            if col == 9:
                 return f'{elMeter.bill}'
 
             elif role == QtCore.Qt.TextAlignmentRole:
