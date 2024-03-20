@@ -1,927 +1,955 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>913</width>
-    <height>922</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string>Карточка объекта</string>
-  </property>
-  <layout class="QVBoxLayout" name="verticalLayout_14">
-   <item>
-    <widget class="QGroupBox" name="garage_groupBox">
-     <property name="minimumSize">
-      <size>
-       <width>1</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>99999</height>
-      </size>
-     </property>
-     <property name="title">
-      <string>Гараж</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_6">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_12">
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_11">
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout">
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout">
-                <item>
-                 <widget class="QLabel" name="garage_label">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>61</width>
-                    <height>31</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Гараж №</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="row_label">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>61</width>
-                    <height>31</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Ряд №</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout_12">
-                <item>
-                 <widget class="QLineEdit" name="garage_lineEdit">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>31</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="row_lineEdit">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>31</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_2">
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_4">
-                <item>
-                 <widget class="QLabel" name="buildYear_label">
-                  <property name="minimumSize">
-                   <size>
-                    <width>136</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>31</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Год постройки</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QDateEdit" name="buildingYear_dateEdit">
-                  <property name="minimumSize">
-                   <size>
-                    <width>91</width>
-                    <height>31</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>31</height>
-                   </size>
-                  </property>
-                  <property name="displayFormat">
-                   <string>yyyy</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_16">
-                <item>
-                 <widget class="QLabel" name="kadastr_label">
-                  <property name="minimumSize">
-                   <size>
-                    <width>136</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>31</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Кадастровый номер</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="kadastr_lineEdit">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>31</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <item>
-             <widget class="QLabel" name="width_label_2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>119</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>9999999</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Размер</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
-              <item>
-               <widget class="QComboBox" name="comboBox">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>31</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="addSize_pushButton">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>31</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>31</width>
-                  <height>31</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>+</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_11">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_20">
-            <item>
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_3">
-              <item>
-               <widget class="QLabel" name="photo_label">
-                <property name="text">
-                 <string>Фото</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="image_pushButton">
-                <property name="text">
-                 <string>...</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_14">
-            <item>
-             <widget class="QLabel" name="ownerFIO_label">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>119</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Собственник</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="ownerFIO_lineEdit">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>31</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>99999</width>
-                <height>16777215</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_17">
-            <item>
-             <widget class="QLabel" name="ownerPhone_label">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>119</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Телефон</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="ownerPhone_lineEdit">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>31</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>9999</width>
-                <height>16777215</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QLabel" name="electricMeter_label">
+    <class>Form</class>
+    <widget class="QWidget" name="Form">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>930</width>
+                <height>895</height>
+            </rect>
+        </property>
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>99999</width>
-          <height>31</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Электрические счетчики:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_6">
-        <item>
-         <widget class="QTableView" name="electric_tableView">
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>95</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_39">
-          <item>
-           <spacer name="verticalSpacer_8">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="electricAdd_pushButton">
-            <property name="maximumSize">
-             <size>
-              <width>31</width>
-              <height>31</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>+</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="electricDel_pushButton">
-            <property name="maximumSize">
-             <size>
-              <width>31</width>
-              <height>31</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>-</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_10">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_15">
-     <item>
-      <widget class="QGroupBox" name="users_groupBox">
-       <property name="title">
-        <string>Пользователи объекта:</string>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QTableView" name="users_tableView"/>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_37">
-            <item>
-             <spacer name="verticalSpacer_6">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="userAdd_pushButton">
-              <property name="maximumSize">
-               <size>
-                <width>31</width>
-                <height>31</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>+</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="userDel_pushButton">
-              <property name="maximumSize">
-               <size>
-                <width>31</width>
-                <height>31</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>-</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_9">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="car_groupBox">
-     <property name="title">
-      <string>Автомобили:</string>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_8">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_18">
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_19">
-          <item>
-           <widget class="QTableView" name="auto_tableView"/>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QLabel" name="auto_label">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>31</width>
-            <height>31</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_34"/>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="contribution_groupBox">
-     <property name="title">
-      <string>Платежи:</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_13">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_19">
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_20">
-          <item>
-           <widget class="QTableView" name="contrib_tableView">
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>16777215</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_40">
-          <item>
-           <spacer name="verticalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="contribAdd_pushButton">
-            <property name="maximumSize">
-             <size>
-              <width>31</width>
-              <height>31</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>+</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="contribDel_pushButton">
-            <property name="maximumSize">
-             <size>
-              <width>31</width>
-              <height>31</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>-</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_11">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_13">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_9">
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_8">
-            <item>
-             <widget class="QLabel" name="prevDebt_label">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>999993</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Долг за предыдущий период</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
+                <verstretch>100</verstretch>
+            </sizepolicy>
+        </property>
+        <property name="windowTitle">
+            <string>Карточка объекта</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_14">
+            <item>
+                <widget class="QGroupBox" name="garage_groupBox">
+                    <property name="minimumSize">
+                        <size>
+                            <width>1</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>16777215</width>
+                            <height>99999</height>
+                        </size>
+                    </property>
+                    <property name="title">
+                        <string>Гараж</string>
+                    </property>
+                    <layout class="QVBoxLayout" name="verticalLayout_6">
+                        <item>
+                            <layout class="QHBoxLayout" name="horizontalLayout_12">
+                                <item>
+                                    <layout class="QVBoxLayout" name="verticalLayout_5">
+                                        <item>
+                                            <layout class="QHBoxLayout" name="horizontalLayout_11">
+                                                <item>
+                                                    <layout class="QHBoxLayout" name="horizontalLayout">
+                                                        <item>
+                                                            <layout class="QVBoxLayout" name="verticalLayout">
+                                                                <item>
+                                                                    <widget class="QLabel" name="garage_label">
+                                                                        <property name="sizePolicy">
+                                                                            <sizepolicy hsizetype="Expanding"
+                                                                                        vsizetype="Expanding">
+                                                                                <horstretch>0</horstretch>
+                                                                                <verstretch>0</verstretch>
+                                                                            </sizepolicy>
+                                                                        </property>
+                                                                        <property name="maximumSize">
+                                                                            <size>
+                                                                                <width>61</width>
+                                                                                <height>31</height>
+                                                                            </size>
+                                                                        </property>
+                                                                        <property name="text">
+                                                                            <string>Гараж №</string>
+                                                                        </property>
+                                                                    </widget>
+                                                                </item>
+                                                                <item>
+                                                                    <widget class="QLabel" name="row_label">
+                                                                        <property name="sizePolicy">
+                                                                            <sizepolicy hsizetype="Expanding"
+                                                                                        vsizetype="Expanding">
+                                                                                <horstretch>0</horstretch>
+                                                                                <verstretch>0</verstretch>
+                                                                            </sizepolicy>
+                                                                        </property>
+                                                                        <property name="maximumSize">
+                                                                            <size>
+                                                                                <width>61</width>
+                                                                                <height>31</height>
+                                                                            </size>
+                                                                        </property>
+                                                                        <property name="text">
+                                                                            <string>Ряд №</string>
+                                                                        </property>
+                                                                    </widget>
+                                                                </item>
+                                                            </layout>
+                                                        </item>
+                                                        <item>
+                                                            <layout class="QVBoxLayout" name="verticalLayout_12">
+                                                                <item>
+                                                                    <widget class="QLineEdit" name="garage_lineEdit">
+                                                                        <property name="minimumSize">
+                                                                            <size>
+                                                                                <width>0</width>
+                                                                                <height>31</height>
+                                                                            </size>
+                                                                        </property>
+                                                                    </widget>
+                                                                </item>
+                                                                <item>
+                                                                    <widget class="QLineEdit" name="row_lineEdit">
+                                                                        <property name="minimumSize">
+                                                                            <size>
+                                                                                <width>0</width>
+                                                                                <height>31</height>
+                                                                            </size>
+                                                                        </property>
+                                                                    </widget>
+                                                                </item>
+                                                            </layout>
+                                                        </item>
+                                                    </layout>
+                                                </item>
+                                                <item>
+                                                    <spacer name="horizontalSpacer_2">
+                                                        <property name="orientation">
+                                                            <enum>Qt::Horizontal</enum>
+                                                        </property>
+                                                        <property name="sizeHint" stdset="0">
+                                                            <size>
+                                                                <width>40</width>
+                                                                <height>20</height>
+                                                            </size>
+                                                        </property>
+                                                    </spacer>
+                                                </item>
+                                                <item>
+                                                    <layout class="QVBoxLayout" name="verticalLayout_2">
+                                                        <item>
+                                                            <layout class="QHBoxLayout" name="horizontalLayout_4">
+                                                                <item>
+                                                                    <widget class="QLabel" name="buildYear_label">
+                                                                        <property name="minimumSize">
+                                                                            <size>
+                                                                                <width>136</width>
+                                                                                <height>0</height>
+                                                                            </size>
+                                                                        </property>
+                                                                        <property name="maximumSize">
+                                                                            <size>
+                                                                                <width>16777215</width>
+                                                                                <height>31</height>
+                                                                            </size>
+                                                                        </property>
+                                                                        <property name="text">
+                                                                            <string>Год постройки</string>
+                                                                        </property>
+                                                                        <property name="alignment">
+                                                                            <set>Qt::AlignCenter</set>
+                                                                        </property>
+                                                                    </widget>
+                                                                </item>
+                                                                <item>
+                                                                    <widget class="QDateEdit"
+                                                                            name="buildingYear_dateEdit">
+                                                                        <property name="minimumSize">
+                                                                            <size>
+                                                                                <width>91</width>
+                                                                                <height>31</height>
+                                                                            </size>
+                                                                        </property>
+                                                                        <property name="maximumSize">
+                                                                            <size>
+                                                                                <width>16777215</width>
+                                                                                <height>31</height>
+                                                                            </size>
+                                                                        </property>
+                                                                        <property name="displayFormat">
+                                                                            <string>yyyy</string>
+                                                                        </property>
+                                                                    </widget>
+                                                                </item>
+                                                            </layout>
+                                                        </item>
+                                                        <item>
+                                                            <layout class="QHBoxLayout" name="horizontalLayout_16">
+                                                                <item>
+                                                                    <widget class="QLabel" name="kadastr_label">
+                                                                        <property name="minimumSize">
+                                                                            <size>
+                                                                                <width>136</width>
+                                                                                <height>0</height>
+                                                                            </size>
+                                                                        </property>
+                                                                        <property name="maximumSize">
+                                                                            <size>
+                                                                                <width>16777215</width>
+                                                                                <height>31</height>
+                                                                            </size>
+                                                                        </property>
+                                                                        <property name="text">
+                                                                            <string>Кадастровый номер</string>
+                                                                        </property>
+                                                                        <property name="alignment">
+                                                                            <set>Qt::AlignCenter</set>
+                                                                        </property>
+                                                                    </widget>
+                                                                </item>
+                                                                <item>
+                                                                    <widget class="QLineEdit" name="kadastr_lineEdit">
+                                                                        <property name="minimumSize">
+                                                                            <size>
+                                                                                <width>0</width>
+                                                                                <height>31</height>
+                                                                            </size>
+                                                                        </property>
+                                                                    </widget>
+                                                                </item>
+                                                            </layout>
+                                                        </item>
+                                                    </layout>
+                                                </item>
+                                            </layout>
+                                        </item>
+                                        <item>
+                                            <layout class="QVBoxLayout" name="verticalLayout_4">
+                                                <item>
+                                                    <widget class="QLabel" name="width_label_2">
+                                                        <property name="sizePolicy">
+                                                            <sizepolicy hsizetype="MinimumExpanding"
+                                                                        vsizetype="Minimum">
+                                                                <horstretch>0</horstretch>
+                                                                <verstretch>0</verstretch>
+                                                            </sizepolicy>
+                                                        </property>
+                                                        <property name="minimumSize">
+                                                            <size>
+                                                                <width>119</width>
+                                                                <height>22</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="maximumSize">
+                                                            <size>
+                                                                <width>9999999</width>
+                                                                <height>22</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="text">
+                                                            <string>Размер</string>
+                                                        </property>
+                                                        <property name="alignment">
+                                                            <set>Qt::AlignCenter</set>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <layout class="QHBoxLayout" name="horizontalLayout_2">
+                                                        <item>
+                                                            <widget class="QComboBox" name="comboBox">
+                                                                <property name="minimumSize">
+                                                                    <size>
+                                                                        <width>0</width>
+                                                                        <height>31</height>
+                                                                    </size>
+                                                                </property>
+                                                            </widget>
+                                                        </item>
+                                                        <item>
+                                                            <widget class="QPushButton" name="addSize_pushButton">
+                                                                <property name="minimumSize">
+                                                                    <size>
+                                                                        <width>0</width>
+                                                                        <height>31</height>
+                                                                    </size>
+                                                                </property>
+                                                                <property name="maximumSize">
+                                                                    <size>
+                                                                        <width>31</width>
+                                                                        <height>31</height>
+                                                                    </size>
+                                                                </property>
+                                                                <property name="text">
+                                                                    <string>+</string>
+                                                                </property>
+                                                            </widget>
+                                                        </item>
+                                                    </layout>
+                                                </item>
+                                            </layout>
+                                        </item>
+                                    </layout>
+                                </item>
+                                <item>
+                                    <layout class="QVBoxLayout" name="verticalLayout_11">
+                                        <item>
+                                            <layout class="QHBoxLayout" name="horizontalLayout_20">
+                                                <item>
+                                                    <spacer name="horizontalSpacer">
+                                                        <property name="orientation">
+                                                            <enum>Qt::Horizontal</enum>
+                                                        </property>
+                                                        <property name="sizeHint" stdset="0">
+                                                            <size>
+                                                                <width>40</width>
+                                                                <height>20</height>
+                                                            </size>
+                                                        </property>
+                                                    </spacer>
+                                                </item>
+                                                <item>
+                                                    <layout class="QVBoxLayout" name="verticalLayout_3">
+                                                        <item>
+                                                            <widget class="QLabel" name="photo_label">
+                                                                <property name="text">
+                                                                    <string>Фото</string>
+                                                                </property>
+                                                                <property name="alignment">
+                                                                    <set>Qt::AlignCenter</set>
+                                                                </property>
+                                                            </widget>
+                                                        </item>
+                                                        <item>
+                                                            <widget class="QPushButton" name="image_pushButton">
+                                                                <property name="text">
+                                                                    <string>...</string>
+                                                                </property>
+                                                            </widget>
+                                                        </item>
+                                                    </layout>
+                                                </item>
+                                            </layout>
+                                        </item>
+                                        <item>
+                                            <spacer name="verticalSpacer">
+                                                <property name="orientation">
+                                                    <enum>Qt::Vertical</enum>
+                                                </property>
+                                                <property name="sizeHint" stdset="0">
+                                                    <size>
+                                                        <width>20</width>
+                                                        <height>40</height>
+                                                    </size>
+                                                </property>
+                                            </spacer>
+                                        </item>
+                                        <item>
+                                            <layout class="QHBoxLayout" name="horizontalLayout_14">
+                                                <item>
+                                                    <widget class="QLabel" name="ownerFIO_label">
+                                                        <property name="sizePolicy">
+                                                            <sizepolicy hsizetype="MinimumExpanding"
+                                                                        vsizetype="Minimum">
+                                                                <horstretch>0</horstretch>
+                                                                <verstretch>0</verstretch>
+                                                            </sizepolicy>
+                                                        </property>
+                                                        <property name="minimumSize">
+                                                            <size>
+                                                                <width>0</width>
+                                                                <height>22</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="maximumSize">
+                                                            <size>
+                                                                <width>119</width>
+                                                                <height>22</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="text">
+                                                            <string>Собственник</string>
+                                                        </property>
+                                                        <property name="alignment">
+                                                            <set>Qt::AlignCenter</set>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <widget class="QLineEdit" name="ownerFIO_lineEdit">
+                                                        <property name="minimumSize">
+                                                            <size>
+                                                                <width>0</width>
+                                                                <height>31</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="maximumSize">
+                                                            <size>
+                                                                <width>99999</width>
+                                                                <height>16777215</height>
+                                                            </size>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                            </layout>
+                                        </item>
+                                        <item>
+                                            <layout class="QHBoxLayout" name="horizontalLayout_17">
+                                                <item>
+                                                    <widget class="QLabel" name="ownerPhone_label">
+                                                        <property name="sizePolicy">
+                                                            <sizepolicy hsizetype="MinimumExpanding"
+                                                                        vsizetype="Minimum">
+                                                                <horstretch>0</horstretch>
+                                                                <verstretch>0</verstretch>
+                                                            </sizepolicy>
+                                                        </property>
+                                                        <property name="minimumSize">
+                                                            <size>
+                                                                <width>0</width>
+                                                                <height>22</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="maximumSize">
+                                                            <size>
+                                                                <width>119</width>
+                                                                <height>22</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="text">
+                                                            <string>Телефон</string>
+                                                        </property>
+                                                        <property name="alignment">
+                                                            <set>Qt::AlignCenter</set>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <widget class="QLineEdit" name="ownerPhone_lineEdit">
+                                                        <property name="minimumSize">
+                                                            <size>
+                                                                <width>0</width>
+                                                                <height>31</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="maximumSize">
+                                                            <size>
+                                                                <width>9999</width>
+                                                                <height>16777215</height>
+                                                            </size>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                            </layout>
+                                        </item>
+                                    </layout>
+                                </item>
+                            </layout>
+                        </item>
+                        <item>
+                            <widget class="QLabel" name="electricMeter_label">
+                                <property name="sizePolicy">
+                                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="maximumSize">
+                                    <size>
+                                        <width>99999</width>
+                                        <height>31</height>
+                                    </size>
+                                </property>
+                                <property name="text">
+                                    <string>Электрические счетчики:</string>
+                                </property>
+                            </widget>
+                        </item>
+                        <item>
+                            <layout class="QHBoxLayout" name="horizontalLayout_6">
+                                <item>
+                                    <widget class="QTableView" name="electric_tableView">
+                                        <property name="maximumSize">
+                                            <size>
+                                                <width>16777215</width>
+                                                <height>87</height>
+                                            </size>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item>
+                                    <layout class="QVBoxLayout" name="verticalLayout_39">
+                                        <item>
+                                            <spacer name="verticalSpacer_8">
+                                                <property name="orientation">
+                                                    <enum>Qt::Vertical</enum>
+                                                </property>
+                                                <property name="sizeHint" stdset="0">
+                                                    <size>
+                                                        <width>20</width>
+                                                        <height>40</height>
+                                                    </size>
+                                                </property>
+                                            </spacer>
+                                        </item>
+                                        <item>
+                                            <widget class="QPushButton" name="electricAdd_pushButton">
+                                                <property name="maximumSize">
+                                                    <size>
+                                                        <width>31</width>
+                                                        <height>31</height>
+                                                    </size>
+                                                </property>
+                                                <property name="text">
+                                                    <string>+</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QPushButton" name="electricDel_pushButton">
+                                                <property name="maximumSize">
+                                                    <size>
+                                                        <width>31</width>
+                                                        <height>31</height>
+                                                    </size>
+                                                </property>
+                                                <property name="text">
+                                                    <string>-</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <spacer name="verticalSpacer_10">
+                                                <property name="orientation">
+                                                    <enum>Qt::Vertical</enum>
+                                                </property>
+                                                <property name="sizeHint" stdset="0">
+                                                    <size>
+                                                        <width>20</width>
+                                                        <height>40</height>
+                                                    </size>
+                                                </property>
+                                            </spacer>
+                                        </item>
+                                    </layout>
+                                </item>
+                            </layout>
+                        </item>
+                    </layout>
+                </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="prevDebt_lineEdit">
-              <property name="minimumSize">
-               <size>
-                <width>180</width>
-                <height>31</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>180</width>
-                <height>16777215</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_9">
-            <item>
-             <widget class="QLabel" name="calc_label">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>999999</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Текущие начисления</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="calc_lineEdit">
-              <property name="minimumSize">
-               <size>
-                <width>180</width>
-                <height>31</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>180</width>
-                <height>16777215</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_10">
-            <item>
-             <widget class="QLabel" name="balance_label">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>999999</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Баланс счета</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
+                <layout class="QHBoxLayout" name="horizontalLayout_15">
+                    <item>
+                        <widget class="QGroupBox" name="users_groupBox">
+                            <property name="title">
+                                <string>Пользователи объекта:</string>
+                            </property>
+                            <layout class="QHBoxLayout" name="horizontalLayout_5">
+                                <item>
+                                    <layout class="QHBoxLayout" name="horizontalLayout_3">
+                                        <item>
+                                            <widget class="QTableView" name="users_tableView"/>
+                                        </item>
+                                        <item>
+                                            <layout class="QVBoxLayout" name="verticalLayout_37">
+                                                <item>
+                                                    <spacer name="verticalSpacer_6">
+                                                        <property name="orientation">
+                                                            <enum>Qt::Vertical</enum>
+                                                        </property>
+                                                        <property name="sizeHint" stdset="0">
+                                                            <size>
+                                                                <width>20</width>
+                                                                <height>40</height>
+                                                            </size>
+                                                        </property>
+                                                    </spacer>
+                                                </item>
+                                                <item>
+                                                    <widget class="QPushButton" name="userAdd_pushButton">
+                                                        <property name="maximumSize">
+                                                            <size>
+                                                                <width>31</width>
+                                                                <height>31</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="text">
+                                                            <string>+</string>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <widget class="QPushButton" name="userDel_pushButton">
+                                                        <property name="maximumSize">
+                                                            <size>
+                                                                <width>31</width>
+                                                                <height>31</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="text">
+                                                            <string>-</string>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <spacer name="verticalSpacer_9">
+                                                        <property name="orientation">
+                                                            <enum>Qt::Vertical</enum>
+                                                        </property>
+                                                        <property name="sizeHint" stdset="0">
+                                                            <size>
+                                                                <width>20</width>
+                                                                <height>40</height>
+                                                            </size>
+                                                        </property>
+                                                    </spacer>
+                                                </item>
+                                            </layout>
+                                        </item>
+                                    </layout>
+                                </item>
+                            </layout>
+                        </widget>
+                    </item>
+                </layout>
             </item>
             <item>
-             <widget class="QLineEdit" name="balance_lineEdit">
-              <property name="minimumSize">
-               <size>
-                <width>180</width>
-                <height>31</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>180</width>
-                <height>16777215</height>
-               </size>
-              </property>
-             </widget>
+                <widget class="QGroupBox" name="car_groupBox">
+                    <property name="title">
+                        <string>Автомобили:</string>
+                    </property>
+                    <layout class="QHBoxLayout" name="horizontalLayout_8">
+                        <item>
+                            <layout class="QHBoxLayout" name="horizontalLayout_18">
+                                <item>
+                                    <layout class="QVBoxLayout" name="verticalLayout_19">
+                                        <item>
+                                            <widget class="QTableView" name="auto_tableView"/>
+                                        </item>
+                                    </layout>
+                                </item>
+                                <item>
+                                    <widget class="QLabel" name="auto_label">
+                                        <property name="minimumSize">
+                                            <size>
+                                                <width>0</width>
+                                                <height>0</height>
+                                            </size>
+                                        </property>
+                                        <property name="maximumSize">
+                                            <size>
+                                                <width>31</width>
+                                                <height>31</height>
+                                            </size>
+                                        </property>
+                                        <property name="text">
+                                            <string/>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item>
+                                    <layout class="QVBoxLayout" name="verticalLayout_34"/>
+                                </item>
+                            </layout>
+                        </item>
+                    </layout>
+                </widget>
             </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-     </layout>
+            <item>
+                <widget class="QGroupBox" name="contribution_groupBox">
+                    <property name="title">
+                        <string>Платежи:</string>
+                    </property>
+                    <layout class="QVBoxLayout" name="verticalLayout_13">
+                        <item>
+                            <layout class="QHBoxLayout" name="horizontalLayout_19">
+                                <item>
+                                    <layout class="QVBoxLayout" name="verticalLayout_20">
+                                        <item>
+                                            <widget class="QTableView" name="contrib_tableView">
+                                                <property name="maximumSize">
+                                                    <size>
+                                                        <width>16777215</width>
+                                                        <height>16777215</height>
+                                                    </size>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                    </layout>
+                                </item>
+                                <item>
+                                    <layout class="QVBoxLayout" name="verticalLayout_40">
+                                        <item>
+                                            <spacer name="verticalSpacer_3">
+                                                <property name="orientation">
+                                                    <enum>Qt::Vertical</enum>
+                                                </property>
+                                                <property name="sizeHint" stdset="0">
+                                                    <size>
+                                                        <width>20</width>
+                                                        <height>40</height>
+                                                    </size>
+                                                </property>
+                                            </spacer>
+                                        </item>
+                                        <item>
+                                            <widget class="QPushButton" name="contribAdd_pushButton">
+                                                <property name="maximumSize">
+                                                    <size>
+                                                        <width>31</width>
+                                                        <height>31</height>
+                                                    </size>
+                                                </property>
+                                                <property name="text">
+                                                    <string>+</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QPushButton" name="contribDel_pushButton">
+                                                <property name="maximumSize">
+                                                    <size>
+                                                        <width>31</width>
+                                                        <height>31</height>
+                                                    </size>
+                                                </property>
+                                                <property name="text">
+                                                    <string>-</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <spacer name="verticalSpacer_11">
+                                                <property name="orientation">
+                                                    <enum>Qt::Vertical</enum>
+                                                </property>
+                                                <property name="sizeHint" stdset="0">
+                                                    <size>
+                                                        <width>20</width>
+                                                        <height>40</height>
+                                                    </size>
+                                                </property>
+                                            </spacer>
+                                        </item>
+                                    </layout>
+                                </item>
+                            </layout>
+                        </item>
+                        <item>
+                            <layout class="QHBoxLayout" name="horizontalLayout_13">
+                                <item>
+                                    <layout class="QHBoxLayout" name="horizontalLayout_9">
+                                        <item>
+                                            <layout class="QVBoxLayout" name="verticalLayout_8">
+                                                <item>
+                                                    <widget class="QLabel" name="prevDebt_label">
+                                                        <property name="sizePolicy">
+                                                            <sizepolicy hsizetype="MinimumExpanding"
+                                                                        vsizetype="Minimum">
+                                                                <horstretch>0</horstretch>
+                                                                <verstretch>0</verstretch>
+                                                            </sizepolicy>
+                                                        </property>
+                                                        <property name="minimumSize">
+                                                            <size>
+                                                                <width>0</width>
+                                                                <height>22</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="maximumSize">
+                                                            <size>
+                                                                <width>999993</width>
+                                                                <height>22</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="text">
+                                                            <string>Долг за предыдущий период</string>
+                                                        </property>
+                                                        <property name="alignment">
+                                                            <set>Qt::AlignCenter</set>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <widget class="QLineEdit" name="prevDebt_lineEdit">
+                                                        <property name="minimumSize">
+                                                            <size>
+                                                                <width>180</width>
+                                                                <height>31</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="maximumSize">
+                                                            <size>
+                                                                <width>180</width>
+                                                                <height>16777215</height>
+                                                            </size>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                            </layout>
+                                        </item>
+                                        <item>
+                                            <layout class="QVBoxLayout" name="verticalLayout_9">
+                                                <item>
+                                                    <widget class="QLabel" name="calc_label">
+                                                        <property name="sizePolicy">
+                                                            <sizepolicy hsizetype="MinimumExpanding"
+                                                                        vsizetype="Minimum">
+                                                                <horstretch>0</horstretch>
+                                                                <verstretch>0</verstretch>
+                                                            </sizepolicy>
+                                                        </property>
+                                                        <property name="minimumSize">
+                                                            <size>
+                                                                <width>0</width>
+                                                                <height>22</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="maximumSize">
+                                                            <size>
+                                                                <width>999999</width>
+                                                                <height>22</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="text">
+                                                            <string>Текущие начисления</string>
+                                                        </property>
+                                                        <property name="alignment">
+                                                            <set>Qt::AlignCenter</set>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <widget class="QLineEdit" name="calc_lineEdit">
+                                                        <property name="minimumSize">
+                                                            <size>
+                                                                <width>180</width>
+                                                                <height>31</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="maximumSize">
+                                                            <size>
+                                                                <width>180</width>
+                                                                <height>16777215</height>
+                                                            </size>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                            </layout>
+                                        </item>
+                                        <item>
+                                            <layout class="QVBoxLayout" name="verticalLayout_10">
+                                                <item>
+                                                    <widget class="QLabel" name="balance_label">
+                                                        <property name="sizePolicy">
+                                                            <sizepolicy hsizetype="MinimumExpanding"
+                                                                        vsizetype="Minimum">
+                                                                <horstretch>0</horstretch>
+                                                                <verstretch>0</verstretch>
+                                                            </sizepolicy>
+                                                        </property>
+                                                        <property name="minimumSize">
+                                                            <size>
+                                                                <width>0</width>
+                                                                <height>22</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="maximumSize">
+                                                            <size>
+                                                                <width>999999</width>
+                                                                <height>22</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="text">
+                                                            <string>Баланс счета</string>
+                                                        </property>
+                                                        <property name="alignment">
+                                                            <set>Qt::AlignCenter</set>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <widget class="QLineEdit" name="balance_lineEdit">
+                                                        <property name="minimumSize">
+                                                            <size>
+                                                                <width>180</width>
+                                                                <height>31</height>
+                                                            </size>
+                                                        </property>
+                                                        <property name="maximumSize">
+                                                            <size>
+                                                                <width>180</width>
+                                                                <height>16777215</height>
+                                                            </size>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                            </layout>
+                                        </item>
+                                    </layout>
+                                </item>
+                                <item>
+                                    <spacer name="horizontalSpacer_3">
+                                        <property name="orientation">
+                                            <enum>Qt::Horizontal</enum>
+                                        </property>
+                                        <property name="sizeHint" stdset="0">
+                                            <size>
+                                                <width>40</width>
+                                                <height>20</height>
+                                            </size>
+                                        </property>
+                                    </spacer>
+                                </item>
+                            </layout>
+                        </item>
+                    </layout>
+                </widget>
+            </item>
+            <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_10">
+                    <item>
+                        <spacer name="horizontalSpacer_6">
+                            <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                            </property>
+                            <property name="sizeHint" stdset="0">
+                                <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </item>
+                    <item>
+                        <layout class="QHBoxLayout" name="horizontalLayout_7">
+                            <item>
+                                <widget class="QPushButton" name="change_pushButton">
+                                    <property name="maximumSize">
+                                        <size>
+                                            <width>100</width>
+                                            <height>16777215</height>
+                                        </size>
+                                    </property>
+                                    <property name="text">
+                                        <string>Изменить</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item>
+                                <widget class="QPushButton" name="close_pushButton">
+                                    <property name="maximumSize">
+                                        <size>
+                                            <width>100</width>
+                                            <height>16777215</height>
+                                        </size>
+                                    </property>
+                                    <property name="text">
+                                        <string>Закрыть</string>
+                                    </property>
+                                </widget>
+                            </item>
+                        </layout>
+                    </item>
+                </layout>
+            </item>
+        </layout>
     </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_10">
-     <item>
-      <spacer name="horizontalSpacer_6">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <item>
-        <widget class="QPushButton" name="change_pushButton">
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Изменить</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="close_pushButton">
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Закрыть</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </item>
-  </layout>
- </widget>
- <resources/>
- <connections/>
+    <resources/>
+    <connections/>
 </ui>

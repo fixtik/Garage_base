@@ -71,8 +71,8 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.bilingContrib_action.triggered.connect(self.showBilingCont)  # окно выставления счета
 
         # ------------- Выгрузки excel ------------- #
-        self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
-        self.ui.smeta_action.triggered.connect(self.smeta)
+        # self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
+        # self.ui.smeta_action.triggered.connect(self.smeta)
         # -------------
         # таблица для отображения полей
         self.ui.tableView.setModel(self.obj_model)
@@ -91,7 +91,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.css.SetIcon.icon(self, label=1, window_icon=1)
 
     def hideObjectUI(self, flag):
-        """скрывает или показывает объекты интерфейса"""
+        """Скрывает или показывает объекты интерфейса"""
         self.ui.voa_label.setVisible(not flag)
         self.ui.openBase_pushButton.setVisible(not flag)
         self.ui.row_label.setVisible(flag)
@@ -99,10 +99,16 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.num_label.setVisible(flag)
         self.ui.num_lineEdit.setVisible(flag)
         self.ui.tableView.setVisible(flag)
+        self.ui.fam_label.setVisible(flag)
+        self.ui.fam_lineEdit.setVisible(flag)
         if flag:
-            self.ui.tableView.setFixedHeight(self.height())
+            self.ui.horizontalLayout.removeItem(self.ui.verticalLayout)
+            self.ui.horizontalLayout.removeItem(self.ui.horizontalSpacer)
+            self.ui.horizontalLayout.removeItem(self.ui.horizontalSpacer_2)
+            self.ui.tableView.setFixedHeight(self.height() * 1.1)
+            self.ui.tableView.setMaximumHeight(65325)
         else:
-            self.ui.tableView.setFixedHeight(self.height() // 2)
+            self.ui.tableView.setFixedHeight(self.height() // 10)
 
     def openDB(self):
         new_name = ui.dialogs.open_file_dialog(constants.TITLE_SELECT_BD, constants.FILTER_BD)[0]
@@ -206,7 +212,7 @@ class Form_frontend(QtWidgets.QMainWindow):
     def updateDB(self):
         if self.db:
             try:
-                # self.db.execute(sqlite_qwer.fixBug_updateTypeSizeId())  # typesize_id = 1
+                self.db.execute(sqlite_qwer.fixBug_updateTypeSizeId())  # typesize_id = 1
                 if self.db.execute(sqlite_qwer.sql_check_column_exists_in_table(constants.CONTRIB_TABLE, 'pay_kind')):
                     _ = self.db.cursor.fetchone()[0]
                     if not _:

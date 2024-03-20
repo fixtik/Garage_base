@@ -9,22 +9,23 @@
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+                           QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter,
+                           QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QDateEdit, QGroupBox,
-    QHBoxLayout, QHeaderView, QLabel, QLineEdit,
-    QPushButton, QSizePolicy, QSpacerItem, QTableView,
-    QVBoxLayout, QWidget)
+                               QHBoxLayout, QHeaderView, QLabel, QLineEdit,
+                               QPushButton, QSizePolicy, QSpacerItem, QTableView,
+                               QVBoxLayout, QWidget)
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(913, 922)
+        Form.resize(930, 806)
         self.verticalLayout_14 = QVBoxLayout(Form)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
         self.garage_groupBox = QGroupBox(Form)
@@ -62,7 +63,6 @@ class Ui_Form(object):
 
         self.verticalLayout.addWidget(self.row_label)
 
-
         self.horizontalLayout.addLayout(self.verticalLayout)
 
         self.verticalLayout_12 = QVBoxLayout()
@@ -79,9 +79,7 @@ class Ui_Form(object):
 
         self.verticalLayout_12.addWidget(self.row_lineEdit)
 
-
         self.horizontalLayout.addLayout(self.verticalLayout_12)
-
 
         self.horizontalLayout_11.addLayout(self.horizontalLayout)
 
@@ -108,7 +106,6 @@ class Ui_Form(object):
 
         self.horizontalLayout_4.addWidget(self.buildingYear_dateEdit)
 
-
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
 
         self.horizontalLayout_16 = QHBoxLayout()
@@ -127,12 +124,9 @@ class Ui_Form(object):
 
         self.horizontalLayout_16.addWidget(self.kadastr_lineEdit)
 
-
         self.verticalLayout_2.addLayout(self.horizontalLayout_16)
 
-
         self.horizontalLayout_11.addLayout(self.verticalLayout_2)
-
 
         self.verticalLayout_5.addLayout(self.horizontalLayout_11)
 
@@ -166,12 +160,9 @@ class Ui_Form(object):
 
         self.horizontalLayout_2.addWidget(self.addSize_pushButton)
 
-
         self.verticalLayout_4.addLayout(self.horizontalLayout_2)
 
-
         self.verticalLayout_5.addLayout(self.verticalLayout_4)
-
 
         self.horizontalLayout_12.addLayout(self.verticalLayout_5)
 
@@ -196,11 +187,13 @@ class Ui_Form(object):
 
         self.verticalLayout_3.addWidget(self.image_pushButton)
 
-
         self.horizontalLayout_20.addLayout(self.verticalLayout_3)
 
-
         self.verticalLayout_11.addLayout(self.horizontalLayout_20)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_11.addItem(self.verticalSpacer)
 
         self.horizontalLayout_14 = QHBoxLayout()
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
@@ -220,7 +213,6 @@ class Ui_Form(object):
         self.ownerFIO_lineEdit.setMaximumSize(QSize(99999, 16777215))
 
         self.horizontalLayout_14.addWidget(self.ownerFIO_lineEdit)
-
 
         self.verticalLayout_11.addLayout(self.horizontalLayout_14)
 
@@ -243,12 +235,9 @@ class Ui_Form(object):
 
         self.horizontalLayout_17.addWidget(self.ownerPhone_lineEdit)
 
-
         self.verticalLayout_11.addLayout(self.horizontalLayout_17)
 
-
         self.horizontalLayout_12.addLayout(self.verticalLayout_11)
-
 
         self.verticalLayout_6.addLayout(self.horizontalLayout_12)
 
@@ -264,7 +253,7 @@ class Ui_Form(object):
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.electric_tableView = QTableView(self.garage_groupBox)
         self.electric_tableView.setObjectName(u"electric_tableView")
-        self.electric_tableView.setMaximumSize(QSize(16777215, 95))
+        self.electric_tableView.setMaximumSize(QSize(16777215, 90))
 
         self.horizontalLayout_6.addWidget(self.electric_tableView)
 
@@ -290,12 +279,9 @@ class Ui_Form(object):
 
         self.verticalLayout_39.addItem(self.verticalSpacer_10)
 
-
         self.horizontalLayout_6.addLayout(self.verticalLayout_39)
 
-
         self.verticalLayout_6.addLayout(self.horizontalLayout_6)
-
 
         self.verticalLayout_14.addWidget(self.garage_groupBox)
 
@@ -334,15 +320,11 @@ class Ui_Form(object):
 
         self.verticalLayout_37.addItem(self.verticalSpacer_9)
 
-
         self.horizontalLayout_3.addLayout(self.verticalLayout_37)
-
 
         self.horizontalLayout_5.addLayout(self.horizontalLayout_3)
 
-
         self.horizontalLayout_15.addWidget(self.users_groupBox)
-
 
         self.verticalLayout_14.addLayout(self.horizontalLayout_15)
 
@@ -359,7 +341,6 @@ class Ui_Form(object):
 
         self.verticalLayout_19.addWidget(self.auto_tableView)
 
-
         self.horizontalLayout_18.addLayout(self.verticalLayout_19)
 
         self.auto_label = QLabel(self.car_groupBox)
@@ -374,9 +355,7 @@ class Ui_Form(object):
 
         self.horizontalLayout_18.addLayout(self.verticalLayout_34)
 
-
         self.horizontalLayout_8.addLayout(self.horizontalLayout_18)
-
 
         self.verticalLayout_14.addWidget(self.car_groupBox)
 
@@ -393,7 +372,6 @@ class Ui_Form(object):
         self.contrib_tableView.setMaximumSize(QSize(16777215, 16777215))
 
         self.verticalLayout_20.addWidget(self.contrib_tableView)
-
 
         self.horizontalLayout_19.addLayout(self.verticalLayout_20)
 
@@ -419,9 +397,7 @@ class Ui_Form(object):
 
         self.verticalLayout_40.addItem(self.verticalSpacer_11)
 
-
         self.horizontalLayout_19.addLayout(self.verticalLayout_40)
-
 
         self.verticalLayout_13.addLayout(self.horizontalLayout_19)
 
@@ -448,7 +424,6 @@ class Ui_Form(object):
 
         self.verticalLayout_8.addWidget(self.prevDebt_lineEdit)
 
-
         self.horizontalLayout_9.addLayout(self.verticalLayout_8)
 
         self.verticalLayout_9 = QVBoxLayout()
@@ -469,7 +444,6 @@ class Ui_Form(object):
         self.calc_lineEdit.setMaximumSize(QSize(180, 16777215))
 
         self.verticalLayout_9.addWidget(self.calc_lineEdit)
-
 
         self.horizontalLayout_9.addLayout(self.verticalLayout_9)
 
@@ -492,9 +466,7 @@ class Ui_Form(object):
 
         self.verticalLayout_10.addWidget(self.balance_lineEdit)
 
-
         self.horizontalLayout_9.addLayout(self.verticalLayout_10)
-
 
         self.horizontalLayout_13.addLayout(self.horizontalLayout_9)
 
@@ -502,9 +474,7 @@ class Ui_Form(object):
 
         self.horizontalLayout_13.addItem(self.horizontalSpacer_3)
 
-
         self.verticalLayout_13.addLayout(self.horizontalLayout_13)
-
 
         self.verticalLayout_14.addWidget(self.contribution_groupBox)
 
@@ -528,47 +498,67 @@ class Ui_Form(object):
 
         self.horizontalLayout_7.addWidget(self.close_pushButton)
 
-
         self.horizontalLayout_10.addLayout(self.horizontalLayout_7)
 
-
         self.verticalLayout_14.addLayout(self.horizontalLayout_10)
-
 
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
+
     # setupUi
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"\u041a\u0430\u0440\u0442\u043e\u0447\u043a\u0430 \u043e\u0431\u044a\u0435\u043a\u0442\u0430", None))
+        Form.setWindowTitle(QCoreApplication.translate("Form",
+                                                       u"\u041a\u0430\u0440\u0442\u043e\u0447\u043a\u0430 \u043e\u0431\u044a\u0435\u043a\u0442\u0430",
+                                                       None))
         self.garage_groupBox.setTitle(QCoreApplication.translate("Form", u"\u0413\u0430\u0440\u0430\u0436", None))
         self.garage_label.setText(QCoreApplication.translate("Form", u"\u0413\u0430\u0440\u0430\u0436 \u2116", None))
         self.row_label.setText(QCoreApplication.translate("Form", u"\u0420\u044f\u0434 \u2116", None))
-        self.buildYear_label.setText(QCoreApplication.translate("Form", u"\u0413\u043e\u0434 \u043f\u043e\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
+        self.buildYear_label.setText(QCoreApplication.translate("Form",
+                                                                u"\u0413\u043e\u0434 \u043f\u043e\u0441\u0442\u0440\u043e\u0439\u043a\u0438",
+                                                                None))
         self.buildingYear_dateEdit.setDisplayFormat(QCoreApplication.translate("Form", u"yyyy", None))
-        self.kadastr_label.setText(QCoreApplication.translate("Form", u"\u041a\u0430\u0434\u0430\u0441\u0442\u0440\u043e\u0432\u044b\u0439 \u043d\u043e\u043c\u0435\u0440", None))
+        self.kadastr_label.setText(QCoreApplication.translate("Form",
+                                                              u"\u041a\u0430\u0434\u0430\u0441\u0442\u0440\u043e\u0432\u044b\u0439 \u043d\u043e\u043c\u0435\u0440",
+                                                              None))
         self.width_label_2.setText(QCoreApplication.translate("Form", u"\u0420\u0430\u0437\u043c\u0435\u0440", None))
         self.addSize_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
         self.photo_label.setText(QCoreApplication.translate("Form", u"\u0424\u043e\u0442\u043e", None))
         self.image_pushButton.setText(QCoreApplication.translate("Form", u"...", None))
-        self.ownerFIO_label.setText(QCoreApplication.translate("Form", u"\u0421\u043e\u0431\u0441\u0442\u0432\u0435\u043d\u043d\u0438\u043a", None))
-        self.ownerPhone_label.setText(QCoreApplication.translate("Form", u"\u0422\u0435\u043b\u0435\u0444\u043e\u043d", None))
-        self.electricMeter_label.setText(QCoreApplication.translate("Form", u"\u042d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0438\u0435 \u0441\u0447\u0435\u0442\u0447\u0438\u043a\u0438:", None))
+        self.ownerFIO_label.setText(
+            QCoreApplication.translate("Form", u"\u0421\u043e\u0431\u0441\u0442\u0432\u0435\u043d\u043d\u0438\u043a",
+                                       None))
+        self.ownerPhone_label.setText(
+            QCoreApplication.translate("Form", u"\u0422\u0435\u043b\u0435\u0444\u043e\u043d", None))
+        self.electricMeter_label.setText(QCoreApplication.translate("Form",
+                                                                    u"\u042d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0438\u0435 \u0441\u0447\u0435\u0442\u0447\u0438\u043a\u0438:",
+                                                                    None))
         self.electricAdd_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
         self.electricDel_pushButton.setText(QCoreApplication.translate("Form", u"-", None))
-        self.users_groupBox.setTitle(QCoreApplication.translate("Form", u"\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0438 \u043e\u0431\u044a\u0435\u043a\u0442\u0430:", None))
+        self.users_groupBox.setTitle(QCoreApplication.translate("Form",
+                                                                u"\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0438 \u043e\u0431\u044a\u0435\u043a\u0442\u0430:",
+                                                                None))
         self.userAdd_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
         self.userDel_pushButton.setText(QCoreApplication.translate("Form", u"-", None))
-        self.car_groupBox.setTitle(QCoreApplication.translate("Form", u"\u0410\u0432\u0442\u043e\u043c\u043e\u0431\u0438\u043b\u0438:", None))
+        self.car_groupBox.setTitle(
+            QCoreApplication.translate("Form", u"\u0410\u0432\u0442\u043e\u043c\u043e\u0431\u0438\u043b\u0438:", None))
         self.auto_label.setText("")
-        self.contribution_groupBox.setTitle(QCoreApplication.translate("Form", u"\u041f\u043b\u0430\u0442\u0435\u0436\u0438:", None))
+        self.contribution_groupBox.setTitle(
+            QCoreApplication.translate("Form", u"\u041f\u043b\u0430\u0442\u0435\u0436\u0438:", None))
         self.contribAdd_pushButton.setText(QCoreApplication.translate("Form", u"+", None))
         self.contribDel_pushButton.setText(QCoreApplication.translate("Form", u"-", None))
-        self.prevDebt_label.setText(QCoreApplication.translate("Form", u"\u0414\u043e\u043b\u0433 \u0437\u0430 \u043f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0438\u0439 \u043f\u0435\u0440\u0438\u043e\u0434", None))
-        self.calc_label.setText(QCoreApplication.translate("Form", u"\u0422\u0435\u043a\u0443\u0449\u0438\u0435 \u043d\u0430\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u044f", None))
-        self.balance_label.setText(QCoreApplication.translate("Form", u"\u0411\u0430\u043b\u0430\u043d\u0441 \u0441\u0447\u0435\u0442\u0430", None))
-        self.change_pushButton.setText(QCoreApplication.translate("Form", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c", None))
-        self.close_pushButton.setText(QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
+        self.prevDebt_label.setText(QCoreApplication.translate("Form",
+                                                               u"\u0414\u043e\u043b\u0433 \u0437\u0430 \u043f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0438\u0439 \u043f\u0435\u0440\u0438\u043e\u0434",
+                                                               None))
+        self.calc_label.setText(QCoreApplication.translate("Form",
+                                                           u"\u0422\u0435\u043a\u0443\u0449\u0438\u0435 \u043d\u0430\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u044f",
+                                                           None))
+        self.balance_label.setText(
+            QCoreApplication.translate("Form", u"\u0411\u0430\u043b\u0430\u043d\u0441 \u0441\u0447\u0435\u0442\u0430",
+                                       None))
+        self.change_pushButton.setText(
+            QCoreApplication.translate("Form", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c", None))
+        self.close_pushButton.setText(
+            QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
     # retranslateUi
-
