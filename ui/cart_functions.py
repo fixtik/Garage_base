@@ -671,7 +671,7 @@ class Cart_frontend(QtWidgets.QWidget):
         val = debt_work(self.ui.prevDebt_lineEdit, value)
         val = debt_work(self.ui.calc_lineEdit, val)
 
-        self.ui.balance_lineEdit.setText(str(val))
+        self.ui.balance_lineEdit.setText(str(float(self.ui.balance_lineEdit.text()) + val))
 
     def del_one_payment(self, value: [float, ui.contribute_functions.Contribution]):
         """работа с балансом при удалении платежа"""
