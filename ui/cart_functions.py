@@ -661,15 +661,18 @@ class Cart_frontend(QtWidgets.QWidget):
                     val = 0
             return val
 
-        if isinstance(value, ui.contribute_functions.Contribution):
-            value = float(value.value)
-
         if not self.ui.balance_lineEdit.text():
             self.ui.balance_lineEdit.setText('0')
-        val = debt_work(self.ui.prevDebt_lineEdit, value)
+
+        if isinstance(value, ui.contribute_functions.Contribution):
+            balance = float(self.ui.balance_lineEdit.text()) + float(value.value)
+        else:
+            balance = float(self.ui.balance_lineEdit.text())
+
+        val = debt_work(self.ui.prevDebt_lineEdit, balance)
         val = debt_work(self.ui.calc_lineEdit, val)
 
-        self.ui.balance_lineEdit.setText(str(float(self.ui.balance_lineEdit.text()) + val))
+        self.ui.balance_lineEdit.setText(str(val))
 
     def del_one_payment(self, value: [float, ui.contribute_functions.Contribution]):
         """работа с балансом при удалении платежа"""
