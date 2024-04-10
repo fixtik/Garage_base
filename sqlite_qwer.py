@@ -120,22 +120,25 @@ def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, balance_cou
 
 
 def sql_full_update_contrib(cont_id: str, id_garage: str, id_cont: str, pay_date: str,
-                            value: float, pay_kind: int,  comment: str = '', check_photo: str = '') -> str:
+                            value: float, pay_kind: int, comment: str = '', check_photo: str = '',
+                            balance_count: str = '1') -> str:
     """
     формирование запроса для добавления платежа в БД (pay_kind = 1 если нал, 2 - безнал)
     """
     return f"UPDATE contribution SET id_garage={id_garage}, id_cont_type = {id_cont}, pay_date = '{pay_date}', " \
-           f" pay_kind = {pay_kind}, value = {value}, comment = '{comment}', check_photo ='{check_photo}' " \
+           f" pay_kind = {pay_kind}, value = {value}, comment = '{comment}', check_photo ='{check_photo}'," \
+           f"balance_count = {balance_count} " \
            f"WHERE id = {cont_id};"
 
 
 def sql_update_contrib_type(contrib_id: int, value: float, pay_kind: int,
-                            comment: str = '', check_photo: str = '') -> str:
+                            comment: str = '', check_photo: str = '', ) -> str:
     """
     обновление заначений полей по id
     """
     return f"UPDATE contribution_type SET value = {value}, pay_kind = {pay_kind}, " \
-           f"comment = '{comment}', check_photo ='{check_photo}' WHERE id = {contrib_id};"
+           f"comment = '{comment}', check_photo ='{check_photo}' " \
+           f"WHERE id = {contrib_id};"
 
 
 # запросы по членам кооператива

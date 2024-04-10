@@ -448,7 +448,8 @@ class Cart_frontend(QtWidgets.QWidget):
                                                               pay_kind=contr.typePay,
                                                               value=contr.value,
                                                               comment=contr.comment if contr.comment else ' ',
-                                                              check_photo=contr.checkPath if contr.checkPath else ' '
+                                                              check_photo=contr.checkPath if contr.checkPath else ' ',
+                                                              balance_count=contr.checkBalanceCount,
                                                               )
                     if not (self.db.execute(sql)):
                         ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
