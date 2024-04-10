@@ -75,6 +75,7 @@ SQL_CREATE_TABLE_CONTRIBUTION = 'CREATE TABLE IF NOT EXISTS "contribution" (' \
                                 '   "comment" TEXT, ' \
                                 '	"pay_kind"	TEXT,' \
                                 '   "check_photo" BLOB,' \
+                                '   "balance_count" INTEGER DEFAULT 1,' \
                                 'FOREIGN KEY("id_garage") REFERENCES "garage_obj"("id"),' \
                                 'FOREIGN KEY("id_cont_type") REFERENCES "contribution_type"("id")' \
                                 ');'

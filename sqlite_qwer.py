@@ -120,12 +120,14 @@ def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, balance_cou
 
 
 def sql_full_update_contrib(cont_id: str, id_garage: str, id_cont: str, pay_date: str,
-                            value: float, pay_kind: int, comment: str = '', check_photo: str = '') -> str:
+                            value: float, pay_kind: int, comment: str = '', check_photo: str = '',
+                            balance_count: str = '1') -> str:
     """
     формирование запроса для добавления платежа в БД (pay_kind = 1 если нал, 2 - безнал)
     """
     return f"UPDATE contribution SET id_garage={id_garage}, id_cont_type = {id_cont}, pay_date = '{pay_date}', " \
-           f" pay_kind = {pay_kind}, value = {value}, comment = '{comment}', check_photo ='{check_photo}' " \
+           f"pay_kind = {pay_kind}, value = {value}, comment = '{comment}', check_photo ='{check_photo}', " \
+           f"balance_count = {balance_count} " \
            f"WHERE id = {cont_id};"
 
 
@@ -538,7 +540,8 @@ def sql_select_contrib_by_object_id(object_id: str) -> str:
     """Запрос на выдачу всех платежей для конкретного гаража"""
 
     return f"SELECT contribution.id, contribution_type.name, contribution.pay_date, " \
-           f" contribution.value, contribution.comment, contribution.pay_kind ,contribution.check_photo" \
+           f" contribution.value, contribution.comment, contribution.pay_kind, contribution.check_photo, " \
+           f"contribution.balance_count " \
            f" FROM main.garage_obj " \
            f" INNER JOIN contribution ON garage_obj.id = contribution.id_garage " \
            f" INNER JOIN contribution_type ON contribution_type.id = contribution.id_cont_type " \
@@ -726,9 +729,11 @@ def smeta_reqest(electric: bool):
           f"WHERE date(pay_date, 'start of year') = date(datetime('now'), 'start of year') AND name "
 
     if electric:
-        sql += "IS NULL;"
+        sql += "IS"
     else:
-        sql += "NOT NULL;"
+        sql += "NOT"
+
+    sql += " NULL AND balance_count = 1;"
 
     print(sql)
     return sql
