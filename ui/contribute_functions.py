@@ -112,6 +112,7 @@ class AddContrib_front(QtWidgets.QWidget):
             self.contib.payDate = self.ui.payDate_dateEdit.date().toPython()
             self.contib.comment = self.ui.commentContrib_lineEdit.text()
             self.contib.checkPath = self.billPhotoPath
+            self.contib.checkBalanceCount = 0 if self.ui.nonBalance_checkBox.isChecked() else 1
             self.mainForm.contribModel.setItems(self.contib)
             if isinstance(self.mainForm,
                           ui.cart_functions.Cart_frontend) and not self.ui.nonBalance_checkBox.isChecked():
@@ -177,6 +178,7 @@ class Contribution():
     comment: str = ''  # комментарий
     typePay: str = ''  # тип оплаты (нал / безнал)
     checkPath: str = ''  # путь к чеку
+    checkBalanceCount: str = ''  # считаем в балансе или нет
 
 
 @dataclass
@@ -199,6 +201,7 @@ class Contribution_lite():
     comment: str = ''
     typePay: str = ''
     checkPath: str = ''
+    checkBalanceCount: str = ''
 
 
 @dataclass

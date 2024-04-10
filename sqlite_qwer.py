@@ -109,14 +109,14 @@ def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = ' '
            f"'{comment}', {electric});"
 
 
-def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, pay_kind: int, value: float,
+def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, balance_count: str, pay_kind: int, value: float,
                         comment: str = '', check_photo: str = '') -> str:
     """
     формирование запроса для добавления платежа в БД
     """
-    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, pay_kind, value, comment, check_photo) " \
+    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, pay_kind, value, comment, check_photo, balance_count) " \
            f"VALUES " \
-           f"({id_garage}, {id_cont}, '{pay_date}', '{pay_kind}', {value}, '{comment}','{check_photo}');"
+           f"({id_garage}, {id_cont}, '{pay_date}', '{pay_kind}', {value}, '{comment}','{check_photo}', '{balance_count}');"
 
 
 def sql_full_update_contrib(cont_id: str, id_garage: str, id_cont: str, pay_date: str,
@@ -706,3 +706,29 @@ def fixBug_updateTypeSizeId():
            "WHERE [main].[garage_obj].[id] IN (SELECT [main].[garage_obj].[id] " \
            "FROM   [main].[garage_obj] " \
            " WHERE [main].[garage_obj].[size_type_id] = 1);"
+
+
+def check_balance_count(payment_id: int):
+    """Запрос на проверку влияния платежа на баланс"""
+    return f"SELECT balance_count FROM contribution WHERE id = {payment_id}"
+
+
+def smeta_reqest(electric: bool):
+    """Запрос на получение всех платежей за текущий год"""
+
+    sql = f"SELECT " \
+          f"(SELECT name FROM contribution_type WHERE [contribution].[id_cont_type] = [contribution_type].[id] " \
+          f"AND [contribution_type].[electric] = 0) as name, " \
+          f"pay_date," \
+          f"value, " \
+          f"pay_kind " \
+          f"FROM contribution " \
+          f"WHERE date(pay_date, 'start of year') = date(datetime('now'), 'start of year') AND name "
+
+    if electric:
+        sql += "IS NULL;"
+    else:
+        sql += "NOT NULL;"
+
+    print(sql)
+    return sql
