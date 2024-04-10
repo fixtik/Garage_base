@@ -109,14 +109,14 @@ def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = ' '
            f"'{comment}', {electric});"
 
 
-def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, pay_kind: int, value: float,
+def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, balance_count: str, pay_kind: int, value: float,
                         comment: str = '', check_photo: str = '') -> str:
     """
     формирование запроса для добавления платежа в БД
     """
-    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, pay_kind, value, comment, check_photo) " \
+    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, pay_kind, value, comment, check_photo, balance_count) " \
            f"VALUES " \
-           f"({id_garage}, {id_cont}, '{pay_date}', '{pay_kind}', {value}, '{comment}','{check_photo}');"
+           f"({id_garage}, {id_cont}, '{pay_date}', '{pay_kind}', {value}, '{comment}','{check_photo}', '{balance_count}');"
 
 
 def sql_full_update_contrib(cont_id: str, id_garage: str, id_cont: str, pay_date: str,
@@ -545,6 +545,7 @@ def sql_select_contrib_by_object_id(object_id: str) -> str:
            f" WHERE garage_obj.id = {object_id} " \
            f" ORDER BY contribution.id DESC;"
 
+
 def sql_select_contrib_by_contr_type_id(id_cont_type: str) -> str:
     """Запрос на выдачу всех платежей конкретного типа"""
 
@@ -604,6 +605,7 @@ def sql_update_object_account(obj_id: int, current_debt: float = 0, calculation:
 def sql_select_obj_account_by_object_id(object_id: str) -> str:
     """Запрос на выдачу текущего состояния счета объекта"""
     return f"SELECT * FROM object_account WHERE obj_id = {object_id};"
+
 
 # тарифы на ЭЭ
 def sql_get_current_tarif(meter_type: str):
@@ -671,13 +673,16 @@ def sql_get_ids_by_type_size_id(type_size_id: str):
     """Запрос на получение id объектов с заданным типоразмером"""
     return f"SELECT garage_obj.id  FROM garage_obj WHERE garage_obj.size_type_id = {type_size_id};"
 
+
 def sql_set_default_value_to_account(obj_id: str):
     """Запрос на создание записи аккаунта для каждого объекта"""
     return f"INSERT INTO object_account (obj_id) VALUES ({obj_id});"
 
+
 def sql_get_item_whithout_accaunt(obj_id: str):
     """запрос на проверку наличия аккаунта для объекта"""
     return f"SELECT id FROM object_account WHERE obj_id={obj_id};"
+
 
 def sql_gel_all_obj_ids():
     """Запрос на получение id всех объектов"""
@@ -691,4 +696,28 @@ def fixBug_updateTypeSizeId():
            "FROM   [main].[garage_obj] " \
            " WHERE [main].[garage_obj].[size_type_id] = 1);"
 
-# nnn
+
+def check_balance_count(payment_id: int):
+    """Запрос на проверку влияния платежа на баланс"""
+    return f"SELECT balance_count FROM contribution WHERE id = {payment_id}"
+
+
+def smeta_reqest(electric: bool):
+    """Запрос на получение всех платежей за текущий год"""
+
+    sql = f"SELECT " \
+          f"(SELECT name FROM contribution_type WHERE [contribution].[id_cont_type] = [contribution_type].[id] " \
+          f"AND [contribution_type].[electric] = 0) as name, " \
+          f"pay_date," \
+          f"value, " \
+          f"pay_kind " \
+          f"FROM contribution " \
+          f"WHERE date(pay_date, 'start of year') = date(datetime('now'), 'start of year') AND name "
+
+    if electric:
+        sql += "IS NULL;"
+    else:
+        sql += "NOT NULL;"
+
+    print(sql)
+    return sql

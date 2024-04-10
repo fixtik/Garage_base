@@ -313,7 +313,8 @@ class Cart_frontend(QtWidgets.QWidget):
             if self.ui.contrib_tableView.selectionModel().selectedRows():
                 indxs = self.ui.contrib_tableView.selectionModel().selectedRows()[0].row()
                 value = float(model.items[indxs].value)
-                self.del_one_payment(value)
+                ids = model.items[indxs].id
+                self.del_one_payment(value, ids)
             self.delSelectRowFromTableView(self.ui.contrib_tableView)
         else:
             pass
@@ -433,13 +434,17 @@ class Cart_frontend(QtWidgets.QWidget):
 
             for contr in contribs:
                 type_id = self.nameContribToKinfId(contr.kindPay)
+                try:
+                    contr.payDate = datetime.strptime(str(contr.payDate), "%d.%m.%Y").date()
+                except:
+                    print("Hello world")
                 if type_id == -1:
                     return False
                 if contr.id:  # если уже есть в базе - обновляем данные
                     sql = sqlite_qwer.sql_full_update_contrib(cont_id=contr.id,
                                                               id_garage=obj_id,
                                                               id_cont=str(type_id),
-                                                              pay_date=contr.payDate,
+                                                              pay_date=str(contr.payDate),
                                                               pay_kind=contr.typePay,
                                                               value=contr.value,
                                                               comment=contr.comment if contr.comment else ' ',
@@ -453,11 +458,13 @@ class Cart_frontend(QtWidgets.QWidget):
                     sql = sqlite_qwer.sql_add_new_contrib(
                         id_garage=obj_id,
                         id_cont=str(type_id),
-                        pay_date=contr.payDate,
+                        pay_date=str(contr.payDate),
                         pay_kind=contr.typePay,
                         value=contr.value,
                         comment=contr.comment if contr.comment else ' ',
-                        check_photo=contr.checkPath if contr.checkPath else ' '
+                        check_photo=contr.checkPath if contr.checkPath else ' ',
+                        balance_count=contr.checkBalanceCount
+
                     )
                     if not (self.db.execute(sql)):
                         ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
@@ -648,7 +655,7 @@ class Cart_frontend(QtWidgets.QWidget):
 
 
     def set_new_value_acc(self, value: [float, ui.contribute_functions.Contribution]):
-        """работа с балансом при добавлении платежа"""
+        """Работа с балансом при добавлении платежа"""
 
         def debt_work(lineEdit: QtWidgets.QLineEdit, val: float) -> float:
             cal = float(lineEdit.text()) if lineEdit.text() else 0
@@ -676,15 +683,20 @@ class Cart_frontend(QtWidgets.QWidget):
 
         self.ui.balance_lineEdit.setText(str(val))
 
-    def del_one_payment(self, value: [float, ui.contribute_functions.Contribution]):
+    def del_one_payment(self, value: [float, ui.contribute_functions.Contribution],
+                        ids: [str, ui.contribute_functions.Contribution]):
         """работа с балансом при удалении платежа"""
-        balance = float(self.ui.balance_lineEdit.text()) - value if self.ui.balance_lineEdit.text() else 0
-        if balance > 0:
-            self.ui.balance_lineEdit.setText(str(balance))
-        else:
-            self.ui.balance_lineEdit.setText('0')
-            self.ui.calc_lineEdit.setText(str(float(self.ui.calc_lineEdit.text()) + abs(balance))) \
-                if self.ui.calc_lineEdit.text() else self.ui.calc_lineEdit.setText(str(abs(balance)))
+        # todo добавить проверку на влияние баланса, добавить проверку на checkbox при не влиянии на баланс
+        if self.db.execute(sqlite_qwer.check_balance_count(payment_id=int(ids))):
+            balance_account = self.db.cursor.fetchone()
+            if balance_account[0] == 1:
+                balance = float(self.ui.balance_lineEdit.text()) - value if self.ui.balance_lineEdit.text() else 0
+                if balance > 0:
+                    self.ui.balance_lineEdit.setText(str(balance))
+                else:
+                    self.ui.balance_lineEdit.setText('0')
+                    self.ui.calc_lineEdit.setText(str(float(self.ui.calc_lineEdit.text()) + abs(balance))) \
+                        if self.ui.calc_lineEdit.text() else self.ui.calc_lineEdit.setText(str(abs(balance)))
 
     def rebalance(self):
         deb = float(self.ui.balance_lineEdit.text())

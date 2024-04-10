@@ -84,7 +84,8 @@ class ContribTableViewModel(DBTableView):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.header = ['id', 'Дата платежа', 'Вид платежа', 'Сумма платежа', 'Тип оплаты', 'Комментарий', 'Чек']
+        self.header = ['id', 'Дата платежа', 'Вид платежа', 'Сумма платежа', 'Тип оплаты', 'Комментарий', 'Чек',
+                       'Баланс']
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -106,6 +107,8 @@ class ContribTableViewModel(DBTableView):
                 return f'{pay_info.comment}'
             if col == 6:
                 return f'{pay_info.checkPath}'
+            # if col == 7:
+            #     return f'{pay_info.checkBalanceCount}'
 
         elif role == QtCore.Qt.TextAlignmentRole:
             return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)

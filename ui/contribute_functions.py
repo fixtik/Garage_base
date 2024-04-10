@@ -30,7 +30,7 @@ class AddContrib_front(QtWidgets.QWidget):
         self.db = db  # БД
         self.mainForm = None  # Родительская форма
         self.addKind_form = None  # Форма добавления нового вида платежа
-        self.contib = None    # объект для передачи данных в другую форму
+        self.contib = None  # объект для передачи данных в другую форму
         self.contib_ids = []  # список с id-платежа из БД, индекс соответствует индексу в combobox
         self.cur_indx = None  # текущий выбранный индекс в combobox
         self.billPhotoPath = None  # путь фотографии чека
@@ -52,7 +52,9 @@ class AddContrib_front(QtWidgets.QWidget):
         # Установка текущей даты при создании платежа
         self.ui.payDate_dateEdit.setDate(datetime.date.today())
         self.ui.cash_radioButton.setChecked(True)
+
         self.setEnabledChooseCheckProto()
+
         self.ui.sumContrib_lineEdit.setValidator(ui.validators.floatValidator())
 
         # add a little bit of spice
@@ -110,6 +112,7 @@ class AddContrib_front(QtWidgets.QWidget):
             self.contib.payDate = self.ui.payDate_dateEdit.date().toPython()
             self.contib.comment = self.ui.commentContrib_lineEdit.text()
             self.contib.checkPath = self.billPhotoPath
+            self.contib.checkBalanceCount = 0 if self.ui.nonBalance_checkBox.isChecked() else 1
             self.mainForm.contribModel.setItems(self.contib)
             if isinstance(self.mainForm, ui.cart_functions.Cart_frontend) and not self.ui.nonBalance_checkBox.isChecked():
                 self.mainForm.set_new_value_acc(self.contib)
@@ -140,7 +143,6 @@ class AddContrib_front(QtWidgets.QWidget):
         """изменение данных в полях при изменении выбранной позиции"""
         if self.ui.kindContrib_comboBox.currentIndex() == -1:
             return
-
         self.db.execute(sqlite_qwer.sql_get_one_record_by_id(self.TB_NAME,
                                                              self.contib_ids[
                                                                  self.ui.kindContrib_comboBox.currentIndex()]))
@@ -169,15 +171,15 @@ class AddContrib_front(QtWidgets.QWidget):
 @dataclass
 class Contribution():
     """Класс информации о платеже"""
-    id:str = ''            # id платежа
-    garage_id:str = ''     # id гаража
-    kindPay:str = ''       # вид платежа
-    payDate:str = ''       # дата платежа
-    value:str = ''         # сумма платежа
-    comment:str = ''       # комментарий
-    typePay: str = ''      # тип оплаты (нал / безнал)
-    checkPath:str = ''     # путь к чеку
-
+    id: str = ''  # id платежа
+    garage_id: str = ''  # id гаража
+    kindPay: str = ''  # вид платежа
+    payDate: str = ''  # дата платежа
+    value: str = ''  # сумма платежа
+    comment: str = ''  # комментарий
+    typePay: str = ''  # тип оплаты (нал / безнал)
+    checkPath: str = ''  # путь к чеку
+    checkBalanceCount: str = ''  # считаем в балансе или нет
 
 
 @dataclass
@@ -200,6 +202,7 @@ class Contribution_lite():
     comment:str = ''
     typePay: str = ''
     checkPath: str = ''
+    checkBalanceCount: str = ''
 
 
 @dataclass
@@ -265,8 +268,10 @@ class AddKindContrib_front(QtWidgets.QWidget):
         self.mainForm = None
         super().closeEvent(event)
 
+
 class Member_contrib_ui(QtWidgets.QWidget):
     """класс для отображения окна установки членского взноса"""
+
     def __init__(self, db, parent=None):
         super().__init__(parent)
         self.ui = ui.members_contrib.Ui_Form()
@@ -274,7 +279,7 @@ class Member_contrib_ui(QtWidgets.QWidget):
 
         self.db = db  # БД
         self.mainForm = None  # Родительская форма
-        self.size_ids = []    # Cписок size_id
+        self.size_ids = []  # Cписок size_id
         self.initUI()
 
     def initUI(self):
@@ -292,12 +297,13 @@ class Member_contrib_ui(QtWidgets.QWidget):
         self.ui.year_comboBox.currentTextChanged.connect(self.set_value_to_field)
         self.ui.add_pushButton.clicked.connect(self.addButton_pressed)
         self.set_value_to_field()
+
     def setYear(self):
         """Установка диапазона годов"""
 
         end_year = int(datetime.datetime.now().year)
-        start_year = end_year-3
-        for y in range(start_year, end_year+3):
+        start_year = end_year - 3
+        for y in range(start_year, end_year + 3):
             self.ui.year_comboBox.addItem(str(y))
         self.ui.year_comboBox.setCurrentText(str(end_year))
 
@@ -340,7 +346,7 @@ class Member_contrib_ui(QtWidgets.QWidget):
 
     def checker(self, value_in: bool) -> bool:
         return (self.ui.year_comboBox.currentText() and self.ui.typeSize_comboBox.currentText() and
-        self.ui.value_lineEdit.text()) if value_in else \
+                self.ui.value_lineEdit.text()) if value_in else \
             (self.ui.year_comboBox.currentText() and self.ui.typeSize_comboBox.currentText())
 
     def addButton_pressed(self):
@@ -381,6 +387,7 @@ class Member_contrib_ui(QtWidgets.QWidget):
 
 class Biling_contrib_ui(QtWidgets.QWidget):
     """класс для отображения выставления счета членского взноса"""
+
     def __init__(self, db, parent=None):
         super().__init__(parent)
         self.ui = ui.bilingForm.Ui_Form()
@@ -439,7 +446,6 @@ class Biling_contrib_ui(QtWidgets.QWidget):
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, e)
             ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)
 
-
     def check_already_biling(self) -> bool:
         """проверка на уже выставленный счет"""
         items = self.ui.contrib_tableView.model().items
@@ -450,25 +456,17 @@ class Biling_contrib_ui(QtWidgets.QWidget):
         return True
 
 
-
-
 @dataclass
 class MemberContrib_data():
     """Класс для работы с членскими взносами"""
 
-    size_id: str = ''   # вид типоразмера
-    width: str = ''     # размеры
+    size_id: str = ''  # вид типоразмера
+    width: str = ''  # размеры
     length: str = ''
     height: str = ''
-    year: str = ''      # год за который платят
-    value: str = ''     # сумма взноса
-    bilingDate: str = ''# дата выставления счета
+    year: str = ''  # год за который платят
+    value: str = ''  # сумма взноса
+    bilingDate: str = ''  # дата выставления счета
 
-
-        # todo
-        #      4) проверка ранее выставленных платежей (мало ли нет выставления какому-то из размеров, а остальным есть)
-
-
-
-
-
+    # todo
+    #      4) проверка ранее выставленных платежей (мало ли нет выставления какому-то из размеров, а остальным есть)
