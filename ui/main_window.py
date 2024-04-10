@@ -127,6 +127,8 @@ class Ui_MainWindow(object):
         self.fam_lineEdit.setObjectName(u"fam_lineEdit")
 
         self.horizontalLayout_2.addWidget(self.fam_lineEdit)
+        self.fam_label.setVisible(False)
+        self.fam_lineEdit.setVisible(False)
 
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 

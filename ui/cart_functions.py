@@ -314,7 +314,7 @@ class Cart_frontend(QtWidgets.QWidget):
                 indxs = self.ui.contrib_tableView.selectionModel().selectedRows()[0].row()
                 value = float(model.items[indxs].value)
                 ids = model.items[indxs].id
-                self.del_one_payment(value, ids)
+                self.del_one_payment(value, ids, model.items[indxs].checkBalanceCount)
             self.delSelectRowFromTableView(self.ui.contrib_tableView)
         else:
             pass
@@ -684,19 +684,32 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.balance_lineEdit.setText(str(val))
 
     def del_one_payment(self, value: [float, ui.contribute_functions.Contribution],
-                        ids: [str, ui.contribute_functions.Contribution]):
+                        ids: [str, ui.contribute_functions.Contribution], checkBalance: int = 1):
         """работа с балансом при удалении платежа"""
+
         # todo добавить проверку на влияние баланса, добавить проверку на checkbox при не влиянии на баланс
-        if self.db.execute(sqlite_qwer.check_balance_count(payment_id=int(ids))):
-            balance_account = self.db.cursor.fetchone()
-            if balance_account[0] == 1:
-                balance = float(self.ui.balance_lineEdit.text()) - value if self.ui.balance_lineEdit.text() else 0
-                if balance > 0:
-                    self.ui.balance_lineEdit.setText(str(balance))
-                else:
-                    self.ui.balance_lineEdit.setText('0')
-                    self.ui.calc_lineEdit.setText(str(float(self.ui.calc_lineEdit.text()) + abs(balance))) \
-                        if self.ui.calc_lineEdit.text() else self.ui.calc_lineEdit.setText(str(abs(balance)))
+
+        def set_new_balance():
+            balance = float(self.ui.balance_lineEdit.text()) - value if self.ui.balance_lineEdit.text() else 0
+            if balance > 0:
+                self.ui.balance_lineEdit.setText(str(balance))
+            else:
+                self.ui.balance_lineEdit.setText('0')
+                self.ui.calc_lineEdit.setText(str(float(self.ui.calc_lineEdit.text()) + abs(balance))) \
+                    if self.ui.calc_lineEdit.text() else self.ui.calc_lineEdit.setText(str(abs(balance)))
+
+        if not isinstance(checkBalance, int):
+            checkBalance = 1 if checkBalance == '1' else 0
+
+        if not ids:
+            if checkBalance == 1:  # если платеж добавлен, но в бд не внесен
+                set_new_balance()
+
+        else:
+            if self.db.execute(sqlite_qwer.check_balance_count(payment_id=int(ids))):
+                balance_account = self.db.cursor.fetchone()
+                if balance_account[0] == 1:
+                    set_new_balance()
 
     def rebalance(self):
         deb = float(self.ui.balance_lineEdit.text())

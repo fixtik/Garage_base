@@ -538,7 +538,8 @@ def sql_select_contrib_by_object_id(object_id: str) -> str:
     """Запрос на выдачу всех платежей для конкретного гаража"""
 
     return f"SELECT contribution.id, contribution_type.name, contribution.pay_date, " \
-           f" contribution.value, contribution.comment, contribution.pay_kind ,contribution.check_photo" \
+           f" contribution.value, contribution.comment, contribution.pay_kind, contribution.check_photo, " \
+           f"contribution.balance_count " \
            f" FROM main.garage_obj " \
            f" INNER JOIN contribution ON garage_obj.id = contribution.id_garage " \
            f" INNER JOIN contribution_type ON contribution_type.id = contribution.id_cont_type " \

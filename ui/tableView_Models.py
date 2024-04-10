@@ -85,7 +85,7 @@ class ContribTableViewModel(DBTableView):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.header = ['id', 'Дата платежа', 'Вид платежа', 'Сумма платежа', 'Тип оплаты', 'Комментарий', 'Чек',
-                       'Баланс']
+                       ]
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
