@@ -1,6 +1,10 @@
 import os
 from dataclasses import dataclass
 from openpyxl import Workbook
+from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
+from openpyxl.styles import Font
+from openpyxl.styles import Border, Side, Alignment
+from openpyxl.utils import get_column_letter
 from datetime import datetime
 
 import constants
@@ -42,7 +46,7 @@ class Smeta():
         id_name = 0  # номер по порядку
         for i in range(2):  # пробегаем blance_count (влияет/не влияет платеж на баланс гаража)
             if i == 0:
-                ws.append(['Платежи не учитываемые в балансе'])
+                self.text_plateji(ws)
             if self.db.execute(sqlite_qwer.smeta_reqest(balance_count=i)):
                 contribs = self.db.cursor.fetchall()
                 for contrib in contribs:  # пробегаем по платежам
@@ -55,7 +59,7 @@ class Smeta():
                         id_name += 1  # номер по порядку
                         dict.update({}.fromkeys(dict, 0))  # очищаем словарь
                         if i == 1:
-                            ws.append(['Платежи учитываемые в балансе'])
+                            self.text_plateji(ws, ne='не ')
                             i += 1  # плюсуем чтобы больще не записывалось
                         dict['name'] = name  # записываем в словарь название платежа
                         if calendar.month_name[int(con.month)] in dict:  # Проверяем есть ли название месяца в словаре
@@ -66,11 +70,28 @@ class Smeta():
                             # Записываем сумму платежа в нужный месяц
                             dict[calendar.month_name[int(con.month)]] = con.TotalSum
         file_name = f'{constants.DEFAULT_DOCS_DIR_PASS}Смета_{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx'
-
-        print(file_name)
+        self.autoFit(ws=ws)
         wb.save(file_name)  # сохраняем эксель
-        for row in ws.iter_rows(values_only=True):
-            print(row)
+        # for row in ws.iter_rows(values_only=True):
+        #     print(row)
+
+    def text_plateji(self, ws, ne: str = ''):
+        ws.append([''])
+        ws[f'B{ws.max_row}'].value = f'Платежи {ne}учитываемые в балансе'
+        ws.merge_cells(start_row=ws.max_row, start_column=ws.min_column + 1, end_row=ws.max_row,
+                       end_column=ws.max_column)  # объединяем ячейки
+        ws[f'B{ws.max_row}'].alignment = Alignment(horizontal='center')  # выравниваем посередине
+
+    def autoFit(self, ws):
+        for column in ws.iter_cols():
+            # автоматическая подгонка ширины столбцов
+            name = get_column_letter(column[0].column)
+            new_col_length = max(len(str(cell.value)) for cell in column)
+            ws.column_dimensions[name].width = new_col_length + 2  # Added a extra bit for padding
+            # границы
+            thins = Side(border_style="thin", color="000000")
+            for cell in column:
+                cell.border = Border(top=thins, bottom=thins, left=thins, right=thins)
 
 
 @dataclass
