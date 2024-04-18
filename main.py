@@ -72,7 +72,7 @@ class Form_frontend(QtWidgets.QMainWindow):
 
         # ------------- Выгрузки excel ------------- #
         # self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
-        self.ui.smeta_action.triggered.connect(sqlite_qwer.smeta_reqest(electric=False))
+        self.ui.smeta_action.triggered.connect(self.smeta())
         # -------------
         # таблица для отображения полей
         self.ui.tableView.setModel(self.obj_model)
@@ -213,11 +213,16 @@ class Form_frontend(QtWidgets.QMainWindow):
         if self.db:
             try:
                 # self.db.execute(sqlite_qwer.fixBug_updateTypeSizeId())  # typesize_id = 1
+                try:
+                    self.db.execute(sqlite_qwer.update_contribution())
+                except:
+                    print('zazzaza lalka')
                 if self.db.execute(
                         sqlite_qwer.sql_check_column_exists_in_table(constants.CONTRIB_TABLE, 'balance_count')):
                     _ = self.db.cursor.fetchone()[0]
                     if not _:
                         self.db.execute(constants.SQL_ALTER_TABLE_CONTRIBUTIONS4)
+                        self.db.execute(sqlite_qwer.update_contribution())
                 if self.db.execute(sqlite_qwer.sql_check_column_exists_in_table(constants.CONTRIB_TABLE, 'pay_kind')):
                     _ = self.db.cursor.fetchone()[0]
                     if not _:
