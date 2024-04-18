@@ -716,24 +716,18 @@ def check_balance_count(payment_id: int):
     return f"SELECT balance_count FROM contribution WHERE id = {payment_id}"
 
 
-def smeta_reqest(electric: bool):
+def smeta_reqest(balance_count: int):
     """Запрос на получение всех платежей за текущий год"""
 
-    sql = f"SELECT " \
-          f"(SELECT name FROM contribution_type WHERE [contribution].[id_cont_type] = [contribution_type].[id] " \
-          f"AND [contribution_type].[electric] = 0) as name, " \
-          f"pay_date," \
-          f"value, " \
-          f"pay_kind " \
-          f"FROM contribution " \
-          f"WHERE date(pay_date, 'start of year') = date(datetime('now'), 'start of year') AND name "
+    return f"SELECT " \
+           f"(SELECT name FROM contribution_type WHERE [contribution].[id_cont_type] = [contribution_type].[id]) as name, " \
+           f"strftime('%m', pay_date) as month, " \
+           f"pay_kind, " \
+           f"sum(value) as TotalSum " \
+           f"FROM contribution " \
+           f"WHERE date(pay_date, 'start of year') = date(datetime('now'), 'start of year') AND balance_count = {balance_count} " \
+           f"GROUP BY name, pay_kind, month;"
 
-    if electric:
-        sql += "IS"
-    else:
-        sql += "NOT"
 
-    sql += " NULL AND balance_count = 1;"
-
-    print(sql)
-    return sql
+def update_contribution():
+    return "UPDATE contribution SET balance_count = 0 WHERE id_cont_type = 2 OR id_cont_type = 4"
