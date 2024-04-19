@@ -1,7 +1,7 @@
 from PySide6 import QtGui, QtCore, QtWidgets
 
 
-def open_file_dialog(caption: str, filter = str) -> str:
+def open_file_dialog(caption: str, filter=str) -> str:
     """
     вызывает диалоговое окно для открытия файла
     :return: имя выбранного файла
@@ -15,6 +15,7 @@ def onShowError(parent, title: str, msg: str, *args):
     """
     QtWidgets.QMessageBox.critical(parent, title, msg, *args)
 
+
 def onShowСonfirmation(parent, title: str, msg: str, *args) -> bool:
     """
     Запрос подтверждения действия
@@ -26,10 +27,9 @@ def onShowСonfirmation(parent, title: str, msg: str, *args) -> bool:
         return True
     return False
 
+
 def onShowOkMessage(parent, title: str, msg: str, *args):
     """
     вывод подтверждения об успешном выполнении задания
     """
     QtWidgets.QMessageBox.information(parent, title, msg, *args)
-
-

@@ -126,19 +126,18 @@ def sql_full_update_contrib(cont_id: str, id_garage: str, id_cont: str, pay_date
     формирование запроса для добавления платежа в БД (pay_kind = 1 если нал, 2 - безнал)
     """
     return f"UPDATE contribution SET id_garage={id_garage}, id_cont_type = {id_cont}, pay_date = '{pay_date}', " \
-           f" pay_kind = {pay_kind}, value = {value}, comment = '{comment}', check_photo ='{check_photo}'," \
+           f"pay_kind = {pay_kind}, value = {value}, comment = '{comment}', check_photo ='{check_photo}', " \
            f"balance_count = {balance_count} " \
            f"WHERE id = {cont_id};"
 
 
 def sql_update_contrib_type(contrib_id: int, value: float, pay_kind: int,
-                            comment: str = '', check_photo: str = '', ) -> str:
+                            comment: str = '', check_photo: str = '') -> str:
     """
     обновление заначений полей по id
     """
     return f"UPDATE contribution_type SET value = {value}, pay_kind = {pay_kind}, " \
-           f"comment = '{comment}', check_photo ='{check_photo}' " \
-           f"WHERE id = {contrib_id};"
+           f"comment = '{comment}', check_photo ='{check_photo}' WHERE id = {contrib_id};"
 
 
 # запросы по членам кооператива
@@ -608,6 +607,7 @@ def sql_update_object_account(obj_id: int, current_debt: float = 0, calculation:
 
 def sql_select_obj_account_by_object_id(object_id: str) -> str:
     """Запрос на выдачу текущего состояния счета объекта"""
+
     return f"SELECT * FROM object_account WHERE obj_id = {object_id};"
 
 
@@ -616,43 +616,52 @@ def sql_get_current_tarif(meter_type: str):
     """Запрос на получение актуальных тарифов на счетчик"""
     return f"SELECT * FROM meter_payment WHERE type_meter = '{meter_type}';"
 
+
 def sql_set_current_tarif(meter_type: str, value_day: str = 0, value_night: str = 0):
     """Запрос на установку актуальных тарифов на счетчик"""
     return f"UPDATE meter_payment SET value_day = {value_day}, " \
            f"value_night = {value_night} " \
            f"WHERE type_meter = {meter_type};"
 
+
 def sql_add_current_tarif(meter_type: str, value_day: str = 0, value_night: str = 0):
     """Запрос на добавление записи для счетчика"""
     return f"INSERT INTO meter_payment (type_meter, value_day, value_night) VALUES ({meter_type}, {value_day}," \
            f" {value_night}); "
+
 
 def sql_add_new_members_contrib(size_id: int, value: float, year: int):
     """Запрос на внесение годового членского взноса"""
     return f"INSERT INTO members_contrib (size_id, value, year, date_add) VALUES " \
            f"({size_id}, {value}, {year}, '{datetime.datetime.now().isoformat()}');"
 
+
 def sql_biling_members_contrib(year: int, size_id: int):
     """Запрос на установку даты выставления счета"""
     return f"UPDATE members_contrib SET date_biling = '{datetime.datetime.now().isoformat()}' WHERE " \
            f"size_id = {size_id} and year = {year};"
 
+
 def sql_get_value_members_contrib(size_id: int, year: int):
     """запрос на получение значений размеров платежа по типоразмеру объекта за определенный год"""
     return f"SELECT value FROM members_contrib WHERE size_id = {size_id} and year = {year};"
+
 
 def sql_update_value_members_contrib(size_id: int, value: float, year: int):
     """Запрос на установку новго значения счета (при условии, что счет еще не был выставлен ранее)"""
     return f"UPDATE members_contrib SET value = {value}, date_add = '{datetime.datetime.now().isoformat()}' " \
            f"WHERE year = {year} and size_id = {size_id} and date_biling ='0';"
 
+
 def sql_get_biling_members_contrib_date(size_id: int, year: int):
     """Возвращает дату выставления счета для указанного года и типоразмера"""
     return f"SELECT date_biling FROM members_contrib WHERE size_id = {size_id} and year = {year};"
 
+
 def sql_get_unic_year():
     """Запрос на получение значений годов, для которых есть данные для выставления счета"""
     return "SELECT DISTINCT year FROM members_contrib;"
+
 
 def sql_get_data_to_table(year: int):
     """запрос на получение даты выставления счета"""
@@ -706,22 +715,18 @@ def check_balance_count(payment_id: int):
     return f"SELECT balance_count FROM contribution WHERE id = {payment_id}"
 
 
-def smeta_reqest(electric: bool):
+def smeta_reqest(balance_count: int):
     """Запрос на получение всех платежей за текущий год"""
 
-    sql = f"SELECT " \
-          f"(SELECT name FROM contribution_type WHERE [contribution].[id_cont_type] = [contribution_type].[id] " \
-          f"AND [contribution_type].[electric] = 0) as name, " \
-          f"pay_date," \
-          f"value, " \
-          f"pay_kind " \
-          f"FROM contribution " \
-          f"WHERE date(pay_date, 'start of year') = date(datetime('now'), 'start of year') AND name "
+    return f"SELECT " \
+           f"(SELECT name FROM contribution_type WHERE [contribution].[id_cont_type] = [contribution_type].[id]) as name, " \
+           f"strftime('%m', pay_date) as month, " \
+           f"pay_kind, " \
+           f"sum(value) as TotalSum " \
+           f"FROM contribution " \
+           f"WHERE date(pay_date, 'start of year') = date(datetime('now'), 'start of year') AND balance_count = {balance_count} " \
+           f"GROUP BY name, pay_kind, month;"
 
-    if electric:
-        sql += "IS NULL;"
-    else:
-        sql += "NOT NULL;"
 
-    print(sql)
-    return sql
+def update_contribution():
+    return "UPDATE contribution SET balance_count = 0 WHERE id_cont_type = 2 OR id_cont_type = 4"

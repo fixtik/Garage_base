@@ -449,7 +449,7 @@ class Cart_frontend(QtWidgets.QWidget):
                                                               value=contr.value,
                                                               comment=contr.comment if contr.comment else ' ',
                                                               check_photo=contr.checkPath if contr.checkPath else ' ',
-                                                              balance_count=contr.checkBalanceCount,
+                                                              balance_count=contr.checkBalanceCount
                                                               )
                     if not (self.db.execute(sql)):
                         ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
@@ -654,13 +654,11 @@ class Cart_frontend(QtWidgets.QWidget):
                 return str(round(float(tarif.value_day) * (int(meter.curDay) - int(meter.prev_day)) + \
                                  float(tarif.value_night) * (int(meter.curNight) - int(meter.prev_night)), 2))
 
-
     def set_new_value_acc(self, value: [float, ui.contribute_functions.Contribution]):
         """Работа с балансом при добавлении платежа"""
 
         def debt_work(lineEdit: QtWidgets.QLineEdit, val: float) -> float:
             cal = float(lineEdit.text()) if lineEdit.text() else 0
-
             if cal > 0:
                 if cal < val:
                     lineEdit.setText('0')
