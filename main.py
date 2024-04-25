@@ -142,7 +142,12 @@ class Form_frontend(QtWidgets.QMainWindow):
     def showCartObject_EditMode(self):
         """Отображение окна карточки редактирования объекта"""
         self.cartObj = ui.cart_functions.Cart_frontend(db=self.db, main_form=self)
+        taskBarHeight = (self.screen().geometry().height() - self.screen().availableGeometry().height())
+        self.cartObj.resize(int(self.cartObj.width()),
+                            self.screen().availableSize().height() - taskBarHeight)
         self.cartObj.show()
+        self.cartObj.move(self.screen().geometry().center() - self.cartObj.geometry().center())
+
         self.cartObj.fillDataForObjectFromDB(self.obj_model.items[self.ui.tableView.selectedIndexes()[0].row()].id)
 
     def showKindPayWindow(self):

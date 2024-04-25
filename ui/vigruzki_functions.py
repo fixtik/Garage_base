@@ -1,8 +1,6 @@
 import os
 from dataclasses import dataclass
 from openpyxl import Workbook
-from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
-from openpyxl.styles import Font
 from openpyxl.styles import Border, Side, Alignment
 from openpyxl.utils import get_column_letter
 from datetime import datetime
@@ -87,7 +85,7 @@ class Smeta():
             # автоматическая подгонка ширины столбцов
             name = get_column_letter(column[0].column)
             new_col_length = max(len(str(cell.value)) for cell in column)
-            ws.column_dimensions[name].width = new_col_length + 2  # Added a extra bit for padding
+            ws.column_dimensions[name].width = new_col_length + 2  # Added an extra bit for padding
             # границы
             thins = Side(border_style="thin", color="000000")
             for cell in column:
