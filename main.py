@@ -217,6 +217,7 @@ class Form_frontend(QtWidgets.QMainWindow):
     def updateDB(self):
         if self.db:
             try:
+                self.db.execute(sqlite_qwer.SQL_CREATE_TABLE_PAYMENT_DETAILS)
                 # self.db.execute(sqlite_qwer.fixBug_updateTypeSizeId())  # typesize_id = 1
                 try:
                     self.db.execute(sqlite_qwer.update_contribution())

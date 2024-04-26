@@ -731,3 +731,5 @@ def smeta_reqest(balance_count: int):
 
 def update_contribution():
     return "UPDATE contribution SET balance_count = 0 WHERE id_cont_type = 2 OR id_cont_type = 4"
+
+# todo добавить запросы insert, update, select в payment_details
