@@ -191,6 +191,7 @@ ERROR_DELETE_CONTRIB_KIND = "Указанный тип платежа испол
 MESSAGE_CHECK_DATA = 'Проверьте корректность введенных данных'
 MESSAGE_CHECK_DB_CONNECTIONS = 'Проверьте подключение к БД'
 MESSAGE_UPDATE_DB_OK = 'База данных успешно обновлена'
+MESSAGE_SMETA_OK = 'Файл сметы создан'
 
 TITLE_SELECT_BD = "Выберите файл БД"
 TITLE_EDIT_MODE = 'Редактирование'
