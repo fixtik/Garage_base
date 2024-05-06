@@ -72,6 +72,7 @@ class Form_frontend(QtWidgets.QMainWindow):
 
         # ------------- Выгрузки excel ------------- #
         # self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
+        self.ui.spisok_action.setDisabled(True)
         self.ui.smeta_action.triggered.connect(self.smeta)
         # -------------
         # таблица для отображения полей
