@@ -110,24 +110,24 @@ def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = ' '
 
 
 def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, balance_count: str, pay_kind: int, value: float,
-                        comment: str = '', check_photo: str = '') -> str:
+                        comment: str = '', check_photo: str = '', payment_time: str = '') -> str:
     """
     формирование запроса для добавления платежа в БД
     """
-    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, pay_kind, value, comment, check_photo, balance_count) " \
+    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, pay_kind, value, comment, check_photo, balance_count, payment_time) " \
            f"VALUES " \
-           f"({id_garage}, {id_cont}, '{pay_date}', '{pay_kind}', {value}, '{comment}','{check_photo}', '{balance_count}');"
+           f"({id_garage}, {id_cont}, '{pay_date}', '{pay_kind}', {value}, '{comment}','{check_photo}', '{balance_count}', '{payment_time}');"
 
 
 def sql_full_update_contrib(cont_id: str, id_garage: str, id_cont: str, pay_date: str,
                             value: float, pay_kind: int, comment: str = '', check_photo: str = '',
-                            balance_count: str = '1') -> str:
+                            balance_count: str = '1', payment_time: str = '') -> str:
     """
     формирование запроса для добавления платежа в БД (pay_kind = 1 если нал, 2 - безнал)
     """
     return f"UPDATE contribution SET id_garage={id_garage}, id_cont_type = {id_cont}, pay_date = '{pay_date}', " \
            f"pay_kind = {pay_kind}, value = {value}, comment = '{comment}', check_photo ='{check_photo}', " \
-           f"balance_count = {balance_count} " \
+           f"balance_count = {balance_count}, payment_time = '{payment_time}' " \
            f"WHERE id = {cont_id};"
 
 

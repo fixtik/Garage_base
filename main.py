@@ -19,6 +19,7 @@ import ui.validators
 import ui.tarif_function
 import ui.vigruzki_functions
 import ui.css
+import ui.qr_functions
 
 
 class Form_frontend(QtWidgets.QMainWindow):
@@ -37,6 +38,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.tarif = None  # для отображения формы редактирования тарифа счетчика
         self.memberCont = None  # для отображения формы добавления членского взноса
         self.bilingCont = None  # для отображения формы выставления счета
+        self.qrBankInfo = None  # для отображения формы заполнения банковских реквизитов
         self.obj_model = ui.tableView_Models.ObjectTableViewModel()
         self.css = ui.css  # для красоты
 
@@ -69,10 +71,12 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.tarif_e.triggered.connect(self.showTarifMeter)  # окно редактирования тарифа
         self.ui.memberCont_action.triggered.connect(self.showMemberCont)  # окно редатирования членского взноса
         self.ui.bilingContrib_action.triggered.connect(self.showBilingCont)  # окно выставления счета
+        self.ui.bank_info.triggered.connect(self.showQrBankInfo)  # окно добавления банковской информации
 
         # ------------- Выгрузки excel ------------- #
         # self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
         self.ui.spisok_action.setDisabled(True)
+        # self.ui.smeta_action.setDisabled(True)
         self.ui.smeta_action.triggered.connect(self.smeta)
         # -------------
         # таблица для отображения полей
@@ -139,6 +143,11 @@ class Form_frontend(QtWidgets.QMainWindow):
         """Отображение окна карточки объекта"""
         self.cartObj = ui.cart_functions.Cart_frontend(db=self.db)
         self.cartObj.show()
+
+    def showQrBankInfo(self):
+        """Отображение окна добавления банковских реквизитов"""
+        self.qrBankInfo = ui.qr_functions.QrBankInfo_frontend(db=self.db)
+        self.qrBankInfo.show()
 
     def showCartObject_EditMode(self):
         """Отображение окна карточки редактирования объекта"""
@@ -220,7 +229,12 @@ class Form_frontend(QtWidgets.QMainWindow):
     def updateDB(self):
         if self.db:
             try:
-                self.db.execute(sqlite_qwer.SQL_CREATE_TABLE_PAYMENT_DETAILS)
+                if self.db.execute(
+                        sqlite_qwer.sql_check_column_exists_in_table(constants.CONTRIB_TABLE, 'payment_time')):
+                    _ = self.db.cursor.fetchone()[0]
+                    if not _:
+                        self.db.execute(constants.SQL_ALTER_TABLE_CONTRIBUTIONS5)
+                # self.db.execute(sqlite_qwer.SQL_CREATE_TABLE_PAYMENT_DETAILS)
                 # self.db.execute(sqlite_qwer.fixBug_updateTypeSizeId())  # typesize_id = 1
                 try:
                     self.db.execute(sqlite_qwer.update_contribution())

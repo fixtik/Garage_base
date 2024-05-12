@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main_window.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.6.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -56,6 +56,8 @@ class Ui_MainWindow(object):
         self.memberCont_action.setObjectName(u"memberCont_action")
         self.bilingContrib_action = QAction(MainWindow)
         self.bilingContrib_action.setObjectName(u"bilingContrib_action")
+        self.bank_info = QAction(MainWindow)
+        self.bank_info.setObjectName(u"bank_info")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
@@ -132,6 +134,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_3)
 
+
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
         self.tableView = QTableView(self.centralwidget)
@@ -142,7 +145,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 800, 22))
+        self.menubar.setGeometry(QRect(0, 0, 800, 18))
         self.menubar.setDefaultUp(False)
         self.operation_menu = QMenu(self.menubar)
         self.operation_menu.setObjectName(u"operation_menu")
@@ -154,6 +157,8 @@ class Ui_MainWindow(object):
         self.rabota_with_BD.setObjectName(u"rabota_with_BD")
         self.vigruzki = QMenu(self.menubar)
         self.vigruzki.setObjectName(u"vigruzki")
+        self.org_info = QMenu(self.menubar)
+        self.org_info.setObjectName(u"org_info")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -164,6 +169,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.about_menu.menuAction())
         self.menubar.addAction(self.rabota_with_BD.menuAction())
         self.menubar.addAction(self.vigruzki.menuAction())
+        self.menubar.addAction(self.org_info.menuAction())
         self.operation_menu.addAction(self.search_action)
         self.operation_menu.addAction(self.add_action)
         self.operation_menu.addSeparator()
@@ -180,6 +186,7 @@ class Ui_MainWindow(object):
         self.rabota_with_BD.addAction(self.bilingContrib_action)
         self.vigruzki.addAction(self.spisok_action)
         self.vigruzki.addAction(self.smeta_action)
+        self.org_info.addAction(self.bank_info)
 
         self.retranslateUi(MainWindow)
 
@@ -188,7 +195,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow",
-                                                             u" \u0412\u0441\u0435\u0432\u043e\u043b\u043e\u0436\u0441\u043a\u0438\u0439 \u0420.\u0421. \u0412\u041e\u0410",
+                                                             u"\u0412\u0441\u0435\u0432\u043e\u043b\u043e\u0436\u0441\u043a\u0438\u0439 \u0420.\u0421. \u0412\u041e\u0410",
                                                              None))
         self.search_action.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u0438\u0441\u043a", None))
         self.add_action.setText(
@@ -223,6 +230,9 @@ class Ui_MainWindow(object):
         self.bilingContrib_action.setText(QCoreApplication.translate("MainWindow",
                                                                      u"\u0412\u044b\u0441\u0442\u0430\u0432\u0438\u0442\u044c \u0441\u0447\u0435\u0442",
                                                                      None))
+        self.bank_info.setText(QCoreApplication.translate("MainWindow",
+                                                          u"\u041f\u043b\u0430\u0442\u0435\u0436\u043d\u0430\u044f \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f",
+                                                          None))
         self.voa_label.setText("")
         self.openBase_pushButton.setText(QCoreApplication.translate("MainWindow",
                                                                     u"\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0431\u0430\u0437\u0443 \u0434\u0430\u043d\u043d\u044b\u0445",
@@ -242,5 +252,8 @@ class Ui_MainWindow(object):
             QCoreApplication.translate("MainWindow", u"\u0420\u0430\u0431\u043e\u0442\u0430 \u0441 \u0411\u0414", None))
         self.vigruzki.setTitle(
             QCoreApplication.translate("MainWindow", u"\u0412\u044b\u0433\u0440\u0443\u0437\u043a\u0438", None))
+        self.org_info.setTitle(QCoreApplication.translate("MainWindow",
+                                                          u"\u041e\u0431 \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u0438",
+                                                          None))
     # retranslateUi
 
