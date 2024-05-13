@@ -19,6 +19,7 @@ import ui.validators
 import ui.tarif_function
 import ui.vigruzki_functions
 import ui.css
+import ui.qr_functions
 
 
 class Form_frontend(QtWidgets.QMainWindow):
@@ -32,11 +33,12 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.cartObj = None    # для отображения формы с карточкой объекта
         self.typePay = None    # для отображения формы редактирования видов платежей
         self.newMember = None  # для отображения формы добавления нового члена
-        self.elMeter = None    # для отображения формы с счетчиком
-        self.garageSize = None # для отображения формы размера гаража
-        self.tarif = None      # для отображения формы редактирования тарифа счетчика
-        self.memberCont = None # для отображения формы добавления членского взноса
-        self.bilingCont = None # для отображения формы выставления счета
+        self.elMeter = None  # для отображения формы с счетчиком
+        self.garageSize = None  # для отображения формы размера гаража
+        self.tarif = None  # для отображения формы редактирования тарифа счетчика
+        self.memberCont = None  # для отображения формы добавления членского взноса
+        self.bilingCont = None  # для отображения формы выставления счета
+        self.qrBankInfo = None  # для отображения формы заполнения банковских реквизитов
         self.obj_model = ui.tableView_Models.ObjectTableViewModel()
         self.css = ui.css  # для красоты
 
@@ -51,28 +53,31 @@ class Form_frontend(QtWidgets.QMainWindow):
     def initUi(self):
         """Инициализация объектов интерфейса"""
         # слоты
-        self.ui.createBD_action.triggered.connect(self.create_db)       # создание новой бд
-        self.ui.chooseBD_action.triggered.connect(self.openDB)        # выбор существующей бд
+        self.ui.createBD_action.triggered.connect(self.create_db)  # создание новой бд
+        self.ui.chooseBD_action.triggered.connect(self.openDB)  # выбор существующей бд
         self.ui.openBase_pushButton.clicked.connect(self.openDB)
         self.ui.search_action.triggered.connect(self.showCartObject)  # отображение главной карточки объекта
         self.ui.updateBD_action.triggered.connect(self.updateDB)
         self.ui.search_action.setVisible(False)
         self.ui.exit_action.triggered.connect(self.close)
         self.ui.kindPay_action.triggered.connect(
-            self.showKindPayWindow)                                         # отображение окна редактирования типов платежей
-        self.ui.member_action.triggered.connect(self.showAddMemberWindow)   # окно добавления нового члена
+            self.showKindPayWindow)  # отображение окна редактирования типов платежей
+        self.ui.member_action.triggered.connect(self.showAddMemberWindow)  # окно добавления нового члена
         self.ui.electric_action.triggered.connect(self.showElMeterWindow)
         self.ui.garage_action.triggered.connect(self.showGarageSizeWindow)  # окно добавления размеров гаража
-        self.ui.add_action.triggered.connect(self.showFullAddCart)          # окно добавления всех данных
-        self.ui.tarif_e.triggered.connect(self.showTarifMeter)              # окно редактирования тарифа
-        self.ui.add_action.triggered.connect(self.showFullAddCart)          # окно добавления всех данных
-        self.ui.tarif_e.triggered.connect(self.showTarifMeter)              # окно редактирования тарифа
-        self.ui.memberCont_action.triggered.connect(self.showMemberCont)    # окно редатирования членского взноса
-        self.ui.bilingContrib_action.triggered.connect(self.showBilingCont) # окно выставления счета
+        self.ui.add_action.triggered.connect(self.showFullAddCart)  # окно добавления всех данных
+        self.ui.tarif_e.triggered.connect(self.showTarifMeter)  # окно редактирования тарифа
+        self.ui.add_action.triggered.connect(self.showFullAddCart)  # окно добавления всех данных
+        self.ui.tarif_e.triggered.connect(self.showTarifMeter)  # окно редактирования тарифа
+        self.ui.memberCont_action.triggered.connect(self.showMemberCont)  # окно редатирования членского взноса
+        self.ui.bilingContrib_action.triggered.connect(self.showBilingCont)  # окно выставления счета
+        self.ui.bank_info.triggered.connect(self.showQrBankInfo)  # окно добавления банковской информации
 
         # ------------- Выгрузки excel ------------- #
         # self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
-        self.ui.smeta_action.triggered.connect(self.smeta())
+        self.ui.spisok_action.setDisabled(True)
+        # self.ui.smeta_action.setDisabled(True)
+        self.ui.smeta_action.triggered.connect(self.smeta)
         # -------------
         # таблица для отображения полей
         self.ui.tableView.setModel(self.obj_model)
@@ -139,10 +144,20 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.cartObj = ui.cart_functions.Cart_frontend(db=self.db)
         self.cartObj.show()
 
+    def showQrBankInfo(self):
+        """Отображение окна добавления банковских реквизитов"""
+        self.qrBankInfo = ui.qr_functions.QrBankInfo_frontend(db=self.db)
+        self.qrBankInfo.show()
+
     def showCartObject_EditMode(self):
         """Отображение окна карточки редактирования объекта"""
         self.cartObj = ui.cart_functions.Cart_frontend(db=self.db, main_form=self)
+        taskBarHeight = (self.screen().geometry().height() - self.screen().availableGeometry().height())
+        self.cartObj.resize(int(self.cartObj.width()),
+                            self.screen().availableSize().height() - taskBarHeight)
         self.cartObj.show()
+        self.cartObj.move(self.screen().geometry().center() - self.cartObj.geometry().center())
+
         self.cartObj.fillDataForObjectFromDB(self.obj_model.items[self.ui.tableView.selectedIndexes()[0].row()].id)
 
     def showKindPayWindow(self):
@@ -207,11 +222,19 @@ class Form_frontend(QtWidgets.QMainWindow):
             self.bilingCont.show()
 
     def smeta(self):
-        ui.vigruzki_functions.Smeta(db=self.db).smeta_action()
+        if self.db:
+            ui.vigruzki_functions.Smeta(db=self.db).smeta_action()
+            ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_SMETA_OK)
 
     def updateDB(self):
         if self.db:
             try:
+                if self.db.execute(
+                        sqlite_qwer.sql_check_column_exists_in_table(constants.CONTRIB_TABLE, 'payment_time')):
+                    _ = self.db.cursor.fetchone()[0]
+                    if not _:
+                        self.db.execute(constants.SQL_ALTER_TABLE_CONTRIBUTIONS5)
+                # self.db.execute(sqlite_qwer.SQL_CREATE_TABLE_PAYMENT_DETAILS)
                 # self.db.execute(sqlite_qwer.fixBug_updateTypeSizeId())  # typesize_id = 1
                 try:
                     self.db.execute(sqlite_qwer.update_contribution())
@@ -249,8 +272,6 @@ class Form_frontend(QtWidgets.QMainWindow):
                                 f = self.db.cursor.fetchall()
                                 if not f:
                                     self.db.execute(sqlite_qwer.sql_set_default_value_to_account(id[0]))
-
-
 
                     ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_UPDATE_DB_OK)
             except Exception as e:

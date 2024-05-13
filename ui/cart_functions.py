@@ -294,6 +294,25 @@ class Cart_frontend(QtWidgets.QWidget):
         """удаление строки из таблицы"""
 
         if self.sender().objectName() == self.ui.electricDel_pushButton.objectName():
+            electric_indx = self.ui.electric_tableView.selectionModel().selectedRows()
+            if self.db:
+                # Удаляем запись о счетчике из таблицы
+                self.db.execute(
+                    sqlite_qwer.sql_delete_rec_by_table_name_and_id(table_name=constants.ELECTRIC_TABLE,
+                                                                    rec_id=self.elMeterModel.items[
+                                                                        electric_indx[0].row()].id))
+
+                # Отвязываем id удаленного счетчика от гаража
+                sql = sqlite_qwer.sql_get_all_objects_for_list_by_row_and_num(row=self.ui.row_lineEdit.text(),
+                                                                              num=self.ui.garage_lineEdit.text())
+                if self.db.execute(sql):
+                    for obj in self.db.cursor.fetchall():
+                        garage_id = obj[0]
+                        self.db.execute(
+                            sqlite_qwer.sql_update_field_by_table_name_and_id(table_name=constants.OBJ_TABLE,
+                                                                              rec_id=garage_id,
+                                                                              field=f'electro{self.elMeterModel.items[electric_indx[0].row()].type}_id',
+                                                                              new_value=0))
             self.delSelectRowFromTableView(self.ui.electric_tableView)
         elif self.sender().objectName() == self.ui.userDel_pushButton.objectName():
             # при удалении пользователя - удаляем и сслыки на его id
@@ -449,7 +468,8 @@ class Cart_frontend(QtWidgets.QWidget):
                                                               value=contr.value,
                                                               comment=contr.comment if contr.comment else ' ',
                                                               check_photo=contr.checkPath if contr.checkPath else ' ',
-                                                              balance_count=contr.checkBalanceCount
+                                                              balance_count=contr.checkBalanceCount,
+                                                              payment_time=str(datetime.now())
                                                               )
                     if not (self.db.execute(sql)):
                         ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
@@ -464,7 +484,8 @@ class Cart_frontend(QtWidgets.QWidget):
                         value=contr.value,
                         comment=contr.comment if contr.comment else ' ',
                         check_photo=contr.checkPath if contr.checkPath else ' ',
-                        balance_count=contr.checkBalanceCount
+                        balance_count=contr.checkBalanceCount,
+                        payment_time=str(datetime.now())
 
                     )
                     if not (self.db.execute(sql)):

@@ -76,6 +76,7 @@ SQL_CREATE_TABLE_CONTRIBUTION = 'CREATE TABLE IF NOT EXISTS "contribution" (' \
                                 '	"pay_kind"	TEXT,' \
                                 '   "check_photo" BLOB,' \
                                 '   "balance_count" INTEGER DEFAULT 1,' \
+                                '   "payment_time" TEXT,' \
                                 'FOREIGN KEY("id_garage") REFERENCES "garage_obj"("id"),' \
                                 'FOREIGN KEY("id_cont_type") REFERENCES "contribution_type"("id")' \
                                 ');'
@@ -116,21 +117,35 @@ SQL_CREATE_TABLE_MEMBERS_CONTRIB = 'CREATE TABLE IF NOT EXISTS "members_contrib"
                                  'FOREIGN KEY("size_id") REFERENCES "type_size"("id")' \
                                  ');'
 
+SQL_CREATE_TABLE_PAYMENT_DETAILS = 'CREATE TABLE IF NOT EXISTS "payment_details" (' \
+                                   'id INTEGER PRIMARY KEY AUTOINCREMENT, ' \
+                                   '"Name" TEXT DEFAULT 0, ' \
+                                   '"PersonalAcc" TEXT DEFAULT 0, ' \
+                                   '"BankName"  ITEXT DEFAULT 0, ' \
+                                   '"BIC" TEXT DEFAULT 0,' \
+                                   '"CorrespAcc" TEXT DEFAULT 0,' \
+                                   '"PayeeINN" TEXT DEFAULT 0,' \
+                                   '"KPP" TEXT DEFAULT 0' \
+                                   ');'
+
 SQL_ALTER_TABLE_CONTRIBUTIONS = 'ALTER TABLE "contribution" ADD COLUMN "pay_kind" TEXT; '
 SQL_ALTER_TABLE_CONTRIBUTIONS1 = 'ALTER TABLE "contribution" ADD COLUMN "check_photo" BLOB;'
 SQL_ALTER_TABLE_CONTRIBUTIONS2 = 'ALTER TABLE "contribution" DROP COLUMN "period_pay";'
 SQL_ALTER_TABLE_CONTRIBUTIONS3 = 'ALTER TABLE "contribution_type" ADD COLUMN "electric" INTEGER DEFAULT 0;'
 SQL_ALTER_TABLE_CONTRIBUTIONS4 = 'ALTER TABLE "contribution" ADD COLUMN "balance_count" INTEGER DEFAULT 1;'
+SQL_ALTER_TABLE_CONTRIBUTIONS5 = 'ALTER TABLE "contribution" ADD COLUMN "payment_time" TEXT;'
 
 SQL_ALTER_TABLE_TYPE_SIZE = 'ALTER TABLE "type_size" ' \
                             'ADD COLUMN "cont_value" REAL DEFAULT 0.0;'
 
 BD_SQL_CREATOR = [SQL_CREATE_TABLE_GARGE_MEMBER, SQL_CREATE_TABLE_ELECTRIC_METER, SQL_CREATE_TABLE_TYPE_SIZE,
                   SQL_CREATE_TABLE_CONTRIBUTION_TYPE, SQL_CREATE_TABLE_GARAGE, SQL_CREATE_TABLE_CONTRIBUTION,
-                  SQL_CREATE_TABLE_AUTOMOBILE, SQL_CREATE_TABLE_METER_PAYMENT, SQL_CREATE_TABLE_OBJECT_ACCOUNT]
+                  SQL_CREATE_TABLE_AUTOMOBILE, SQL_CREATE_TABLE_METER_PAYMENT, SQL_CREATE_TABLE_OBJECT_ACCOUNT,
+                  SQL_CREATE_TABLE_MEMBERS_CONTRIB, SQL_CREATE_TABLE_PAYMENT_DETAILS]
 
 TABALE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
-                'contribution_type', 'electric_meter', 'type_size', 'meter_payment', 'object_account']
+                'contribution_type', 'electric_meter', 'type_size', 'meter_payment', 'object_account',
+                'members_contrib', 'payment_details']
 CAR_TABLE = 'automobile'
 OBJ_TABLE = 'garage_obj'
 ELECTRIC_TABLE = 'electric_meter'
@@ -141,6 +156,7 @@ CONTRIB_TABLE = 'contribution'
 ACCOUNT_TABLE = 'object_account'
 TARIF_TABLE = 'meter_payment'
 MEMBERS_CONTRIB = 'members_contrib'
+PAYMENT_DETAILS = 'payment_details'
 
 OWNER_ID = 'owner_id'
 
@@ -177,6 +193,7 @@ ERROR_DELETE_CONTRIB_KIND = "Указанный тип платежа испол
 MESSAGE_CHECK_DATA = 'Проверьте корректность введенных данных'
 MESSAGE_CHECK_DB_CONNECTIONS = 'Проверьте подключение к БД'
 MESSAGE_UPDATE_DB_OK = 'База данных успешно обновлена'
+MESSAGE_SMETA_OK = 'Файл сметы создан'
 
 TITLE_SELECT_BD = "Выберите файл БД"
 TITLE_EDIT_MODE = 'Редактирование'
@@ -222,6 +239,7 @@ DEFAULT_BILLS_DIR_PASS = os.getcwd() + '\\photo\\bills\\'  # os.getcwd() - во�
 DEFAULT_DOCS_DIR_PASS = os.getcwd() + '\\docs\\'
 DEFAULT_PHOTO_PASS = '\\photo\\member\\'
 DEFAULT_BILLS_PASS = '\\photo\\bills\\'
+# todo добавить путь для хранения файла с qr кодами на оплату
 
 WINDOW_TITLE_ADD_SIZE = 'Редактирование типоразмеров'
 

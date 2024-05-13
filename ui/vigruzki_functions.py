@@ -1,8 +1,6 @@
 import os
 from dataclasses import dataclass
 from openpyxl import Workbook
-from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
-from openpyxl.styles import Font
 from openpyxl.styles import Border, Side, Alignment
 from openpyxl.utils import get_column_letter
 from datetime import datetime
@@ -46,7 +44,7 @@ class Smeta():
         id_name = 0  # номер по порядку
         for i in range(2):  # пробегаем blance_count (влияет/не влияет платеж на баланс гаража)
             if i == 0:
-                self.text_plateji(ws)
+                self.text_plateji(ws, ne='не ')
             if self.db.execute(sqlite_qwer.smeta_reqest(balance_count=i)):
                 contribs = self.db.cursor.fetchall()
                 for contrib in contribs:  # пробегаем по платежам
@@ -59,7 +57,7 @@ class Smeta():
                         id_name += 1  # номер по порядку
                         dict.update({}.fromkeys(dict, 0))  # очищаем словарь
                         if i == 1:
-                            self.text_plateji(ws, ne='не ')
+                            self.text_plateji(ws)
                             i += 1  # плюсуем чтобы больще не записывалось
                         dict['name'] = name  # записываем в словарь название платежа
                         if calendar.month_name[int(con.month)] in dict:  # Проверяем есть ли название месяца в словаре
@@ -87,7 +85,7 @@ class Smeta():
             # автоматическая подгонка ширины столбцов
             name = get_column_letter(column[0].column)
             new_col_length = max(len(str(cell.value)) for cell in column)
-            ws.column_dimensions[name].width = new_col_length + 2  # Added a extra bit for padding
+            ws.column_dimensions[name].width = new_col_length + 2  # Added an extra bit for padding
             # границы
             thins = Side(border_style="thin", color="000000")
             for cell in column:
