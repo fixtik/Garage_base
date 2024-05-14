@@ -20,6 +20,7 @@ import ui.tarif_function
 import ui.vigruzki_functions
 import ui.css
 import ui.qr_functions
+from pro import checker
 
 
 class Form_frontend(QtWidgets.QMainWindow):
@@ -281,7 +282,8 @@ class Form_frontend(QtWidgets.QMainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication()  # Создаем  объект приложения
     # app = QtWidgets.QApplication(sys.argv)  # Если PyQt
-
+    if not checker():
+        exit()
     myWindow = Form_frontend()  # Создаём объект окна
     myWindow.show()  # Показываем окно
 
