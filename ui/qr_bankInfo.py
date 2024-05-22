@@ -15,20 +15,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QDialog, QLabel, QLineEdit,
+from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 
-class Ui_BankInfo(object):
-    def setupUi(self, BankInfo):
-        if not BankInfo.objectName():
-            BankInfo.setObjectName(u"BankInfo")
-        BankInfo.resize(404, 313)
-        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(BankInfo.sizePolicy().hasHeightForWidth())
-        BankInfo.setSizePolicy(sizePolicy)
-        self.verticalLayoutWidget_3 = QWidget(BankInfo)
+
+class Ui_Form(object):
+    def setupUi(self, Form):
+        if not Form.objectName():
+            Form.setObjectName(u"Form")
+        Form.resize(400, 345)
+        self.verticalLayoutWidget_3 = QWidget(Form)
         self.verticalLayoutWidget_3.setObjectName(u"verticalLayoutWidget_3")
         self.verticalLayoutWidget_3.setGeometry(QRect(10, 10, 381, 295))
         self.verticalLayout_3 = QVBoxLayout(self.verticalLayoutWidget_3)
@@ -163,20 +159,39 @@ class Ui_BankInfo(object):
 
         self.verticalLayout_3.addLayout(self.verticalLayout_KPP)
 
+        self.add_pushButton = QPushButton(Form)
+        self.add_pushButton.setObjectName(u"add_pushButton")
+        self.add_pushButton.setGeometry(QRect(330, 320, 56, 17))
+        self.cancel_pushButton = QPushButton(Form)
+        self.cancel_pushButton.setObjectName(u"cancel_pushButton")
+        self.cancel_pushButton.setGeometry(QRect(270, 320, 56, 17))
 
-        self.retranslateUi(BankInfo)
+        self.retranslateUi(Form)
 
-        QMetaObject.connectSlotsByName(BankInfo)
+        QMetaObject.connectSlotsByName(Form)
     # setupUi
 
-    def retranslateUi(self, BankInfo):
-        BankInfo.setWindowTitle(QCoreApplication.translate("BankInfo", u"Dialog", None))
-        self.Namel_abel.setText(QCoreApplication.translate("BankInfo", u"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u0438", None))
-        self.PersonalAcc_label.setText(QCoreApplication.translate("BankInfo", u"\u0420\u0430\u0441\u0447\u0435\u0442\u043d\u044b\u0439 \u0441\u0447\u0435\u0442", None))
-        self.BankName_label.setText(QCoreApplication.translate("BankInfo", u"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0431\u0430\u043d\u043a\u0430", None))
-        self.BIC_label.setText(QCoreApplication.translate("BankInfo", u"\u0411\u0418\u041a", None))
-        self.CorrespAcc_label.setText(QCoreApplication.translate("BankInfo", u"\u041a\u043e\u0440\u0440. \u0441\u0447\u0435\u0442", None))
-        self.PayeeINN_label.setText(QCoreApplication.translate("BankInfo", u"\u0418\u041d\u041d", None))
-        self.KPP_label.setText(QCoreApplication.translate("BankInfo", u"\u041a\u041f\u041f", None))
+    def retranslateUi(self, Form):
+        Form.setWindowTitle(QCoreApplication.translate("Form",
+                                                       u"\u0414\u0430\u043d\u043d\u044b\u0435 \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u0438",
+                                                       None))
+        self.Namel_abel.setText(QCoreApplication.translate("Form",
+                                                           u"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u0438",
+                                                           None))
+        self.PersonalAcc_label.setText(QCoreApplication.translate("Form",
+                                                                  u"\u0420\u0430\u0441\u0447\u0435\u0442\u043d\u044b\u0439 \u0441\u0447\u0435\u0442",
+                                                                  None))
+        self.BankName_label.setText(QCoreApplication.translate("Form",
+                                                               u"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0431\u0430\u043d\u043a\u0430",
+                                                               None))
+        self.BIC_label.setText(QCoreApplication.translate("Form", u"\u0411\u0418\u041a", None))
+        self.CorrespAcc_label.setText(
+            QCoreApplication.translate("Form", u"\u041a\u043e\u0440\u0440. \u0441\u0447\u0435\u0442", None))
+        self.PayeeINN_label.setText(QCoreApplication.translate("Form", u"\u0418\u041d\u041d", None))
+        self.KPP_label.setText(QCoreApplication.translate("Form", u"\u041a\u041f\u041f", None))
+        self.add_pushButton.setText(
+            QCoreApplication.translate("Form", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c", None))
+        self.cancel_pushButton.setText(
+            QCoreApplication.translate("Form", u"\u041e\u0442\u043c\u0435\u043d\u0438\u0442\u044c", None))
     # retranslateUi
 

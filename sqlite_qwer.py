@@ -732,4 +732,19 @@ def smeta_reqest(balance_count: int):
 def update_contribution():
     return "UPDATE contribution SET balance_count = 0 WHERE id_cont_type = 2 OR id_cont_type = 4"
 
+
+def sql_add_new_payment_details(Name: str = '', PersonalAcc: str = '', BankName: str = '', BIC: str = '',
+                                CorrespAcc: str = '', PayeeINN: str = '', KPP: str = ''):
+    return f"INSERT INTO payment_details (Name, PersonalAcc, BankName, BIC, CorrespAcc, PayeeINN, KPP) " \
+           f"VALUES ('{Name}', '{PersonalAcc}', '{BankName}', '{BIC}', '{CorrespAcc}', '{PayeeINN}', '{KPP}');"
+
+
+def sql_update_payment_details(Name: str = '', PersonalAcc: str = '', BankName: str = '', BIC: str = '',
+                               CorrespAcc: str = '', PayeeINN: str = '', KPP: str = ''):
+    return f"UPDATE payment_details SET Name='{Name}', PersonalAcc='{PersonalAcc}', BankName='{BankName}', " \
+           f"BIC='{BIC}', CorrespAcc='{CorrespAcc}', PayeeINN='{PayeeINN}', KPP='{KPP}' WHERE id = 1;"
+
+
+def sql_select_first_id_paymentdetails():
+    return "SELECT * FROM payment_details WHERE id=1;"
 # todo добавить запросы insert, update, select в payment_details

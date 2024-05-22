@@ -194,6 +194,8 @@ MESSAGE_CHECK_DATA = 'Проверьте корректность введенн
 MESSAGE_CHECK_DB_CONNECTIONS = 'Проверьте подключение к БД'
 MESSAGE_UPDATE_DB_OK = 'База данных успешно обновлена'
 MESSAGE_SMETA_OK = 'Файл сметы создан'
+MESSAGE_PAYMENT_INSERT_OK = 'Данные добавлены'
+MESSAGE_PAYMENT_UPDATE_OK = 'Данные изменены'
 
 TITLE_SELECT_BD = "Выберите файл БД"
 TITLE_EDIT_MODE = 'Редактирование'
