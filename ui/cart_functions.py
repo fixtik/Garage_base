@@ -307,9 +307,12 @@ class Cart_frontend(QtWidgets.QWidget):
                                                                               field=f'electro{meter_type}_id',
                                                                               new_value=0)):
                         # Удаляем запись о счетчике из таблицы только после отвязки от объекта
-                        self.db.execute(
-                            sqlite_qwer.sql_delete_rec_by_table_name_and_id(table_name=constants.ELECTRIC_TABLE,
-                                                                            rec_id=meter_id))
+                        if ui.dialogs.onShowСonfirmation(self, constants.ATTANTION_TITLE,
+                                                         constants.QUESTION_DELETE_METER_FROM_BASE):
+                            # удаляем счетчик из БД только с согласия пользователя
+                            self.db.execute(
+                                sqlite_qwer.sql_delete_rec_by_table_name_and_id(table_name=constants.ELECTRIC_TABLE,
+                                                                                rec_id=meter_id))
                         self.delSelectRowFromTableView(self.ui.electric_tableView)
                 except Exception as e:
                     print(e)
