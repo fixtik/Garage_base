@@ -296,24 +296,27 @@ class Cart_frontend(QtWidgets.QWidget):
         if self.sender().objectName() == self.ui.electricDel_pushButton.objectName():
             electric_indx = self.ui.electric_tableView.selectionModel().selectedRows()
             if self.db:
-                # Удаляем запись о счетчике из таблицы
-                self.db.execute(
-                    sqlite_qwer.sql_delete_rec_by_table_name_and_id(table_name=constants.ELECTRIC_TABLE,
-                                                                    rec_id=self.elMeterModel.items[
-                                                                        electric_indx[0].row()].id))
-
+                meter_id = self.elMeterModel.items[electric_indx[0].row()].id
+                meter_type = self.elMeterModel.items[electric_indx[0].row()].type
                 # Отвязываем id удаленного счетчика от гаража
-                sql = sqlite_qwer.sql_get_all_objects_for_list_by_row_and_num(row=self.ui.row_lineEdit.text(),
-                                                                              num=self.ui.garage_lineEdit.text())
-                if self.db.execute(sql):
-                    for obj in self.db.cursor.fetchall():
-                        garage_id = obj[0]
-                        self.db.execute(
+                try:
+                    if self.db.execute(
                             sqlite_qwer.sql_update_field_by_table_name_and_id(table_name=constants.OBJ_TABLE,
-                                                                              rec_id=garage_id,
-                                                                              field=f'electro{self.elMeterModel.items[electric_indx[0].row()].type}_id',
-                                                                              new_value=0))
-            self.delSelectRowFromTableView(self.ui.electric_tableView)
+                                                                              id_field=f'electro{meter_type}_id',
+                                                                              rec_id=meter_id,
+                                                                              field=f'electro{meter_type}_id',
+                                                                              new_value=0)):
+                        # Удаляем запись о счетчике из таблицы только после отвязки от объекта
+                        self.db.execute(
+                            sqlite_qwer.sql_delete_rec_by_table_name_and_id(table_name=constants.ELECTRIC_TABLE,
+                                                                            rec_id=meter_id))
+                        self.delSelectRowFromTableView(self.ui.electric_tableView)
+                except Exception as e:
+                    print(e)
+                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_DELETE_QWERY)
+
+
+
         elif self.sender().objectName() == self.ui.userDel_pushButton.objectName():
             # при удалении пользователя - удаляем и сслыки на его id
             indx = self.ui.users_tableView.selectionModel().selectedRows()
