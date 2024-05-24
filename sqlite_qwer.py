@@ -197,16 +197,19 @@ def sql_select_id_by_field_value(table_name: str, field_name: str, value: str) -
     return f"SELECT id FROM {table_name} WHERE {field_name} = '{value}';"
 
 
-def sql_update_field_by_table_name_and_id(table_name: str, rec_id: int, field: str, new_value) -> str:
+def sql_update_field_by_table_name_and_id(table_name: str, rec_id: int, field: str, new_value, id_field='id') -> str:
     """
     Обновление значения любого из полей по id-записи
     :param table_name: имя таблицы
     :param rec_id: id типоразмера
     :param place: имя изменяемого поля
     :param new_value: новое значение
+    :param id_field: поле для условия
     :return: sql-запрос
     """
-    return f'UPDATE {table_name} SET {field} = "{new_value}" WHERE id={rec_id};'
+    return f'UPDATE {table_name} SET {field} = "{new_value}" WHERE {id_field}={rec_id};' if not isinstance(new_value,
+                                                                                                           int) \
+        else f'UPDATE {table_name} SET {field} = {new_value} WHERE {id_field}={rec_id};'
 
 
 def sql_delete_rec_by_table_name_and_id(table_name: str, rec_id: str) -> str:

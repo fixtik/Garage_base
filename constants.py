@@ -220,6 +220,7 @@ INFO_SUCCESS_CHANGED = 'Изменения успешно внесены в БД
 QUESTION_WRITE_EL_METER_WHITHOUT_OBJ = 'Хотите добавить запись без привязки к объекту?'
 QUESTION_DELETE_TYPE_SIZE = "Вы уверены, что хотите удалить выбранный типоразмер гаража?"
 QUESTION_UPDATE_MEMBER_CONT = "Вы уверены, что хотите обновить размер платежа для указанного типоразмера?"
+QUESTION_DELETE_METER_FROM_BASE = "Удалить счетчик из базы?"
 
 TITLE_SELECT_PHOTO = "Выберите фото для загрузки"
 

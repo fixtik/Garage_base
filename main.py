@@ -22,6 +22,9 @@ import ui.css
 import ui.qr_functions
 
 
+# from pro import checker
+
+
 class Form_frontend(QtWidgets.QMainWindow):
 
     def __init__(self, parent=None):
@@ -76,8 +79,8 @@ class Form_frontend(QtWidgets.QMainWindow):
         # ------------- Выгрузки excel ------------- #
         # self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
         self.ui.spisok_action.setDisabled(True)
-        # self.ui.smeta_action.setDisabled(True)
-        self.ui.smeta_action.triggered.connect(self.smeta)
+        self.ui.smeta_action.setDisabled(True)
+        # self.ui.smeta_action.triggered.connect(self.smeta)
         # -------------
         # таблица для отображения полей
         self.ui.tableView.setModel(self.obj_model)
@@ -282,7 +285,8 @@ class Form_frontend(QtWidgets.QMainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication()  # Создаем  объект приложения
     # app = QtWidgets.QApplication(sys.argv)  # Если PyQt
-
+    # if not checker():
+    #     exit()
     myWindow = Form_frontend()  # Создаём объект окна
     myWindow.show()  # Показываем окно
 
