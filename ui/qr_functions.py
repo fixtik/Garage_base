@@ -1,5 +1,14 @@
+import sys
+import time
+
 import qrcode
 from dataclasses import dataclass
+
+from docx.shared import Mm
+from docxtpl import DocxTemplate, InlineImage
+
+from PySide6.QtCore import QTimer
+from PySide6.QtWidgets import QProgressDialog
 from qrcode.image.pure import PyPNGImage
 
 import constants
@@ -8,6 +17,7 @@ from ui.qr_bankInfo import Ui_Form
 import ui.validators
 import ui.css
 import ui.dialogs
+from datetime import datetime
 from PySide6 import QtCore, QtWidgets, QtGui
 
 
@@ -34,6 +44,7 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
 
         self.ui.add_pushButton.clicked.connect(self.ok_push_button)
         self.ui.cancel_pushButton.clicked.connect(self.close)
+        self.ui.cancel_pushButton_2.clicked.connect(self.generate_qr)
 
         # валидаторы
         self.ui.PersonalAcc_lineEdit.setValidator(ui.validators.onlyNumValidator())
@@ -44,8 +55,11 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
 
         # add a little bit of spice
         self.css.SetIcon.icon(self, window_icon=1)
+        self.ui.progressBar.setVisible(False)
 
         self.autofill_PaymentInfo()
+
+    # self.generate_qr()
 
     def ok_push_button(self):
         if self.db and self.ui.add_pushButton.text() == 'Добавить':
@@ -76,12 +90,11 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
 
     def autofill_PaymentInfo(self):
         if self.db:
-            # self.db.execute(sqlite_qwer.sql_select_first_id_paymentdetails())
+            # self.db.execute(sqlite_qwer.sql_select_first_id_payment_details())
             self.db.execute(sqlite_qwer.sql_select_all_from_table(constants.PAYMENT_DETAILS))
             info = self.db.cursor.fetchone()
             if info is not None:
                 paymentInfo = paymentInformation(*info)
-                print(paymentInfo)
                 self.ui.Name_lineEdit.setText(f'{paymentInfo.Name}')
                 self.ui.PersonalAcc_lineEdit.setText(f'{paymentInfo.PersonalAcc}')
                 self.ui.BankName_lineEdit.setText(f'{paymentInfo.BankName}')
@@ -93,41 +106,52 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
                 self.ui.add_pushButton.setText('Добавить')
 
     def generate_qr(self):
-        self.db.execute(sqlite_qwer.sql_select_all_from_table(constants.PAYMENT_DETAILS))
-        info = self.db.cursor.fetchone()
-        paymentInfo = paymentInformation(*info)
-        print(paymentInfo)
-        # Name = 'Всеволжская районная организация общественной организации ВОА'
-        # PersonalAcc = '40703810655410003535'
-        # BankName = 'СЕВЕРО-ЗАПАДНЫЙ БАНК ПАО СБЕРБАНК'
-        # BIC = '044030653'
-        # CorrespAcc = '30101810500000000653'
+        timer = 0
+        if self.db:
+            self.ui.progressBar.setVisible(True)
+            self.ui.progressBar.reset()
+            self.ui.progressBar.setMinimum(0)
 
-        # todo
-        # select garage_number, fio, current_year, payment_sum
-        # SELECT id,
-        # 	num_row,
-        # 	num_bild,
-        # 	(SELECT surname FROM garage_member WHERE id = owner_id) as surname,
-        # 	(SELECT first_name FROM garage_member WHERE id = owner_id) as first_name,
-        # 	(SELECT second_name FROM garage_member WHERE id = owner_id) as second_name
-        # FROM garage_obj
+            self.db.execute(sqlite_qwer.sql_select_garage_maxid())
+            maxid = self.db.cursor.fetchone()
+            self.ui.progressBar.setMaximum(maxid[0])
 
-        # LastName = 'Елизоветенков'
-        # FirstName = 'Никита'
-        # MiddleName = 'Александрович'
-        # # {LastName} {FirstName} {MiddleName},
-        # Sum = 10000  # сумма в копейках (рубли * 100)
-        # Purpose = f'ПО 31,ряд №гараж, за 2020'
-        # PayeeINN = '4703035967'
-        # KPP = '470301001'
-        #
-        # qr = f'ST00011|Name={Name}|PersonalAcc={PersonalAcc}|BankName={BankName}|BIC={BIC}\
-        # |CorrespAcc={CorrespAcc}|PayeeINN={PayeeINN}|LastName={LastName}|FirstName={FirstName}|MiddleName\
-        # ={MiddleName}|Purpose={Purpose}||Sum={Sum}'
-        #
-        # img = qrcode.make(qr, image_factory=PyPNGImage)
-        # img.save("qr.png")
+            self.db.execute(sqlite_qwer.sql_select_all_from_table(constants.PAYMENT_DETAILS))
+            info = self.db.cursor.fetchone()
+            paymentInfo = paymentInformation(*info)
+
+            self.db.execute(sqlite_qwer.sql_select_payment_member_information())
+            infos = self.db.cursor.fetchall()
+            for info in infos:
+                paymentMemberInfo = paymentMemberInformation(*info)
+
+                Purpose = f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, за {datetime.now().year}'
+                qr = f'ST00011|Name={paymentInfo.Name}|PersonalAcc={paymentInfo.PersonalAcc}|' \
+                     f'BankName={paymentInfo.BankName}|BIC={paymentInfo.BIC}|' \
+                     f'CorrespAcc={paymentInfo.CorrespAcc}|PayeeINN={paymentInfo.PayeeINN}|' \
+                     f'LastName={paymentMemberInfo.surname}|FirstName={paymentMemberInfo.first_name}|' \
+                     f'MiddleName={paymentMemberInfo.second_name}|Purpose={Purpose}||Sum='
+                print(qr)
+                img = qrcode.make(qr, image_factory=PyPNGImage)
+                img.save(f"photo/qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}.png")
+
+                self.ui.progressBar.setValue(paymentMemberInfo.id)
+
+                fio = f'{paymentMemberInfo.surname} {paymentMemberInfo.first_name} {paymentMemberInfo.second_name}'
+                self.fill_doc_template(paymentMemberInfo.num_bild, paymentMemberInfo.num_row, fio)
+
+                timer += 1
+                if timer == 5:
+                    break
+
+            self.ui.progressBar.setVisible(False)
+
+    def fill_doc_template(self, num, row, fio):
+        doc = DocxTemplate("template.docx")
+        myimage = InlineImage(doc, image_descriptor=f'photo/qr_{row}_{num}.png', width=Mm(70), height=Mm(70))
+        context = {'qr_photo': myimage, 'num': num, 'row': row, 'fio': fio}
+        doc.render(context)
+        doc.save(f"tmp/Гараж_{row}_{num}.docx")
 
 
 @dataclass
@@ -145,8 +169,8 @@ class paymentInformation:
 @dataclass
 class paymentMemberInformation:
     id: str = ''
-    num_row: = ''
-    # 	num_bild,
-    # 	(SELECT surname FROM garage_member WHERE id = owner_id) as surname,
-    # 	(SELECT first_name FROM garage_member WHERE id = owner_id) as first_name,
-    # 	(SELECT second_name FROM garage_member WHERE id = owner_id) as second_name
+    num_row: str = ''
+    num_bild: str = ''
+    surname: str = ''
+    first_name: str = ''
+    second_name: str = ''

@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
-    QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
-
+from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QProgressBar,
+                               QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout,
+                               QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -165,6 +165,13 @@ class Ui_Form(object):
         self.cancel_pushButton = QPushButton(Form)
         self.cancel_pushButton.setObjectName(u"cancel_pushButton")
         self.cancel_pushButton.setGeometry(QRect(270, 320, 56, 17))
+        self.cancel_pushButton_2 = QPushButton(Form)
+        self.cancel_pushButton_2.setObjectName(u"cancel_pushButton_2")
+        self.cancel_pushButton_2.setGeometry(QRect(10, 320, 56, 17))
+        self.progressBar = QProgressBar(Form)
+        self.progressBar.setObjectName(u"progressBar")
+        self.progressBar.setGeometry(QRect(70, 320, 121, 16))
+        self.progressBar.setValue(24)
 
         self.retranslateUi(Form)
 
@@ -193,5 +200,6 @@ class Ui_Form(object):
             QCoreApplication.translate("Form", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c", None))
         self.cancel_pushButton.setText(
             QCoreApplication.translate("Form", u"\u041e\u0442\u043c\u0435\u043d\u0438\u0442\u044c", None))
+        self.cancel_pushButton_2.setText(QCoreApplication.translate("Form", u"Generate", None))
     # retranslateUi
 

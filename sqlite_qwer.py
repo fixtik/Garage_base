@@ -748,6 +748,19 @@ def sql_update_payment_details(Name: str = '', PersonalAcc: str = '', BankName: 
            f"BIC='{BIC}', CorrespAcc='{CorrespAcc}', PayeeINN='{PayeeINN}', KPP='{KPP}' WHERE id = 1;"
 
 
-def sql_select_first_id_paymentdetails():
+def sql_select_first_id_payment_details():
     return "SELECT * FROM payment_details WHERE id=1;"
-# todo добавить запросы insert, update, select в payment_details
+
+
+def sql_select_payment_member_information():
+    return "SELECT id, " \
+           "num_row, " \
+           "num_bild, " \
+           "(SELECT surname FROM garage_member WHERE id = owner_id) as surname, " \
+           "(SELECT first_name FROM garage_member WHERE id = owner_id) as first_name, " \
+           "(SELECT second_name FROM garage_member WHERE id = owner_id) as second_name " \
+           "FROM garage_obj;"
+
+
+def sql_select_garage_maxid():
+    return "SELECT max(id) FROM garage_obj;"
