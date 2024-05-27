@@ -1,14 +1,18 @@
+import os
+import shutil
 import sys
 import time
 
-import qrcode
 from dataclasses import dataclass
 
+# Для создания ворда
 from docx.shared import Mm
 from docxtpl import DocxTemplate, InlineImage
+from docxcompose.composer import Composer
+from docx import Document as Document_compose
 
-from PySide6.QtCore import QTimer
-from PySide6.QtWidgets import QProgressDialog
+# Для генерации qr кода
+import qrcode
 from qrcode.image.pure import PyPNGImage
 
 import constants
@@ -31,6 +35,7 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
 
         # переменные класса
         self.css = ui.css  # для красоты
+        self.fileNames = []  # для хранения списка названия файлов
 
         self.initUi()
 
@@ -40,7 +45,6 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
 
         # todo
         # 1) Проверить еще раз первичное добавление информации
-        # 2) Добавить генерацию qr по гаражам
 
         self.ui.add_pushButton.clicked.connect(self.ok_push_button)
         self.ui.cancel_pushButton.clicked.connect(self.close)
@@ -107,51 +111,92 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
 
     def generate_qr(self):
         timer = 0
+        if self.fileNames:
+            self.fileNames = []  # очищаем переменную с названиями файлов чтобы не было дубликатов
+
         if self.db:
             self.ui.progressBar.setVisible(True)
             self.ui.progressBar.reset()
             self.ui.progressBar.setMinimum(0)
 
+            # Вытаскиваем максимальный id гаража для максимального значения статус бара
             self.db.execute(sqlite_qwer.sql_select_garage_maxid())
             maxid = self.db.cursor.fetchone()
             self.ui.progressBar.setMaximum(maxid[0])
 
+            # Вытаскиваем инфу по банковским реквизитам
             self.db.execute(sqlite_qwer.sql_select_all_from_table(constants.PAYMENT_DETAILS))
             info = self.db.cursor.fetchone()
             paymentInfo = paymentInformation(*info)
 
+            # Вытаскиваем инфу по владельцам гаражей
             self.db.execute(sqlite_qwer.sql_select_payment_member_information())
             infos = self.db.cursor.fetchall()
+
             for info in infos:
                 paymentMemberInfo = paymentMemberInformation(*info)
-
-                Purpose = f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, за {datetime.now().year}'
-                qr = f'ST00011|Name={paymentInfo.Name}|PersonalAcc={paymentInfo.PersonalAcc}|' \
-                     f'BankName={paymentInfo.BankName}|BIC={paymentInfo.BIC}|' \
-                     f'CorrespAcc={paymentInfo.CorrespAcc}|PayeeINN={paymentInfo.PayeeINN}|' \
-                     f'LastName={paymentMemberInfo.surname}|FirstName={paymentMemberInfo.first_name}|' \
-                     f'MiddleName={paymentMemberInfo.second_name}|Purpose={Purpose}||Sum='
-                print(qr)
-                img = qrcode.make(qr, image_factory=PyPNGImage)
-                img.save(f"photo/qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}.png")
-
-                self.ui.progressBar.setValue(paymentMemberInfo.id)
-
                 fio = f'{paymentMemberInfo.surname} {paymentMemberInfo.first_name} {paymentMemberInfo.second_name}'
+
+                for i in range(2):
+                    Purpose = f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, за {datetime.now().year}' if i == 0 \
+                        else f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, за {datetime.now().year}. Электричество'
+
+                    qr_dir = f"photo\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}.png" if i == 0 \
+                        else f"photo\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}_electric.png"
+
+                    qr = f'ST00011|Name={paymentInfo.Name}|PersonalAcc={paymentInfo.PersonalAcc}|' \
+                         f'BankName={paymentInfo.BankName}|BIC={paymentInfo.BIC}|' \
+                         f'CorrespAcc={paymentInfo.CorrespAcc}|PayeeINN={paymentInfo.PayeeINN}|' \
+                         f'LastName={paymentMemberInfo.surname}|FirstName={paymentMemberInfo.first_name}|' \
+                         f'MiddleName={paymentMemberInfo.second_name}|Purpose={Purpose}||Sum='
+
+                    img = qrcode.make(qr, image_factory=PyPNGImage)
+                    img.save(qr_dir)
+
+                # Двигаем шкалу загрузки
+                self.ui.progressBar.setValue(paymentMemberInfo.id)
+                # Создаем документик из шаблона
                 self.fill_doc_template(paymentMemberInfo.num_bild, paymentMemberInfo.num_row, fio)
 
-                timer += 1
-                if timer == 5:
-                    break
+                # Подтираем ненужные фото qr кодов
+                for j in range(2):
+                    qr_dir = f"photo\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}.png" if j == 0 \
+                        else f"photo\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}_electric.png"
+                    os.remove(qr_dir)
 
+                # timer += 1
+                # if timer == 5:
+                #     break
+
+            self.final_output_document(self.fileNames)
+            # Убираем статус бар после окончания работы функции
             self.ui.progressBar.setVisible(False)
 
     def fill_doc_template(self, num, row, fio):
         doc = DocxTemplate("template.docx")
-        myimage = InlineImage(doc, image_descriptor=f'photo/qr_{row}_{num}.png', width=Mm(70), height=Mm(70))
-        context = {'qr_photo': myimage, 'num': num, 'row': row, 'fio': fio}
+        qr = InlineImage(doc, image_descriptor=f'photo\\qr_{row}_{num}.png', width=Mm(50), height=Mm(50))
+        qr_electric = InlineImage(doc, image_descriptor=f'photo\\qr_{row}_{num}_electric.png', width=Mm(50),
+                                  height=Mm(50))
+        context = {'qr_photo': qr, 'qr_photo_electric': qr_electric, 'num': num, 'row': row, 'fio': fio}
         doc.render(context)
-        doc.save(f"tmp/Гараж_{row}_{num}.docx")
+        doc.save(f"tmp\\Гараж_{row}_{num}.docx")
+        self.fileNames.append(f"tmp\\Гараж_{row}_{num}.docx")
+
+    def final_output_document(self, files_list):
+        if os.path.exists(f"{os.getcwd()}\\Output.docx"):
+            os.remove(f"{os.getcwd()}\\Output.docx")
+        number_of_sections = len(files_list)
+        master = Document_compose(files_list[0])
+        composer = Composer(master)
+        for i in range(1, number_of_sections):
+            doc_temp = Document_compose(files_list[i])
+            composer.append(doc_temp)
+        composer.save("Output.docx")
+
+        # Подчищаем за собой файлы
+        for name in files_list:
+            if os.path.exists(f'{os.getcwd()}\\{name}'):
+                os.remove(f'{os.getcwd()}\\{name}')
 
 
 @dataclass
