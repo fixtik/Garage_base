@@ -98,6 +98,8 @@ class Form_frontend(QtWidgets.QMainWindow):
         # add a little bit of spice
         self.css.SetIcon.icon(self, label=1, window_icon=1)
 
+        self.autocheck()
+
     def hideObjectUI(self, flag):
         """Скрывает или показывает объекты интерфейса"""
         self.ui.voa_label.setVisible(not flag)
@@ -229,6 +231,14 @@ class Form_frontend(QtWidgets.QMainWindow):
             ui.vigruzki_functions.Smeta(db=self.db).smeta_action()
             ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_SMETA_OK)
 
+    def autocheck(self):
+        if self.db:
+            for table in constants.TABALE_NAMES:
+                if self.db.execute(sqlite_qwer.sql_check_table_exist_in_bd(table_name=table)):
+                    _ = self.db.cursor.fetchone()
+                    if not _:
+                        ui.dialogs.onShowOkMessage(self, 'БД', 'Не забудьте обновить базу данных')
+
     def updateDB(self):
         if self.db:
             try:
@@ -237,7 +247,7 @@ class Form_frontend(QtWidgets.QMainWindow):
                     _ = self.db.cursor.fetchone()[0]
                     if not _:
                         self.db.execute(constants.SQL_ALTER_TABLE_CONTRIBUTIONS5)
-                # self.db.execute(sqlite_qwer.SQL_CREATE_TABLE_PAYMENT_DETAILS)
+                self.db.execute(sqlite_qwer.SQL_CREATE_TABLE_PAYMENT_DETAILS)
                 # self.db.execute(sqlite_qwer.fixBug_updateTypeSizeId())  # typesize_id = 1
                 try:
                     self.db.execute(sqlite_qwer.update_contribution())

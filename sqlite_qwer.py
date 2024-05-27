@@ -764,3 +764,7 @@ def sql_select_payment_member_information():
 
 def sql_select_garage_maxid():
     return "SELECT max(id) FROM garage_obj;"
+
+
+def sql_check_table_exist_in_bd(table_name):
+    return f"SELECT name FROM sqlite_master WHERE name='{table_name}';"
