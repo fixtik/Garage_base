@@ -242,8 +242,8 @@ class Form_frontend(QtWidgets.QMainWindow):
     def updateDB(self):
         if self.db:
             try:
-                for name in constants.ALTER_TABLES_UPDATE_COLUMN_NAME:
-                    self.db.execute(name)
+                # for name in constants.ALTER_TABLES_UPDATE_COLUMN_NAME:
+                #     self.db.execute(name)
                 if self.db.execute(
                         sqlite_qwer.sql_check_column_exists_in_table(constants.CONTRIB_TABLE, 'payment_time')):
                     _ = self.db.cursor.fetchone()[0]

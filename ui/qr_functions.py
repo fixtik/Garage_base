@@ -119,6 +119,10 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
             self.ui.progressBar.reset()
             self.ui.progressBar.setMinimum(0)
 
+            # Создаем папку для хранения временных файлов
+            if not os.path.exists(constants.DEFAULT_TMP_DIR_PASS):
+                os.mkdir(constants.DEFAULT_TMP_DIR_PASS)
+
             # Вытаскиваем максимальный id гаража для максимального значения статус бара
             self.db.execute(sqlite_qwer.sql_select_garage_maxid())
             maxid = self.db.cursor.fetchone()
@@ -141,8 +145,8 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
                     Purpose = f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, за {datetime.now().year}' if i == 0 \
                         else f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, за {datetime.now().year}. Электричество'
 
-                    qr_dir = f"photo\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}.png" if i == 0 \
-                        else f"photo\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}_electric.png"
+                    qr_dir = f"tmp\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}.png" if i == 0 \
+                        else f"tmp\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}_electric.png"
 
                     qr = f'ST00011|Name={paymentInfo.Name}|PersonalAcc={paymentInfo.PersonalAcc}|' \
                          f'BankName={paymentInfo.BankName}|BIC={paymentInfo.BIC}|' \
@@ -160,13 +164,13 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
 
                 # Подтираем ненужные фото qr кодов
                 for j in range(2):
-                    qr_dir = f"photo\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}.png" if j == 0 \
-                        else f"photo\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}_electric.png"
+                    qr_dir = f"tmp\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}.png" if j == 0 \
+                        else f"tmp\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}_electric.png"
                     os.remove(qr_dir)
 
-                # timer += 1
-                # if timer == 5:
-                #     break
+                timer += 1
+                if timer == 5:
+                    break
 
             self.final_output_document(self.fileNames)
             # Убираем статус бар после окончания работы функции
@@ -174,8 +178,8 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
 
     def fill_doc_template(self, num, row, fio):
         doc = DocxTemplate("template.docx")
-        qr = InlineImage(doc, image_descriptor=f'photo\\qr_{row}_{num}.png', width=Mm(50), height=Mm(50))
-        qr_electric = InlineImage(doc, image_descriptor=f'photo\\qr_{row}_{num}_electric.png', width=Mm(50),
+        qr = InlineImage(doc, image_descriptor=f'tmp\\qr_{row}_{num}.png', width=Mm(50), height=Mm(50))
+        qr_electric = InlineImage(doc, image_descriptor=f'tmp\\qr_{row}_{num}_electric.png', width=Mm(50),
                                   height=Mm(50))
         context = {'qr_photo': qr, 'qr_photo_electric': qr_electric, 'num': num, 'row': row, 'fio': fio}
         doc.render(context)
@@ -183,15 +187,15 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
         self.fileNames.append(f"tmp\\Гараж_{row}_{num}.docx")
 
     def final_output_document(self, files_list):
-        if os.path.exists(f"{os.getcwd()}\\Output.docx"):
-            os.remove(f"{os.getcwd()}\\Output.docx")
+        if os.path.exists(f"{constants.DEFAULT_DOCS_DIR_PASS}\\Output.docx"):
+            os.remove(f"{constants.DEFAULT_DOCS_DIR_PASS}\\Output.docx")
         number_of_sections = len(files_list)
         master = Document_compose(files_list[0])
         composer = Composer(master)
         for i in range(1, number_of_sections):
             doc_temp = Document_compose(files_list[i])
             composer.append(doc_temp)
-        composer.save("Output.docx")
+        composer.save(f"{constants.DEFAULT_DOCS_DIR_PASS}\\Output.docx")
 
         # Подчищаем за собой файлы
         for name in files_list:
