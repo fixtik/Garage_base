@@ -67,25 +67,25 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
 
     def ok_push_button(self):
         if self.db and self.ui.add_pushButton.text() == 'Добавить':
-            sql = sqlite_qwer.sql_add_new_payment_details(Name=self.ui.Name_lineEdit.text(),
-                                                          PersonalAcc=self.ui.PersonalAcc_lineEdit.text(),
-                                                          BankName=self.ui.BankName_lineEdit.text(),
-                                                          BIC=self.ui.BIC_lineEdit.text(),
-                                                          CorrespAcc=self.ui.CorrespAcc_lineEdit.text(),
-                                                          PayeeINN=self.ui.PayeeINN_lineEdit.text(),
-                                                          KPP=self.ui.KPP_lineEdit.text())
+            sql = sqlite_qwer.sql_add_new_payment_details(name=self.ui.Name_lineEdit.text(),
+                                                          personal_acc=self.ui.PersonalAcc_lineEdit.text(),
+                                                          bank_name=self.ui.BankName_lineEdit.text(),
+                                                          bic=self.ui.BIC_lineEdit.text(),
+                                                          corresp_acc=self.ui.CorrespAcc_lineEdit.text(),
+                                                          payee_inn=self.ui.PayeeINN_lineEdit.text(),
+                                                          kpp=self.ui.KPP_lineEdit.text())
             if self.db.execute(sql):
                 ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_PAYMENT_INSERT_OK)
                 self.close()
                 return True
         elif self.db and self.ui.add_pushButton.text() == 'Изменить':
-            sql = sqlite_qwer.sql_update_payment_details(Name=self.ui.Name_lineEdit.text(),
-                                                         PersonalAcc=self.ui.PersonalAcc_lineEdit.text(),
-                                                         BankName=self.ui.BankName_lineEdit.text(),
-                                                         BIC=self.ui.BIC_lineEdit.text(),
-                                                         CorrespAcc=self.ui.CorrespAcc_lineEdit.text(),
-                                                         PayeeINN=self.ui.PayeeINN_lineEdit.text(),
-                                                         KPP=self.ui.KPP_lineEdit.text())
+            sql = sqlite_qwer.sql_update_payment_details(name=self.ui.Name_lineEdit.text(),
+                                                         personal_acc=self.ui.PersonalAcc_lineEdit.text(),
+                                                         bank_name=self.ui.BankName_lineEdit.text(),
+                                                         bic=self.ui.BIC_lineEdit.text(),
+                                                         corresp_acc=self.ui.CorrespAcc_lineEdit.text(),
+                                                         payee_inn=self.ui.PayeeINN_lineEdit.text(),
+                                                         kpp=self.ui.KPP_lineEdit.text())
             if self.db.execute(sql):
                 ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_PAYMENT_UPDATE_OK)
                 self.close()

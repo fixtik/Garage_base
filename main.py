@@ -233,7 +233,7 @@ class Form_frontend(QtWidgets.QMainWindow):
 
     def autocheck(self):
         if self.db:
-            for table in constants.TABALE_NAMES:
+            for table in constants.TABLE_NAMES:
                 if self.db.execute(sqlite_qwer.sql_check_table_exist_in_bd(table_name=table)):
                     _ = self.db.cursor.fetchone()
                     if not _:
@@ -242,6 +242,8 @@ class Form_frontend(QtWidgets.QMainWindow):
     def updateDB(self):
         if self.db:
             try:
+                for name in constants.ALTER_TABLES_UPDATE_COLUMN_NAME:
+                    self.db.execute(name)
                 if self.db.execute(
                         sqlite_qwer.sql_check_column_exists_in_table(constants.CONTRIB_TABLE, 'payment_time')):
                     _ = self.db.cursor.fetchone()[0]
