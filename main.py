@@ -20,7 +20,9 @@ import ui.tarif_function
 import ui.vigruzki_functions
 import ui.css
 import ui.qr_functions
-from pro import checker
+
+
+# from pro import checker
 
 
 class Form_frontend(QtWidgets.QMainWindow):
@@ -31,8 +33,8 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
 
         self.db = db_work.Garage_DB()
-        self.cartObj = None    # для отображения формы с карточкой объекта
-        self.typePay = None    # для отображения формы редактирования видов платежей
+        self.cartObj = None  # для отображения формы с карточкой объекта
+        self.typePay = None  # для отображения формы редактирования видов платежей
         self.newMember = None  # для отображения формы добавления нового члена
         self.elMeter = None  # для отображения формы с счетчиком
         self.garageSize = None  # для отображения формы размера гаража
@@ -77,8 +79,8 @@ class Form_frontend(QtWidgets.QMainWindow):
         # ------------- Выгрузки excel ------------- #
         # self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
         self.ui.spisok_action.setDisabled(True)
-        # self.ui.smeta_action.setDisabled(True)
-        self.ui.smeta_action.triggered.connect(self.smeta)
+        self.ui.smeta_action.setDisabled(True)
+        # self.ui.smeta_action.triggered.connect(self.smeta)
         # -------------
         # таблица для отображения полей
         self.ui.tableView.setModel(self.obj_model)
@@ -254,15 +256,16 @@ class Form_frontend(QtWidgets.QMainWindow):
                         self.db.execute(constants.SQL_ALTER_TABLE_CONTRIBUTIONS1)
                         self.db.execute(constants.SQL_ALTER_TABLE_CONTRIBUTIONS2)
 
-                if self.db.execute(sqlite_qwer.sql_check_column_exists_in_table(constants.CONTRIB_TYPE_TABLE, 'electric')):
+                if self.db.execute(
+                        sqlite_qwer.sql_check_column_exists_in_table(constants.CONTRIB_TYPE_TABLE, 'electric')):
                     _ = self.db.cursor.fetchone()[0]
                     if not _:
                         self.db.execute(constants.SQL_ALTER_TABLE_CONTRIBUTIONS3)
 
                 if self.db.execute(sqlite_qwer.sql_check_column_exists_in_table(constants.SIZE_TABLE, 'cont_value')):
-                        _ = self.db.cursor.fetchone()[0]
-                        if not _:
-                            self.db.execute(constants.SQL_ALTER_TABLE_TYPE_SIZE)
+                    _ = self.db.cursor.fetchone()[0]
+                    if not _:
+                        self.db.execute(constants.SQL_ALTER_TABLE_TYPE_SIZE)
                 if self.db.execute(constants.SQL_CREATE_TABLE_METER_PAYMENT) and \
                         self.db.execute(constants.SQL_CREATE_TABLE_OBJECT_ACCOUNT) and \
                         self.db.execute(constants.SQL_CREATE_TABLE_MEMBERS_CONTRIB):
@@ -282,8 +285,8 @@ class Form_frontend(QtWidgets.QMainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication()  # Создаем  объект приложения
     # app = QtWidgets.QApplication(sys.argv)  # Если PyQt
-    if not checker():
-        exit()
+    # if not checker():
+    #     exit()
     myWindow = Form_frontend()  # Создаём объект окна
     myWindow.show()  # Показываем окно
 
