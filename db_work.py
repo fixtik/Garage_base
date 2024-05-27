@@ -49,7 +49,7 @@ class Garage_DB():
         try:
             self.connect = sqlite3.connect(self.db_name)
             self.cursor = self.connect.cursor()
-            for table_name in TABALE_NAMES:
+            for table_name in TABLE_NAMES:
                 self.drop_table(table_name)
             for item in BD_SQL_CREATOR:
                 try:

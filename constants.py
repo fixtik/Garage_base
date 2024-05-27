@@ -119,13 +119,13 @@ SQL_CREATE_TABLE_MEMBERS_CONTRIB = 'CREATE TABLE IF NOT EXISTS "members_contrib"
 
 SQL_CREATE_TABLE_PAYMENT_DETAILS = 'CREATE TABLE IF NOT EXISTS "payment_details" (' \
                                    'id INTEGER PRIMARY KEY AUTOINCREMENT, ' \
-                                   '"Name" TEXT DEFAULT 0, ' \
-                                   '"PersonalAcc" TEXT DEFAULT 0, ' \
-                                   '"BankName"  ITEXT DEFAULT 0, ' \
-                                   '"BIC" TEXT DEFAULT 0,' \
-                                   '"CorrespAcc" TEXT DEFAULT 0,' \
-                                   '"PayeeINN" TEXT DEFAULT 0,' \
-                                   '"KPP" TEXT DEFAULT 0' \
+                                   '"name" TEXT DEFAULT 0, ' \
+                                   '"personal_acc" TEXT DEFAULT 0, ' \
+                                   '"bank_name"  ITEXT DEFAULT 0, ' \
+                                   '"bic" TEXT DEFAULT 0,' \
+                                   '"corresp_acc" TEXT DEFAULT 0,' \
+                                   '"payee_inn" TEXT DEFAULT 0,' \
+                                   '"kpp" TEXT DEFAULT 0' \
                                    ');'
 
 SQL_ALTER_TABLE_CONTRIBUTIONS = 'ALTER TABLE "contribution" ADD COLUMN "pay_kind" TEXT; '
@@ -143,9 +143,9 @@ BD_SQL_CREATOR = [SQL_CREATE_TABLE_GARGE_MEMBER, SQL_CREATE_TABLE_ELECTRIC_METER
                   SQL_CREATE_TABLE_AUTOMOBILE, SQL_CREATE_TABLE_METER_PAYMENT, SQL_CREATE_TABLE_OBJECT_ACCOUNT,
                   SQL_CREATE_TABLE_MEMBERS_CONTRIB, SQL_CREATE_TABLE_PAYMENT_DETAILS]
 
-TABALE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
-                'contribution_type', 'electric_meter', 'type_size', 'meter_payment', 'object_account',
-                'members_contrib', 'payment_details']
+TABLE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
+               'contribution_type', 'electric_meter', 'type_size', 'meter_payment', 'object_account',
+               'members_contrib', 'payment_details']
 CAR_TABLE = 'automobile'
 OBJ_TABLE = 'garage_obj'
 ELECTRIC_TABLE = 'electric_meter'
@@ -251,3 +251,12 @@ TYPE380 = 380
 
 CASH = 'наличные'
 CASHLESS = "безналичная"
+
+ALTER_TABLES_UPDATE_COLUMN_NAME = ['ALTER TABLE payment_details RENAME COLUMN Name TO name;',
+                                   'ALTER TABLE payment_details RENAME COLUMN PersonalAcc TO personal_acc;',
+                                   'ALTER TABLE payment_details RENAME COLUMN BankName TO bank_name;',
+                                   'ALTER TABLE payment_details RENAME COLUMN BIC TO bic;',
+                                   'ALTER TABLE payment_details RENAME COLUMN CorrespAcc TO corresp_acc;',
+                                   'ALTER TABLE payment_details RENAME COLUMN PayeeINN TO payee_inn;',
+                                   'ALTER TABLE payment_details RENAME COLUMN KPP TO kpp;'
+                                   ]

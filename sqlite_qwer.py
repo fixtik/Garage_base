@@ -735,16 +735,16 @@ def update_contribution():
     return "UPDATE contribution SET balance_count = 0 WHERE id_cont_type = 2 OR id_cont_type = 4"
 
 
-def sql_add_new_payment_details(Name: str = '', PersonalAcc: str = '', BankName: str = '', BIC: str = '',
-                                CorrespAcc: str = '', PayeeINN: str = '', KPP: str = ''):
-    return f"INSERT INTO payment_details (Name, PersonalAcc, BankName, BIC, CorrespAcc, PayeeINN, KPP) " \
-           f"VALUES ('{Name}', '{PersonalAcc}', '{BankName}', '{BIC}', '{CorrespAcc}', '{PayeeINN}', '{KPP}');"
+def sql_add_new_payment_details(name: str = '', personal_acc: str = '', bank_name: str = '', bic: str = '',
+                                corresp_acc: str = '', payee_inn: str = '', kpp: str = ''):
+    return f"INSERT INTO payment_details (name, personal_acc, bank_name, bic, corresp_acc, payee_inn, kpp) " \
+           f"VALUES ('{name}', '{personal_acc}', '{bank_name}', '{bic}', '{corresp_acc}', '{payee_inn}', '{kpp}');"
 
 
-def sql_update_payment_details(Name: str = '', PersonalAcc: str = '', BankName: str = '', BIC: str = '',
-                               CorrespAcc: str = '', PayeeINN: str = '', KPP: str = ''):
-    return f"UPDATE payment_details SET Name='{Name}', PersonalAcc='{PersonalAcc}', BankName='{BankName}', " \
-           f"BIC='{BIC}', CorrespAcc='{CorrespAcc}', PayeeINN='{PayeeINN}', KPP='{KPP}' WHERE id = 1;"
+def sql_update_payment_details(name: str = '', personal_acc: str = '', bank_name: str = '', bic: str = '',
+                               corresp_acc: str = '', payee_inn: str = '', kpp: str = ''):
+    return f"UPDATE payment_details SET name='{name}', personal_acc='{personal_acc}', bank_name='{bank_name}', " \
+           f"bic='{bic}', corresp_acc='{corresp_acc}', payee_inn='{payee_inn}', kpp='{kpp}' WHERE id = 1;"
 
 
 def sql_select_first_id_payment_details():
@@ -763,3 +763,7 @@ def sql_select_payment_member_information():
 
 def sql_select_garage_maxid():
     return "SELECT max(id) FROM garage_obj;"
+
+
+def sql_check_table_exist_in_bd(table_name):
+    return f"SELECT name FROM sqlite_master WHERE name='{table_name}';"
