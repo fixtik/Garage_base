@@ -44,7 +44,9 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
         self.setFixedWidth(400)
 
         # todo
-        # 1) Проверить еще раз первичное добавление информации
+        # 1) Перенести кнопку создания файле в главное окно и сделать неюзабельной при отсутствии информации
+        # 2) Сделать еще окошко с прогрессбаром и описанием что происходит (генерация qr / создание word)
+        # 3) Добавить предложение открыть файл после его создания
 
         self.ui.add_pushButton.clicked.connect(self.ok_push_button)
         self.ui.cancel_pushButton.clicked.connect(self.close)
@@ -142,8 +144,8 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
                 fio = f'{paymentMemberInfo.surname} {paymentMemberInfo.first_name} {paymentMemberInfo.second_name}'
 
                 for i in range(2):
-                    Purpose = f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, за {datetime.now().year}' if i == 0 \
-                        else f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, за {datetime.now().year}. Электричество'
+                    Purpose = f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, задолженность по членскому взносу на {datetime.now().year}' if i == 0 \
+                        else f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, {datetime.now().year}. Компенсация электроэнергии'
 
                     qr_dir = f"tmp\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}.png" if i == 0 \
                         else f"tmp\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}_electric.png"
@@ -187,15 +189,15 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
         self.fileNames.append(f"tmp\\Гараж_{row}_{num}.docx")
 
     def final_output_document(self, files_list):
-        if os.path.exists(f"{constants.DEFAULT_DOCS_DIR_PASS}\\Output.docx"):
-            os.remove(f"{constants.DEFAULT_DOCS_DIR_PASS}\\Output.docx")
+        if os.path.exists(f"{constants.DEFAULT_DOCS_DIR_PASS}\\QR_для оплаты.docx"):
+            os.remove(f"{constants.DEFAULT_DOCS_DIR_PASS}\\QR_для оплаты.docx")
         number_of_sections = len(files_list)
         master = Document_compose(files_list[0])
         composer = Composer(master)
         for i in range(1, number_of_sections):
             doc_temp = Document_compose(files_list[i])
             composer.append(doc_temp)
-        composer.save(f"{constants.DEFAULT_DOCS_DIR_PASS}\\Output.docx")
+        composer.save(f"{constants.DEFAULT_DOCS_DIR_PASS}\\QR_для оплаты.docx")
 
         # Подчищаем за собой файлы
         for name in files_list:
