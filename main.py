@@ -1,5 +1,7 @@
 import sys
 import os
+import threading
+
 from os.path import isfile
 
 from PySide6 import QtCore, QtWidgets, QtGui
@@ -42,6 +44,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.memberCont = None  # для отображения формы добавления членского взноса
         self.bilingCont = None  # для отображения формы выставления счета
         self.qrBankInfo = None  # для отображения формы заполнения банковских реквизитов
+        self.progress = None  # для отображения прогресс бара
         self.obj_model = ui.tableView_Models.ObjectTableViewModel()
         self.css = ui.css  # для красоты
 
@@ -52,6 +55,8 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.hideObjectUI(res)
         if res:
             self.fill_main_tableview()
+            self.autocheck()
+            # self.set_disable_qr()
 
     def initUi(self):
         """Инициализация объектов интерфейса"""
@@ -77,10 +82,12 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.bank_info.triggered.connect(self.showQrBankInfo)  # окно добавления банковской информации
 
         # ------------- Выгрузки excel ------------- #
+        # self.ui.vigruzki.setDisabled(True)
         # self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
+        # self.ui.smeta_action.triggered.connect(self.smeta)
         self.ui.spisok_action.setDisabled(True)
         self.ui.smeta_action.setDisabled(True)
-        # self.ui.smeta_action.triggered.connect(self.smeta)
+        self.ui.qr_action.triggered.connect(self.qr_gen)
         # -------------
         # таблица для отображения полей
         self.ui.tableView.setModel(self.obj_model)
@@ -98,7 +105,6 @@ class Form_frontend(QtWidgets.QMainWindow):
         # add a little bit of spice
         self.css.SetIcon.icon(self, label=1, window_icon=1)
 
-        self.autocheck()
 
     def hideObjectUI(self, flag):
         """Скрывает или показывает объекты интерфейса"""
@@ -111,6 +117,9 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.tableView.setVisible(flag)
         self.ui.fam_label.setVisible(flag)
         self.ui.fam_lineEdit.setVisible(flag)
+        # self.ui.spisok_action.setEnabled(flag)
+        # self.ui.smeta_action.setEnabled(flag)
+        # self.ui.vigruzki.setEnabled(flag)
         if flag:
             self.ui.horizontalLayout.removeItem(self.ui.verticalLayout)
             self.ui.horizontalLayout.removeItem(self.ui.horizontalSpacer)
@@ -148,11 +157,6 @@ class Form_frontend(QtWidgets.QMainWindow):
         """Отображение окна карточки объекта"""
         self.cartObj = ui.cart_functions.Cart_frontend(db=self.db)
         self.cartObj.show()
-
-    def showQrBankInfo(self):
-        """Отображение окна добавления банковских реквизитов"""
-        self.qrBankInfo = ui.qr_functions.QrBankInfo_frontend(db=self.db)
-        self.qrBankInfo.show()
 
     def showCartObject_EditMode(self):
         """Отображение окна карточки редактирования объекта"""
@@ -227,17 +231,49 @@ class Form_frontend(QtWidgets.QMainWindow):
             self.bilingCont.show()
 
     def smeta(self):
+        """Генерируем смету"""
         if self.db:
             ui.vigruzki_functions.Smeta(db=self.db).smeta_action()
             ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_SMETA_OK)
 
     def autocheck(self):
+        """Автоматическая напоминалка чтобы не забвали обновить БД если нет новой таблицы"""
         if self.db:
             for table in constants.TABLE_NAMES:
                 if self.db.execute(sqlite_qwer.sql_check_table_exist_in_bd(table_name=table)):
                     _ = self.db.cursor.fetchone()
                     if not _:
                         ui.dialogs.onShowOkMessage(self, 'БД', 'Не забудьте обновить базу данных')
+                        break
+
+    def showQrBankInfo(self):
+        """Отображение окна добавления банковских реквизитов"""
+        self.qrBankInfo = ui.qr_functions.QrBankInfo_frontend(db=self.db, status_window=None)
+        self.qrBankInfo.show()
+
+    def show_qr_statusbar(self):
+        """Отображение окна с прогрессбаром при создании qr кода"""
+        self.progress = ui.qr_functions.QR_StatusBar()
+        self.progress.show()
+
+    def qr_gen(self):
+        """Запускаем генерацию qr и окно со статусбаром в двух потоках (чтобы не зависало окно)"""
+        if self.db:
+            t = threading.Thread(target=self.show_qr_statusbar())
+            t.start()
+            t1 = threading.Thread(
+                target=ui.qr_functions.QrBankInfo_frontend(db=self.db, status_window=self.progress).generate_qr)
+            t1.start()
+            t.join()
+
+    # Оставим до лучших времен, а то получается что надо делать еще миллион проверок (на смету, на платежную информацию) и немного геморно
+    # def set_disable_qr(self):
+    #     """Отключаем кнопку генерации QR если нет данных об организации"""
+    #     if self.db:
+    #         if self.db.execute(sqlite_qwer.sql_select_all_from_table(constants.PAYMENT_DETAILS)):
+    #             _ = self.db.cursor.fetchone()
+    #             if not _:
+    #                 self.ui.vigruzki.setEnabled(False)
 
     def updateDB(self):
         if self.db:
