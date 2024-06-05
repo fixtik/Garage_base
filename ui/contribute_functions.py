@@ -120,9 +120,9 @@ class AddContrib_front(QtWidgets.QWidget):
             self.close()
             return
         self.db.execute(
-            sqlite_qwer.sql_update_contrib_type(self.contib_ids[self.ui.kindContrib_comboBox.currentIndex()],
-                                                float(self.ui.sumContrib_lineEdit.text().replace(',', '.')),
-                                                self.ui.commentContrib_lineEdit.text()))
+            sqlite_qwer.sql_update_contrib_type(contrib_id=self.contib_ids[self.ui.kindContrib_comboBox.currentIndex()],
+                                                value=float(self.ui.sumContrib_lineEdit.text().replace(',', '.')),
+                                                comment=self.ui.commentContrib_lineEdit.text()))
         self.updateDataFromDB()
 
     def fillKindContribFromBase(self):
@@ -130,6 +130,7 @@ class AddContrib_front(QtWidgets.QWidget):
         if self.db:
             self.db.execute(sqlite_qwer.sql_select_all_from_table(self.TB_NAME))
             contrib = self.db.cursor.fetchall()
+            print(contrib)
             self.contib_ids.clear()
             self.ui.kindContrib_comboBox.clear()
             for item in contrib:

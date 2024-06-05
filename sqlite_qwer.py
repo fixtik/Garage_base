@@ -131,13 +131,11 @@ def sql_full_update_contrib(cont_id: str, id_garage: str, id_cont: str, pay_date
            f"WHERE id = {cont_id};"
 
 
-def sql_update_contrib_type(contrib_id: int, value: float, pay_kind: int,
-                            comment: str = '', check_photo: str = '') -> str:
+def sql_update_contrib_type(contrib_id: int, value: float, comment: str = '') -> str:
     """
     обновление заначений полей по id
     """
-    return f"UPDATE contribution_type SET value = {value}, pay_kind = {pay_kind}, " \
-           f"comment = '{comment}', check_photo ='{check_photo}' WHERE id = {contrib_id};"
+    return f"UPDATE contribution_type SET value = {value}, comment = '{comment}' WHERE id = {contrib_id};"
 
 
 # запросы по членам кооператива
