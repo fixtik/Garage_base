@@ -50,13 +50,17 @@ class Form_frontend(QtWidgets.QMainWindow):
 
         self.initUi()
 
-        res, msg = self.db.autoConnectBD()  # пробуем подключиться к БД по умолчанию
-        self.showStatusBarMessage(msg)
-        self.hideObjectUI(res)
-        if res:
+        if self.autoconnet():
             self.fill_main_tableview()
             self.autocheck()
             # self.set_disable_qr()
+
+    def autoconnet(self) -> bool:
+        """подключение БД с имененм по умолчанию"""
+        res, msg = self.db.autoConnectBD()  # пробуем подключиться к БД по умолчанию
+        self.showStatusBarMessage(msg)
+        self.hideObjectUI(res)
+        return res
 
     def initUi(self):
         """Инициализация объектов интерфейса"""
@@ -87,7 +91,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         # self.ui.smeta_action.triggered.connect(self.smeta)
         self.ui.spisok_action.setDisabled(True)
         self.ui.smeta_action.setDisabled(True)
-        self.ui.qr_action.triggered.connect(self.qr_gen)
+        self.ui.qr_action.triggered.connect(self.show_qr_statusbar)
         # -------------
         # таблица для отображения полей
         self.ui.tableView.setModel(self.obj_model)
@@ -124,10 +128,10 @@ class Form_frontend(QtWidgets.QMainWindow):
             self.ui.horizontalLayout.removeItem(self.ui.verticalLayout)
             self.ui.horizontalLayout.removeItem(self.ui.horizontalSpacer)
             self.ui.horizontalLayout.removeItem(self.ui.horizontalSpacer_2)
-            self.ui.tableView.setFixedHeight(self.height() * 1.1)
-            self.ui.tableView.setMaximumHeight(65325)
-        else:
-            self.ui.tableView.setFixedHeight(self.height() // 10)
+            # self.ui.tableView.setFixedHeight(self.height() * 1.1)   # убрано из-за кривой роботы - увеличивается при каждом новом открытии базы
+            # self.ui.tableView.setMaximumHeight(65325)
+        # else:
+        #     self.ui.tableView.setFixedHeight(self.height() // 10)
 
     def openDB(self):
         new_name = ui.dialogs.open_file_dialog(constants.TITLE_SELECT_BD, constants.FILTER_BD)[0]
@@ -140,6 +144,7 @@ class Form_frontend(QtWidgets.QMainWindow):
                 self.hideObjectUI(True)
                 self.fill_main_tableview()
                 self.showStatusBarMessage(f"Файл БД {new_name} открыт")
+                self.autocheck()
 
     def showStatusBarMessage(self, msg: str):
         """вывод сообщения в статус бар"""
@@ -207,6 +212,7 @@ class Form_frontend(QtWidgets.QMainWindow):
 
     def fill_main_tableview(self):
         """заполнение данных tableview"""
+
         self.ui.tableView.model().clearItemData()
         if self.db:
             sql = sqlite_qwer.sql_get_all_objects_for_list_by_row_and_num(row=self.ui.row_lineEdit.text(),
@@ -240,11 +246,14 @@ class Form_frontend(QtWidgets.QMainWindow):
         """Автоматическая напоминалка чтобы не забвали обновить БД если нет новой таблицы"""
         if self.db:
             for table in constants.TABLE_NAMES:
-                if self.db.execute(sqlite_qwer.sql_check_table_exist_in_bd(table_name=table)):
-                    _ = self.db.cursor.fetchone()
-                    if not _:
-                        ui.dialogs.onShowOkMessage(self, 'БД', 'Не забудьте обновить базу данных')
-                        break
+                try:
+                    if self.db.execute(sqlite_qwer.sql_check_table_exist_in_bd(table_name=table)):
+                        _ = self.db.cursor.fetchone()
+                        if not _:
+                            ui.dialogs.onShowOkMessage(self, 'БД', 'Не забудьте обновить базу данных')
+                            break
+                except Exception as e:
+                    ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=e)
 
     def showQrBankInfo(self):
         """Отображение окна добавления банковских реквизитов"""
@@ -253,8 +262,10 @@ class Form_frontend(QtWidgets.QMainWindow):
 
     def show_qr_statusbar(self):
         """Отображение окна с прогрессбаром при создании qr кода"""
-        self.progress = ui.qr_functions.QR_StatusBar()
+        self.progress = ui.qr_functions.QR_StatusBar(db=self.db)
         self.progress.show()
+        self.progress.start()
+
 
     def qr_gen(self):
         """Запускаем генерацию qr и окно со статусбаром в двух потоках (чтобы не зависало окно)"""
