@@ -189,6 +189,7 @@ ERROR_NO_COPY = ('Не удалось скопировать БД!\n'
 ERROR_UPDATE_DB_FAIL = 'Обновление базы данных завершилось ошибкой'
 ERROR_CONTRIB_TYPE_ALREADY_BILING = "Нельзя внести изменения по уже выставленным счетам!"
 ERROR_DELETE_CONTRIB_KIND = "Указанный тип платежа используется в БД. Удаление невозможно"
+ERROR_QR_GENERATION = 'Ошибка при генерации qr-кодов'
 
 MESSAGE_CHECK_DATA = 'Проверьте корректность введенных данных'
 MESSAGE_CHECK_DB_CONNECTIONS = 'Проверьте подключение к БД'
@@ -210,6 +211,7 @@ INFO_CREATE_DB = ('Вы собираетесь создать БД.\n'
                   'Данные в текущей БД будут утеряны.\n'
                   'Текущая БД будет скопирована\n'
                   'Отменить создание?')
+INFO_QR_GENERATION_OK = "Генерация QR-кодов для оплаты закончена"
 INFO_OPEN_FILE = "Хотите открыть итоговый файл?"
 INFO_TITLE = "Информация"
 ATTANTION_TITLE = 'Внимание!'
@@ -244,6 +246,7 @@ DEFAULT_DOCS_DIR_PASS = os.getcwd() + '\\docs\\'
 DEFAULT_TMP_DIR_PASS = os.getcwd() + '\\tmp\\'
 DEFAULT_PHOTO_PASS = '\\photo\\member\\'
 DEFAULT_BILLS_PASS = '\\photo\\bills\\'
+DEFAUL_QR_FILE_NAME = '\\QR_для оплаты.docx'
 # todo добавить путь для хранения файла с qr кодами на оплату
 
 WINDOW_TITLE_ADD_SIZE = 'Редактирование типоразмеров'

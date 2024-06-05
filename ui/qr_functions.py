@@ -34,9 +34,7 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
         self.db = db  # db-connector
         # переменные класса
         self.css = ui.css  # для красоты
-        self.fileNames = []  # для хранения списка названия файлов
-        self.statusbar = status_window  # для отображения окна со статусбаром
-        self.value = 0  # стартовое значение для статусбара
+
 
         self.initUi()
 
@@ -109,6 +107,106 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
             else:
                 self.ui.add_pushButton.setText('Добавить')
 
+
+class QR_StatusBar(QtWidgets.QWidget):
+    def __init__(self, parent=None, db=None):
+        super().__init__(parent)
+        self.ui = ui.statusbar.Ui_Form()
+        self.ui.setupUi(self)
+        # переменные класса
+        self.css = ui.css  # для красоты
+        self.db = db
+        self.qr_thread = TQR_Thread()  # поток с генерацией qr-кода
+        self.no_error = None  # для отлова ошибок в потоке
+
+        self.initUi()
+        self.initTread()  # инициализация потока
+
+    def initUi(self):
+        """Инициализация интерфейса"""
+        # add a little bit of spice
+        self.css.SetIcon.icon(self, window_icon=1)
+
+        # progressBar
+        self.ui.progressBar.reset()
+        self.ui.progressBar.setMinimum(0)
+        try:
+            self.db.execute(sqlite_qwer.sql_select_garage_maxid())
+            maxid = self.db.cursor.fetchone()
+            self.ui.progressBar.setMaximum(maxid[0] + 1)
+
+        except Exception as e:
+            ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=constants.ERROR_NO_BASE_CONNECT)
+            return None
+
+    def initTread(self):
+        """Инициализация потока"""
+        self.qr_thread.db = self.db
+        self.qr_thread.statusSignal.connect(self.showProcessInStatusBar)
+        self.qr_thread.infoSignal.connect(self.show_info)
+        self.qr_thread.finished.connect(self.finishHim)
+        self.qr_thread.errorSignal.connect(self.result)
+
+    def showProcessInStatusBar(self, stat: int):
+        """
+        Отображение текущего положения дел в потоке
+        :param stat: процесс из потока
+        """
+        self.ui.progressBar.reset()
+        self.ui.progressBar.setValue(stat)
+
+    def start(self):
+        self.ui.progressBar.setVisible(True)
+        self.ui.label.setVisible(True)
+        self.qr_thread.start()  # запуск потока
+
+    def result(self, msg: bool):
+        """Отлов ошибок из потока"""
+        self.no_error = msg
+
+    def show_info(self, msg: str):
+        self.ui.label.setText(msg)
+
+    def finishHim(self):
+        if self.no_error:
+            self.ui.progressBar.setVisible(False)
+            self.ui.label.setText(constants.INFO_QR_GENERATION_OK)
+            if ui.dialogs.onShowСonfirmation(self, title=constants.INFO_TITLE, msg=f'{constants.INFO_QR_GENERATION_OK}'
+                                                                                   f'\n{constants.INFO_OPEN_FILE}'):
+                try:
+                    os.startfile(f"{constants.DEFAULT_DOCS_DIR_PASS}{constants.DEFAUL_QR_FILE_NAME}")
+                except Exception as e:
+                    ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=e)
+
+            self.close()
+
+        else:
+            ui.dialogs.onShowOkMessage(self, title=constants.ERROR_TITLE, msg=constants.ERROR_QR_GENERATION)
+            self.close()
+
+
+class TQR_Thread(QtCore.QThread):
+    """
+    поток поиска файлов с рекурсией
+    """
+    infoSignal = QtCore.Signal(str)
+    statusSignal = QtCore.Signal(int)
+    errorSignal = QtCore.Signal(bool)
+
+    def __init__(self, parent=None, db=None):
+        super().__init__(parent)
+        self.flag = None  # для возможности остановки процесса
+        self.db = db  # ссылка на БД
+
+        self.fileNames = []  # для хранения списка названия файлов
+        self.statusbar = None  # для отображения окна со статусбаром
+        self.value = 0  # стартовое значение для статусбара
+
+    def run(self) -> None:
+        if self.flag is None:
+            self.flag = True
+        self.generate_qr()
+
     def generate_qr(self):
         """Да что за гений писал эту функцию которая генерирует QR коды"""
         timer = 0
@@ -120,27 +218,39 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
             if not os.path.exists(constants.DEFAULT_TMP_DIR_PASS):
                 os.mkdir(constants.DEFAULT_TMP_DIR_PASS)
 
-            # Вытаскиваем максимальный id гаража для максимального значения статус бара
-            self.db.execute(sqlite_qwer.sql_select_garage_maxid())
-            maxid = self.db.cursor.fetchone()
-            self.statusbar.ui.progressBar.setMaximum(maxid[0] + 1)
+            self.infoSignal.emit('Генерация QR кодов\nПроцесс может занимать до 5 минут')
 
             # Вытаскиваем инфу по банковским реквизитам
-            self.db.execute(sqlite_qwer.sql_select_all_from_table(constants.PAYMENT_DETAILS))
-            info = self.db.cursor.fetchone()
-            paymentInfo = paymentInformation(*info)
+            try:
+                self.db.execute(sqlite_qwer.sql_select_all_from_table(constants.PAYMENT_DETAILS))
+                info = self.db.cursor.fetchone()
+                paymentInfo = paymentInformation(*info)
+            except Exception as e:
+                ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=constants.ERROR_QR_GENERATION)
+                self.flag = False
+                print(e)
 
             # Вытаскиваем инфу по владельцам гаражей
-            self.db.execute(sqlite_qwer.sql_select_payment_member_information())
-            infos = self.db.cursor.fetchall()
+            try:
+                self.db.execute(sqlite_qwer.sql_select_payment_member_information())
+                infos = self.db.cursor.fetchall()
+            except Exception as e:
+                ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=constants.ERROR_QR_GENERATION)
+                self.flag = False
+                print(e)
 
+            if not self.flag:
+                return None
+            # обработка данных
             for info in infos:
+                if not self.flag:
+                    return None
                 paymentMemberInfo = paymentMemberInformation(*info)
 
                 fio = f'{paymentMemberInfo.surname} {paymentMemberInfo.first_name} {paymentMemberInfo.second_name}'
 
                 for i in range(2):
-                    Purpose = f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, задолженность по членскому взносу на {datetime.now().year}' if i == 0 \
+                    purpose = f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, задолженность по членскому взносу на {datetime.now().year}' if i == 0 \
                         else f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, {datetime.now().year}. Компенсация электроэнергии'
 
                     qr_dir = f"tmp\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}.png" if i == 0 \
@@ -150,16 +260,21 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
                          f'BankName={paymentInfo.BankName}|BIC={paymentInfo.BIC}|' \
                          f'CorrespAcc={paymentInfo.CorrespAcc}|PayeeINN={paymentInfo.PayeeINN}|' \
                          f'LastName={paymentMemberInfo.surname}|FirstName={paymentMemberInfo.first_name}|' \
-                         f'MiddleName={paymentMemberInfo.second_name}|Purpose={Purpose}||Sum='
+                         f'MiddleName={paymentMemberInfo.second_name}|Purpose={purpose}||Sum='
 
                     img = qrcode.make(qr, image_factory=PyPNGImage)
                     img.save(qr_dir)
 
                 # Двигаем шкалу загрузки
                 self.value = paymentMemberInfo.id
-                self.statusbar.ui.progressBar.setValue(paymentMemberInfo.id)
+                self.statusSignal.emit(paymentMemberInfo.id)
+
                 # Создаем документик из шаблона
-                self.fill_doc_template(paymentMemberInfo.num_bild, paymentMemberInfo.num_row, fio)
+                try:
+                    self.fill_doc_template(paymentMemberInfo.num_bild, paymentMemberInfo.num_row, fio)
+                except Exception as e:
+                    print(e)
+                    self.errorSignal.emit(False)
 
                 # Подтираем ненужные фото qr кодов
                 for j in range(2):
@@ -170,16 +285,18 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
                 timer += 1
                 if timer == 50:
                     break
-
-            self.final_output_document(self.fileNames)
+            try:
+                self.final_output_document(self.fileNames)
+            except Exception as e:
+                print(e)
+                self.errorSignal.emit(False)
             self.value += 1
-            self.statusbar.ui.progressBar.setValue(self.value)
+            self.statusSignal.emit(self.value)
+
             # Если предложить выбрать открыть или нет, то прога крашится(
             # if ui.dialogs.onShowСonfirmation(self, constants.INFO_TITLE, constants.INFO_OPEN_FILE):
             #     os.startfile(f"{constants.DEFAULT_DOCS_DIR_PASS}\\QR_для оплаты.docx")
-            os.startfile(f"{constants.DEFAULT_DOCS_DIR_PASS}\\QR_для оплаты.docx")
-            self.statusbar.ui.close()
-
+            # os.startfile(f"{constants.DEFAULT_DOCS_DIR_PASS}\\QR_для оплаты.docx")
 
     def fill_doc_template(self, num, row, fio):
         """Заполняем шаблон с QR кодами"""
@@ -194,44 +311,24 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
 
     def final_output_document(self, files_list):
         """Создаем итоговый файл с QR кодами"""
-        self.statusbar.ui.label.setText('Создаем итоговый файл\n Осталось совсем чуть-чуть')
-        # self.statusbar.ui.progressBar.reset() # Раскомментируй если хочешь чтобы прога крашнулась
+        self.infoSignal.emit('Создаем итоговый файл\nОсталось совсем чуть-чуть')
+
         if os.path.exists(f"{constants.DEFAULT_DOCS_DIR_PASS}\\QR_для оплаты.docx"):
             os.remove(f"{constants.DEFAULT_DOCS_DIR_PASS}\\QR_для оплаты.docx")
         number_of_sections = len(files_list)
-        # self.statusbar.ui.progressBar.setMaximum(number_of_sections-1)  # Раскомментируй если хочешь чтобы прога крашнулась
+
         master = Document_compose(files_list[0])
         composer = Composer(master)
         for i in range(1, number_of_sections):
             doc_temp = Document_compose(files_list[i])
             composer.append(doc_temp)
-            # self.statusbar.ui.progressBar.setValue(i)  # Раскомментируй если хочешь чтобы прога крашнулась
+
         composer.save(f"{constants.DEFAULT_DOCS_DIR_PASS}\\QR_для оплаты.docx")
         # Подчищаем за собой файлы
         for name in files_list:
             if os.path.exists(f'{os.getcwd()}\\{name}'):
                 os.remove(f'{os.getcwd()}\\{name}')
-
-
-class QR_StatusBar(QtWidgets.QWidget):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.ui = ui.statusbar.Ui_Form()
-        self.ui.setupUi(self)
-        # переменные класса
-        self.css = ui.css  # для красоты
-
-        self.initUi()
-
-    def initUi(self):
-        """Инициализация интерфейса"""
-        # add a little bit of spice
-        self.css.SetIcon.icon(self, window_icon=1)
-        self.ui.progressBar.setVisible(True)
-        self.ui.label.setVisible(True)
-        self.ui.label.setText('Генерация QR кодов\nПроцесс может занимать до 5 минут')
-        self.ui.progressBar.reset()
-        self.ui.progressBar.setMinimum(0)
+        self.errorSignal.emit(True)
 
 
 @dataclass
