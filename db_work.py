@@ -24,7 +24,7 @@ class Garage_DB():
     def execute(self, sql: str) -> bool:
         """выполнение sql запроса"""
         if not self.connect:
-            self.connect = sqlite3.connect(self.db_name)
+            self.connect = sqlite3.connect(self.db_name, check_same_thread=False)
         self.cursor = self.connect.cursor()
         try:
             self.cursor.execute(sql)
@@ -89,7 +89,7 @@ class Garage_DB():
         if self.connect:
             self.connect.close()
         try:
-            self.connect = sqlite3.connect(self.db_name)
+            self.connect = sqlite3.connect(self.db_name, check_same_thread=False)
             return (True, f'БД {new_db} успешно подключена')
         except Exception as e:
             return (False, f'Ошибка подключения файла {new_db}. Ошибка: {e}')

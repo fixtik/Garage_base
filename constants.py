@@ -210,7 +210,7 @@ INFO_CREATE_DB = ('Вы собираетесь создать БД.\n'
                   'Данные в текущей БД будут утеряны.\n'
                   'Текущая БД будет скопирована\n'
                   'Отменить создание?')
-
+INFO_OPEN_FILE = "Хотите открыть итоговый файл?"
 INFO_TITLE = "Информация"
 ATTANTION_TITLE = 'Внимание!'
 ATTANTION_ACCEPT = 'Подтверждение действия'
@@ -239,7 +239,9 @@ DEFAULT_VALUE = '0'
 
 DEFAULT_PHOTO_DIR_PASS = os.getcwd() + '\\photo\\member\\'  # os.getcwd() - возвращает текущую директорию
 DEFAULT_BILLS_DIR_PASS = os.getcwd() + '\\photo\\bills\\'  # os.getcwd() - возвращает текущую директорию
+DEFAULT_SMETA_DIR_PASS = os.getcwd() + '\\docs\\Смета\\'
 DEFAULT_DOCS_DIR_PASS = os.getcwd() + '\\docs\\'
+DEFAULT_TMP_DIR_PASS = os.getcwd() + '\\tmp\\'
 DEFAULT_PHOTO_PASS = '\\photo\\member\\'
 DEFAULT_BILLS_PASS = '\\photo\\bills\\'
 # todo добавить путь для хранения файла с qr кодами на оплату

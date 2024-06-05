@@ -147,7 +147,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>800</width>
-                    <height>22</height>
+                    <height>18</height>
                 </rect>
             </property>
             <property name="defaultUp">
@@ -193,12 +193,20 @@
                 </property>
                 <addaction name="spisok_action"/>
                 <addaction name="smeta_action"/>
+                <addaction name="qr_action"/>
+            </widget>
+            <widget class="QMenu" name="org_info">
+                <property name="title">
+                    <string>Об организации</string>
+                </property>
+                <addaction name="bank_info"/>
             </widget>
             <addaction name="operation_menu"/>
             <addaction name="settings_menu"/>
             <addaction name="about_menu"/>
             <addaction name="rabota_with_BD"/>
             <addaction name="vigruzki"/>
+            <addaction name="org_info"/>
         </widget>
         <widget class="QStatusBar" name="statusbar"/>
         <action name="search_action">
@@ -274,6 +282,16 @@
         <action name="bilingContrib_action">
             <property name="text">
                 <string>Выставить счет</string>
+            </property>
+        </action>
+        <action name="bank_info">
+            <property name="text">
+                <string>Платежная информация</string>
+            </property>
+        </action>
+        <action name="qr_action">
+            <property name="text">
+                <string>QR на оплату</string>
             </property>
         </action>
     </widget>
