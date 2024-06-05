@@ -124,17 +124,10 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.tableView.setVisible(flag)
         self.ui.fam_label.setVisible(flag)
         self.ui.fam_lineEdit.setVisible(flag)
-        # self.ui.spisok_action.setEnabled(flag)
-        # self.ui.smeta_action.setEnabled(flag)
-        # self.ui.vigruzki.setEnabled(flag)
         if flag:
             self.ui.horizontalLayout.removeItem(self.ui.verticalLayout)
             self.ui.horizontalLayout.removeItem(self.ui.horizontalSpacer)
             self.ui.horizontalLayout.removeItem(self.ui.horizontalSpacer_2)
-            # self.ui.tableView.setFixedHeight(self.height() * 1.1)   # убрано из-за кривой роботы - увеличивается при каждом новом открытии базы
-            # self.ui.tableView.setMaximumHeight(65325)
-        # else:
-        #     self.ui.tableView.setFixedHeight(self.height() // 10)
 
     def openDB(self):
         new_name = ui.dialogs.open_file_dialog(constants.TITLE_SELECT_BD, constants.FILTER_BD)[0]
@@ -266,17 +259,6 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.progress = ui.qr_functions.QR_StatusBar(db=self.db)
         self.progress.show()
         self.progress.start()
-
-
-    def qr_gen(self):
-        """Запускаем генерацию qr и окно со статусбаром в двух потоках (чтобы не зависало окно)"""
-        if self.db:
-            t = threading.Thread(target=self.show_qr_statusbar())
-            t.start()
-            t1 = threading.Thread(
-                target=ui.qr_functions.QrBankInfo_frontend(db=self.db, status_window=self.progress).generate_qr)
-            t1.start()
-            t.join()
 
     # Оставим до лучших времен, а то получается что надо делать еще миллион проверок (на смету, на платежную информацию) и немного геморно
     # def set_disable_qr(self):
