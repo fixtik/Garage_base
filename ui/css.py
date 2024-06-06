@@ -1,23 +1,8 @@
-import sys
 import os
-from os.path import isfile
 
 from PySide6 import QtCore, QtWidgets, QtGui
 
-import sqlite_qwer
-from ui.main_window import Ui_MainWindow
 import constants
-import db_work
-import ui.dialogs
-import ui.cart_functions
-import ui.contribute_functions
-import ui.member_functions
-import ui.electric_meter_func
-import ui.new_garage_size_func
-import ui.tableView_Models
-import ui.validators
-import ui.tarif_function
-import ui.vigruzki_functions
 
 
 class SetIcon(QtWidgets.QMainWindow):

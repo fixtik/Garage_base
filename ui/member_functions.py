@@ -2,14 +2,13 @@ from datetime import datetime
 import os
 import shutil
 from dataclasses import dataclass
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtWidgets, QtGui
 
-import constants
 import db_work
 import sqlite_qwer
 import ui.dialogs
-import ui.find_user
-import ui.new_member
+import ui.cart.find_user
+import ui.cart.new_member
 import ui.validators
 import ui.car_functions
 import ui.cart_functions
@@ -22,7 +21,7 @@ class Member_front(QtWidgets.QWidget):
 
     def __init__(self, db, parent=None):
         super().__init__(parent)
-        self.ui = ui.new_member.Ui_Form()
+        self.ui = ui.cart.new_member.Ui_Form()
         # self.cartForm = ui.cart_.Ui_Form()
         self.ui.setupUi(self)
 
@@ -299,7 +298,7 @@ class FindMember_front(QtWidgets.QWidget):
 
     def __init__(self, db: db_work.Garage_DB, main_form: QtWidgets.QWidget, parent=None):
         super().__init__(parent)
-        self.ui = ui.find_user.Ui_Form()
+        self.ui = ui.cart.find_user.Ui_Form()
         self.ui.setupUi(self)
 
         self.db = db  # сслыка на объект БД

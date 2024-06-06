@@ -1,13 +1,11 @@
 import sys
-import os
-import threading
 
 from os.path import isfile
 
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtWidgets
 
 import sqlite_qwer
-from ui.main_window import Ui_MainWindow
+from ui.main.main_window import Ui_MainWindow
 import constants
 import db_work
 import ui.dialogs
@@ -47,7 +45,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.progress = None  # для отображения прогресс бара
         self.obj_model = ui.tableView_Models.ObjectTableViewModel()
         self.taskBarHeight = (
-                    self.screen().geometry().height() - self.screen().availableGeometry().height())  # Храним высоту экрана
+                self.screen().geometry().height() - self.screen().availableGeometry().height())  # Храним высоту экрана
 
         self.css = ui.css  # для красоты
 
@@ -111,7 +109,6 @@ class Form_frontend(QtWidgets.QMainWindow):
 
         # add a little bit of spice
         self.css.SetIcon.icon(self, label=1, window_icon=1)
-
 
     def hideObjectUI(self, flag):
         """Скрывает или показывает объекты интерфейса"""
@@ -214,7 +211,8 @@ class Form_frontend(QtWidgets.QMainWindow):
                                                                           surname=self.ui.fam_lineEdit.text())
             if self.db.execute(sql):
                 for obj in self.db.cursor.fetchall():
-                    item = ui.cart_functions.ObjectInfo(obj[0], obj[1], obj[2], f'{obj[3]} {obj[4]} {obj[5]}', obj[6],
+                    item = ui.cart_functions.ObjectInfo(obj[0], obj[1], obj[2], f'{obj[3]} {obj[4]} {obj[5]}',
+                                                        obj[6],
                                                         obj[7])
                     self.obj_model.setItems(item)
 
@@ -330,9 +328,10 @@ if __name__ == "__main__":
     # if not checker():
     #     exit()
     myWindow = Form_frontend()  # Создаём объект окна
-    # myWindow.show()  # Показываем окно
-    myWindow.resize(int(myWindow.width()), myWindow.screen().availableSize().height() - myWindow.taskBarHeight)
-    myWindow.show()
-    myWindow.move(myWindow.screen().geometry().center() - myWindow.geometry().center())
+    myWindow.show()  # Показываем окно
+    myWindow.resize(int(myWindow.width()), int(myWindow.height() * 1.3))
+    # myWindow.move(myWindow.screen().geometry().center() - myWindow.geometry().center())
+    # myWindow.resize(int(myWindow.width()), myWindow.screen().availableSize().height() - myWindow.taskBarHeight)
+    # myWindow.show()
 
     sys.exit(app.exec())  # Если exit, то код дальше не исполняется

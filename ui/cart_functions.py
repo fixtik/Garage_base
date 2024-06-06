@@ -4,11 +4,11 @@ import os
 import sys
 import subprocess
 
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtWidgets, QtGui
 
-from ui.cart_ import Ui_Form
+# from ui.cart_ import Ui_Form
+from ui.cart.cart_new_design import Ui_Form
 
-import constants
 import ui.tarif_function
 import db_work
 import ui.dialogs
@@ -63,9 +63,9 @@ class Cart_frontend(QtWidgets.QWidget):
 
         # платежная табличка
         self.contribModel = ContribTableViewModel()
-        self.ui.contrib_tableView.setModel(self.contribModel)
-        self.ui.contrib_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.ui.contrib_tableView.doubleClicked.connect(self.openImage)
+        self.ui.contrib_tableView_2.setModel(self.contribModel)
+        self.ui.contrib_tableView_2.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.ui.contrib_tableView_2.doubleClicked.connect(self.openImage)
 
         # пользовательская таблица
         self.userModel = UsersTableViewModel()
@@ -86,7 +86,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.close_pushButton.clicked.connect(self.close)  # закрытие формы
         self.ui.image_pushButton.clicked.connect(self.choosePhoto)  # добавление фото
 
-        self.ui.contribAdd_pushButton.clicked.connect(self.showAddContribForm)  # добавление платежки
+        self.ui.contribAdd_pushButton_2.clicked.connect(self.showAddContribForm)  # добавление платежки
         self.ui.userAdd_pushButton.clicked.connect(self.showFindUserForm)  # добавление пользрователя
         self.ui.electricAdd_pushButton.clicked.connect(self.showElectricMetr)  # добавленее счетчика
         self.ui.addSize_pushButton.clicked.connect(self.showSizeEditorForm)  # доабвление размеров
@@ -95,7 +95,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.prevDebt_lineEdit.editingFinished.connect(self.rebalance)  # перерасчет баланса
 
         # удаление выделенной строки
-        self.ui.contribDel_pushButton.clicked.connect(self.delTbView)
+        self.ui.contribDel_pushButton_2.clicked.connect(self.delTbView)
         self.ui.userDel_pushButton.clicked.connect(self.delTbView)
         self.ui.electricDel_pushButton.clicked.connect(self.delTbView)
 
@@ -113,7 +113,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.ownerPhone_lineEdit.setReadOnly(True)
 
         # Автоматичкская подгонка столбцов по ширине
-        self.ui.contrib_tableView.horizontalHeader().setSectionResizeMode(
+        self.ui.contrib_tableView_2.horizontalHeader().setSectionResizeMode(
             QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         self.ui.auto_tableView.horizontalHeader().setSectionResizeMode(
             QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
@@ -121,7 +121,7 @@ class Cart_frontend(QtWidgets.QWidget):
             QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         self.ui.users_tableView.horizontalHeader().setSectionResizeMode(
             QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
-        self.ui.auto_label.setMinimumWidth(self.ui.userAdd_pushButton.width())
+        # self.ui.auto_label.setMinimumWidth(self.ui.userAdd_pushButton.width())
 
         self.ui.image_pushButton.setVisible(False)
         self.ui.photo_label.setVisible(False)
@@ -147,13 +147,14 @@ class Cart_frontend(QtWidgets.QWidget):
             self.setNewPhoto(imgPath)
 
     def openImage(self):
-        if os.path.isfile(os.getcwd() + self.ui.contrib_tableView.model().items[
-            self.ui.contrib_tableView.selectedIndexes()[0].row()].checkPath):
+        if os.path.isfile(os.getcwd() + self.ui.contrib_tableView_2.model().items[
+            self.ui.contrib_tableView_2.selectedIndexes()[0].row()].checkPath):
             imageViewerFromCommandLine = {'linux': 'xdg-open',
                                           'win32': 'explorer',
                                           'darwin': 'open'}[sys.platform]
             contrib_photo_pass = os.getcwd() + (
-                self.ui.contrib_tableView.model().items[self.ui.contrib_tableView.selectedIndexes()[0].row()]).checkPath
+                self.ui.contrib_tableView_2.model().items[
+                    self.ui.contrib_tableView_2.selectedIndexes()[0].row()]).checkPath
             subprocess.run([imageViewerFromCommandLine, contrib_photo_pass])
         else:
             ui.dialogs.onShowError(self, 'Ошибка', 'Отсутствует фото чека')
@@ -200,7 +201,7 @@ class Cart_frontend(QtWidgets.QWidget):
         # авто
         self.ui.auto_tableView.clearSpans()
         # взносы
-        self.ui.contrib_tableView.clearSpans()
+        self.ui.contrib_tableView_2.clearSpans()
         self.ui.electric_tableView.clearSpans()
 
     def add_car_to_tableView(self, mark: str, num: str):
@@ -332,15 +333,15 @@ class Cart_frontend(QtWidgets.QWidget):
                     self.photoPath = ''
             self.del_car_by_fio(self.userModel.items[indx[0].row()].fio)
             self.delSelectRowFromTableView(self.ui.users_tableView)
-        elif self.sender().objectName() == self.ui.contribDel_pushButton.objectName():
+        elif self.sender().objectName() == self.ui.contribDel_pushButton_2.objectName():
 
-            model = self.ui.contrib_tableView.model()
-            if self.ui.contrib_tableView.selectionModel().selectedRows():
-                indxs = self.ui.contrib_tableView.selectionModel().selectedRows()[0].row()
+            model = self.ui.contrib_tableView_2.model()
+            if self.ui.contrib_tableView_2.selectionModel().selectedRows():
+                indxs = self.ui.contrib_tableView_2.selectionModel().selectedRows()[0].row()
                 value = float(model.items[indxs].value)
                 ids = model.items[indxs].id
                 self.del_one_payment(value, ids, model.items[indxs].checkBalanceCount)
-            self.delSelectRowFromTableView(self.ui.contrib_tableView)
+            self.delSelectRowFromTableView(self.ui.contrib_tableView_2)
         else:
             pass
 
@@ -440,7 +441,7 @@ class Cart_frontend(QtWidgets.QWidget):
         if self.db:
             obj_id = self.fullObjInfo.id if self.fullObjInfo else self.garage_id
             # забираем внесенные платежи
-            contribs = self.ui.contrib_tableView.model().items
+            contribs = self.ui.contrib_tableView_2.model().items
             # формируем список id существующих в БД платежей
             new_cont_ids = {con.id for con in contribs if con.id}
             old_contr_ids = []

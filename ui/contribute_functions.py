@@ -1,20 +1,20 @@
 import datetime
 
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtWidgets
 from dataclasses import dataclass
 
 import constants
 import main
-import ui.contrib_add as addW
-import ui.contrib_addKind as addK
+import ui.contribs.contrib_add as addW
+import ui.contribs.contrib_addKind as addK
 import ui.dialogs
 import ui.cart_functions
 import ui.cart_functions
 import sqlite_qwer
 import ui.validators
-import ui.members_contrib
+import ui.contribs.members_contrib
 import ui.new_garage_size_func
-import ui.bilingForm
+import ui.contribs.bilingForm
 import ui.tableView_Models
 import ui.css
 
@@ -130,7 +130,6 @@ class AddContrib_front(QtWidgets.QWidget):
         if self.db:
             self.db.execute(sqlite_qwer.sql_select_all_from_table(self.TB_NAME))
             contrib = self.db.cursor.fetchall()
-            print(contrib)
             self.contib_ids.clear()
             self.ui.kindContrib_comboBox.clear()
             for item in contrib:
@@ -274,7 +273,7 @@ class Member_contrib_ui(QtWidgets.QWidget):
 
     def __init__(self, db, parent=None):
         super().__init__(parent)
-        self.ui = ui.members_contrib.Ui_Form()
+        self.ui = ui.contribs.members_contrib.Ui_Form()
         self.ui.setupUi(self)
 
         self.db = db  # БД
@@ -390,7 +389,7 @@ class Biling_contrib_ui(QtWidgets.QWidget):
 
     def __init__(self, db, parent=None):
         super().__init__(parent)
-        self.ui = ui.bilingForm.Ui_Form()
+        self.ui = ui.contribs.bilingForm.Ui_Form()
         self.ui.setupUi(self)
 
         self.db = db  # БД

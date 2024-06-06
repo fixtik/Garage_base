@@ -1,6 +1,4 @@
 import os
-import shutil
-import sys
 
 from dataclasses import dataclass
 
@@ -16,13 +14,13 @@ from qrcode.image.pure import PyPNGImage
 
 import constants
 import sqlite_qwer
-from ui.qr_bankInfo import Ui_Form
+from ui.qr.qr_bankInfo import Ui_Form
 import ui.validators
 import ui.css
 import ui.dialogs
-import ui.statusbar
+import ui.qr.statusbar
 from datetime import datetime
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtCore, QtWidgets
 
 
 class QrBankInfo_frontend(QtWidgets.QWidget):
@@ -34,7 +32,6 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
         self.db = db  # db-connector
         # переменные класса
         self.css = ui.css  # для красоты
-
 
         self.initUi()
 
@@ -57,7 +54,6 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
 
         # add a little bit of spice
         self.css.SetIcon.icon(self, window_icon=1)
-        self.ui.progressBar.setVisible(False)
 
         self.autofill_PaymentInfo()
 
@@ -111,7 +107,7 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
 class QR_StatusBar(QtWidgets.QWidget):
     def __init__(self, parent=None, db=None):
         super().__init__(parent)
-        self.ui = ui.statusbar.Ui_Form()
+        self.ui = ui.qr.statusbar.Ui_Form()
         self.ui.setupUi(self)
         # переменные класса
         self.css = ui.css  # для красоты
@@ -282,9 +278,9 @@ class TQR_Thread(QtCore.QThread):
                         else f"tmp\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}_electric.png"
                     os.remove(qr_dir)
 
-                timer += 1
-                if timer == 50:
-                    break
+                # timer += 1
+                # if timer == 50:
+                #     break
             try:
                 self.final_output_document(self.fileNames)
             except Exception as e:

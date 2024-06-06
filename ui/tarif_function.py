@@ -1,9 +1,9 @@
 from dataclasses import dataclass
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtWidgets
 
 import constants
 import sqlite_qwer
-from ui.tarif import Ui_Form
+from ui.tarif.tarif import Ui_Form
 import ui.dialogs
 
 

@@ -9,15 +9,16 @@
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+                           QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter,
+                           QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QLineEdit,
-                               QProgressBar, QPushButton, QSizePolicy, QSpacerItem,
-                               QVBoxLayout, QWidget)
+                               QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout,
+                               QWidget)
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -41,7 +42,6 @@ class Ui_Form(object):
 
         self.verticalLayout_Name.addWidget(self.Name_lineEdit)
 
-
         self.verticalLayout_3.addLayout(self.verticalLayout_Name)
 
         self.verticalSpacer_6 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -60,7 +60,6 @@ class Ui_Form(object):
         self.PersonalAcc_lineEdit.setMinimumSize(QSize(0, 22))
 
         self.PersonalAcc_verticalLayout.addWidget(self.PersonalAcc_lineEdit)
-
 
         self.verticalLayout_3.addLayout(self.PersonalAcc_verticalLayout)
 
@@ -81,7 +80,6 @@ class Ui_Form(object):
 
         self.BankName_verticalLayout.addWidget(self.BankName_lineEdit)
 
-
         self.verticalLayout_3.addLayout(self.BankName_verticalLayout)
 
         self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -100,7 +98,6 @@ class Ui_Form(object):
         self.BIC_lineEdit.setMinimumSize(QSize(0, 22))
 
         self.verticalLayout_BIC.addWidget(self.BIC_lineEdit)
-
 
         self.verticalLayout_3.addLayout(self.verticalLayout_BIC)
 
@@ -121,7 +118,6 @@ class Ui_Form(object):
 
         self.verticalLayout_CorrespAcc.addWidget(self.CorrespAcc_lineEdit)
 
-
         self.verticalLayout_3.addLayout(self.verticalLayout_CorrespAcc)
 
         self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -140,7 +136,6 @@ class Ui_Form(object):
         self.PayeeINN_lineEdit.setMinimumSize(QSize(0, 22))
 
         self.verticalLayout_PayeeINN.addWidget(self.PayeeINN_lineEdit)
-
 
         self.verticalLayout_3.addLayout(self.verticalLayout_PayeeINN)
 
@@ -161,30 +156,18 @@ class Ui_Form(object):
 
         self.verticalLayout_KPP.addWidget(self.KPP_lineEdit)
 
-
         self.verticalLayout_3.addLayout(self.verticalLayout_KPP)
 
         self.verticalLayout.addLayout(self.verticalLayout_3)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.cancel_pushButton_2 = QPushButton(Form)
-        self.cancel_pushButton_2.setObjectName(u"cancel_pushButton_2")
-
-        self.horizontalLayout_2.addWidget(self.cancel_pushButton_2)
-
-        self.progressBar = QProgressBar(Form)
-        self.progressBar.setObjectName(u"progressBar")
-        self.progressBar.setValue(24)
-
-        self.horizontalLayout_2.addWidget(self.progressBar)
-
-        self.horizontalLayout_3.addLayout(self.horizontalLayout_2)
-
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
+
         self.add_pushButton = QPushButton(Form)
         self.add_pushButton.setObjectName(u"add_pushButton")
         self.add_pushButton.setMinimumSize(QSize(0, 22))
@@ -201,10 +184,10 @@ class Ui_Form(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
-
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
+
     # setupUi
 
     def retranslateUi(self, Form):
@@ -225,10 +208,8 @@ class Ui_Form(object):
             QCoreApplication.translate("Form", u"\u041a\u043e\u0440\u0440. \u0441\u0447\u0435\u0442", None))
         self.PayeeINN_label.setText(QCoreApplication.translate("Form", u"\u0418\u041d\u041d", None))
         self.KPP_label.setText(QCoreApplication.translate("Form", u"\u041a\u041f\u041f", None))
-        self.cancel_pushButton_2.setText(QCoreApplication.translate("Form", u"deGenerate", None))
         self.add_pushButton.setText(
             QCoreApplication.translate("Form", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c", None))
         self.cancel_pushButton.setText(
             QCoreApplication.translate("Form", u"\u041e\u0442\u043c\u0435\u043d\u0438\u0442\u044c", None))
     # retranslateUi
-

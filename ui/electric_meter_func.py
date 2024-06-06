@@ -1,12 +1,10 @@
 from dataclasses import dataclass
 
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtWidgets
 
-import db_work
-from ui.electric_meter import Ui_Form
+from ui.electric.electric_meter import Ui_Form
 import sqlite_qwer
 import ui.dialogs
-import constants
 import ui.validators
 import ui.cart_functions
 from ui.tableView_Models import *

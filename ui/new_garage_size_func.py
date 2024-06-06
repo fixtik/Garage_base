@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6 import QtWidgets
 
 import constants
 import db_work
-import ui.new_garage_size as addWid
+import ui.cart.new_garage_size as addWid
 
 import ui.dialogs
 import ui.cart_functions
