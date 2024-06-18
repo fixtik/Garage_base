@@ -20,6 +20,8 @@ import ui.tarif_function
 import ui.vigruzki_functions
 import ui.css
 import ui.qr_functions
+import ui.main.about
+import ui.about_functions
 
 
 # from pro import checker
@@ -43,6 +45,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.bilingCont = None  # для отображения формы выставления счета
         self.qrBankInfo = None  # для отображения формы заполнения банковских реквизитов
         self.progress = None  # для отображения прогресс бара
+        self.about = None  # для отображения информации об обновлениях
         self.obj_model = ui.tableView_Models.ObjectTableViewModel()
         self.taskBarHeight = (
                 self.screen().geometry().height() - self.screen().availableGeometry().height())  # Храним высоту экрана
@@ -85,7 +88,9 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.memberCont_action.triggered.connect(self.showMemberCont)  # окно редатирования членского взноса
         self.ui.bilingContrib_action.triggered.connect(self.showBilingCont)  # окно выставления счета
         self.ui.bank_info.triggered.connect(self.showQrBankInfo)  # окно добавления банковской информации
+        self.ui.about_action.triggered.connect(self.show_about_information)
         self.ui.version_label.setText('Ver 1.03')
+        self.ui.version_label.setToolTip('Посмотрите изменения во вкладке "О программе"')
 
         # ------------- Выгрузки excel ------------- #
         # self.ui.vigruzki.setDisabled(True)
@@ -259,6 +264,9 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.progress.show()
         self.progress.start()
 
+    def show_about_information(self):
+        self.progress = ui.about_functions.About_frontend(db=self.db)
+        self.progress.show()
     # Оставим до лучших времен, а то получается что надо делать еще миллион проверок (на смету, на платежную информацию) и немного геморно
     # def set_disable_qr(self):
     #     """Отключаем кнопку генерации QR если нет данных об организации"""

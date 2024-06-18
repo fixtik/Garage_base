@@ -60,6 +60,8 @@ class Ui_MainWindow(object):
         self.bank_info.setObjectName(u"bank_info")
         self.qr_action = QAction(MainWindow)
         self.qr_action.setObjectName(u"qr_action")
+        self.about_action = QAction(MainWindow)
+        self.about_action.setObjectName(u"about_action")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
@@ -184,6 +186,7 @@ class Ui_MainWindow(object):
         self.settings_menu.addAction(self.chooseBD_action)
         self.settings_menu.addAction(self.createBD_action)
         self.settings_menu.addAction(self.updateBD_action)
+        self.about_menu.addAction(self.about_action)
         self.rabota_with_BD.addAction(self.kindPay_action)
         self.rabota_with_BD.addAction(self.member_action)
         self.rabota_with_BD.addAction(self.garage_action)
@@ -243,6 +246,8 @@ class Ui_MainWindow(object):
                                                           None))
         self.qr_action.setText(
             QCoreApplication.translate("MainWindow", u"QR \u043d\u0430 \u043e\u043f\u043b\u0430\u0442\u0443", None))
+        self.about_action.setText(
+            QCoreApplication.translate("MainWindow", u"\u0427\u0442\u043e \u043d\u043e\u0432\u043e\u0433\u043e", None))
         self.voa_label.setText("")
         self.openBase_pushButton.setText(QCoreApplication.translate("MainWindow",
                                                                     u"\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0431\u0430\u0437\u0443 \u0434\u0430\u043d\u043d\u044b\u0445",
