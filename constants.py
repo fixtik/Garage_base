@@ -121,12 +121,21 @@ SQL_CREATE_TABLE_PAYMENT_DETAILS = 'CREATE TABLE IF NOT EXISTS "payment_details"
                                    'id INTEGER PRIMARY KEY AUTOINCREMENT, ' \
                                    '"name" TEXT DEFAULT 0, ' \
                                    '"personal_acc" TEXT DEFAULT 0, ' \
-                                   '"bank_name"  ITEXT DEFAULT 0, ' \
+                                   '"bank_name" TEXT DEFAULT 0, ' \
                                    '"bic" TEXT DEFAULT 0,' \
                                    '"corresp_acc" TEXT DEFAULT 0,' \
                                    '"payee_inn" TEXT DEFAULT 0,' \
                                    '"kpp" TEXT DEFAULT 0' \
                                    ');'
+
+SQL_CREATE_TABLE_DOCS_INFO = 'CREATE TABLE IF NOT EXISTS "docs_info" (' \
+                             'id INTEGER PRIMARY KEY AUTOINCREMENT, ' \
+                             '"name" TEXT DEFAULT 0, ' \
+                             '"date_add" TEXT DEFAULT 0, ' \
+                             '"doc_pass" TEXT DEFAULT 0, ' \
+                             '"garage_id" INTEGER NOT NULL,' \
+                             'FOREIGN KEY("garage_id") REFERENCES "garage_obj"("id")' \
+                             ');'
 
 SQL_ALTER_TABLE_CONTRIBUTIONS = 'ALTER TABLE "contribution" ADD COLUMN "pay_kind" TEXT; '
 SQL_ALTER_TABLE_CONTRIBUTIONS1 = 'ALTER TABLE "contribution" ADD COLUMN "check_photo" BLOB;'
@@ -141,11 +150,12 @@ SQL_ALTER_TABLE_TYPE_SIZE = 'ALTER TABLE "type_size" ' \
 BD_SQL_CREATOR = [SQL_CREATE_TABLE_GARGE_MEMBER, SQL_CREATE_TABLE_ELECTRIC_METER, SQL_CREATE_TABLE_TYPE_SIZE,
                   SQL_CREATE_TABLE_CONTRIBUTION_TYPE, SQL_CREATE_TABLE_GARAGE, SQL_CREATE_TABLE_CONTRIBUTION,
                   SQL_CREATE_TABLE_AUTOMOBILE, SQL_CREATE_TABLE_METER_PAYMENT, SQL_CREATE_TABLE_OBJECT_ACCOUNT,
-                  SQL_CREATE_TABLE_MEMBERS_CONTRIB, SQL_CREATE_TABLE_PAYMENT_DETAILS]
+                  SQL_CREATE_TABLE_MEMBERS_CONTRIB, SQL_CREATE_TABLE_PAYMENT_DETAILS, SQL_CREATE_TABLE_DOCS_INFO]
 
 TABLE_NAMES = ['contribution', 'garage_obj', 'automobile', 'garage_member',
                'contribution_type', 'electric_meter', 'type_size', 'meter_payment', 'object_account',
-               'members_contrib', 'payment_details']
+               'members_contrib', 'payment_details', 'docs_info']
+
 CAR_TABLE = 'automobile'
 OBJ_TABLE = 'garage_obj'
 ELECTRIC_TABLE = 'electric_meter'
@@ -157,6 +167,7 @@ ACCOUNT_TABLE = 'object_account'
 TARIF_TABLE = 'meter_payment'
 MEMBERS_CONTRIB = 'members_contrib'
 PAYMENT_DETAILS = 'payment_details'
+DOCS_INFO_TABLE = 'docs_info'
 
 OWNER_ID = 'owner_id'
 
@@ -223,10 +234,12 @@ QUESTION_WRITE_EL_METER_WHITHOUT_OBJ = 'Хотите добавить запис
 QUESTION_DELETE_TYPE_SIZE = "Вы уверены, что хотите удалить выбранный типоразмер гаража?"
 QUESTION_UPDATE_MEMBER_CONT = "Вы уверены, что хотите обновить размер платежа для указанного типоразмера?"
 QUESTION_DELETE_METER_FROM_BASE = "Удалить счетчик из базы?"
+QUESTION_DELETE_DOCS_FROM_BASE = "Вы уверены, что хотите удалить запись?"
 
 TITLE_SELECT_PHOTO = "Выберите фото для загрузки"
+TITLE_SELECT_DOC = "Выберите файл для загрузки"
 
-FILTER_PHOTO = '*.jpg *.jpeg'
+FILTER_PHOTO = '*.jpg *.jpeg *.png'
 FILTER_BD = '*.db'
 
 BTN_TEXT_ADD = 'Добавить'
@@ -241,10 +254,11 @@ DEFAULT_VALUE = '0'
 
 DEFAULT_PHOTO_DIR_PASS = os.getcwd() + '\\photo\\member\\'  # os.getcwd() - возвращает текущую директорию
 DEFAULT_BILLS_DIR_PASS = os.getcwd() + '\\photo\\bills\\'  # os.getcwd() - возвращает текущую директорию
+DEFAULT_DOCS_DIR_PASS = os.getcwd() + '\\photo\\docs\\'
 DEFAULT_SMETA_DIR_PASS = os.getcwd() + '\\docs\\Смета\\'
-DEFAULT_DOCS_DIR_PASS = os.getcwd() + '\\docs\\'
 DEFAULT_TMP_DIR_PASS = os.getcwd() + '\\tmp\\'
 DEFAULT_PHOTO_PASS = '\\photo\\member\\'
+DEFAULT_DOCS_PASS = '\\photo\\docs\\'
 DEFAULT_BILLS_PASS = '\\photo\\bills\\'
 DEFAUL_QR_FILE_NAME = '\\QR_для оплаты.docx'
 # todo добавить путь для хранения файла с qr кодами на оплату

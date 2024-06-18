@@ -36,7 +36,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.cartObj = None  # для отображения формы с карточкой объекта
         self.typePay = None  # для отображения формы редактирования видов платежей
         self.newMember = None  # для отображения формы добавления нового члена
-        self.elMeter = None  # для отображения формы с счетчиком
+        self.elMeter = None  # для отображения формы со счетчиком
         self.garageSize = None  # для отображения формы размера гаража
         self.tarif = None  # для отображения формы редактирования тарифа счетчика
         self.memberCont = None  # для отображения формы добавления членского взноса
@@ -85,6 +85,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.memberCont_action.triggered.connect(self.showMemberCont)  # окно редатирования членского взноса
         self.ui.bilingContrib_action.triggered.connect(self.showBilingCont)  # окно выставления счета
         self.ui.bank_info.triggered.connect(self.showQrBankInfo)  # окно добавления банковской информации
+        self.ui.version_label.setText('Ver 1.03')
 
         # ------------- Выгрузки excel ------------- #
         # self.ui.vigruzki.setDisabled(True)
@@ -270,6 +271,7 @@ class Form_frontend(QtWidgets.QMainWindow):
     def updateDB(self):
         if self.db:
             try:
+                self.db.execute(sqlite_qwer.SQL_CREATE_TABLE_DOCS_INFO)
                 # for name in constants.ALTER_TABLES_UPDATE_COLUMN_NAME:
                 #     self.db.execute(name)
                 if self.db.execute(

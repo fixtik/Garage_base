@@ -136,6 +136,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_3)
 
+        self.version_label = QLabel(self.centralwidget)
+        self.version_label.setObjectName(u"version_label")
+
+        self.horizontalLayout_2.addWidget(self.version_label)
+
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
@@ -246,6 +251,7 @@ class Ui_MainWindow(object):
         self.num_label.setText(QCoreApplication.translate("MainWindow", u"\u041d\u043e\u043c\u0435\u0440", None))
         self.fam_label.setText(
             QCoreApplication.translate("MainWindow", u"\u0424\u0430\u043c\u0438\u043b\u0438\u044f", None))
+        self.version_label.setText("")
         self.operation_menu.setTitle(
             QCoreApplication.translate("MainWindow", u"\u041e\u043f\u0435\u0440\u0430\u0446\u0438\u0438", None))
         self.settings_menu.setTitle(

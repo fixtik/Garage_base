@@ -113,14 +113,15 @@ class Member_front(QtWidgets.QWidget):
         self.ui.address_lineEdit.clear()
 
     @staticmethod
-    def move_photo(self, id_photo: str = None, billPhotoPath: str = None):
+    def move_photo(self, id_photo: str = None, billPhotoPath: str = None, docPhotoPath: str = None):
         '''Перемещение фото в директорию'''
         if id_photo:
             if not os.path.isdir(constants.DEFAULT_PHOTO_DIR_PASS):  # Проверяем создана директория или нет.
                 os.makedirs(constants.DEFAULT_PHOTO_DIR_PASS, mode=0o777)  # Создаем директорию.
             if self.photoPath is not None:
-                if os.path.isfile(constants.DEFAULT_PHOTO_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg'):
-                    os.remove(constants.DEFAULT_PHOTO_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg')
+                final_fill_pass = f'{constants.DEFAULT_PHOTO_DIR_PASS}{str(self.db.cursor.lastrowid)}.jpg'
+                if os.path.isfile(final_fill_pass):
+                    os.remove(final_fill_pass)
                 if id_photo:
                     if not (os.getcwd() + self.photoPath) == (
                             constants.DEFAULT_PHOTO_DIR_PASS + str(id_photo) + '.jpg'):
@@ -132,8 +133,7 @@ class Member_front(QtWidgets.QWidget):
                                                                                               id_photo)
                                                                                           + '.jpg'))
                 else:
-                    shutil.copy(self.photoPath, constants.DEFAULT_PHOTO_DIR_PASS + str(
-                        self.db.cursor.lastrowid) + '.jpg')  # Перемещаем фотографию и сразу переименовываем
+                    shutil.copy(self.photoPath, final_fill_pass)  # Перемещаем фотографию и сразу переименовываем
                     # Обновляем путь в бд после переноса фотографии
                     self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(constants.MEMBER_TABLE,
                                                                                       self.db.cursor.lastrowid,
@@ -141,29 +141,46 @@ class Member_front(QtWidgets.QWidget):
                                                                                       constants.DEFAULT_PHOTO_PASS + str(
                                                                                           self.db.cursor.lastrowid) + '.jpg'))
         if billPhotoPath:
+            extension = billPhotoPath.split('.').pop()  # Запоминаем расширение файла
+            # Запоминаем название файла чтобы потом добавить к названию id
+            name = billPhotoPath.split('/').pop().split('.')[0]
+            final_full_name = f'{constants.DEFAULT_BILLS_DIR_PASS}{name}_{str(self.db.cursor.lastrowid)}.{extension}'
             if not os.path.isdir(constants.DEFAULT_BILLS_DIR_PASS):  # Проверяем создана директория или нет.
                 os.makedirs(constants.DEFAULT_BILLS_DIR_PASS, mode=0o777)  # Создаем директорию.
-            if os.path.isfile(constants.DEFAULT_BILLS_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg'):
-                os.remove(constants.DEFAULT_BILLS_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg')
-            shutil.copy(billPhotoPath, constants.DEFAULT_BILLS_DIR_PASS + str(self.db.cursor.lastrowid) + '.jpg')
+            if os.path.isfile(final_full_name):
+                os.remove(final_full_name)
+            shutil.copy(billPhotoPath, final_full_name)
             self.db.execute(sqlite_qwer.sql_update_field_by_table_name_and_id(constants.CONTRIB_TABLE,
                                                                               self.db.cursor.lastrowid,
                                                                               'check_photo',
-                                                                              constants.DEFAULT_BILLS_PASS + str(
-                                                                                  self.db.cursor.lastrowid)
-                                                                              + '.jpg'))
+                                                                              f'{constants.DEFAULT_BILLS_PASS}{name}_{str(self.db.cursor.lastrowid)}.{extension}'))
+        if docPhotoPath:
+            extension = docPhotoPath.split('.').pop()  # Запоминаем расширение файла
+            # Запоминаем название файла чтобы потом добавить к названию id
+            name = docPhotoPath.split('/').pop().split('.')[0]
+            final_full_name = f'{constants.DEFAULT_DOCS_DIR_PASS}{name}_{str(self.db.cursor.lastrowid)}.{extension}'
+            if not os.path.isdir(constants.DEFAULT_DOCS_DIR_PASS):  # Проверяем создана директория или нет.
+                os.makedirs(constants.DEFAULT_DOCS_DIR_PASS, mode=0o777)  # Создаем директорию.
+            if os.path.isfile(final_full_name):
+                os.remove(final_full_name)
+            shutil.copy(docPhotoPath, final_full_name)
+            self.db.execute(
+                sqlite_qwer.sql_update_field_by_table_name_and_id(constants.DOCS_INFO_TABLE,
+                                                                  self.db.cursor.lastrowid,
+                                                                  'doc_pass',
+                                                                  f'{constants.DEFAULT_DOCS_PASS}{name}_{str(self.db.cursor.lastrowid)}.{extension}'))
 
     def addPushBtnClk(self):
         """Проверка данных при нажатии 'Добавить' """
-        self.member.surname = self.ui.surname_lineEdit.text()
-        self.member.name = self.ui.name_lineEdit.text()
-        self.member.secondName = self.ui.secondName_lineEdit.text()
+        self.member.surname = self.ui.surname_lineEdit.text().lstrip().rstrip()
+        self.member.name = self.ui.name_lineEdit.text().lstrip().rstrip()
+        self.member.secondName = self.ui.secondName_lineEdit.text().lstrip().rstrip()
         self.member.birthday = self.ui.dateBirdth_dateEdit.date().toPython()
-        self.member.phone = self.ui.phone_lineEdit.text()
-        self.member.additPhone = self.ui.addPhone_lineEdit.text()
-        self.member.email = self.ui.email_lineEdit.text()
-        self.member.voa = self.ui.voa_lineEdit.text()
-        self.member.address = self.ui.address_lineEdit.text()
+        self.member.phone = self.ui.phone_lineEdit.text().lstrip().rstrip()
+        self.member.additPhone = self.ui.addPhone_lineEdit.text().lstrip().rstrip()
+        self.member.email = self.ui.email_lineEdit.text().lstrip().rstrip()
+        self.member.voa = self.ui.voa_lineEdit.text().lstrip().rstrip()
+        self.member.address = self.ui.address_lineEdit.text().lstrip().rstrip()
         # проверка наличия пользователя с такими данными в БД
         if self.ui.add_pushButton.text() == constants.BTN_TEXT_ADD:
             if ui.cart_functions.check_rec_in_base(self.db,
@@ -186,7 +203,8 @@ class Member_front(QtWidgets.QWidget):
         else:
             if self.changeRecordsInBd(self.member.id):
                 if isinstance(self.parentForm, ui.cart_functions.Cart_frontend):
-                    self.move_photo(self, id_photo=self.member.id)
+                    if os.path.isfile(self.photoPath):
+                        self.move_photo(self, id_photo=self.member.id)
                     # забираем из главной формы id добавленных пользователей
                     ids = ', '.join([str(user.id) for user in self.parentForm.userModel.items])
                     for user in self.parentForm.userModel.items:

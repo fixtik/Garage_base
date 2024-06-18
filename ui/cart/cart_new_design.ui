@@ -643,7 +643,7 @@
                         </attribute>
                         <layout class="QGridLayout" name="gridLayout">
                             <item row="0" column="0">
-                                <widget class="QTableView" name="contrib_tableView_2">
+                                <widget class="QTableView" name="contrib_tableView">
                                     <property name="maximumSize">
                                         <size>
                                             <width>16777215</width>

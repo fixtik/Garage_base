@@ -19,6 +19,7 @@ import ui.member_functions
 import ui.new_garage_size_func
 import ui.validators
 import ui.css
+import ui.doc_functions
 
 import sqlite_qwer
 
@@ -47,6 +48,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.garage_id = None  # id гаража
         self.button_group = None  # QButtonGroup(self)
         self.fullObjInfo = None  # информация об объекте (полная)
+        self.docAdd = None  # для отображения формы добавления документов
         self.moveBillPhoto = ui.member_functions.Member_front(db)
         self.css = ui.css  # для красоты
 
@@ -63,9 +65,9 @@ class Cart_frontend(QtWidgets.QWidget):
 
         # платежная табличка
         self.contribModel = ContribTableViewModel()
-        self.ui.contrib_tableView_2.setModel(self.contribModel)
-        self.ui.contrib_tableView_2.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.ui.contrib_tableView_2.doubleClicked.connect(self.openImage)
+        self.ui.contrib_tableView.setModel(self.contribModel)
+        self.ui.contrib_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.ui.contrib_tableView.doubleClicked.connect(self.openFile)
 
         # пользовательская таблица
         self.userModel = UsersTableViewModel()
@@ -79,13 +81,18 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.electric_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.ui.electric_tableView.doubleClicked.connect(self.showEditElectricForm)
 
-        # Обновление комбо бокса сразмерами гаража
+        # табличка документов
+        self.docsModel = DocumentsTableViewModelLite()
+        self.ui.docs_tableView.setModel(self.docsModel)
+        self.ui.docs_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.ui.docs_tableView.doubleClicked.connect(self.openFile)
+
+        # Обновление комбо бокса с размерами гаража
         self.updateDataFromDB()  # заполнение данных типоразмера
 
         # слоты кнопок
         self.ui.close_pushButton.clicked.connect(self.close)  # закрытие формы
         self.ui.image_pushButton.clicked.connect(self.choosePhoto)  # добавление фото
-
         self.ui.contribAdd_pushButton_2.clicked.connect(self.showAddContribForm)  # добавление платежки
         self.ui.userAdd_pushButton.clicked.connect(self.showFindUserForm)  # добавление пользрователя
         self.ui.electricAdd_pushButton.clicked.connect(self.showElectricMetr)  # добавленее счетчика
@@ -93,12 +100,13 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.balance_lineEdit.editingFinished.connect(self.rebalance)  # перерасчет баланса
         self.ui.calc_lineEdit.editingFinished.connect(self.rebalance)  # перерасчет баланса
         self.ui.prevDebt_lineEdit.editingFinished.connect(self.rebalance)  # перерасчет баланса
+        self.ui.docsAdd_pushButton.clicked.connect(self.showAddDocsForm)
 
         # удаление выделенной строки
         self.ui.contribDel_pushButton_2.clicked.connect(self.delTbView)
         self.ui.userDel_pushButton.clicked.connect(self.delTbView)
         self.ui.electricDel_pushButton.clicked.connect(self.delTbView)
-
+        self.ui.docsDel_pushButton.clicked.connect(self.delTbView)
         self.ui.change_pushButton.clicked.connect(self.addToBasePushBtnclck)  # внесение изменений в БД
 
         # валидаторы
@@ -113,13 +121,15 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.ownerPhone_lineEdit.setReadOnly(True)
 
         # Автоматичкская подгонка столбцов по ширине
-        self.ui.contrib_tableView_2.horizontalHeader().setSectionResizeMode(
+        self.ui.contrib_tableView.horizontalHeader().setSectionResizeMode(
             QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         self.ui.auto_tableView.horizontalHeader().setSectionResizeMode(
             QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         self.ui.electric_tableView.horizontalHeader().setSectionResizeMode(
             QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         self.ui.users_tableView.horizontalHeader().setSectionResizeMode(
+            QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        self.ui.docs_tableView.horizontalHeader().setSectionResizeMode(
             QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         # self.ui.auto_label.setMinimumWidth(self.ui.userAdd_pushButton.width())
 
@@ -146,19 +156,24 @@ class Cart_frontend(QtWidgets.QWidget):
             self.ui.photo_label.setVisible(True)
             self.setNewPhoto(imgPath)
 
-    def openImage(self):
-        if os.path.isfile(os.getcwd() + self.ui.contrib_tableView_2.model().items[
-            self.ui.contrib_tableView_2.selectedIndexes()[0].row()].checkPath):
-            imageViewerFromCommandLine = {'linux': 'xdg-open',
-                                          'win32': 'explorer',
-                                          'darwin': 'open'}[sys.platform]
-            contrib_photo_pass = os.getcwd() + (
-                self.ui.contrib_tableView_2.model().items[
-                    self.ui.contrib_tableView_2.selectedIndexes()[0].row()]).checkPath
-            subprocess.run([imageViewerFromCommandLine, contrib_photo_pass])
-        else:
-            ui.dialogs.onShowError(self, 'Ошибка', 'Отсутствует фото чека')
-            return
+    def openFile(self):
+        if self.sender().objectName() == self.ui.contrib_tableView.objectName():
+            contrib_photo_pass = os.getcwd() + self.ui.contrib_tableView.model().items[
+                self.ui.contrib_tableView.selectedIndexes()[0].row()].checkPath
+            if os.path.isfile(contrib_photo_pass):
+                os.startfile(contrib_photo_pass)
+            else:
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, 'Файл отсутствует')
+                return
+        elif self.sender().objectName() == self.ui.docs_tableView.objectName():
+            doc_file_pass = os.getcwd() + self.ui.docs_tableView.model().items[
+                self.ui.docs_tableView.selectedIndexes()[0].row()].doc_pass
+            if os.path.isfile(doc_file_pass):
+                os.startfile(doc_file_pass)
+            else:
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, 'Файл отсутствует')
+                return
+
 
     def setNewPhoto(self, image: str):
         """
@@ -201,7 +216,7 @@ class Cart_frontend(QtWidgets.QWidget):
         # авто
         self.ui.auto_tableView.clearSpans()
         # взносы
-        self.ui.contrib_tableView_2.clearSpans()
+        self.ui.contrib_tableView.clearSpans()
         self.ui.electric_tableView.clearSpans()
 
     def add_car_to_tableView(self, mark: str, num: str):
@@ -293,7 +308,6 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def delTbView(self):
         """удаление строки из таблицы"""
-
         if self.sender().objectName() == self.ui.electricDel_pushButton.objectName():
             electric_indx = self.ui.electric_tableView.selectionModel().selectedRows()
             if self.db:
@@ -319,8 +333,6 @@ class Cart_frontend(QtWidgets.QWidget):
                     print(e)
                     ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_DELETE_QWERY)
 
-
-
         elif self.sender().objectName() == self.ui.userDel_pushButton.objectName():
             # при удалении пользователя - удаляем и сслыки на его id
             indx = self.ui.users_tableView.selectionModel().selectedRows()
@@ -333,15 +345,30 @@ class Cart_frontend(QtWidgets.QWidget):
                     self.photoPath = ''
             self.del_car_by_fio(self.userModel.items[indx[0].row()].fio)
             self.delSelectRowFromTableView(self.ui.users_tableView)
-        elif self.sender().objectName() == self.ui.contribDel_pushButton_2.objectName():
 
-            model = self.ui.contrib_tableView_2.model()
-            if self.ui.contrib_tableView_2.selectionModel().selectedRows():
-                indxs = self.ui.contrib_tableView_2.selectionModel().selectedRows()[0].row()
+        elif self.sender().objectName() == self.ui.contribDel_pushButton_2.objectName():
+            # при удалении платежа
+            model = self.ui.contrib_tableView.model()
+            if self.ui.contrib_tableView.selectionModel().selectedRows():
+                indxs = self.ui.contrib_tableView.selectionModel().selectedRows()[0].row()
                 value = float(model.items[indxs].value)
                 ids = model.items[indxs].id
                 self.del_one_payment(value, ids, model.items[indxs].checkBalanceCount)
-            self.delSelectRowFromTableView(self.ui.contrib_tableView_2)
+            self.delSelectRowFromTableView(self.ui.contrib_tableView)
+
+        elif self.sender().objectName() == self.ui.docsDel_pushButton.objectName():
+            # Удаление документов
+            model = self.ui.docs_tableView.model()
+            if self.ui.docs_tableView.selectionModel().selectedRows():
+                indxs = self.ui.docs_tableView.selectionModel().selectedRows()[0].row()
+                ids = model.items[indxs].id
+                print(ids)
+                if ui.dialogs.onShowСonfirmation(self, constants.ATTANTION_TITLE,
+                                                 constants.QUESTION_DELETE_DOCS_FROM_BASE):
+                    self.db.execute(
+                        sqlite_qwer.sql_delete_rec_by_table_name_and_id(table_name=constants.DOCS_INFO_TABLE,
+                                                                        rec_id=ids))
+                    self.delSelectRowFromTableView(self.ui.docs_tableView)
         else:
             pass
 
@@ -441,7 +468,7 @@ class Cart_frontend(QtWidgets.QWidget):
         if self.db:
             obj_id = self.fullObjInfo.id if self.fullObjInfo else self.garage_id
             # забираем внесенные платежи
-            contribs = self.ui.contrib_tableView_2.model().items
+            contribs = self.ui.contrib_tableView.model().items
             # формируем список id существующих в БД платежей
             new_cont_ids = {con.id for con in contribs if con.id}
             old_contr_ids = []
@@ -457,7 +484,6 @@ class Cart_frontend(QtWidgets.QWidget):
                         table_name=constants.CONTRIB_TABLE, rec_id=del_cont_ids))):
                     ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_DELETE_QWERY +
                                            constants.CONTRIB_TABLE)
-
             for contr in contribs:
                 type_id = self.nameContribToKinfId(contr.kindPay)
                 try:
@@ -476,7 +502,7 @@ class Cart_frontend(QtWidgets.QWidget):
                                                               comment=contr.comment if contr.comment else ' ',
                                                               check_photo=contr.checkPath if contr.checkPath else ' ',
                                                               balance_count=contr.checkBalanceCount,
-                                                              payment_time=str(datetime.now())
+                                                              payment_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                                                               )
                     if not (self.db.execute(sql)):
                         ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
@@ -492,7 +518,7 @@ class Cart_frontend(QtWidgets.QWidget):
                         comment=contr.comment if contr.comment else ' ',
                         check_photo=contr.checkPath if contr.checkPath else ' ',
                         balance_count=contr.checkBalanceCount,
-                        payment_time=str(datetime.now())
+                        payment_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
                     )
                     if not (self.db.execute(sql)):
@@ -523,12 +549,13 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.auto_tableView.model().clearItemData()
         self.ui.contrib_tableView.model().clearItemData()
         self.ui.electric_tableView.model().clearItemData()
+        self.ui.docs_tableView.model().clearItemData()
         self.ui.ownerPhone_lineEdit.clear()
         self.ui.ownerFIO_lineEdit.clear()
         self.photoPath, self.addCar_form, self.addContrib_form = None, None, None
         self.addUser_form, self.addElectric, self.addSize = None, None, None
         self.owner_id, self.e220, self.e380 = None, None, None
-        self.garage_id = None
+        self.garage_id, self.docAdd = None, None
         self.ui.photo_label.clear()
 
     def addToBasePushBtnclck(self):
@@ -564,9 +591,10 @@ class Cart_frontend(QtWidgets.QWidget):
         self.owner_id = item.id
         self.ui.ownerFIO_lineEdit.setText(item.fio)
         self.ui.ownerPhone_lineEdit.setText(item.phone)
-
-        self.photoPath = constants.DEFAULT_PHOTO_DIR_PASS + str(self.owner_id) + '.jpg'
-        self.setNewPhoto(self.photoPath)
+        if self.db:
+            self.db.execute(sqlite_qwer.sql_select_pass_by_member_id(self.owner_id))
+            self.photoPath = os.getcwd() + self.db.cursor.fetchone()[0]
+            self.setNewPhoto(self.photoPath)
 
     def fillDataForObjectFromDB(self, object_id: str):
         """
@@ -643,6 +671,13 @@ class Cart_frontend(QtWidgets.QWidget):
                         self.setAccountItems(ui.contribute_functions.ObjAccount(*account)) if account else \
                             self.setAccountItems(ui.contribute_functions.ObjAccount(account))
                     self.rebalance()
+                    # заполняем данные о документах
+                    if self.db.execute(sqlite_qwer.sql_select_docs_info_by_object_id(self.fullObjInfo.id)):
+                        docs = self.db.cursor.fetchall()
+                        for doc in docs:
+                            d = ui.doc_functions.DocsInfo(*doc)
+                            self.docsModel.setItems(d)
+
 
     def setAccountItems(self, account_info: ui.contribute_functions.ObjAccount):
         """Заполнение данных о текущем счете объекта"""
@@ -714,8 +749,6 @@ class Cart_frontend(QtWidgets.QWidget):
                         ids: [str, ui.contribute_functions.Contribution], checkBalance: int = 1):
         """работа с балансом при удалении платежа"""
 
-        # todo добавить проверку на влияние баланса, добавить проверку на checkbox при не влиянии на баланс
-
         def set_new_balance():
             balance = float(self.ui.balance_lineEdit.text()) - value if self.ui.balance_lineEdit.text() else 0
             if balance > 0:
@@ -748,6 +781,14 @@ class Cart_frontend(QtWidgets.QWidget):
         self.mainForm = None
         super().close()
 
+    def showAddDocsForm(self):
+        """открывает форму добавления типоразмера"""
+        self.closeChildForm(self.docAdd)
+        self.docAdd = ui.doc_functions.Docs_frontend(self.db,
+                                                     garage_id=self.fullObjInfo.id if self.fullObjInfo else self.garage_id,
+                                                     mainForm=self)
+        self.docAdd.mainForm = self
+        self.docAdd.show()
 
 def check_rec_in_base(db: db_work.Garage_DB, *args, tb_name: str) -> (int, None):
     """

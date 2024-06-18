@@ -39,9 +39,6 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
         """Инициализация интерфейса"""
         self.setFixedWidth(400)
 
-        # todo
-        # 1) Перенести кнопку создания файле в главное окно и сделать неюзабельной при отсутствии информации
-
         self.ui.add_pushButton.clicked.connect(self.ok_push_button)
         self.ui.cancel_pushButton.clicked.connect(self.close)
 
@@ -127,7 +124,7 @@ class QR_StatusBar(QtWidgets.QWidget):
         self.ui.progressBar.reset()
         self.ui.progressBar.setMinimum(0)
         try:
-            self.db.execute(sqlite_qwer.sql_select_garage_maxid())
+            self.db.execute(sqlite_qwer.sql_select_maxid(constants.OBJ_TABLE))
             maxid = self.db.cursor.fetchone()
             self.ui.progressBar.setMaximum(maxid[0] + 1)
 
@@ -288,11 +285,6 @@ class TQR_Thread(QtCore.QThread):
                 self.errorSignal.emit(False)
             self.value += 1
             self.statusSignal.emit(self.value)
-
-            # Если предложить выбрать открыть или нет, то прога крашится(
-            # if ui.dialogs.onShowСonfirmation(self, constants.INFO_TITLE, constants.INFO_OPEN_FILE):
-            #     os.startfile(f"{constants.DEFAULT_DOCS_DIR_PASS}\\QR_для оплаты.docx")
-            # os.startfile(f"{constants.DEFAULT_DOCS_DIR_PASS}\\QR_для оплаты.docx")
 
     def fill_doc_template(self, num, row, fio):
         """Заполняем шаблон с QR кодами"""

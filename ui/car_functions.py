@@ -129,7 +129,7 @@ class Car_frontend(QtWidgets.QWidget):
                                                tb_name=constants.CAR_TABLE):
             ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_OBJECT_ALREADY_EXIST)
             return None
-        self.carInfo.id = ''  # ToDo здесь добавить запрос на id в БД и запрос собственника
+        self.carInfo.id = ''
         self.carInfo.own_id = ''
         self.mainForm.carInDbModel.setItems(self.carInfo)
         self.close()

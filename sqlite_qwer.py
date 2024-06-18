@@ -760,9 +760,24 @@ def sql_select_payment_member_information():
            "FROM garage_obj;"
 
 
-def sql_select_garage_maxid():
-    return "SELECT max(id) FROM garage_obj;"
+def sql_select_maxid(table_name: str):
+    return f"SELECT max(id) FROM {table_name};"
 
 
 def sql_check_table_exist_in_bd(table_name):
     return f"SELECT name FROM sqlite_master WHERE name='{table_name}';"
+
+
+def sql_add_new_doc_info(name: str = '', date_add: str = '', doc_pass: str = '', garage_id: str = ''):
+    return f"INSERT INTO docs_info (name, date_add, doc_pass, garage_id) " \
+           f"VALUES ('{name}', '{date_add}', '{doc_pass}', '{garage_id}');"
+
+
+def sql_select_docs_info_by_object_id(object_id: str):
+    """Запрос на выдачу документов"""
+
+    return f"SELECT * FROM docs_info WHERE garage_id = {object_id} ORDER BY id DESC;"
+
+
+def sql_select_pass_by_member_id(member_id: int):
+    return f"SELECT photo FROM garage_member WHERE id={member_id};"

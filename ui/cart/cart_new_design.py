@@ -21,7 +21,6 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QDateEdit, QGridLayout,
                                QSpacerItem, QTabWidget, QTableView, QVBoxLayout,
                                QWidget)
 
-
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
@@ -73,6 +72,7 @@ class Ui_Form(object):
 
         self.verticalLayout.addWidget(self.row_label)
 
+
         self.horizontalLayout.addLayout(self.verticalLayout)
 
         self.verticalLayout_12 = QVBoxLayout()
@@ -89,7 +89,9 @@ class Ui_Form(object):
 
         self.verticalLayout_12.addWidget(self.row_lineEdit)
 
+
         self.horizontalLayout.addLayout(self.verticalLayout_12)
+
 
         self.horizontalLayout_11.addLayout(self.horizontalLayout)
 
@@ -116,6 +118,7 @@ class Ui_Form(object):
 
         self.horizontalLayout_4.addWidget(self.buildingYear_dateEdit)
 
+
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
 
         self.horizontalLayout_16 = QHBoxLayout()
@@ -134,9 +137,12 @@ class Ui_Form(object):
 
         self.horizontalLayout_16.addWidget(self.kadastr_lineEdit)
 
+
         self.verticalLayout_2.addLayout(self.horizontalLayout_16)
 
+
         self.horizontalLayout_11.addLayout(self.verticalLayout_2)
+
 
         self.verticalLayout_5.addLayout(self.horizontalLayout_11)
 
@@ -170,7 +176,9 @@ class Ui_Form(object):
 
         self.horizontalLayout_2.addWidget(self.addSize_pushButton)
 
+
         self.verticalLayout_4.addLayout(self.horizontalLayout_2)
+
 
         self.verticalLayout_5.addLayout(self.verticalLayout_4)
 
@@ -336,11 +344,11 @@ class Ui_Form(object):
         self.contribs.setObjectName(u"contribs")
         self.gridLayout = QGridLayout(self.contribs)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.contrib_tableView_2 = QTableView(self.contribs)
-        self.contrib_tableView_2.setObjectName(u"contrib_tableView_2")
-        self.contrib_tableView_2.setMaximumSize(QSize(16777215, 16777215))
+        self.contrib_tableView = QTableView(self.contribs)
+        self.contrib_tableView.setObjectName(u"contrib_tableView")
+        self.contrib_tableView.setMaximumSize(QSize(16777215, 16777215))
 
-        self.gridLayout.addWidget(self.contrib_tableView_2, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.contrib_tableView, 0, 0, 1, 1)
 
         self.verticalLayout_41 = QVBoxLayout()
         self.verticalLayout_41.setSpacing(0)
@@ -523,7 +531,6 @@ class Ui_Form(object):
         self.tabWidget.setCurrentIndex(0)
 
         QMetaObject.connectSlotsByName(Form)
-
     # setupUi
 
     def retranslateUi(self, Form):
@@ -586,3 +593,4 @@ class Ui_Form(object):
         self.close_pushButton.setText(
             QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
     # retranslateUi
+

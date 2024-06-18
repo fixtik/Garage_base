@@ -276,3 +276,28 @@ class MemberContribTableViewModel(DBTableView):
 
             elif role == QtCore.Qt.TextAlignmentRole:
                 return int(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+
+
+class DocumentsTableViewModelLite(DBTableView):
+    """
+        Модель для отображения данных по документам гаражей в TableView
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.header = ['id', 'Наименование документа', 'Дата добавления', 'Расположение']
+
+    def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
+        if not index.isValid():
+            return
+        if role == QtCore.Qt.ItemDataRole.DisplayRole:
+            doc_info = self.items[index.row()]
+            col = index.column()
+            if col == 0:
+                return f'{doc_info.id}'
+            if col == 1:
+                return f'{doc_info.name}'
+            if col == 2:
+                return f'{doc_info.date_add}'
+            if col == 3:
+                return f'{doc_info.doc_pass}'
