@@ -71,7 +71,6 @@ class Docs_frontend(QtWidgets.QWidget):
                         name = doc.doc_pass.split('/').pop().split('.')[0]
                         doc.doc_pass = f'{constants.DEFAULT_DOCS_PASS}{name}_{str(self.db.cursor.lastrowid)}.{extension}'
                         self.mainForm.docsModel.setItems(doc)
-                        self.mainForm
                         self.close()
                 else:
                     ui.dialogs.onShowError(self, constants.ERROR_TITLE, 'Вы не выбрали файл')
