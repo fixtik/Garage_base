@@ -676,6 +676,8 @@ class Cart_frontend(QtWidgets.QWidget):
                         docs = self.db.cursor.fetchall()
                         for doc in docs:
                             d = ui.doc_functions.DocsInfo(*doc)
+                            d.date_add = datetime.strptime(d.date_add, "%Y-%m-%d %H:%M:%S").strftime(
+                                '%d.%m.%Y %H:%M:%S')
                             self.docsModel.setItems(d)
 
 

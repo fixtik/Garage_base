@@ -70,6 +70,8 @@ class Docs_frontend(QtWidgets.QWidget):
                         # Запоминаем название файла чтобы потом добавить к названию id
                         name = doc.doc_pass.split('/').pop().split('.')[0]
                         doc.doc_pass = f'{constants.DEFAULT_DOCS_PASS}{name}_{str(self.db.cursor.lastrowid)}.{extension}'
+                        doc.date_add = datetime.strptime(doc.date_add, "%Y-%m-%d %H:%M:%S").strftime(
+                            '%d.%m.%Y %H:%M:%S')
                         self.mainForm.docsModel.setItems(doc)
                         self.close()
                 else:
