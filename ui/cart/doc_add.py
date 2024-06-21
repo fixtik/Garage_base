@@ -19,12 +19,11 @@ from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QLabel,
                                QLineEdit, QPushButton, QSizePolicy, QSpacerItem,
                                QWidget)
 
-
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(228, 102)
+        Form.resize(255, 106)
         self.gridLayout_2 = QGridLayout(Form)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
         self.gridLayout = QGridLayout()
@@ -33,7 +32,8 @@ class Ui_Form(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.chooseDoc_pushButton = QPushButton(Form)
         self.chooseDoc_pushButton.setObjectName(u"chooseDoc_pushButton")
-        self.chooseDoc_pushButton.setMaximumSize(QSize(44, 20))
+        self.chooseDoc_pushButton.setMinimumSize(QSize(60, 22))
+        self.chooseDoc_pushButton.setMaximumSize(QSize(0, 20))
 
         self.horizontalLayout.addWidget(self.chooseDoc_pushButton)
 
@@ -42,6 +42,7 @@ class Ui_Form(object):
         self.docPass_label.setMaximumSize(QSize(16777215, 20))
 
         self.horizontalLayout.addWidget(self.docPass_label)
+
 
         self.gridLayout.addLayout(self.horizontalLayout, 2, 0, 1, 1)
 
@@ -72,6 +73,7 @@ class Ui_Form(object):
 
         self.horizontalLayout_2.addWidget(self.close_pushButton)
 
+
         self.gridLayout.addLayout(self.horizontalLayout_2, 3, 0, 1, 1)
 
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
@@ -83,7 +85,6 @@ class Ui_Form(object):
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
-
     # setupUi
 
     def retranslateUi(self, Form):
@@ -101,3 +102,4 @@ class Ui_Form(object):
         self.close_pushButton.setText(
             QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
     # retranslateUi
+
