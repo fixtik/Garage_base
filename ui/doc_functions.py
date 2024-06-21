@@ -73,11 +73,11 @@ class Docs_frontend(QtWidgets.QWidget):
                         self.mainForm.docsModel.setItems(doc)
                         self.close()
                 else:
-                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, 'Вы не выбрали файл')
+                    ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_DOC_NO_FILE)
             else:
-                ui.dialogs.onShowError(self, constants.ERROR_TITLE, 'Название не может быть пробелом')
+                ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_DOC_FILE_NAME_SPACE)
         else:
-            ui.dialogs.onShowError(self, constants.ERROR_TITLE, 'Заполните название файла')
+            ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_DOC_NO_FILE_NAME)
 
 
 @dataclass

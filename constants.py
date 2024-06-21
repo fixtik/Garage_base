@@ -201,6 +201,9 @@ ERROR_UPDATE_DB_FAIL = 'Обновление базы данных заверш�
 ERROR_CONTRIB_TYPE_ALREADY_BILING = "Нельзя внести изменения по уже выставленным счетам!"
 ERROR_DELETE_CONTRIB_KIND = "Указанный тип платежа используется в БД. Удаление невозможно"
 ERROR_QR_GENERATION = 'Ошибка при генерации qr-кодов'
+ERROR_DOC_NO_FILE = 'Вы не выбрали файл'
+ERROR_DOC_NO_FILE_NAME = 'Заполните название файла'
+ERROR_DOC_FILE_NAME_SPACE = 'Название не может быть пробелом'
 
 MESSAGE_CHECK_DATA = 'Проверьте корректность введенных данных'
 MESSAGE_CHECK_DB_CONNECTIONS = 'Проверьте подключение к БД'
