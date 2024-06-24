@@ -201,6 +201,7 @@ ERROR_UPDATE_DB_FAIL = 'Обновление базы данных заверш�
 ERROR_CONTRIB_TYPE_ALREADY_BILING = "Нельзя внести изменения по уже выставленным счетам!"
 ERROR_DELETE_CONTRIB_KIND = "Указанный тип платежа используется в БД. Удаление невозможно"
 ERROR_QR_GENERATION = 'Ошибка при генерации qr-кодов'
+ERROR_QR_GENERATION_BREAK_BY_USER = 'Генерация прервана пользователем'
 ERROR_DOC_NO_FILE = 'Вы не выбрали файл'
 ERROR_DOC_NO_FILE_NAME = 'Заполните название файла'
 ERROR_DOC_FILE_NAME_SPACE = 'Название не может быть пробелом'
@@ -226,6 +227,7 @@ INFO_CREATE_DB = ('Вы собираетесь создать БД.\n'
                   'Текущая БД будет скопирована\n'
                   'Отменить создание?')
 INFO_QR_GENERATION_OK = "Генерация QR-кодов для оплаты закончена"
+INFO_SMETA_GENERATION_OK = "Генерация сметы закончена"
 INFO_OPEN_FILE = "Хотите открыть итоговый файл?"
 INFO_TITLE = "Информация"
 ATTANTION_TITLE = 'Внимание!'
@@ -238,6 +240,7 @@ QUESTION_DELETE_TYPE_SIZE = "Вы уверены, что хотите удали
 QUESTION_UPDATE_MEMBER_CONT = "Вы уверены, что хотите обновить размер платежа для указанного типоразмера?"
 QUESTION_DELETE_METER_FROM_BASE = "Удалить счетчик из базы?"
 QUESTION_DELETE_DOCS_FROM_BASE = "Вы уверены, что хотите удалить запись?"
+QUESTION_STOP_GENERATION_QR = 'Вы уверены, что хотите прервать генерацию файла?'
 
 TITLE_SELECT_PHOTO = "Выберите фото для загрузки"
 TITLE_SELECT_DOC = "Выберите файл для загрузки"
@@ -258,13 +261,13 @@ DEFAULT_VALUE = '0'
 DEFAULT_PHOTO_DIR_PASS = os.getcwd() + '\\photo\\member\\'  # os.getcwd() - возвращает текущую директорию
 DEFAULT_BILLS_DIR_PASS = os.getcwd() + '\\photo\\bills\\'  # os.getcwd() - возвращает текущую директорию
 DEFAULT_DOCS_DIR_PASS = os.getcwd() + '\\photo\\docs\\'
-DEFAULT_SMETA_DIR_PASS = os.getcwd() + '\\docs\\Смета\\'
+DEFAULT_SMETA_DIR_PASS = os.getcwd() + '\\Выгрузки\\Смета\\'
+DEFAULT_QR_DIR_PASS = os.getcwd() + '\\Выгрузки\\Qr_Код\\'
 DEFAULT_TMP_DIR_PASS = os.getcwd() + '\\tmp\\'
 DEFAULT_PHOTO_PASS = '\\photo\\member\\'
 DEFAULT_DOCS_PASS = '\\photo\\docs\\'
 DEFAULT_BILLS_PASS = '\\photo\\bills\\'
 DEFAUL_QR_FILE_NAME = '\\QR_для оплаты.docx'
-# todo добавить путь для хранения файла с qr кодами на оплату
 
 WINDOW_TITLE_ADD_SIZE = 'Редактирование типоразмеров'
 

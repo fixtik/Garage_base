@@ -17,8 +17,8 @@ class Smeta():
 
     def smeta_action(self):
         # Проверили наличие директории для файла сметы
-        if not os.path.isdir(constants.DEFAULT_DOCS_DIR_PASS):  # Проверяем создана директория или нет.
-            os.makedirs(constants.DEFAULT_DOCS_DIR_PASS, mode=0o777)  # Создаем директорию.
+        if not os.path.isdir(constants.DEFAULT_SMETA_DIR_PASS):  # Проверяем создана директория или нет.
+            os.makedirs(constants.DEFAULT_SMETA_DIR_PASS, mode=0o777)  # Создаем директорию.
         wb = Workbook()  # создаем книгу
         ws = wb.active  # делаем единственный лист активным
         ws.title = "Смета"  # меняем название листа
@@ -67,7 +67,7 @@ class Smeta():
                         if calendar.month_name[int(con.month)] in dict:  # Проверяем есть ли название месяца в словаре
                             # Записываем сумму платежа в нужный месяц
                             dict[calendar.month_name[int(con.month)]] = con.TotalSum
-        file_name = f'{constants.DEFAULT_DOCS_DIR_PASS}Смета_{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx'
+        file_name = f'{constants.DEFAULT_SMETA_DIR_PASS}Смета_{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx'
         self.autoFit(ws=ws)
         wb.save(file_name)  # сохраняем эксель
         # for row in ws.iter_rows(values_only=True):

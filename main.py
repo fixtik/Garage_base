@@ -1,4 +1,6 @@
+import os
 import sys
+import datetime
 
 from os.path import isfile
 
@@ -95,9 +97,9 @@ class Form_frontend(QtWidgets.QMainWindow):
         # ------------- Выгрузки excel ------------- #
         # self.ui.vigruzki.setDisabled(True)
         # self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
-        # self.ui.smeta_action.triggered.connect(self.smeta)
+        self.ui.smeta_action.triggered.connect(self.smeta)
         self.ui.spisok_action.setDisabled(True)
-        self.ui.smeta_action.setDisabled(True)
+        # self.ui.smeta_action.setDisabled(True)
         self.ui.qr_action.triggered.connect(self.show_qr_statusbar)
         # -------------
         # таблица для отображения полей
@@ -238,7 +240,16 @@ class Form_frontend(QtWidgets.QMainWindow):
         """Генерируем смету"""
         if self.db:
             ui.vigruzki_functions.Smeta(db=self.db).smeta_action()
-            ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_SMETA_OK)
+            if ui.dialogs.onShowСonfirmation(self, title=constants.INFO_TITLE,
+                                             msg=f'{constants.INFO_SMETA_GENERATION_OK}'
+                                                 f'\n{constants.INFO_OPEN_FILE}'):
+                try:
+                    os.startfile(
+                        f'{constants.DEFAULT_SMETA_DIR_PASS}Смета_{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx')
+                except Exception as e:
+                    # todo эти эксепшены с ошибками вообще работают?
+                    ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=e)
+            # ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_SMETA_OK)
 
     def autocheck(self):
         """Автоматическая напоминалка чтобы не забвали обновить БД если нет новой таблицы"""

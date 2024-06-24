@@ -1,4 +1,5 @@
 import os
+import time
 
 from dataclasses import dataclass
 
@@ -111,6 +112,7 @@ class QR_StatusBar(QtWidgets.QWidget):
         self.db = db
         self.qr_thread = TQR_Thread()  # поток с генерацией qr-кода
         self.no_error = None  # для отлова ошибок в потоке
+        self.breakByUser = None  # для отображения кто завершил процесс
 
         self.initUi()
         self.initTread()  # инициализация потока
@@ -126,7 +128,7 @@ class QR_StatusBar(QtWidgets.QWidget):
         try:
             self.db.execute(sqlite_qwer.sql_select_maxid(constants.OBJ_TABLE))
             maxid = self.db.cursor.fetchone()
-            self.ui.progressBar.setMaximum(maxid[0] + 1)
+            self.ui.progressBar.setMaximum(maxid[0])
 
         except Exception as e:
             ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=constants.ERROR_NO_BASE_CONNECT)
@@ -139,6 +141,15 @@ class QR_StatusBar(QtWidgets.QWidget):
         self.qr_thread.infoSignal.connect(self.show_info)
         self.qr_thread.finished.connect(self.finishHim)
         self.qr_thread.errorSignal.connect(self.result)
+        self.qr_thread.clearSignal.connect(self.refreshStatus)
+
+    def closeEvent(self, event):
+        if ui.dialogs.onShowСonfirmation(self, constants.ATTANTION_TITLE, constants.QUESTION_STOP_GENERATION_QR):
+            if self and event.type() == QtCore.QEvent.Type.Close:
+                self.breakByUser = True
+                self.qr_thread.flag = False
+        else:
+            event.ignore()
 
     def showProcessInStatusBar(self, stat: int):
         """
@@ -167,15 +178,31 @@ class QR_StatusBar(QtWidgets.QWidget):
             if ui.dialogs.onShowСonfirmation(self, title=constants.INFO_TITLE, msg=f'{constants.INFO_QR_GENERATION_OK}'
                                                                                    f'\n{constants.INFO_OPEN_FILE}'):
                 try:
-                    os.startfile(f"{constants.DEFAULT_DOCS_DIR_PASS}{constants.DEFAUL_QR_FILE_NAME}")
+                    os.startfile(f"{constants.DEFAULT_QR_DIR_PASS}{constants.DEFAUL_QR_FILE_NAME}")
                 except Exception as e:
                     ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=e)
-
-            self.close()
-
+            self.destroy(True)
+        elif self.breakByUser:
+            ui.dialogs.onShowOkMessage(self, title=constants.ERROR_TITLE,
+                                       msg=constants.ERROR_QR_GENERATION_BREAK_BY_USER)
+            self.cleanUp()
         else:
             ui.dialogs.onShowOkMessage(self, title=constants.ERROR_TITLE, msg=constants.ERROR_QR_GENERATION)
-            self.close()
+            self.cleanUp()
+
+    def cleanUp(self):
+        files = os.listdir(constants.DEFAULT_TMP_DIR_PASS)
+        for file in files:
+            pass_file = f'{constants.DEFAULT_TMP_DIR_PASS}{file}'
+            if os.path.isfile(pass_file):
+                try:
+                    os.remove(pass_file)
+                finally:
+                    pass
+
+    def refreshStatus(self, maxValue):
+        self.ui.progressBar.reset()
+        self.ui.progressBar.setValue(maxValue)
 
 
 class TQR_Thread(QtCore.QThread):
@@ -183,12 +210,14 @@ class TQR_Thread(QtCore.QThread):
     поток поиска файлов с рекурсией
     """
     infoSignal = QtCore.Signal(str)
+    clearSignal = QtCore.Signal(int)
     statusSignal = QtCore.Signal(int)
     errorSignal = QtCore.Signal(bool)
 
     def __init__(self, parent=None, db=None):
         super().__init__(parent)
         self.flag = None  # для возможности остановки процесса
+
         self.db = db  # ссылка на БД
 
         self.fileNames = []  # для хранения списка названия файлов
@@ -209,7 +238,10 @@ class TQR_Thread(QtCore.QThread):
         if self.db:
             # Создаем папку для хранения временных файлов
             if not os.path.exists(constants.DEFAULT_TMP_DIR_PASS):
-                os.mkdir(constants.DEFAULT_TMP_DIR_PASS)
+                os.makedirs(constants.DEFAULT_TMP_DIR_PASS, mode=0x777)
+            # Создаем папку для хранения qr
+            if not os.path.exists(constants.DEFAULT_QR_DIR_PASS):
+                os.makedirs(constants.DEFAULT_QR_DIR_PASS, mode=0x777)
 
             self.infoSignal.emit('Генерация QR кодов\nПроцесс может занимать до 5 минут')
 
@@ -276,15 +308,16 @@ class TQR_Thread(QtCore.QThread):
                     os.remove(qr_dir)
 
                 # timer += 1
-                # if timer == 50:
+                # print(timer)
+                # if timer == 10:
                 #     break
+            if not self.flag:
+                return None
             try:
                 self.final_output_document(self.fileNames)
             except Exception as e:
                 print(e)
                 self.errorSignal.emit(False)
-            self.value += 1
-            self.statusSignal.emit(self.value)
 
     def fill_doc_template(self, num, row, fio):
         """Заполняем шаблон с QR кодами"""
@@ -300,18 +333,22 @@ class TQR_Thread(QtCore.QThread):
     def final_output_document(self, files_list):
         """Создаем итоговый файл с QR кодами"""
         self.infoSignal.emit('Создаем итоговый файл\nОсталось совсем чуть-чуть')
-
-        if os.path.exists(f"{constants.DEFAULT_DOCS_DIR_PASS}\\QR_для оплаты.docx"):
-            os.remove(f"{constants.DEFAULT_DOCS_DIR_PASS}\\QR_для оплаты.docx")
+        if os.path.exists(f"{constants.DEFAULT_QR_DIR_PASS}\\QR_для оплаты.docx"):
+            os.remove(f"{constants.DEFAULT_QR_DIR_PASS}\\QR_для оплаты.docx")
         number_of_sections = len(files_list)
-
+        # Сбрасываем прогресс бар и устанавливаем новое максимальное значение
+        self.clearSignal.emit(number_of_sections)
         master = Document_compose(files_list[0])
         composer = Composer(master)
         for i in range(1, number_of_sections):
             doc_temp = Document_compose(files_list[i])
             composer.append(doc_temp)
-
-        composer.save(f"{constants.DEFAULT_DOCS_DIR_PASS}\\QR_для оплаты.docx")
+            self.statusSignal.emit(i)
+            # Проверяем не прервана ли операция пользователем
+            if not self.flag:
+                composer.save(f"{constants.DEFAULT_QR_DIR_PASS}\\QR_для оплаты.docx")
+                return None
+        composer.save(f"{constants.DEFAULT_QR_DIR_PASS}\\QR_для оплаты.docx")
         # Подчищаем за собой файлы
         for name in files_list:
             if os.path.exists(f'{os.getcwd()}\\{name}'):
