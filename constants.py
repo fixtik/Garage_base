@@ -205,6 +205,7 @@ ERROR_QR_GENERATION_BREAK_BY_USER = 'Генерация прервана пол�
 ERROR_DOC_NO_FILE = 'Вы не выбрали файл'
 ERROR_DOC_NO_FILE_NAME = 'Заполните название файла'
 ERROR_DOC_FILE_NAME_SPACE = 'Название не может быть пробелом'
+ERROR_NO_KEY = 'Ключ не найден!'
 
 MESSAGE_CHECK_DATA = 'Проверьте корректность введенных данных'
 MESSAGE_CHECK_DB_CONNECTIONS = 'Проверьте подключение к БД'
@@ -269,6 +270,7 @@ DEFAULT_DOCS_PASS = '\\photo\\docs\\'
 DEFAULT_BILLS_PASS = '\\photo\\bills\\'
 DEFAUL_QR_FILE_NAME = '\\QR_для оплаты.docx'
 
+WINDOW_TITLE = '048d:04d2'
 WINDOW_TITLE_ADD_SIZE = 'Редактирование типоразмеров'
 
 TYPE220 = 220

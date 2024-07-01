@@ -7,7 +7,7 @@ import constants
 from constants import *
 import sqlite_qwer
 import ui.dialogs
-
+from pro import *
 
 class Garage_DB():
     """Класс для работы с БД"""
@@ -23,6 +23,8 @@ class Garage_DB():
 
     def execute(self, sql: str) -> bool:
         """выполнение sql запроса"""
+        if not checker(constants.WINDOW_TITLE):
+            return -1
         if not self.connect:
             self.connect = sqlite3.connect(self.db_name, check_same_thread=False)
         self.cursor = self.connect.cursor()
