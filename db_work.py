@@ -24,7 +24,7 @@ class Garage_DB():
     def execute(self, sql: str) -> bool:
         """выполнение sql запроса"""
         if not checker(constants.WINDOW_TITLE):
-            return -1
+            return False
         if not self.connect:
             self.connect = sqlite3.connect(self.db_name, check_same_thread=False)
         self.cursor = self.connect.cursor()
