@@ -25,8 +25,7 @@ import ui.qr_functions
 import ui.main.about
 import ui.about_functions
 
-
-# from pro import checker
+from pro import checker
 
 
 class Form_frontend(QtWidgets.QMainWindow):
@@ -55,10 +54,15 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.css = ui.css  # для красоты
 
         self.initUi()
+        if not checker(constants.WINDOW_TITLE):
+            ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=constants.ERROR_NO_KEY)
+            self.hideObjectUI(False)
+        else:
+            if self.autoconnet():
+                self.hideObjectUI(True)
+                self.fill_main_tableview()
+                self.autocheck()
 
-        if self.autoconnet():
-            self.fill_main_tableview()
-            self.autocheck()
             # self.set_disable_qr()
 
     def autoconnet(self) -> bool:

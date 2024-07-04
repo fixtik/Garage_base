@@ -4,8 +4,9 @@ colorama==0.4.6
 docxcompose==1.4.0
 docxtpl==0.17.0
 et-xmlfile==1.1.0
+importlib_resources==6.4.0
 Jinja2==3.1.4
-libusb==1.0.27
+libusb-package==1.0.26.2
 lxml==5.2.2
 MarkupSafe==2.1.5
 numpy==1.26.3
@@ -25,6 +26,7 @@ python-dateutil==2.8.2
 python-docx==1.1.2
 pytz==2023.3.post1
 pyusb==1.2.1
+pywin32==306
 pywin32-ctypes==0.2.2
 qrcode==7.4.2
 segno==1.6.1
