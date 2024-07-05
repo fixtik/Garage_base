@@ -55,10 +55,16 @@ class Form_frontend(QtWidgets.QMainWindow):
 
         self.initUi()
 
-        if self.autoconnet():
-            self.fill_main_tableview()
-            self.autocheck()
-            # self.set_disable_qr()
+        if not checker(constants.WINDOW_TITLE):
+            ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=constants.ERROR_NO_KEY)
+            self.hideObjectUI(False)
+        else:
+            if self.autoconnet():
+                self.hideObjectUI(True)
+                self.fill_main_tableview()
+                self.autocheck()
+
+
 
     def autoconnet(self) -> bool:
         """подключение БД с имененм по умолчанию"""
