@@ -341,7 +341,7 @@ class TQR_Thread(QtCore.QThread):
     def final_output_document(self, files_list):
         """Создаем итоговый файл с QR кодами"""
         self.infoSignal.emit('Создаем итоговый файл\nОсталось совсем чуть-чуть')
-        if os.path.exists(f"{constants.DEFAULT_QR_DIR_PASS}\\QR_для оплаты.docx"):
+        if os.path.isfile(f"{constants.DEFAULT_QR_DIR_PASS}\\QR_для оплаты.docx"):
             os.remove(f"{constants.DEFAULT_QR_DIR_PASS}\\QR_для оплаты.docx")
         number_of_sections = len(files_list)
         # Сбрасываем прогресс бар и устанавливаем новое максимальное значение

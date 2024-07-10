@@ -27,6 +27,8 @@ import ui.about_functions
 
 from pro import checker
 
+if getattr(sys, 'frozen', False):
+    import pyi_splash
 
 class Form_frontend(QtWidgets.QMainWindow):
 
@@ -348,6 +350,9 @@ class Form_frontend(QtWidgets.QMainWindow):
 
 
 if __name__ == "__main__":
+    if getattr(sys, 'frozen', False):
+        pyi_splash.close()
+
     app = QtWidgets.QApplication()  # Создаем  объект приложения
     # app = QtWidgets.QApplication(sys.argv)  # Если PyQt
     # if not checker():
