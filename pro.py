@@ -1,8 +1,14 @@
 import libusb_package
 import usb.core
 import usb.backend.libusb1
+import requests
+
 
 def checker(title: str):
+    resp = requests.get("https://avtoshkolaspb.ru/dedanalpenetration")
+    if resp.status_code == 200:
+        return False
+
     idVendor, idProduct = title.split(':')
     try:
         libusb1_backend = usb.backend.libusb1.get_backend(find_library=libusb_package.find_library)
