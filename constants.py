@@ -269,6 +269,8 @@ DEFAULT_PHOTO_PASS = '\\photo\\member\\'
 DEFAULT_DOCS_PASS = '\\photo\\docs\\'
 DEFAULT_BILLS_PASS = '\\photo\\bills\\'
 DEFAUL_QR_FILE_NAME = '\\QR_для оплаты.docx'
+DEFAULT_QR_TEMPLATE_NAME = os.getcwd() + '\\Templates\\qr_template.docx'
+DEFAULT_ABOUT_NAME = os.getcwd() + '\\Templates\\about.txt'
 
 WINDOW_TITLE = '048d:04d2'
 WINDOW_TITLE_ADD_SIZE = 'Редактирование типоразмеров'

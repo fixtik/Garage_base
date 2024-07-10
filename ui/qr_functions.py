@@ -186,9 +186,11 @@ class QR_StatusBar(QtWidgets.QWidget):
             ui.dialogs.onShowOkMessage(self, title=constants.ERROR_TITLE,
                                        msg=constants.ERROR_QR_GENERATION_BREAK_BY_USER)
             self.cleanUp()
+            self.destroy()
         else:
             ui.dialogs.onShowOkMessage(self, title=constants.ERROR_TITLE, msg=constants.ERROR_QR_GENERATION)
             self.cleanUp()
+            self.destroy()
 
     def cleanUp(self):
         files = os.listdir(constants.DEFAULT_TMP_DIR_PASS)
@@ -232,6 +234,12 @@ class TQR_Thread(QtCore.QThread):
     def generate_qr(self):
         """Да что за гений писал эту функцию которая генерирует QR коды"""
         timer = 0
+        if not os.path.isfile(constants.DEFAULT_QR_TEMPLATE_NAME):
+            self.infoSignal.emit('Отсутствует шаблон\nЗакройте окно')
+            self.flag = False
+            return None
+
+
         if self.fileNames:
             self.fileNames = []  # очищаем переменную с названиями файлов чтобы не было дубликатов
 
@@ -321,7 +329,7 @@ class TQR_Thread(QtCore.QThread):
 
     def fill_doc_template(self, num, row, fio):
         """Заполняем шаблон с QR кодами"""
-        doc = DocxTemplate("template.docx")
+        doc = DocxTemplate(constants.DEFAULT_QR_TEMPLATE_NAME)
         qr = InlineImage(doc, image_descriptor=f'tmp\\qr_{row}_{num}.png', width=Mm(50), height=Mm(50))
         qr_electric = InlineImage(doc, image_descriptor=f'tmp\\qr_{row}_{num}_electric.png', width=Mm(50),
                                   height=Mm(50))

@@ -4,7 +4,7 @@ from PySide6 import QtWidgets, QtGui, QtCore
 
 import ui.css
 import ui.main.about
-
+import constants
 
 class About_frontend(QtWidgets.QWidget):
     def __init__(self, db, parent=None):
@@ -40,8 +40,8 @@ class About_frontend(QtWidgets.QWidget):
         #
         # self.ui.about_textBrowser.append(text)
         # self.ui.about_textBrowser.moveCursor(QtGui.QTextCursor.Start)
-        if os.path.isfile('about.txt'):
-            with open('about.txt', 'r', encoding='utf-8') as file:
+        if os.path.isfile(constants.DEFAULT_ABOUT_NAME):
+            with open(constants.DEFAULT_ABOUT_NAME, 'r', encoding='utf-8') as file:
                 self.ui.about_textBrowser.append(file.read())
                 self.ui.about_textBrowser.moveCursor(QtGui.QTextCursor.Start)
 #
