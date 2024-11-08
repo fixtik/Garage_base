@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (QApplication, QHBoxLayout, QHeaderView, QLabel,
                                QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
                                QTableView, QVBoxLayout, QWidget)
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
@@ -62,6 +63,8 @@ class Ui_MainWindow(object):
         self.qr_action.setObjectName(u"qr_action")
         self.about_action = QAction(MainWindow)
         self.about_action.setObjectName(u"about_action")
+        self.doljniki_action = QAction(MainWindow)
+        self.doljniki_action.setObjectName(u"doljniki_action")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
@@ -92,13 +95,11 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addItem(self.verticalSpacer_2)
 
-
         self.horizontalLayout.addLayout(self.verticalLayout)
 
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer_2)
-
 
         self.verticalLayout_2.addLayout(self.horizontalLayout)
 
@@ -143,7 +144,6 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.version_label)
 
-
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
         self.tableView = QTableView(self.centralwidget)
@@ -154,7 +154,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 800, 18))
+        self.menubar.setGeometry(QRect(0, 0, 800, 21))
         self.menubar.setDefaultUp(False)
         self.operation_menu = QMenu(self.menubar)
         self.operation_menu.setObjectName(u"operation_menu")
@@ -197,11 +197,13 @@ class Ui_MainWindow(object):
         self.vigruzki.addAction(self.spisok_action)
         self.vigruzki.addAction(self.smeta_action)
         self.vigruzki.addAction(self.qr_action)
+        self.vigruzki.addAction(self.doljniki_action)
         self.org_info.addAction(self.bank_info)
 
         self.retranslateUi(MainWindow)
 
         QMetaObject.connectSlotsByName(MainWindow)
+
     # setupUi
 
     def retranslateUi(self, MainWindow):
@@ -248,6 +250,8 @@ class Ui_MainWindow(object):
             QCoreApplication.translate("MainWindow", u"QR \u043d\u0430 \u043e\u043f\u043b\u0430\u0442\u0443", None))
         self.about_action.setText(
             QCoreApplication.translate("MainWindow", u"\u0427\u0442\u043e \u043d\u043e\u0432\u043e\u0433\u043e", None))
+        self.doljniki_action.setText(
+            QCoreApplication.translate("MainWindow", u"\u0414\u043e\u043b\u0436\u043d\u0438\u043a\u0438", None))
         self.voa_label.setText("")
         self.openBase_pushButton.setText(QCoreApplication.translate("MainWindow",
                                                                     u"\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0431\u0430\u0437\u0443 \u0434\u0430\u043d\u043d\u044b\u0445",
@@ -272,4 +276,3 @@ class Ui_MainWindow(object):
                                                           u"\u041e\u0431 \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u0438",
                                                           None))
     # retranslateUi
-

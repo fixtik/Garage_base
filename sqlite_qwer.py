@@ -781,3 +781,20 @@ def sql_select_docs_info_by_object_id(object_id: str):
 
 def sql_select_pass_by_member_id(member_id: int):
     return f"SELECT photo FROM garage_member WHERE id={member_id};"
+
+
+def sql_select_doljniki_information():
+    """Запрос для получения данных по должникам"""
+    return "SELECT " \
+           "(SELECT num_row FROM garage_obj WHERE [object_account].[obj_id] = [garage_obj].[id]) as num_row, " \
+           "(SELECT num_bild FROM garage_obj WHERE [object_account].[obj_id] = [garage_obj].[id]) as num_bild, " \
+           "(SELECT surname FROM garage_member WHERE (SELECT owner_id FROM garage_obj WHERE [object_account].[obj_id] = [garage_obj].[id]) = [garage_member].[id]) as surname, " \
+           "(SELECT first_name FROM garage_member WHERE (SELECT owner_id FROM garage_obj WHERE [object_account].[obj_id] = [garage_obj].[id]) = [garage_member].[id]) as first_name, " \
+           "(SELECT second_name FROM garage_member WHERE (SELECT owner_id FROM garage_obj WHERE [object_account].[obj_id] = [garage_obj].[id]) = [garage_member].[id]) as second_name, " \
+           "(SELECT phone_main FROM garage_member WHERE (SELECT owner_id FROM garage_obj WHERE [object_account].[obj_id] = [garage_obj].[id]) = [garage_member].[id]) as phone_main, " \
+           "(SELECT phone_sec FROM garage_member WHERE (SELECT owner_id FROM garage_obj WHERE [object_account].[obj_id] = [garage_obj].[id]) = [garage_member].[id]) as phone_sec, " \
+           "(SELECT pay_date FROM contribution WHERE [object_account].[obj_id] = [contribution].[id_garage] ORDER BY pay_date DESC) as pay_date, " \
+           "calculation as dolg " \
+           "FROM object_account " \
+           "WHERE calculation>0 " \
+           "ORDER BY num_row, num_bild;"

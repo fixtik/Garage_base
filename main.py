@@ -30,6 +30,7 @@ from pro import checker
 if getattr(sys, 'frozen', False):
     import pyi_splash
 
+
 class Form_frontend(QtWidgets.QMainWindow):
 
     def __init__(self, parent=None):
@@ -97,7 +98,12 @@ class Form_frontend(QtWidgets.QMainWindow):
         self.ui.bilingContrib_action.triggered.connect(self.showBilingCont)  # окно выставления счета
         self.ui.bank_info.triggered.connect(self.showQrBankInfo)  # окно добавления банковской информации
         self.ui.about_action.triggered.connect(self.show_about_information)
-        self.ui.version_label.setText('Ver 1.03')
+        # Устанавливаем версию из файла about
+        if os.path.isfile(constants.DEFAULT_ABOUT_NAME):
+            first_line = open(constants.DEFAULT_ABOUT_NAME, encoding='utf-8').readline().strip('\n')[4:-5]
+            self.ui.version_label.setText(first_line)
+        else:
+            self.ui.version_label.setText('ver 1.04')
         self.ui.version_label.setToolTip('Посмотрите изменения во вкладке "О программе"')
 
         # ------------- Выгрузки excel ------------- #
@@ -105,8 +111,8 @@ class Form_frontend(QtWidgets.QMainWindow):
         # self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
         self.ui.smeta_action.triggered.connect(self.smeta)
         self.ui.spisok_action.setDisabled(True)
-        # self.ui.smeta_action.setDisabled(True)
         self.ui.qr_action.triggered.connect(self.show_qr_statusbar)
+        self.ui.doljniki_action.triggered.connect(self.doljniki)
         # -------------
         # таблица для отображения полей
         self.ui.tableView.setModel(self.obj_model)
@@ -257,6 +263,20 @@ class Form_frontend(QtWidgets.QMainWindow):
                     ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=e)
             # ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_SMETA_OK)
 
+    def doljniki(self):
+        '''Генерируем список должников'''
+        if self.db:
+            ui.vigruzki_functions.Doljnik(db=self.db).doljnik_action()
+            if ui.dialogs.onShowСonfirmation(self, title=constants.INFO_TITLE,
+                                             msg=f'{constants.INFO_DOLJNIKI_GENERATION_OK}'
+                                                 f'\n{constants.INFO_OPEN_FILE}'):
+                try:
+                    os.startfile(
+                        f'{constants.DEFAULT_DOLJNIKI_DIR_PASS}Должники_{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx')
+                except Exception as e:
+                    # todo эти эксепшены с ошибками вообще работают?
+                    ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=e)
+
     def autocheck(self):
         """Автоматическая напоминалка чтобы не забвали обновить БД если нет новой таблицы"""
         if self.db:
@@ -284,6 +304,7 @@ class Form_frontend(QtWidgets.QMainWindow):
     def show_about_information(self):
         self.progress = ui.about_functions.About_frontend(db=self.db)
         self.progress.show()
+
     # Оставим до лучших времен, а то получается что надо делать еще миллион проверок (на смету, на платежную информацию) и немного геморно
     # def set_disable_qr(self):
     #     """Отключаем кнопку генерации QR если нет данных об организации"""

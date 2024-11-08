@@ -154,7 +154,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>800</width>
-                    <height>18</height>
+                    <height>21</height>
                 </rect>
             </property>
             <property name="defaultUp">
@@ -202,6 +202,7 @@
                 <addaction name="spisok_action"/>
                 <addaction name="smeta_action"/>
                 <addaction name="qr_action"/>
+                <addaction name="doljniki_action"/>
             </widget>
             <widget class="QMenu" name="org_info">
                 <property name="title">
@@ -305,6 +306,11 @@
         <action name="about_action">
             <property name="text">
                 <string>Что нового</string>
+            </property>
+        </action>
+        <action name="doljniki_action">
+            <property name="text">
+                <string>Должники</string>
             </property>
         </action>
     </widget>

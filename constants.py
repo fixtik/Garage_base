@@ -229,6 +229,7 @@ INFO_CREATE_DB = ('Вы собираетесь создать БД.\n'
                   'Отменить создание?')
 INFO_QR_GENERATION_OK = "Генерация QR-кодов для оплаты закончена"
 INFO_SMETA_GENERATION_OK = "Генерация сметы закончена"
+INFO_DOLJNIKI_GENERATION_OK = "Генерация списка должников закончена"
 INFO_OPEN_FILE = "Хотите открыть итоговый файл?"
 INFO_TITLE = "Информация"
 ATTANTION_TITLE = 'Внимание!'
@@ -263,6 +264,7 @@ DEFAULT_PHOTO_DIR_PASS = os.getcwd() + '\\photo\\member\\'  # os.getcwd() - во
 DEFAULT_BILLS_DIR_PASS = os.getcwd() + '\\photo\\bills\\'  # os.getcwd() - возвращает текущую директорию
 DEFAULT_DOCS_DIR_PASS = os.getcwd() + '\\photo\\docs\\'
 DEFAULT_SMETA_DIR_PASS = os.getcwd() + '\\Выгрузки\\Смета\\'
+DEFAULT_DOLJNIKI_DIR_PASS = os.getcwd() + '\\Выгрузки\\Должники\\'
 DEFAULT_QR_DIR_PASS = os.getcwd() + '\\Выгрузки\\Qr_Код\\'
 DEFAULT_TMP_DIR_PASS = os.getcwd() + '\\tmp\\'
 DEFAULT_PHOTO_PASS = '\\photo\\member\\'

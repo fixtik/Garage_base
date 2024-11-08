@@ -1,5 +1,5 @@
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 from openpyxl import Workbook
 from openpyxl.styles import Border, Side, Alignment
 from openpyxl.utils import get_column_letter
@@ -80,7 +80,8 @@ class Smeta():
                        end_column=ws.max_column)  # объединяем ячейки
         ws[f'B{ws.max_row}'].alignment = Alignment(horizontal='center')  # выравниваем посередине
 
-    def autoFit(self, ws):
+    @staticmethod
+    def autoFit(ws):
         for column in ws.iter_cols():
             # автоматическая подгонка ширины столбцов
             name = get_column_letter(column[0].column)
@@ -90,6 +91,65 @@ class Smeta():
             thins = Side(border_style="thin", color="000000")
             for cell in column:
                 cell.border = Border(top=thins, bottom=thins, left=thins, right=thins)
+
+
+class Doljnik():
+    def __init__(self, db, parent=None):
+        self.db = db  # БД
+
+    def doljnik_action(self):
+        # Проверили наличие директории для файла должников
+        if not os.path.isdir(constants.DEFAULT_DOLJNIKI_DIR_PASS):  # Проверяем создана директория или нет.
+            os.makedirs(constants.DEFAULT_DOLJNIKI_DIR_PASS, mode=0o777)  # Создаем директорию.
+        wb = Workbook()  # создаем книгу
+        ws = wb.active  # делаем единственный лист активным
+        ws.title = "Должники"  # меняем название листа
+        topik = ['№ п/п', 'Ряд', 'Гараж', 'Фамилия', 'Имя', 'Отчество', 'Телефон', 'Запасной телефон',
+                 'Дата последнего платежа',
+                 'Размер долга']
+        ws.append(topik)
+        row_counter = 1
+
+        # Проверяем корректность дат в БД и меняем их на isoformat в случае чего
+        if self.db.execute('SELECT id,pay_date FROM contribution;'):
+            s = self.db.cursor.fetchall()
+            for i in s:
+                try:
+                    datetime.date.fromisoformat(i[1])
+                except ValueError:
+                    update = datetime.datetime.strftime(datetime.datetime.strptime(i[1], '%d.%m.%Y'), '%Y-%m-%d')
+                    print(update)
+                    self.db.execute(f'UPDATE contribution SET pay_date = "{update}" WHERE id = {i[0]};')
+
+        if self.db.execute(sqlite_qwer.sql_select_doljniki_information()):
+            doljniki = self.db.cursor.fetchall()
+            for doljnik in doljniki:  # пробегаем по должникам
+                stroka = [row_counter]  # заносим счетчик
+                dolg = DoljnikStructure(*doljnik)
+                dolg.pay_date = datetime.datetime.strftime(datetime.datetime.fromisoformat(dolg.pay_date),
+                                                           '%d.%m.%Y') if dolg.pay_date else ''
+                for field in fields(dolg):
+                    stroka.append(getattr(dolg, field.name))  # добавляем данные датакласса в словарь
+                ws.append(stroka)
+                row_counter += 1
+
+        file_name = f'{constants.DEFAULT_DOLJNIKI_DIR_PASS}Должники_{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx'
+        Smeta.autoFit(ws=ws)
+        wb.save(file_name)
+
+
+@dataclass
+class DoljnikStructure:
+    """Класс для работы с данными по должникам"""
+    num_row: str = ''  # ряд
+    num_bild: str = ''  # номер гаража
+    surname: str = ''  # фамилия
+    first_name: str = ''  # имя
+    second_name: str = ''  # отчество
+    phone_main: str = ''  # номер телефона
+    phone_sec: str = ''  # запасной номер
+    pay_date: str = ''  # дата последней оплаты
+    dolg: str = ''  # сумма долга
 
 
 @dataclass
