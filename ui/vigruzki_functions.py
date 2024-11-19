@@ -10,6 +10,8 @@ import sqlite_qwer
 import datetime
 import calendar
 
+import ui.contribute_functions
+
 
 class Smeta():
     def __init__(self, db, parent=None):
@@ -134,6 +136,36 @@ class Doljnik():
                 row_counter += 1
 
         file_name = f'{constants.DEFAULT_DOLJNIKI_DIR_PASS}Должники_{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx'
+        Smeta.autoFit(ws=ws)
+        wb.save(file_name)
+
+
+class Vigruzka_platejei():
+    def __init__(self, db, parent=None):
+        self.db = db  # БД
+
+    def vigruzka_action(self, garage_id, num_row, num_bild):
+        # Проверили наличие директории для файла платежей
+        if not os.path.isdir(constants.DEFAULT_PLATEJI_DIR_PASS):  # Проверяем создана директория или нет.
+            os.makedirs(constants.DEFAULT_PLATEJI_DIR_PASS, mode=0o777)  # Создаем директорию.
+        wb = Workbook()  # создаем книгу
+        ws = wb.active  # делаем единственный лист активным
+        ws.title = f"Платежи за гараж id{garage_id}"  # меняем название листа
+        topik = ['№ п/п', 'Дата платежа', 'Вид платежа', 'Сумма платежа', 'Тип оплаты', 'Комментарий']
+        ws.append(topik)
+        row_counter = 1
+
+        if self.db.execute(sqlite_qwer.sql_select_contrib_by_object_id(garage_id)):
+            conribs = self.db.cursor.fetchall()
+            for conrib in conribs:
+                con = ui.contribute_functions.Contribution_lite(*conrib)
+                con.payDate = datetime.datetime.strftime(datetime.datetime.fromisoformat(con.payDate),
+                                                         '%d.%m.%Y') if con.payDate else ''
+                con.typePay = "Наличные" if con.typePay == "1" else "Безнал"
+                stroka = [row_counter, con.payDate, con.kindPay, con.value, con.typePay, con.comment]
+                ws.append(stroka)
+                row_counter += 1
+        file_name = f'{constants.DEFAULT_PLATEJI_DIR_PASS}Платежи за гараж {num_row}-{num_bild}_{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx'
         Smeta.autoFit(ws=ws)
         wb.save(file_name)
 

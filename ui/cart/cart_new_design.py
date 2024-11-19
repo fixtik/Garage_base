@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QDateEdit, QGridLayout,
                                QSpacerItem, QTabWidget, QTableView, QVBoxLayout,
                                QWidget)
 
+
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
@@ -36,7 +37,7 @@ class Ui_Form(object):
         self.garage_groupBox = QGroupBox(Form)
         self.garage_groupBox.setObjectName(u"garage_groupBox")
         self.garage_groupBox.setMinimumSize(QSize(1, 0))
-        self.garage_groupBox.setMaximumSize(QSize(16777215, 99999))
+        self.garage_groupBox.setMaximumSize(QSize(16777215, 412))
         self.verticalLayout_6 = QVBoxLayout(self.garage_groupBox)
         self.verticalLayout_6.setSpacing(6)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
@@ -72,7 +73,6 @@ class Ui_Form(object):
 
         self.verticalLayout.addWidget(self.row_label)
 
-
         self.horizontalLayout.addLayout(self.verticalLayout)
 
         self.verticalLayout_12 = QVBoxLayout()
@@ -89,9 +89,7 @@ class Ui_Form(object):
 
         self.verticalLayout_12.addWidget(self.row_lineEdit)
 
-
         self.horizontalLayout.addLayout(self.verticalLayout_12)
-
 
         self.horizontalLayout_11.addLayout(self.horizontalLayout)
 
@@ -118,7 +116,6 @@ class Ui_Form(object):
 
         self.horizontalLayout_4.addWidget(self.buildingYear_dateEdit)
 
-
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
 
         self.horizontalLayout_16 = QHBoxLayout()
@@ -137,12 +134,9 @@ class Ui_Form(object):
 
         self.horizontalLayout_16.addWidget(self.kadastr_lineEdit)
 
-
         self.verticalLayout_2.addLayout(self.horizontalLayout_16)
 
-
         self.horizontalLayout_11.addLayout(self.verticalLayout_2)
-
 
         self.verticalLayout_5.addLayout(self.horizontalLayout_11)
 
@@ -176,9 +170,7 @@ class Ui_Form(object):
 
         self.horizontalLayout_2.addWidget(self.addSize_pushButton)
 
-
         self.verticalLayout_4.addLayout(self.horizontalLayout_2)
-
 
         self.verticalLayout_5.addLayout(self.verticalLayout_4)
 
@@ -311,14 +303,14 @@ class Ui_Form(object):
         self.horizontalLayout_3.setContentsMargins(0, -1, -1, -1)
         self.users_tableView = QTableView(self.garage_groupBox)
         self.users_tableView.setObjectName(u"users_tableView")
-        self.users_tableView.setMaximumSize(QSize(16777215, 150))
+        self.users_tableView.setMaximumSize(QSize(16777215, 87))
 
         self.horizontalLayout_3.addWidget(self.users_tableView)
 
         self.verticalLayout_37 = QVBoxLayout()
         self.verticalLayout_37.setSpacing(0)
         self.verticalLayout_37.setObjectName(u"verticalLayout_37")
-        self.verticalLayout_37.setContentsMargins(0, 52, 0, 52)
+        self.verticalLayout_37.setContentsMargins(0, 20, 0, 20)
         self.userAdd_pushButton = QPushButton(self.garage_groupBox)
         self.userAdd_pushButton.setObjectName(u"userAdd_pushButton")
         self.userAdd_pushButton.setMaximumSize(QSize(31, 31))
@@ -450,6 +442,23 @@ class Ui_Form(object):
 
         self.horizontalLayout_13.addItem(self.horizontalSpacer_3)
 
+        self.verticalLayout_7 = QVBoxLayout()
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.verticalLayout_7.setContentsMargins(-1, 0, 36, 31)
+        self.vigruzkaPlateji_pushButton = QPushButton(self.contribs)
+        self.vigruzkaPlateji_pushButton.setObjectName(u"vigruzkaPlateji_pushButton")
+        sizePolicy3 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.vigruzkaPlateji_pushButton.sizePolicy().hasHeightForWidth())
+        self.vigruzkaPlateji_pushButton.setSizePolicy(sizePolicy3)
+        self.vigruzkaPlateji_pushButton.setSizeIncrement(QSize(0, 0))
+        self.vigruzkaPlateji_pushButton.setBaseSize(QSize(0, 0))
+
+        self.verticalLayout_7.addWidget(self.vigruzkaPlateji_pushButton)
+
+        self.horizontalLayout_13.addLayout(self.verticalLayout_7)
+
         self.gridLayout.addLayout(self.horizontalLayout_13, 1, 0, 1, 2)
 
         self.tabWidget.addTab(self.contribs, "")
@@ -531,6 +540,7 @@ class Ui_Form(object):
         self.tabWidget.setCurrentIndex(0)
 
         QMetaObject.connectSlotsByName(Form)
+
     # setupUi
 
     def retranslateUi(self, Form):
@@ -577,6 +587,9 @@ class Ui_Form(object):
         self.balance_label.setText(
             QCoreApplication.translate("Form", u"\u0411\u0430\u043b\u0430\u043d\u0441 \u0441\u0447\u0435\u0442\u0430",
                                        None))
+        self.vigruzkaPlateji_pushButton.setText(QCoreApplication.translate("Form",
+                                                                           u"\u0412\u044b\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043f\u043b\u0430\u0442\u0435\u0436\u0438",
+                                                                           None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.contribs),
                                   QCoreApplication.translate("Form", u"\u041f\u043b\u0430\u0442\u0435\u0436\u0438",
                                                              None))
@@ -593,4 +606,3 @@ class Ui_Form(object):
         self.close_pushButton.setText(
             QCoreApplication.translate("Form", u"\u0417\u0430\u043a\u0440\u044b\u0442\u044c", None))
     # retranslateUi
-

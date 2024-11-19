@@ -20,6 +20,7 @@ import ui.new_garage_size_func
 import ui.validators
 import ui.css
 import ui.doc_functions
+import ui.vigruzki_functions
 
 import sqlite_qwer
 
@@ -100,7 +101,8 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.balance_lineEdit.editingFinished.connect(self.rebalance)  # перерасчет баланса
         self.ui.calc_lineEdit.editingFinished.connect(self.rebalance)  # перерасчет баланса
         self.ui.prevDebt_lineEdit.editingFinished.connect(self.rebalance)  # перерасчет баланса
-        self.ui.docsAdd_pushButton.clicked.connect(self.showAddDocsForm)
+        self.ui.docsAdd_pushButton.clicked.connect(self.showAddDocsForm)  # добавление документов
+        self.ui.vigruzkaPlateji_pushButton.clicked.connect(self.doljniki)  # выгрузка платежей по гаражу
 
         # удаление выделенной строки
         self.ui.contribDel_pushButton_2.clicked.connect(self.delTbView)
@@ -173,7 +175,6 @@ class Cart_frontend(QtWidgets.QWidget):
             else:
                 ui.dialogs.onShowError(self, constants.ERROR_TITLE, 'Файл отсутствует')
                 return
-
 
     def setNewPhoto(self, image: str):
         """
@@ -680,7 +681,6 @@ class Cart_frontend(QtWidgets.QWidget):
                                 '%d.%m.%Y %H:%M:%S')
                             self.docsModel.setItems(d)
 
-
     def setAccountItems(self, account_info: ui.contribute_functions.ObjAccount):
         """Заполнение данных о текущем счете объекта"""
         if account_info:
@@ -791,6 +791,23 @@ class Cart_frontend(QtWidgets.QWidget):
                                                      mainForm=self)
         self.docAdd.mainForm = self
         self.docAdd.show()
+
+    def doljniki(self):
+        '''Генерируем список платежей'''
+        if self.db:
+            ui.vigruzki_functions.Vigruzka_platejei(db=self.db).vigruzka_action(self.fullObjInfo.id,
+                                                                                self.fullObjInfo.num_row,
+                                                                                self.fullObjInfo.num_bild)
+            if ui.dialogs.onShowСonfirmation(self, title=constants.INFO_TITLE,
+                                             msg=f'{constants.INFO_PLATEJI_GENERATION_OK}'
+                                                 f'\n{constants.INFO_OPEN_FILE}'):
+                try:
+                    os.startfile(
+                        f'{constants.DEFAULT_PLATEJI_DIR_PASS}Платежи за гараж {self.fullObjInfo.num_row}-{self.fullObjInfo.num_bild}_{datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx')
+                except Exception as e:
+                    # todo эти эксепшены с ошибками вообще работают?
+                    ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=e)
+
 
 def check_rec_in_base(db: db_work.Garage_DB, *args, tb_name: str) -> (int, None):
     """
