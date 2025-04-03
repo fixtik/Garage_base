@@ -1,6 +1,6 @@
 import sqlite3
 import os
-import datetime
+from datetime import datetime
 
 from constants import *
 
@@ -750,14 +750,52 @@ def sql_select_first_id_payment_details():
     return "SELECT * FROM payment_details WHERE id=1;"
 
 
-def sql_select_payment_member_information():
+def sql_select_payment_member_information(id):
+    sql = "SELECT id, " \
+          "num_row, " \
+          "num_bild, " \
+          "(SELECT surname FROM garage_member WHERE id = owner_id) as surname, " \
+          "(SELECT first_name FROM garage_member WHERE id = owner_id) as first_name, " \
+          "(SELECT second_name FROM garage_member WHERE id = owner_id) as second_name "
+    sql += "FROM garage_obj;" if id is None else f"FROM garage_obj WHERE id = {id};"
+    return sql
+
+
+def sql_select_payment_garage_information(id):
     return "SELECT id, " \
-           "num_row, " \
-           "num_bild, " \
            "(SELECT surname FROM garage_member WHERE id = owner_id) as surname, " \
            "(SELECT first_name FROM garage_member WHERE id = owner_id) as first_name, " \
-           "(SELECT second_name FROM garage_member WHERE id = owner_id) as second_name " \
-           "FROM garage_obj;"
+           "(SELECT second_name FROM garage_member WHERE id = owner_id) as second_name, " \
+           f"(SELECT value FROM members_contrib WHERE size_id = size_type_id AND year = {datetime.datetime.now().strftime('%Y')}) as vznos, " \
+           "(SELECT width FROM type_size WHERE id = size_type_id) as width, " \
+           "(SELECT len FROM type_size WHERE id = size_type_id) as len, " \
+           "(SELECT height FROM type_size WHERE id = size_type_id) as height, " \
+           f"(SELECT current_debt FROM object_account WHERE obj_id = {id}) as dolg, " \
+           f"(SELECT calculation FROM object_account WHERE obj_id = {id}) as tekyschieNachisleniya, " \
+           f"(SELECT balance FROM object_account WHERE obj_id = {id}) as pereplata " \
+           f"FROM garage_obj  WHERE id = {id};"
+
+
+def sql_select_payment_meter_information(id):
+    return "SELECT id, " \
+           "(SELECT num_meter FROM electric_meter WHERE id = electro220_id) as num_meter_220, " \
+           "(SELECT prev_day FROM electric_meter WHERE id = electro220_id) as prev_day_220, " \
+           "(SELECT day FROM electric_meter WHERE id = electro220_id) as day_220, " \
+           "(SELECT prev_night FROM electric_meter WHERE id = electro220_id) as prev_night_220, " \
+           "(SELECT night FROM electric_meter WHERE id = electro220_id) as night_220, " \
+ \
+           "(SELECT num_meter FROM electric_meter WHERE id = electro380_id) as num_meter_380, " \
+           "(SELECT prev_day FROM electric_meter WHERE id = electro380_id) as prev_day_380, " \
+           "(SELECT day FROM electric_meter WHERE id = electro380_id) as day_380, " \
+           "(SELECT prev_night FROM electric_meter WHERE id = electro380_id) as prev_night_380, " \
+           "(SELECT night FROM electric_meter WHERE id = electro380_id) as night_380, " \
+ \
+           "(SELECT value_day FROM meter_payment WHERE type_meter = 220) as value_day_220, " \
+           "(SELECT value_night FROM meter_payment WHERE type_meter = 220) as value_night_220, " \
+           "(SELECT value_day FROM meter_payment WHERE type_meter = 380) as value_day_380, " \
+           "(SELECT value_night FROM meter_payment WHERE type_meter = 380) as value_night_380 " \
+ \
+           f"FROM garage_obj WHERE id = {id};"
 
 
 def sql_select_maxid(table_name: str):

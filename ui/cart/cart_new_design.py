@@ -444,7 +444,7 @@ class Ui_Form(object):
 
         self.verticalLayout_7 = QVBoxLayout()
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.verticalLayout_7.setContentsMargins(-1, 0, 36, 31)
+        self.verticalLayout_7.setContentsMargins(-1, 0, 36, 0)
         self.vigruzkaPlateji_pushButton = QPushButton(self.contribs)
         self.vigruzkaPlateji_pushButton.setObjectName(u"vigruzkaPlateji_pushButton")
         sizePolicy3 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
@@ -456,6 +456,15 @@ class Ui_Form(object):
         self.vigruzkaPlateji_pushButton.setBaseSize(QSize(0, 0))
 
         self.verticalLayout_7.addWidget(self.vigruzkaPlateji_pushButton)
+
+        self.vigruzkaQrOplata_pushButton = QPushButton(self.contribs)
+        self.vigruzkaQrOplata_pushButton.setObjectName(u"vigruzkaQrOplata_pushButton")
+        sizePolicy3.setHeightForWidth(self.vigruzkaQrOplata_pushButton.sizePolicy().hasHeightForWidth())
+        self.vigruzkaQrOplata_pushButton.setSizePolicy(sizePolicy3)
+        self.vigruzkaQrOplata_pushButton.setSizeIncrement(QSize(0, 0))
+        self.vigruzkaQrOplata_pushButton.setBaseSize(QSize(0, 0))
+
+        self.verticalLayout_7.addWidget(self.vigruzkaQrOplata_pushButton)
 
         self.horizontalLayout_13.addLayout(self.verticalLayout_7)
 
@@ -590,6 +599,9 @@ class Ui_Form(object):
         self.vigruzkaPlateji_pushButton.setText(QCoreApplication.translate("Form",
                                                                            u"\u0412\u044b\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043f\u043b\u0430\u0442\u0435\u0436\u0438",
                                                                            None))
+        self.vigruzkaQrOplata_pushButton.setText(QCoreApplication.translate("Form",
+                                                                            u"\u0421\u043e\u0437\u0434\u0430\u0442\u044c QR \u043d\u0430 \u043e\u043f\u043b\u0430\u0442\u0443",
+                                                                            None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.contribs),
                                   QCoreApplication.translate("Form", u"\u041f\u043b\u0430\u0442\u0435\u0436\u0438",
                                                              None))

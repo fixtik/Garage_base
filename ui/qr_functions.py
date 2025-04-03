@@ -103,14 +103,15 @@ class QrBankInfo_frontend(QtWidgets.QWidget):
 
 
 class QR_StatusBar(QtWidgets.QWidget):
-    def __init__(self, parent=None, db=None):
+    def __init__(self, parent=None, db=None, garage_id=None):
         super().__init__(parent)
         self.ui = ui.qr.statusbar.Ui_Form()
         self.ui.setupUi(self)
         # переменные класса
         self.css = ui.css  # для красоты
         self.db = db
-        self.qr_thread = TQR_Thread()  # поток с генерацией qr-кода
+        self.garage_id = garage_id
+        self.qr_thread = TQR_Thread(garage_id=self.garage_id)  # поток с генерацией qr-кода
         self.no_error = None  # для отлова ошибок в потоке
         self.breakByUser = None  # для отображения кто завершил процесс
 
@@ -178,7 +179,11 @@ class QR_StatusBar(QtWidgets.QWidget):
             if ui.dialogs.onShowСonfirmation(self, title=constants.INFO_TITLE, msg=f'{constants.INFO_QR_GENERATION_OK}'
                                                                                    f'\n{constants.INFO_OPEN_FILE}'):
                 try:
-                    os.startfile(f"{constants.DEFAULT_QR_DIR_PASS}{constants.DEFAUL_QR_FILE_NAME}")
+                    if self.garage_id:
+                        os.startfile(
+                            f"{constants.DEFAULT_QR_DIR_PASS}\\QR для гаража {self.garage_id}.docx")
+                    else:
+                        os.startfile(f"{constants.DEFAULT_QR_DIR_PASS}{constants.DEFAUL_QR_FILE_NAME}")
                 except Exception as e:
                     ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=e)
             self.destroy(True)
@@ -216,7 +221,7 @@ class TQR_Thread(QtCore.QThread):
     statusSignal = QtCore.Signal(int)
     errorSignal = QtCore.Signal(bool)
 
-    def __init__(self, parent=None, db=None):
+    def __init__(self, parent=None, db=None, garage_id=None):
         super().__init__(parent)
         self.flag = None  # для возможности остановки процесса
 
@@ -225,6 +230,7 @@ class TQR_Thread(QtCore.QThread):
         self.fileNames = []  # для хранения списка названия файлов
         self.statusbar = None  # для отображения окна со статусбаром
         self.value = 0  # стартовое значение для статусбара
+        self.garage_id = garage_id  # id гаража
 
     def run(self) -> None:
         if self.flag is None:
@@ -238,7 +244,6 @@ class TQR_Thread(QtCore.QThread):
             self.infoSignal.emit('Отсутствует шаблон\nЗакройте окно')
             self.flag = False
             return None
-
 
         if self.fileNames:
             self.fileNames = []  # очищаем переменную с названиями файлов чтобы не было дубликатов
@@ -265,7 +270,10 @@ class TQR_Thread(QtCore.QThread):
 
             # Вытаскиваем инфу по владельцам гаражей
             try:
-                self.db.execute(sqlite_qwer.sql_select_payment_member_information())
+                if self.garage_id:
+                    self.db.execute(sqlite_qwer.sql_select_payment_member_information(id=self.garage_id))
+                else:
+                    self.db.execute(sqlite_qwer.sql_select_payment_member_information(id=None))
                 infos = self.db.cursor.fetchall()
             except Exception as e:
                 ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=constants.ERROR_QR_GENERATION)
@@ -279,8 +287,6 @@ class TQR_Thread(QtCore.QThread):
                 if not self.flag:
                     return None
                 paymentMemberInfo = paymentMemberInformation(*info)
-
-                fio = f'{paymentMemberInfo.surname} {paymentMemberInfo.first_name} {paymentMemberInfo.second_name}'
 
                 for i in range(2):
                     purpose = f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, задолженность по членскому взносу на {datetime.now().year}' if i == 0 \
@@ -304,7 +310,9 @@ class TQR_Thread(QtCore.QThread):
 
                 # Создаем документик из шаблона
                 try:
-                    self.fill_doc_template(paymentMemberInfo.num_bild, paymentMemberInfo.num_row, fio)
+                    self.fill_doc_template(paymentMemberInfo.num_bild,
+                                           paymentMemberInfo.num_row,
+                                           paymentMemberInfo.id)
                 except Exception as e:
                     print(e)
                     self.errorSignal.emit(False)
@@ -315,10 +323,10 @@ class TQR_Thread(QtCore.QThread):
                         else f"tmp\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}_electric.png"
                     os.remove(qr_dir)
 
-                # timer += 1
-                # print(timer)
-                # if timer == 10:
-                #     break
+                timer += 1
+                print(timer)
+                if timer == 1:
+                    break
             if not self.flag:
                 return None
             try:
@@ -327,13 +335,130 @@ class TQR_Thread(QtCore.QThread):
                 print(e)
                 self.errorSignal.emit(False)
 
-    def fill_doc_template(self, num, row, fio):
+    def fill_doc_template(self, num, row, id):
         """Заполняем шаблон с QR кодами"""
         doc = DocxTemplate(constants.DEFAULT_QR_TEMPLATE_NAME)
-        qr = InlineImage(doc, image_descriptor=f'tmp\\qr_{row}_{num}.png', width=Mm(50), height=Mm(50))
-        qr_electric = InlineImage(doc, image_descriptor=f'tmp\\qr_{row}_{num}_electric.png', width=Mm(50),
-                                  height=Mm(50))
-        context = {'qr_photo': qr, 'qr_photo_electric': qr_electric, 'num': num, 'row': row, 'fio': fio}
+        qr = InlineImage(doc, image_descriptor=f'tmp\\qr_{row}_{num}.png', width=Mm(35), height=Mm(35))
+        qr_electric = InlineImage(doc, image_descriptor=f'tmp\\qr_{row}_{num}_electric.png', width=Mm(35),
+                                  height=Mm(35))
+
+        try:
+            # Вытаскиваем информацию по гаражному кооперативу
+            self.db.execute(sqlite_qwer.sql_select_all_from_table(constants.PAYMENT_DETAILS))
+            info = self.db.cursor.fetchone()
+            paymentInfo = paymentInformation(*info)
+
+            # Вытаскиваем информацию по гаражу
+            self.db.execute(sqlite_qwer.sql_select_payment_garage_information(id=id))
+            garageInfo = self.db.cursor.fetchone()
+            paymentGarageInfo = paymentGarageInformation(*garageInfo)
+
+            # Вытаскиваем информацию по счетчикам
+            self.db.execute(sqlite_qwer.sql_select_payment_meter_information(id=id))
+            meterInfo = self.db.cursor.fetchone()
+            paymentMeterInfo = paymentMeterInformation(*meterInfo)
+
+        except Exception as e:
+            ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=constants.ERROR_QR_GENERATION)
+            self.flag = False
+
+        # Арифметика для квитанции (Оплата членских взносов)
+        dop_vznos_I = 1000 if int(paymentGarageInfo.dolg) > 0 else 0  # 1000 р штрафа если имеется долг
+        dop_vznos_II = 1000 if (int(paymentGarageInfo.tekyschieNachisleniya) > int(
+            paymentGarageInfo.vznos) / 2) and int(
+            datetime.now().strftime("%m")) > 10 else 0  # 1000 р штрафа если не оплатили до октября
+        raznica = int(paymentGarageInfo.vznos) - int(paymentGarageInfo.tekyschieNachisleniya)
+        nachisleno_I = 0 if int(paymentGarageInfo.pereplata) > 0 or (raznica > int(paymentGarageInfo.vznos) / 2) else (
+                int(
+                    paymentGarageInfo.vznos) / 2 - raznica)  # 0 в начисления если имеется переплата
+        if int(paymentGarageInfo.pereplata) > 0:
+            nachisleno_II = 0
+        elif raznica <= int(paymentGarageInfo.vznos) / 2:
+            nachisleno_II = int(paymentGarageInfo.vznos) / 2
+        else:
+            nachisleno_II = int(paymentGarageInfo.vznos) - raznica
+
+        summa_k_oplate_I = 0 if int(paymentGarageInfo.pereplata) > 0 else nachisleno_I + dop_vznos_I + float(
+            paymentGarageInfo.dolg)  # 0 в начисления если имеется переплата
+        summa_k_oplate_II = 0 if int(
+            paymentGarageInfo.pereplata) > 0 else nachisleno_II + dop_vznos_II  # 0 в начисления если имеется переплата
+        itogo = 0 if int(
+            paymentGarageInfo.pereplata) > 0 else summa_k_oplate_I + summa_k_oplate_II  # 0 в начисления если имеется переплата
+
+        # Арифметика для квитанции (Оплата электроэнергии)
+        potreb_day_220 = 0 if paymentMeterInfo.num_meter_220 is None else int(paymentMeterInfo.day_220) - int(
+            paymentMeterInfo.prev_day_220)
+        potreb_night_220 = 0 if paymentMeterInfo.num_meter_220 is None else int(
+            paymentMeterInfo.night_220) - int(paymentMeterInfo.prev_night_220)
+        potreb_day_380 = 0 if paymentMeterInfo.num_meter_380 is None else int(paymentMeterInfo.day_380) - int(
+            paymentMeterInfo.prev_day_380)
+        potreb_night_380 = 0 if paymentMeterInfo.num_meter_380 is None else int(
+            paymentMeterInfo.night_380) - int(paymentMeterInfo.prev_night_380)
+        nachisleno_day_220 = potreb_day_220 * int(paymentMeterInfo.value_day_220)
+        nachisleno_night_220 = potreb_night_220 * int(paymentMeterInfo.value_night_220)
+        nachisleno_day_380 = potreb_day_380 * int(paymentMeterInfo.value_day_380)
+        nachisleno_night_380 = potreb_night_380 * int(paymentMeterInfo.value_night_380)
+
+        context = {'qr_photo': qr,
+                   'qr_photo_electric': qr_electric,
+                   'num': num,
+                   'row': row,
+                   'fio': f'{paymentGarageInfo.surname} {paymentGarageInfo.first_name} {paymentGarageInfo.second_name}',
+                   'name': paymentInfo.Name,
+                   'PayeeINN': paymentInfo.PayeeINN,
+                   'KPP': paymentInfo.KPP,
+                   'BIC': paymentInfo.BIC,
+                   'CorrespAcc': paymentInfo.CorrespAcc,
+                   'BankName': paymentInfo.BankName,
+
+                   # Данные для квитанции с общими взносами
+                   'year': datetime.now().strftime("%Y"),
+                   'vznos': paymentGarageInfo.vznos,
+                   'garage_size': f'{paymentGarageInfo.width}x{paymentGarageInfo.length}x{paymentGarageInfo.height}',
+                   'dolg': paymentGarageInfo.dolg,
+                   'dop_vznos_I': dop_vznos_I,
+                   'dop_vznos_II': dop_vznos_II,
+                   'nachisleno_I': nachisleno_I,
+                   'nachisleno_II': nachisleno_II,
+                   'summa_k_oplate_I': summa_k_oplate_I,
+                   'summa_k_oplate_II': summa_k_oplate_II,
+                   'dop_vznos_sum': dop_vznos_I + dop_vznos_II,
+                   'itogo': itogo,
+
+                   'num_meter_220': 0 if paymentMeterInfo.num_meter_220 is None else paymentMeterInfo.num_meter_220,
+                   # Данные для дневных показаний счетчика 220
+                   'prev_day_220': 0 if paymentMeterInfo.num_meter_220 is None else paymentMeterInfo.prev_day_220,
+                   'day_220': 0 if paymentMeterInfo.num_meter_220 is None else paymentMeterInfo.day_220,
+                   'potreb_day_220': potreb_day_220,
+                   'value_day_220': 0 if paymentMeterInfo.num_meter_220 is None else paymentMeterInfo.value_day_220,
+                   'nachisleno_day_220': nachisleno_day_220,
+                   'itog_day_220': nachisleno_day_220,
+                   # Данные для ночных показаний счетчика 220
+                   'prev_night_220': 0 if paymentMeterInfo.num_meter_220 is None else paymentMeterInfo.prev_night_220,
+                   'night_220': 0 if paymentMeterInfo.num_meter_220 is None else paymentMeterInfo.night_220,
+                   'potreb_night_220': potreb_night_220,
+                   'value_night_220': 0 if paymentMeterInfo.num_meter_220 is None else paymentMeterInfo.value_night_220,
+                   'nachisleno_night_220': nachisleno_night_220,
+                   'itog_night_220': nachisleno_night_220,
+
+                   # Данные для дневных показаний счетчика 380
+                   'prev_day_380': 0 if paymentMeterInfo.num_meter_380 is None else paymentMeterInfo.prev_day_380,
+                   'day_380': 0 if paymentMeterInfo.num_meter_380 is None else paymentMeterInfo.day_380,
+                   'potreb_day_380': potreb_day_380,
+                   'value_day_380': 0 if paymentMeterInfo.num_meter_380 is None else paymentMeterInfo.value_day_380,
+                   'nachisleno_day_380': nachisleno_day_380,
+                   'itog_day_380': nachisleno_day_380,
+                   'num_meter_380': 0 if paymentMeterInfo.num_meter_380 is None else paymentMeterInfo.num_meter_380,
+                   # Данные для ночных показаний счетчика 380
+                   'prev_night_380': 0 if paymentMeterInfo.num_meter_380 is None else paymentMeterInfo.prev_night_380,
+                   'night_380': 0 if paymentMeterInfo.num_meter_380 is None else paymentMeterInfo.night_380,
+                   'potreb_night_380': potreb_night_380,
+                   'value_night_380': 0 if paymentMeterInfo.num_meter_380 is None else paymentMeterInfo.value_night_380,
+                   'nachisleno_night_380': nachisleno_night_380,
+                   'itog_night_380': nachisleno_night_380,
+
+                   'itogo_meters': nachisleno_day_220 + nachisleno_night_220 + nachisleno_night_380 + nachisleno_day_380
+                   }
         doc.render(context)
         doc.save(f"tmp\\Гараж_{row}_{num}.docx")
         self.fileNames.append(f"tmp\\Гараж_{row}_{num}.docx")
@@ -341,8 +466,14 @@ class TQR_Thread(QtCore.QThread):
     def final_output_document(self, files_list):
         """Создаем итоговый файл с QR кодами"""
         self.infoSignal.emit('Создаем итоговый файл\nОсталось совсем чуть-чуть')
-        if os.path.isfile(f"{constants.DEFAULT_QR_DIR_PASS}\\QR_для оплаты.docx"):
-            os.remove(f"{constants.DEFAULT_QR_DIR_PASS}\\QR_для оплаты.docx")
+        if self.garage_id:
+            if os.path.isfile(
+                    f"{constants.DEFAULT_QR_DIR_PASS}\\QR для гаража {self.garage_id}.docx"):
+                os.remove(
+                    f"{constants.DEFAULT_QR_DIR_PASS}\\QR для гаража {self.garage_id}.docx")
+        else:
+            if os.path.isfile(f"{constants.DEFAULT_QR_DIR_PASS}{constants.DEFAUL_QR_FILE_NAME}"):
+                os.remove(f"{constants.DEFAULT_QR_DIR_PASS}{constants.DEFAUL_QR_FILE_NAME}")
         number_of_sections = len(files_list)
         # Сбрасываем прогресс бар и устанавливаем новое максимальное значение
         self.clearSignal.emit(number_of_sections)
@@ -354,9 +485,17 @@ class TQR_Thread(QtCore.QThread):
             self.statusSignal.emit(i)
             # Проверяем не прервана ли операция пользователем
             if not self.flag:
-                composer.save(f"{constants.DEFAULT_QR_DIR_PASS}\\QR_для оплаты.docx")
+                if self.garage_id:
+                    composer.save(
+                        f"{constants.DEFAULT_QR_DIR_PASS}\\QR для гаража {self.garage_id}.docx")
+                else:
+                    composer.save(f"{constants.DEFAULT_QR_DIR_PASS}{constants.DEFAUL_QR_FILE_NAME}")
                 return None
-        composer.save(f"{constants.DEFAULT_QR_DIR_PASS}\\QR_для оплаты.docx")
+        if self.garage_id:
+            composer.save(
+                f"{constants.DEFAULT_QR_DIR_PASS}\\QR для гаража {self.garage_id}.docx")
+        else:
+            composer.save(f"{constants.DEFAULT_QR_DIR_PASS}{constants.DEFAUL_QR_FILE_NAME}")
         # Подчищаем за собой файлы
         for name in files_list:
             if os.path.exists(f'{os.getcwd()}\\{name}'):
@@ -384,3 +523,37 @@ class paymentMemberInformation:
     surname: str = ''
     first_name: str = ''
     second_name: str = ''
+
+
+@dataclass
+class paymentGarageInformation:
+    id: str = ''
+    surname: str = ''
+    first_name: str = ''
+    second_name: str = ''
+    vznos: str = ''
+    width: str = ''
+    length: str = ''
+    height: str = ''
+    dolg: str = ''
+    tekyschieNachisleniya: str = ''
+    pereplata: str = ''
+
+
+@dataclass
+class paymentMeterInformation:
+    id: str = ''
+    num_meter_220: str = ''
+    prev_day_220: str = ''
+    day_220: str = ''
+    prev_night_220: str = ''
+    night_220: str = ''
+    num_meter_380: str = ''
+    prev_day_380: str = ''
+    day_380: str = ''
+    prev_night_380: str = ''
+    night_380: str = ''
+    value_day_220: str = ''
+    value_night_220: str = ''
+    value_day_380: str = ''
+    value_night_380: str = ''

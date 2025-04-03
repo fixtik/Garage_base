@@ -895,7 +895,7 @@
                                                 <number>36</number>
                                             </property>
                                             <property name="bottomMargin">
-                                                <number>31</number>
+                                                <number>0</number>
                                             </property>
                                             <item>
                                                 <widget class="QPushButton" name="vigruzkaPlateji_pushButton">
@@ -919,6 +919,31 @@
                                                     </property>
                                                     <property name="text">
                                                         <string>Выгрузить платежи</string>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                            <item>
+                                                <widget class="QPushButton" name="vigruzkaQrOplata_pushButton">
+                                                    <property name="sizePolicy">
+                                                        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                                                            <horstretch>0</horstretch>
+                                                            <verstretch>0</verstretch>
+                                                        </sizepolicy>
+                                                    </property>
+                                                    <property name="sizeIncrement">
+                                                        <size>
+                                                            <width>0</width>
+                                                            <height>0</height>
+                                                        </size>
+                                                    </property>
+                                                    <property name="baseSize">
+                                                        <size>
+                                                            <width>0</width>
+                                                            <height>0</height>
+                                                        </size>
+                                                    </property>
+                                                    <property name="text">
+                                                        <string>Создать QR на оплату</string>
                                                     </property>
                                                 </widget>
                                             </item>

@@ -272,7 +272,7 @@ DEFAULT_TMP_DIR_PASS = os.getcwd() + '\\tmp\\'
 DEFAULT_PHOTO_PASS = '\\photo\\member\\'
 DEFAULT_DOCS_PASS = '\\photo\\docs\\'
 DEFAULT_BILLS_PASS = '\\photo\\bills\\'
-DEFAUL_QR_FILE_NAME = '\\QR_для оплаты.docx'
+DEFAUL_QR_FILE_NAME = '\\QR для оплаты.docx'
 DEFAULT_QR_TEMPLATE_NAME = os.getcwd() + '\\Templates\\qr_template.docx'
 DEFAULT_ABOUT_NAME = os.getcwd() + '\\Templates\\about.txt'
 

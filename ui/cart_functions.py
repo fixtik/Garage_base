@@ -21,6 +21,7 @@ import ui.validators
 import ui.css
 import ui.doc_functions
 import ui.vigruzki_functions
+import ui.qr_functions
 
 import sqlite_qwer
 
@@ -102,7 +103,8 @@ class Cart_frontend(QtWidgets.QWidget):
         self.ui.calc_lineEdit.editingFinished.connect(self.rebalance)  # перерасчет баланса
         self.ui.prevDebt_lineEdit.editingFinished.connect(self.rebalance)  # перерасчет баланса
         self.ui.docsAdd_pushButton.clicked.connect(self.showAddDocsForm)  # добавление документов
-        self.ui.vigruzkaPlateji_pushButton.clicked.connect(self.doljniki)  # выгрузка платежей по гаражу
+        self.ui.vigruzkaPlateji_pushButton.clicked.connect(self.vigruzka_plateji)  # выгрузка платежей по гаражу
+        self.ui.vigruzkaQrOplata_pushButton.clicked.connect(self.qr_na_oplaty)  # выгрузка qr на оплату
 
         # удаление выделенной строки
         self.ui.contribDel_pushButton_2.clicked.connect(self.delTbView)
@@ -792,7 +794,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.docAdd.mainForm = self
         self.docAdd.show()
 
-    def doljniki(self):
+    def vigruzka_plateji(self):
         '''Генерируем список платежей'''
         if self.db:
             ui.vigruzki_functions.Vigruzka_platejei(db=self.db).vigruzka_action(self.fullObjInfo.id,
@@ -807,6 +809,13 @@ class Cart_frontend(QtWidgets.QWidget):
                 except Exception as e:
                     # todo эти эксепшены с ошибками вообще работают?
                     ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=e)
+
+    def qr_na_oplaty(self):
+        '''Генерируем qr на оплату'''
+        if self.db:
+            self.progress = ui.qr_functions.QR_StatusBar(db=self.db, garage_id=self.fullObjInfo.id)
+            self.progress.show()
+            self.progress.start()
 
 
 def check_rec_in_base(db: db_work.Garage_DB, *args, tb_name: str) -> (int, None):
