@@ -363,10 +363,6 @@ class TQR_Thread(QtCore.QThread):
             self.flag = False
 
         # Арифметика для квитанции (Оплата членских взносов)
-        dop_vznos_I = 1000 if int(paymentGarageInfo.dolg) > 0 else 0  # 1000 р штрафа если имеется долг
-        dop_vznos_II = 1000 if (int(paymentGarageInfo.tekyschieNachisleniya) > int(
-            paymentGarageInfo.vznos) / 2) and int(
-            datetime.now().strftime("%m")) > 10 else 0  # 1000 р штрафа если не оплатили до октября
         raznica = int(paymentGarageInfo.vznos) - int(paymentGarageInfo.tekyschieNachisleniya)
         nachisleno_I = 0 if int(paymentGarageInfo.pereplata) > 0 or (raznica > int(paymentGarageInfo.vznos) / 2) else (
                 int(
@@ -377,7 +373,11 @@ class TQR_Thread(QtCore.QThread):
             nachisleno_II = int(paymentGarageInfo.vznos) / 2
         else:
             nachisleno_II = int(paymentGarageInfo.vznos) - raznica
-
+        dop_vznos_I = 1000 if (int(paymentGarageInfo.dolg) > 0 or  # 1000 р штрафа если имеется долг
+                               (int(datetime.now().strftime("%m")) > 4 and nachisleno_I > 0)) else 0
+        dop_vznos_II = 1000 if (int(paymentGarageInfo.tekyschieNachisleniya) > int(
+            paymentGarageInfo.vznos) / 2) and int(
+            datetime.now().strftime("%m")) > 9 else 0  # 1000 р штрафа если не оплатили до октября
         summa_k_oplate_I = 0 if int(paymentGarageInfo.pereplata) > 0 else nachisleno_I + dop_vznos_I + float(
             paymentGarageInfo.dolg)  # 0 в начисления если имеется переплата
         summa_k_oplate_II = 0 if int(
