@@ -5,6 +5,7 @@ import datetime
 from os.path import isfile
 
 from PySide6 import QtWidgets
+from PySide6 import QtCore
 
 import sqlite_qwer
 from ui.main.main_window import Ui_MainWindow
@@ -384,5 +385,12 @@ if __name__ == "__main__":
     # myWindow.move(myWindow.screen().geometry().center() - myWindow.geometry().center())
     # myWindow.resize(int(myWindow.width()), myWindow.screen().availableSize().height() - myWindow.taskBarHeight)
     # myWindow.show()
+
+    # Локализация приложения на русский, чтобы не было в сплывающих окошках выбора Yes|No
+    translator = QtCore.QTranslator(app)
+    locale = QtCore.QLocale.system().name()
+    path = QtCore.QLibraryInfo.path(QtCore.QLibraryInfo.LibraryPath.TranslationsPath)
+    translator.load('qt_%s' % locale, path)
+    app.installTranslator(translator)
 
     sys.exit(app.exec())  # Если exit, то код дальше не исполняется
