@@ -185,7 +185,7 @@ class QR_StatusBar(QtWidgets.QWidget):
                     else:
                         os.startfile(f"{constants.DEFAULT_QR_DIR_PASS}{constants.DEFAUL_QR_FILE_NAME}")
                 except Exception as e:
-                    ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=e)
+                    ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=str(e))
             self.destroy(True)
         elif self.breakByUser:
             ui.dialogs.onShowOkMessage(self, title=constants.ERROR_TITLE,

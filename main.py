@@ -260,8 +260,7 @@ class Form_frontend(QtWidgets.QMainWindow):
                     os.startfile(
                         f'{constants.DEFAULT_SMETA_DIR_PASS}Смета_{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx')
                 except Exception as e:
-                    # todo эти эксепшены с ошибками вообще работают?
-                    ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=e)
+                    ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=str(e))
             # ui.dialogs.onShowOkMessage(self, constants.INFO_TITLE, constants.MESSAGE_SMETA_OK)
 
     def doljniki(self):
@@ -275,8 +274,7 @@ class Form_frontend(QtWidgets.QMainWindow):
                     os.startfile(
                         f'{constants.DEFAULT_DOLJNIKI_DIR_PASS}Должники_{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx')
                 except Exception as e:
-                    # todo эти эксепшены с ошибками вообще работают?
-                    ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=e)
+                    ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=str(e))
 
     def autocheck(self):
         """Автоматическая напоминалка чтобы не забвали обновить БД если нет новой таблицы"""
@@ -289,7 +287,7 @@ class Form_frontend(QtWidgets.QMainWindow):
                             ui.dialogs.onShowOkMessage(self, 'БД', 'Не забудьте обновить базу данных')
                             break
                 except Exception as e:
-                    ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=e)
+                    ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=str(e))
 
     def showQrBankInfo(self):
         """Отображение окна добавления банковских реквизитов"""

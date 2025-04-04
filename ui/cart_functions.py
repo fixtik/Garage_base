@@ -807,8 +807,7 @@ class Cart_frontend(QtWidgets.QWidget):
                     os.startfile(
                         f'{constants.DEFAULT_PLATEJI_DIR_PASS}Платежи за гараж {self.fullObjInfo.num_row}-{self.fullObjInfo.num_bild}_{datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx')
                 except Exception as e:
-                    # todo эти эксепшены с ошибками вообще работают?
-                    ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=e)
+                    ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=str(e))
 
     def qr_na_oplaty(self):
         '''Генерируем qr на оплату'''
