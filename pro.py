@@ -1,7 +1,6 @@
 import libusb_package
 import usb.core
 import usb.backend.libusb1
-import requests
 
 
 def checker(title: str):

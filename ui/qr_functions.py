@@ -325,8 +325,8 @@ class TQR_Thread(QtCore.QThread):
 
                 timer += 1
                 print(timer)
-                if timer == 1:
-                    break
+                # if timer == 1:
+                #     break
             if not self.flag:
                 return None
             try:
@@ -409,6 +409,7 @@ class TQR_Thread(QtCore.QThread):
                    'KPP': paymentInfo.KPP,
                    'BIC': paymentInfo.BIC,
                    'CorrespAcc': paymentInfo.CorrespAcc,
+                   'PersonalAcc': paymentInfo.PersonalAcc,
                    'BankName': paymentInfo.BankName,
 
                    # Данные для квитанции с общими взносами
