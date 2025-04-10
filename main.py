@@ -103,8 +103,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         if os.path.isfile(constants.DEFAULT_ABOUT_NAME):
             first_line = open(constants.DEFAULT_ABOUT_NAME, encoding='utf-8').readline().strip('\n')[4:-5]
             self.ui.version_label.setText(first_line)
-        else:
-            self.ui.version_label.setText('ver 1.04')
+
         self.ui.version_label.setToolTip('Посмотрите изменения во вкладке "О программе"')
 
         # ------------- Выгрузки excel ------------- #

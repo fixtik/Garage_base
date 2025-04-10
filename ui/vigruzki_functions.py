@@ -60,7 +60,7 @@ class Smeta():
                         dict.update({}.fromkeys(dict, 0))  # очищаем словарь
                         if i == 1:
                             self.text_plateji(ws)
-                            i += 1  # плюсуем чтобы больще не записывалось
+                            i += 1  # плюсуем чтобы больше не записывалось
                         dict['name'] = name  # записываем в словарь название платежа
                         if calendar.month_name[int(con.month)] in dict:  # Проверяем есть ли название месяца в словаре
                             # Записываем сумму платежа в нужный месяц
@@ -69,6 +69,8 @@ class Smeta():
                         if calendar.month_name[int(con.month)] in dict:  # Проверяем есть ли название месяца в словаре
                             # Записываем сумму платежа в нужный месяц
                             dict[calendar.month_name[int(con.month)]] = con.TotalSum
+        dict['id'] = id_name  # Записываем последний id т.к. он уже приплюсован ранее
+        ws.append(list(dict.values()))  # Записываем последний платеж
         file_name = f'{constants.DEFAULT_SMETA_DIR_PASS}Смета_{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx'
         self.autoFit(ws=ws)
         wb.save(file_name)  # сохраняем эксель
