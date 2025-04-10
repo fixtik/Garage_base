@@ -4,8 +4,8 @@ from PySide6 import QtCore
 
 #Envs/Garage_base_venv/Lib/site-packages/PySide6/translations/
 path = QtCore.QLibraryInfo.path(QtCore.QLibraryInfo.LibraryPath.TranslationsPath)
-datas = [(path, 'translations'),
-        ('photo/voa.png', 'photo')]
+datas = [(path, 'translations'),  # файлы с переводом чтобы убрать Yes|No ответы
+        ('photo/voa.png', 'photo')]  # иконка воа
 datas += collect_data_files('docxcompose')
 
 

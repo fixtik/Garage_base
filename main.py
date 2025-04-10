@@ -387,7 +387,12 @@ if __name__ == "__main__":
     translator = QtCore.QTranslator(app)
     locale = QtCore.QLocale.system().name()
     path = QtCore.QLibraryInfo.path(QtCore.QLibraryInfo.LibraryPath.TranslationsPath)
-    translator.load('qt_%s' % locale, path)
+    if os.path.isfile(path):  # если запускаем из пайчарма
+        translator.load('qt_%s' % locale, path)
+    else:  # если запускаем скомпилированный exe
+        bundle_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
+        path_to_yml = os.path.abspath(os.path.join(bundle_dir, 'translations/qt_%s' % locale))
+        translator.load(path_to_yml)
     app.installTranslator(translator)
 
     sys.exit(app.exec())  # Если exit, то код дальше не исполняется
