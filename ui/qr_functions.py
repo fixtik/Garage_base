@@ -289,7 +289,7 @@ class TQR_Thread(QtCore.QThread):
                 paymentMemberInfo = paymentMemberInformation(*info)
 
                 for i in range(2):
-                    purpose = f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, задолженность по членскому взносу на {datetime.now().year}' if i == 0 \
+                    purpose = f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, членский взнос на {datetime.now().year}' if i == 0 \
                         else f'ПО 31, ряд №{paymentMemberInfo.num_row} гараж №{paymentMemberInfo.num_bild}, {datetime.now().year}. Компенсация электроэнергии'
 
                     qr_dir = f"tmp\\qr_{paymentMemberInfo.num_row}_{paymentMemberInfo.num_bild}.png" if i == 0 \
