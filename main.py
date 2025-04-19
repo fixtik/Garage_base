@@ -372,7 +372,7 @@ if __name__ == "__main__":
     if getattr(sys, 'frozen', False):
         pyi_splash.close()
 
-    app = QtWidgets.QApplication()  # Создаем  объект приложения
+    app = QtWidgets.QApplication()  # Создаем объект приложения
     # app = QtWidgets.QApplication(sys.argv)  # Если PyQt
     # if not checker():
     #     exit()
@@ -383,11 +383,11 @@ if __name__ == "__main__":
     # myWindow.resize(int(myWindow.width()), myWindow.screen().availableSize().height() - myWindow.taskBarHeight)
     # myWindow.show()
 
-    # Локализация приложения на русский, чтобы не было в сплывающих окошках выбора Yes|No
+    # Локализация приложения на русский, чтобы не было во всплывающих окошках выбора Yes|No
     translator = QtCore.QTranslator(app)
     locale = QtCore.QLocale.system().name()
     path = QtCore.QLibraryInfo.path(QtCore.QLibraryInfo.LibraryPath.TranslationsPath)
-    if os.path.isfile(path):  # если запускаем из пайчарма
+    if os.path.isfile('voa.exe.spec'):  # если запускаем из пайчарма
         translator.load('qt_%s' % locale, path)
     else:  # если запускаем скомпилированный exe
         bundle_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))

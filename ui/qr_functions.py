@@ -373,12 +373,14 @@ class TQR_Thread(QtCore.QThread):
             nachisleno_II = int(paymentGarageInfo.vznos) / 2
         else:
             nachisleno_II = int(paymentGarageInfo.vznos) - raznica
-        dop_vznos_I = 1000 if (int(paymentGarageInfo.dolg) > 0 or  # 1000 р штрафа если имеется долг
-                               (int(datetime.now().strftime("%m")) > 4 and nachisleno_I > 0)) else 0
+        dop_vznos = 500 if (int(paymentGarageInfo.dolg)) > 0 else 0  # 500р штрафа за долг с того года
+        dop_vznos_I = 1000 if (int(datetime.now().strftime(
+            "%m")) > 4 and nachisleno_I > 0) else 0  # 1000 р штрафа если прошло 30.05
+        dop_vznos_I_sum = dop_vznos + dop_vznos_I
         dop_vznos_II = 1000 if (int(paymentGarageInfo.tekyschieNachisleniya) > int(
             paymentGarageInfo.vznos) / 2) and int(
             datetime.now().strftime("%m")) > 9 else 0  # 1000 р штрафа если не оплатили до октября
-        summa_k_oplate_I = 0 if int(paymentGarageInfo.pereplata) > 0 else nachisleno_I + dop_vznos_I + float(
+        summa_k_oplate_I = 0 if int(paymentGarageInfo.pereplata) > 0 else nachisleno_I + dop_vznos_I_sum + float(
             paymentGarageInfo.dolg)  # 0 в начисления если имеется переплата
         summa_k_oplate_II = 0 if int(
             paymentGarageInfo.pereplata) > 0 else nachisleno_II + dop_vznos_II  # 0 в начисления если имеется переплата
@@ -417,13 +419,15 @@ class TQR_Thread(QtCore.QThread):
                    'vznos': paymentGarageInfo.vznos,
                    'garage_size': f'{paymentGarageInfo.width}x{paymentGarageInfo.length}x{paymentGarageInfo.height}',
                    'dolg': paymentGarageInfo.dolg,
+                   'dop_vznos': dop_vznos,
                    'dop_vznos_I': dop_vznos_I,
                    'dop_vznos_II': dop_vznos_II,
+                   'dop_vznos_I_sum': dop_vznos_I_sum,
                    'nachisleno_I': nachisleno_I,
                    'nachisleno_II': nachisleno_II,
                    'summa_k_oplate_I': summa_k_oplate_I,
                    'summa_k_oplate_II': summa_k_oplate_II,
-                   'dop_vznos_sum': dop_vznos_I + dop_vznos_II,
+                   'dop_vznos_sum': dop_vznos + dop_vznos_I + dop_vznos_II,
                    'itogo': itogo,
 
                    'num_meter_220': 0 if paymentMeterInfo.num_meter_220 is None else paymentMeterInfo.num_meter_220,
