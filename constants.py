@@ -77,6 +77,7 @@ SQL_CREATE_TABLE_CONTRIBUTION = 'CREATE TABLE IF NOT EXISTS "contribution" (' \
                                 '   "check_photo" BLOB,' \
                                 '   "balance_count" INTEGER DEFAULT 1,' \
                                 '   "payment_time" TEXT,' \
+                                '   "bill_number" INTEGER,' \
                                 'FOREIGN KEY("id_garage") REFERENCES "garage_obj"("id"),' \
                                 'FOREIGN KEY("id_cont_type") REFERENCES "contribution_type"("id")' \
                                 ');'
@@ -143,6 +144,7 @@ SQL_ALTER_TABLE_CONTRIBUTIONS2 = 'ALTER TABLE "contribution" DROP COLUMN "period
 SQL_ALTER_TABLE_CONTRIBUTIONS3 = 'ALTER TABLE "contribution_type" ADD COLUMN "electric" INTEGER DEFAULT 0;'
 SQL_ALTER_TABLE_CONTRIBUTIONS4 = 'ALTER TABLE "contribution" ADD COLUMN "balance_count" INTEGER DEFAULT 1;'
 SQL_ALTER_TABLE_CONTRIBUTIONS5 = 'ALTER TABLE "contribution" ADD COLUMN "payment_time" TEXT;'
+SQL_ALTER_TABLE_CONTRIBUTIONS6 = 'ALTER TABLE "contribution" ADD COLUMN "bill_number" INTEGER;'
 
 SQL_ALTER_TABLE_TYPE_SIZE = 'ALTER TABLE "type_size" ' \
                             'ADD COLUMN "cont_value" REAL DEFAULT 0.0;'

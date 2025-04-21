@@ -315,6 +315,11 @@ class Form_frontend(QtWidgets.QMainWindow):
     def updateDB(self):
         if self.db:
             try:
+                if self.db.execute(
+                        sqlite_qwer.sql_check_column_exists_in_table(constants.CONTRIB_TABLE, 'bill_number')):
+                    _ = self.db.cursor.fetchone()[0]
+                    if not _:
+                        self.db.execute(constants.SQL_ALTER_TABLE_CONTRIBUTIONS6)
                 self.db.execute(sqlite_qwer.SQL_CREATE_TABLE_DOCS_INFO)
                 # for name in constants.ALTER_TABLES_UPDATE_COLUMN_NAME:
                 #     self.db.execute(name)

@@ -35,6 +35,8 @@ class AddContrib_front(QtWidgets.QWidget):
         self.cur_indx = None  # текущий выбранный индекс в combobox
         self.billPhotoPath = None  # путь фотографии чека
         self.css = ui.css  # для красоты
+        self.current_pay = 0  # запоминаем платеж при редактировании чтобы потом пересчитать
+        self.payment_id = None  # запоминаем id платежа
 
         self.initUi()
 
@@ -56,6 +58,7 @@ class AddContrib_front(QtWidgets.QWidget):
         self.setEnabledChooseCheckProto()
 
         self.ui.sumContrib_lineEdit.setValidator(ui.validators.floatValidator())
+        self.ui.chekNumber_lineEdit.setValidator(ui.validators.floatValidator())
 
         # add a little bit of spice
         self.css.SetIcon.icon(self, window_icon=1)
@@ -105,20 +108,34 @@ class AddContrib_front(QtWidgets.QWidget):
                 ui.dialogs.onShowError(self, 'Ошибка', 'Вы не заполнили все поля')
                 return
             self.contib = Contribution()
+            self.contib.id = self.payment_id if self.payment_id else ''  # Запоминаем id платежа при редактировании
             self.contib.value = self.ui.sumContrib_lineEdit.text()
+            raznica = float(self.contib.value) - self.current_pay  # смотрим новый ли это платеж или нет
             self.contib.kindPay = self.ui.kindContrib_comboBox.currentText()
             self.contib.typePay = 1 if self.ui.cash_radioButton.isChecked() else 2
-
             self.contib.payDate = self.ui.payDate_dateEdit.date().toPython()
             self.contib.comment = self.ui.commentContrib_lineEdit.text()
             self.contib.checkPath = self.billPhotoPath
             self.contib.checkBalanceCount = 0 if self.ui.nonBalance_checkBox.isChecked() else 1
-            self.mainForm.contribModel.setItems(self.contib)
-            if isinstance(self.mainForm,
-                          ui.cart_functions.Cart_frontend) and not self.ui.nonBalance_checkBox.isChecked():
-                self.mainForm.set_new_value_acc(self.contib)
+            self.contib.bill_number = self.ui.chekNumber_lineEdit.text()
+            # Если сумма платежа не поменялась, то просто перезаписываем строчу без перерасчета
+            if self.current_pay == float(self.contib.value):
+                self.mainForm.delSelectRowFromTableView(self.mainForm.ui.contrib_tableView)
+                self.mainForm.contribModel.setItems(self.contib)
+            # Если сумма платежа поменялась и кнопка ИЗМЕНИТЬ, то удаляем строчку, добавляем новую и пересчитываем
+            else:
+                if self.ui.ok_pushButton.text() == constants.BTN_TEXT_CHANGE:
+                    self.mainForm.delSelectRowFromTableView(self.mainForm.ui.contrib_tableView)
+                # Ну и если ничего не прошло по комментам вверху, то просто добавляем платеж и пересчитываем баланс
+                self.mainForm.contribModel.setItems(self.contib)
+                if isinstance(self.mainForm,
+                              ui.cart_functions.Cart_frontend) and not self.ui.nonBalance_checkBox.isChecked():
+                    self.mainForm.set_new_value_acc(self.contib, raznica)
+
             self.close()
             return
+
+        # Изменение данных типа платежа
         self.db.execute(
             sqlite_qwer.sql_update_contrib_type(contrib_id=self.contib_ids[self.ui.kindContrib_comboBox.currentIndex()],
                                                 value=float(self.ui.sumContrib_lineEdit.text().replace(',', '.')),
@@ -160,6 +177,40 @@ class AddContrib_front(QtWidgets.QWidget):
         self.resize(self.width(), 150)
         self.setWindowTitle(constants.CONTRIB_WIN_EDIT_TITLE)
 
+    def changeFormPr(self, contrib_id: str, contrib_name: str):
+        """Подготовка формы к режиму редактирования данных платежа"""
+        self.setWindowTitle(constants.TITLE_EDIT_MODE)
+        self.ui.ok_pushButton.setText(constants.BTN_TEXT_CHANGE)
+        self.ui.kindContrib_comboBox.setDisabled(True)
+        self.ui.addKind_pushButton.setDisabled(True)
+        self.ui.delKind_pushButton.setDisabled(True)
+        self.contib = Contribution()
+        self.contib.id = contrib_id
+        self.payment_id = self.contib.id
+        self.fillFormFromBdById(contrib_name=contrib_name)
+
+    def fillFormFromBdById(self, contrib_name: str):
+        """заполнение полей с данными пользователя по id"""
+        if self.contib.id:
+            self.fillKindContribFromBase()  # Заполняем комбо бокс
+            if self.db.execute(sqlite_qwer.sql_get_one_record_by_id(constants.CONTRIB_TABLE, self.contib.id)):
+                contrib = self.db.cursor.fetchone()
+                self.ui.kindContrib_comboBox.setCurrentText(contrib_name)
+                self.ui.payDate_dateEdit.setDate(datetime.datetime.strptime(contrib[3], '%Y-%m-%d'))
+                self.current_pay = float(contrib[4])  # запоминаем платеж
+                self.ui.sumContrib_lineEdit.setText(str(contrib[4]))
+                self.ui.commentContrib_lineEdit.setText(contrib[5])
+                self.ui.cash_radioButton.setChecked(True) if contrib[6] == '1' else self.ui.card_radioButton.setChecked(
+                    True)
+                self.setEnabledChooseCheckProto()  # даем возможность добавить фото
+                self.billPhotoPath = contrib[7]
+                self.ui.nonBalance_checkBox.setChecked(True) if contrib[
+                                                                    8] == 0 else self.ui.nonBalance_checkBox.setChecked(
+                    False)
+                self.ui.chekNumber_lineEdit.setText(str(contrib[10])) if contrib[
+                                                                             10] is not None else self.ui.chekNumber_lineEdit.setText(
+                    '0')
+
     def closeEvent(self, event) -> bool:
         if isinstance(self.mainForm, main.Form_frontend):
             self.mainForm.typePay = None
@@ -179,6 +230,7 @@ class Contribution():
     typePay: str = ''  # тип оплаты (нал / безнал)
     checkPath: str = ''  # путь к чеку
     checkBalanceCount: str = ''  # считаем в балансе или нет
+    bill_number: str = ''  # номер чека
 
 
 @dataclass
@@ -202,6 +254,7 @@ class Contribution_lite():
     typePay: str = ''
     checkPath: str = ''
     checkBalanceCount: str = ''
+    bill_number: str = ''  # номер чека
 
 
 @dataclass

@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'contrib_add.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.6.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -86,43 +86,67 @@ class Ui_Form(object):
 
         self.verticalLayout_5.addLayout(self.verticalLayout_2)
 
-        self.verticalLayout_3 = QVBoxLayout()
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.verticalLayout_6 = QVBoxLayout()
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.typePay_label = QLabel(Form)
         self.typePay_label.setObjectName(u"typePay_label")
 
-        self.verticalLayout_3.addWidget(self.typePay_label)
+        self.verticalLayout_6.addWidget(self.typePay_label)
 
         self.cash_radioButton = QRadioButton(Form)
         self.cash_radioButton.setObjectName(u"cash_radioButton")
 
-        self.verticalLayout_3.addWidget(self.cash_radioButton)
+        self.verticalLayout_6.addWidget(self.cash_radioButton)
 
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.card_radioButton = QRadioButton(Form)
         self.card_radioButton.setObjectName(u"card_radioButton")
 
-        self.horizontalLayout_2.addWidget(self.card_radioButton)
+        self.horizontalLayout_5.addWidget(self.card_radioButton)
 
         self.chooseCheck_pushButton = QPushButton(Form)
         self.chooseCheck_pushButton.setObjectName(u"chooseCheck_pushButton")
         self.chooseCheck_pushButton.setMaximumSize(QSize(22, 22))
 
-        self.horizontalLayout_2.addWidget(self.chooseCheck_pushButton)
+        self.horizontalLayout_5.addWidget(self.chooseCheck_pushButton)
 
-        self.label = QLabel(Form)
-        self.label.setObjectName(u"label")
+        self.label_2 = QLabel(Form)
+        self.label_2.setObjectName(u"label_2")
 
-        self.horizontalLayout_2.addWidget(self.label)
+        self.horizontalLayout_5.addWidget(self.label_2)
 
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_5.addItem(self.horizontalSpacer_4)
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout_5)
+
+        self.horizontalLayout_4.addLayout(self.verticalLayout_6)
+
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalLayout_6.setContentsMargins(-1, -1, -1, 45)
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.horizontalLayout_2.addItem(self.horizontalSpacer_3)
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_3)
 
-        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
+        self.chekNumber_label = QLabel(Form)
+        self.chekNumber_label.setObjectName(u"chekNumber_label")
 
-        self.verticalLayout_5.addLayout(self.verticalLayout_3)
+        self.horizontalLayout_6.addWidget(self.chekNumber_label)
+
+        self.chekNumber_lineEdit = QLineEdit(Form)
+        self.chekNumber_lineEdit.setObjectName(u"chekNumber_lineEdit")
+        self.chekNumber_lineEdit.setMaximumSize(QSize(50, 16777215))
+
+        self.horizontalLayout_6.addWidget(self.chekNumber_lineEdit)
+
+        self.horizontalLayout_4.addLayout(self.horizontalLayout_6)
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_4)
 
         self.nonBalance_checkBox = QCheckBox(Form)
         self.nonBalance_checkBox.setObjectName(u"nonBalance_checkBox")
@@ -138,10 +162,17 @@ class Ui_Form(object):
 
         self.payDate_dateEdit = QDateEdit(Form)
         self.payDate_dateEdit.setObjectName(u"payDate_dateEdit")
+        sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.payDate_dateEdit.sizePolicy().hasHeightForWidth())
+        self.payDate_dateEdit.setSizePolicy(sizePolicy)
+        self.payDate_dateEdit.setMinimumSize(QSize(80, 0))
+        self.payDate_dateEdit.setCalendarPopup(True)
 
         self.payDate_horizontalLayout.addWidget(self.payDate_dateEdit)
 
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(172, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.payDate_horizontalLayout.addItem(self.horizontalSpacer_2)
 
@@ -194,7 +225,8 @@ class Ui_Form(object):
             QCoreApplication.translate("Form", u"\u0431\u0435\u0437\u043d\u0430\u043b\u0438\u0447\u043d\u0430\u044f",
                                        None))
         self.chooseCheck_pushButton.setText(QCoreApplication.translate("Form", u"...", None))
-        self.label.setText("")
+        self.label_2.setText("")
+        self.chekNumber_label.setText(QCoreApplication.translate("Form", u"\u0427\u0435\u043a \u2116", None))
         self.nonBalance_checkBox.setText(QCoreApplication.translate("Form",
                                                                     u"\u041d\u0435 \u0443\u0447\u0438\u0442\u044b\u0432\u0430\u0442\u044c \u0432 \u0431\u0430\u043b\u0430\u043d\u0441\u0435 \u043e\u0431\u044a\u0435\u043a\u0442\u0430",
                                                                     None))

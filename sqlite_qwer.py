@@ -110,25 +110,27 @@ def sql_add_new_contrib_type(contrib_name: str, value: float, comment: str = ' '
 
 
 def sql_add_new_contrib(id_garage: str, id_cont: str, pay_date: str, balance_count: str, pay_kind: int, value: float,
-                        comment: str = '', check_photo: str = '', payment_time: str = '') -> str:
+                        bill_number: int, comment: str = '', check_photo: str = '',
+                        payment_time: str = '') -> str:
     """
     формирование запроса для добавления платежа в БД
     """
-    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, pay_kind, value, comment, check_photo, balance_count, payment_time) " \
+    return f"INSERT INTO contribution (id_garage, id_cont_type, pay_date, pay_kind, value, comment, check_photo, balance_count, payment_time, bill_number) " \
            f"VALUES " \
-           f"({id_garage}, {id_cont}, '{pay_date}', '{pay_kind}', {value}, '{comment}','{check_photo}', '{balance_count}', '{payment_time}');"
+           f"({id_garage}, {id_cont}, '{pay_date}', '{pay_kind}', {value}, '{comment}','{check_photo}', '{balance_count}', '{payment_time}', {bill_number});"
 
 
 def sql_full_update_contrib(cont_id: str, id_garage: str, id_cont: str, pay_date: str,
-                            value: float, pay_kind: int, comment: str = '', check_photo: str = '',
+                            value: float, pay_kind: int, bill_number: int, comment: str = '',
+                            check_photo: str = '',
                             balance_count: str = '1', payment_time: str = '') -> str:
     """
     формирование запроса для добавления платежа в БД (pay_kind = 1 если нал, 2 - безнал)
     """
-    return f"UPDATE contribution SET id_garage={id_garage}, id_cont_type = {id_cont}, pay_date = '{pay_date}', " \
+    return f"UPDATE contribution SET id_garage='{id_garage}', id_cont_type = '{id_cont}', pay_date = '{pay_date}', " \
            f"pay_kind = {pay_kind}, value = {value}, comment = '{comment}', check_photo ='{check_photo}', " \
-           f"balance_count = {balance_count}, payment_time = '{payment_time}' " \
-           f"WHERE id = {cont_id};"
+           f"balance_count = '{balance_count}', payment_time = '{payment_time}', bill_number = {bill_number} " \
+           f"WHERE id = '{cont_id}';"
 
 
 def sql_update_contrib_type(contrib_id: int, value: float, comment: str = '') -> str:
@@ -542,7 +544,7 @@ def sql_select_contrib_by_object_id(object_id: str) -> str:
 
     return f"SELECT contribution.id, contribution_type.name, contribution.pay_date, " \
            f" contribution.value, contribution.comment, contribution.pay_kind, contribution.check_photo, " \
-           f"contribution.balance_count " \
+           f"contribution.balance_count, contribution.bill_number " \
            f" FROM main.garage_obj " \
            f" INNER JOIN contribution ON garage_obj.id = contribution.id_garage " \
            f" INNER JOIN contribution_type ON contribution_type.id = contribution.id_cont_type " \

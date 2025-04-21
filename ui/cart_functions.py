@@ -69,7 +69,8 @@ class Cart_frontend(QtWidgets.QWidget):
         self.contribModel = ContribTableViewModel()
         self.ui.contrib_tableView.setModel(self.contribModel)
         self.ui.contrib_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.ui.contrib_tableView.doubleClicked.connect(self.openFile)
+        # self.ui.contrib_tableView.doubleClicked.connect(self.openFile)
+        self.ui.contrib_tableView.doubleClicked.connect(self.showEditCintribForm)
 
         # пользовательская таблица
         self.userModel = UsersTableViewModel()
@@ -202,6 +203,7 @@ class Cart_frontend(QtWidgets.QWidget):
         self.addContrib_form = ui.contribute_functions.AddContrib_front(self.db)
         self.addContrib_form.mainForm = self
         self.addContrib_form.updateDataFromDB()
+        self.addContrib_form.ui.ok_pushButton.setText(constants.BTN_TEXT_ADD)
         self.addContrib_form.show()
 
     def clearForm(self):
@@ -250,6 +252,16 @@ class Cart_frontend(QtWidgets.QWidget):
         mem_id = (self.ui.users_tableView.model().items[self.ui.users_tableView.selectedIndexes()[0].row()]).id
         self.addUser_form.changeFormPr(mem_id=mem_id)
         self.addUser_form.show()
+
+    def showEditCintribForm(self):
+        """Открывает форму редактирования данных платежа"""
+        self.addContrib_form = ui.contribute_functions.AddContrib_front(self.db)
+        self.addContrib_form.mainForm = self
+        contrib_id = (self.ui.contrib_tableView.model().items[self.ui.contrib_tableView.selectedIndexes()[0].row()]).id
+        contrib_name = (
+            self.ui.contrib_tableView.model().items[self.ui.contrib_tableView.selectedIndexes()[0].row()]).kindPay
+        self.addContrib_form.changeFormPr(contrib_id=contrib_id, contrib_name=contrib_name)
+        self.addContrib_form.show()
 
     def addRadioButtonToUsersTable(self):
         """Добавление RadioButton в user_tableView"""
@@ -505,7 +517,8 @@ class Cart_frontend(QtWidgets.QWidget):
                                                               comment=contr.comment if contr.comment else ' ',
                                                               check_photo=contr.checkPath if contr.checkPath else ' ',
                                                               balance_count=contr.checkBalanceCount,
-                                                              payment_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                                                              payment_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                                                              bill_number=contr.bill_number if contr.bill_number else 0
                                                               )
                     if not (self.db.execute(sql)):
                         ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
@@ -521,8 +534,8 @@ class Cart_frontend(QtWidgets.QWidget):
                         comment=contr.comment if contr.comment else ' ',
                         check_photo=contr.checkPath if contr.checkPath else ' ',
                         balance_count=contr.checkBalanceCount,
-                        payment_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
+                        payment_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        bill_number=contr.bill_number if contr.bill_number else 0
                     )
                     if not (self.db.execute(sql)):
                         ui.dialogs.onShowError(self, constants.ERROR_TITLE, constants.ERROR_ADD_BASE_ERR)
@@ -664,6 +677,7 @@ class Cart_frontend(QtWidgets.QWidget):
                             con = ui.contribute_functions.Contribution_lite(*conrib)
                             try:
                                 con.payDate = datetime.strptime(con.payDate, "%Y-%m-%d").strftime('%d.%m.%Y')
+                                con.bill_number = con.bill_number if con.bill_number != 0 and con.bill_number is not None else ''
                             except:
                                 self.contribModel.setItems(con)
                                 continue
@@ -721,7 +735,7 @@ class Cart_frontend(QtWidgets.QWidget):
                 return str(round(float(tarif.value_day) * (int(meter.curDay) - int(meter.prev_day)) + \
                                  float(tarif.value_night) * (int(meter.curNight) - int(meter.prev_night)), 2))
 
-    def set_new_value_acc(self, value: [float, ui.contribute_functions.Contribution]):
+    def set_new_value_acc(self, value: [float, ui.contribute_functions.Contribution], raznica):
         """Работа с балансом при добавлении платежа"""
 
         def debt_work(lineEdit: QtWidgets.QLineEdit, val: float) -> float:
@@ -738,15 +752,16 @@ class Cart_frontend(QtWidgets.QWidget):
 
         if not self.ui.balance_lineEdit.text():
             self.ui.balance_lineEdit.setText('0')
-
         if isinstance(value, ui.contribute_functions.Contribution):
-            balance = float(self.ui.balance_lineEdit.text()) + float(value.value)
+            # Если разницы нет, то вычитаем полную стоимость из долга гаража
+            if raznica == 0:
+                balance = float(self.ui.balance_lineEdit.text()) + float(value.value)
+            else:
+                balance = float(self.ui.balance_lineEdit.text()) + raznica
         else:
             balance = float(self.ui.balance_lineEdit.text())
-
         val = debt_work(self.ui.prevDebt_lineEdit, balance)
         val = debt_work(self.ui.calc_lineEdit, val)
-
         self.ui.balance_lineEdit.setText(str(val))
 
     def del_one_payment(self, value: [float, ui.contribute_functions.Contribution],
@@ -777,7 +792,7 @@ class Cart_frontend(QtWidgets.QWidget):
 
     def rebalance(self):
         deb = float(self.ui.balance_lineEdit.text())
-        self.set_new_value_acc(deb)
+        self.set_new_value_acc(deb, raznica=0)
 
     def close(self) -> bool:
         self.mainForm.fill_main_tableview()
