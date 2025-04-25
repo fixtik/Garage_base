@@ -2,8 +2,10 @@
 from PyInstaller.utils.hooks import collect_data_files
 from PySide6 import QtCore
 
-#Envs/Garage_base_venv/Lib/site-packages/PySide6/translations/
 path = QtCore.QLibraryInfo.path(QtCore.QLibraryInfo.LibraryPath.TranslationsPath)
+# path = Envs/Garage_base_venv/Lib/site-packages/PySide6/translations/
+
+# Файлики которые добавляем внутрь exe
 datas = [(path, 'translations'),  # файлы с переводом чтобы убрать Yes|No ответы
         ('photo/voa.png', 'photo')]  # иконка воа
 datas += collect_data_files('docxcompose')
