@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>Form</class>
+    <widget class="QWidget" name="Form">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>785</width>
+                <height>497</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>Платежи</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+                <widget class="QTabWidget" name="tabWidget">
+                    <property name="currentIndex">
+                        <number>0</number>
+                    </property>
+                    <property name="iconSize">
+                        <size>
+                            <width>16</width>
+                            <height>16</height>
+                        </size>
+                    </property>
+                    <widget class="QWidget" name="tab">
+                        <attribute name="title">
+                            <string>Касса терминал</string>
+                        </attribute>
+                        <layout class="QVBoxLayout" name="verticalLayout">
+                            <item>
+                                <layout class="QHBoxLayout" name="horizontalLayout">
+                                    <item>
+                                        <widget class="QLabel" name="nachaloPeriodaNal_label">
+                                            <property name="text">
+                                                <string>Начало периода</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <widget class="QDateEdit" name="nachaloPeriodaNal_dateEdit">
+                                            <property name="sizePolicy">
+                                                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                                                    <horstretch>0</horstretch>
+                                                    <verstretch>0</verstretch>
+                                                </sizepolicy>
+                                            </property>
+                                            <property name="minimumSize">
+                                                <size>
+                                                    <width>80</width>
+                                                    <height>0</height>
+                                                </size>
+                                            </property>
+                                            <property name="showGroupSeparator" stdset="0">
+                                                <bool>false</bool>
+                                            </property>
+                                            <property name="calendarPopup">
+                                                <bool>true</bool>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <widget class="QLabel" name="konecPeriodaNal_label">
+                                            <property name="text">
+                                                <string>конец периода</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <widget class="QDateEdit" name="konecPeriodaNal_dateEdit">
+                                            <property name="sizePolicy">
+                                                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                                                    <horstretch>0</horstretch>
+                                                    <verstretch>0</verstretch>
+                                                </sizepolicy>
+                                            </property>
+                                            <property name="minimumSize">
+                                                <size>
+                                                    <width>80</width>
+                                                    <height>0</height>
+                                                </size>
+                                            </property>
+                                            <property name="calendarPopup">
+                                                <bool>true</bool>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <spacer name="horizontalSpacer_2">
+                                            <property name="orientation">
+                                                <enum>Qt::Horizontal</enum>
+                                            </property>
+                                            <property name="sizeHint" stdset="0">
+                                                <size>
+                                                    <width>40</width>
+                                                    <height>20</height>
+                                                </size>
+                                            </property>
+                                        </spacer>
+                                    </item>
+                                </layout>
+                            </item>
+                            <item>
+                                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                                    <item>
+                                        <widget class="QLabel" name="billNumberOt_label">
+                                            <property name="text">
+                                                <string>Номер чека от</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <widget class="QLineEdit" name="billNumberOt_lineEdit">
+                                            <property name="maximumSize">
+                                                <size>
+                                                    <width>45</width>
+                                                    <height>16777215</height>
+                                                </size>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <widget class="QLabel" name="billNumberDo_label">
+                                            <property name="text">
+                                                <string>до</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <widget class="QLineEdit" name="billNumberDo_lineEdit">
+                                            <property name="maximumSize">
+                                                <size>
+                                                    <width>45</width>
+                                                    <height>16777215</height>
+                                                </size>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <spacer name="horizontalSpacer">
+                                            <property name="orientation">
+                                                <enum>Qt::Horizontal</enum>
+                                            </property>
+                                            <property name="sizeHint" stdset="0">
+                                                <size>
+                                                    <width>40</width>
+                                                    <height>20</height>
+                                                </size>
+                                            </property>
+                                        </spacer>
+                                    </item>
+                                </layout>
+                            </item>
+                            <item>
+                                <widget class="QTableView" name="nal_tableView"/>
+                            </item>
+                            <item>
+                                <layout class="QHBoxLayout" name="horizontalLayout_1">
+                                    <item>
+                                        <spacer name="horizontalSpacer_3">
+                                            <property name="orientation">
+                                                <enum>Qt::Horizontal</enum>
+                                            </property>
+                                            <property name="sizeHint" stdset="0">
+                                                <size>
+                                                    <width>40</width>
+                                                    <height>20</height>
+                                                </size>
+                                            </property>
+                                        </spacer>
+                                    </item>
+                                    <item>
+                                        <widget class="QPushButton" name="vigruzitNal_pushButton">
+                                            <property name="text">
+                                                <string>Выгрузить Exel</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                </layout>
+                            </item>
+                        </layout>
+                    </widget>
+                    <widget class="QWidget" name="tab_2">
+                        <attribute name="title">
+                            <string>Касса безнал</string>
+                        </attribute>
+                        <layout class="QGridLayout" name="gridLayout">
+                            <item row="0" column="0">
+                                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                                    <item>
+                                        <widget class="QLabel" name="nachaloPeriodaBeznal_label">
+                                            <property name="text">
+                                                <string>Начало периода</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <widget class="QDateEdit" name="nachaloPeriodaBeznal_dateEdit">
+                                            <property name="sizePolicy">
+                                                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                                                    <horstretch>0</horstretch>
+                                                    <verstretch>0</verstretch>
+                                                </sizepolicy>
+                                            </property>
+                                            <property name="minimumSize">
+                                                <size>
+                                                    <width>80</width>
+                                                    <height>0</height>
+                                                </size>
+                                            </property>
+                                            <property name="showGroupSeparator" stdset="0">
+                                                <bool>false</bool>
+                                            </property>
+                                            <property name="calendarPopup">
+                                                <bool>true</bool>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <widget class="QLabel" name="konecPeriodaBeznal_label">
+                                            <property name="text">
+                                                <string>конец периода</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <widget class="QDateEdit" name="konecPeriodaBeznal_dateEdit">
+                                            <property name="sizePolicy">
+                                                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                                                    <horstretch>0</horstretch>
+                                                    <verstretch>0</verstretch>
+                                                </sizepolicy>
+                                            </property>
+                                            <property name="minimumSize">
+                                                <size>
+                                                    <width>80</width>
+                                                    <height>0</height>
+                                                </size>
+                                            </property>
+                                            <property name="calendarPopup">
+                                                <bool>true</bool>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <spacer name="horizontalSpacer_4">
+                                            <property name="orientation">
+                                                <enum>Qt::Horizontal</enum>
+                                            </property>
+                                            <property name="sizeHint" stdset="0">
+                                                <size>
+                                                    <width>40</width>
+                                                    <height>20</height>
+                                                </size>
+                                            </property>
+                                        </spacer>
+                                    </item>
+                                </layout>
+                            </item>
+                            <item row="1" column="0">
+                                <widget class="QTableView" name="beznal_tableView"/>
+                            </item>
+                            <item row="2" column="0">
+                                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                                    <item>
+                                        <spacer name="horizontalSpacer_5">
+                                            <property name="orientation">
+                                                <enum>Qt::Horizontal</enum>
+                                            </property>
+                                            <property name="sizeHint" stdset="0">
+                                                <size>
+                                                    <width>40</width>
+                                                    <height>20</height>
+                                                </size>
+                                            </property>
+                                        </spacer>
+                                    </item>
+                                    <item>
+                                        <widget class="QPushButton" name="vigruzitBeznal_pushButton">
+                                            <property name="text">
+                                                <string>Выгрузить Exel</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                </layout>
+                            </item>
+                        </layout>
+                    </widget>
+                </widget>
+            </item>
+        </layout>
+    </widget>
+    <resources/>
+    <connections/>
+</ui>
