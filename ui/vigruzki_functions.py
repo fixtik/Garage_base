@@ -186,7 +186,8 @@ class Vigruzka_kontrib_ui(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.db = db  # db-connector
         self.css = ui.css  # для красоты
-        self.obj_model = ui.tableView_Models.PlatejiTableViewModel()
+        self.obj_model_nal = ui.tableView_Models.PlatejiTableViewModelNal()
+        self.obj_model_beznal = ui.tableView_Models.PlatejiTableViewModelBeznal()
 
         self.initUi()
         self.fill_nal_tableview()
@@ -206,12 +207,12 @@ class Vigruzka_kontrib_ui(QtWidgets.QWidget):
         self.ui.konecPeriodaBeznal_dateEdit.setDate(datetime.date.today())
 
         # таблица для отображения полей
-        self.ui.nal_tableView.setModel(self.obj_model)
+        self.ui.nal_tableView.setModel(self.obj_model_nal)
         self.ui.nal_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.ui.nal_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.
                                                                       ResizeToContents)
 
-        self.ui.beznal_tableView.setModel(self.obj_model)
+        self.ui.beznal_tableView.setModel(self.obj_model_beznal)
         self.ui.beznal_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.ui.beznal_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.
                                                                          ResizeToContents)

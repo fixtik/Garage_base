@@ -306,7 +306,7 @@ class DocumentsTableViewModelLite(DBTableView):
                 return f'{doc_info.doc_pass}'
 
 
-class PlatejiTableViewModel(DBTableView):
+class PlatejiTableViewModelNal(DBTableView):
     """
         Модель для отображения данных по наличным платежам в TableView
     """
@@ -337,3 +337,36 @@ class PlatejiTableViewModel(DBTableView):
                 return f'{contrib.vznos}'
             if col == 7:
                 return f'{contrib.electric}'
+
+
+class PlatejiTableViewModelBeznal(DBTableView):
+    """
+        Модель для отображения данных по наличным платежам в TableView
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.header = ['id', 'Ряд', 'Гараж', 'Дата платежа', 'Номер чека', 'Период', 'Взнос', 'Электричество']
+
+    def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
+        if not index.isValid():
+            return
+        if role == QtCore.Qt.ItemDataRole.DisplayRole:
+            contrib_beznal = self.items[index.row()]
+            col = index.column()
+            if col == 0:
+                return f'{contrib_beznal.id}'
+            if col == 1:
+                return f'{contrib_beznal.num_row}'
+            if col == 2:
+                return f'{contrib_beznal.num_bild}'
+            if col == 3:
+                return f'{datetime.strptime(contrib_beznal.pay_date, "%Y-%m-%d").strftime("%d.%m.%Y")}'
+            if col == 4:
+                return f'{contrib_beznal.bill_number}'
+            if col == 5:
+                return f'{contrib_beznal.period}'
+            if col == 6:
+                return f'{contrib_beznal.vznos}'
+            if col == 7:
+                return f'{contrib_beznal.electric}'
