@@ -1,9 +1,15 @@
 import os
+from PySide6 import QtWidgets, QtGui, QtCore
 from dataclasses import dataclass, fields
 from openpyxl import Workbook
 from openpyxl.styles import Border, Side, Alignment
 from openpyxl.utils import get_column_letter
 from datetime import datetime
+
+import ui.css
+import ui.contribs.vigruzka_contribs
+import ui.tableView_Models
+import ui.dialogs
 
 import constants
 import sqlite_qwer
@@ -172,6 +178,128 @@ class Vigruzka_platejei():
         wb.save(file_name)
 
 
+class Vigruzka_kontrib_ui(QtWidgets.QWidget):
+    def __init__(self, db, parent=None):
+        super().__init__(parent)
+
+        self.ui = ui.contribs.vigruzka_contribs.Ui_Form()
+        self.ui.setupUi(self)
+        self.db = db  # db-connector
+        self.css = ui.css  # для красоты
+        self.obj_model = ui.tableView_Models.PlatejiTableViewModel()
+
+        self.initUi()
+        self.fill_nal_tableview()
+        self.fill_beznaltableview()
+
+    def initUi(self):
+        # add a little bit of spice
+        self.css.SetIcon.icon(self, window_icon=1)
+
+        self.ui.vigruzitNal_pushButton.clicked.connect(self.exel_nal)
+        self.ui.vigruzitBeznal_pushButton.clicked.connect(self.exel_nal)
+
+        # устанавливаем дефолтные даты
+        self.ui.nachaloPeriodaNal_dateEdit.setDate(datetime.date.today().replace(day=1))
+        self.ui.konecPeriodaNal_dateEdit.setDate(datetime.date.today())
+        self.ui.nachaloPeriodaBeznal_dateEdit.setDate(datetime.date.today().replace(day=1))
+        self.ui.konecPeriodaBeznal_dateEdit.setDate(datetime.date.today())
+
+        # таблица для отображения полей
+        self.ui.nal_tableView.setModel(self.obj_model)
+        self.ui.nal_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.ui.nal_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.
+                                                                      ResizeToContents)
+
+        self.ui.beznal_tableView.setModel(self.obj_model)
+        self.ui.beznal_tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.ui.beznal_tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.
+                                                                         ResizeToContents)
+        # Обновляем тейблвью при изменении вводных данных
+        self.ui.nachaloPeriodaNal_dateEdit.dateChanged.connect(self.fill_nal_tableview)
+        self.ui.konecPeriodaNal_dateEdit.dateChanged.connect(self.fill_nal_tableview)
+        self.ui.billNumberOt_lineEdit.textEdited.connect(self.fill_nal_tableview)
+        self.ui.billNumberDo_lineEdit.textEdited.connect(self.fill_nal_tableview)
+
+        self.ui.nachaloPeriodaBeznal_dateEdit.dateChanged.connect(self.fill_beznaltableview)
+        self.ui.konecPeriodaBeznal_dateEdit.dateChanged.connect(self.fill_beznaltableview)
+
+    def fill_nal_tableview(self):
+        """заполнение данных tableview"""
+        self.ui.nal_tableView.model().clearItemData()
+        if self.db:
+            sql = sqlite_qwer.sql_selectvigruzka_contrib_nal(self.ui.nachaloPeriodaNal_dateEdit.date().toPython(),
+                                                             self.ui.konecPeriodaNal_dateEdit.date().toPython(),
+                                                             1,
+                                                             self.ui.billNumberOt_lineEdit.text(),
+                                                             self.ui.billNumberDo_lineEdit.text())
+            cont_id = 1
+            if self.db.execute(sql):
+                for obj in self.db.cursor.fetchall():
+                    contrib = VigruzkaContrib(cont_id, *obj)
+                    self.ui.nal_tableView.model().setItems(contrib)
+                    cont_id += 1
+
+    def fill_beznaltableview(self):
+        self.ui.beznal_tableView.model().clearItemData()
+        if self.db:
+            sql = sqlite_qwer.sql_selectvigruzka_contrib_nal(self.ui.nachaloPeriodaBeznal_dateEdit.date().toPython(),
+                                                             self.ui.konecPeriodaBeznal_dateEdit.date().toPython(),
+                                                             2)
+            cont_id = 1
+            if self.db.execute(sql):
+                for obj in self.db.cursor.fetchall():
+                    contrib = VigruzkaContrib(cont_id, *obj)
+                    self.ui.beznal_tableView.model().setItems(contrib)
+                    cont_id += 1
+
+    def exel_nal(self):
+        """Выгрузка эксель наличных платежей"""
+        # Проверили наличие директории для файла платежей
+        if not os.path.isdir(constants.DEFAULT_PLATEJI_DIR_PASS):  # Проверяем создана директория или нет.
+            os.makedirs(constants.DEFAULT_PLATEJI_DIR_PASS, mode=0o777)  # Создаем директорию.
+        wb = Workbook()  # создаем книгу
+        ws = wb.active  # делаем единственный лист активным
+        ws.title = "Платежи терминал" if self.sender().objectName() == self.ui.vigruzitNal_pushButton.objectName() else "Платежи безнал"  # меняем название листа
+        topik = ['№ п/п', 'Ряд', 'Гараж', 'Дата платежа', 'Номер чека', 'Период', 'Взнос', 'Электричество']
+        ws.append(topik)
+
+        contribs = self.ui.nal_tableView.model().items
+        for contrib in contribs:
+            stroka = [contrib.id, contrib.num_row, contrib.num_bild,
+                      datetime.datetime.strptime(contrib.pay_date, "%Y-%m-%d").strftime("%d.%m.%Y"),
+                      contrib.bill_number, contrib.period, contrib.vznos, contrib.electric]
+            ws.append(stroka)
+        if self.sender().objectName() == self.ui.vigruzitNal_pushButton.objectName():
+            file_name = f'{constants.DEFAULT_PLATEJI_DIR_PASS}Платежи терминал {datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx'
+        else:
+            file_name = f'{constants.DEFAULT_PLATEJI_DIR_PASS}Платежи безнал {datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx'
+
+        Smeta.autoFit(ws=ws)
+        wb.save(file_name)
+
+        if ui.dialogs.onShowСonfirmation(self, title=constants.INFO_TITLE,
+                                         msg=f'{constants.INFO_PLATEJI_GENERATION_OK}'
+                                             f'\n{constants.INFO_OPEN_FILE}'):
+            try:
+                os.startfile(file_name)
+            except Exception as e:
+                ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=str(e))
+
+
+@dataclass
+class VigruzkaContrib:
+    """Класс для работы с данными по наличным платежам"""
+    id: int
+    num_row: str  # ряд
+    num_bild: str  # номер гаража
+    pay_date: str  # дата платежа
+    bill_number: str  # номер чека
+    period: str  # период за который совершен платеж
+    vznos: str  # сумма платежа
+    electric: str  # сумма платежа за электричество
+
+
 @dataclass
 class DoljnikStructure:
     """Класс для работы с данными по должникам"""
@@ -193,9 +321,3 @@ class SmetaStructureLite:
     month: str = ''  # месяц в котором был совершен платеж
     pay_kind: str = ''  # нал(1) / безнал(2)
     TotalSum: str = ''  # итоговая сумма платежей за месяц
-
-
-def spisok_action():
-    if not os.path.isdir(constants.DEFAULT_DOCS_DIR_PASS):  # Проверяем создана директория или нет.
-        os.makedirs(constants.DEFAULT_DOCS_DIR_PASS, mode=0o777)  # Создаем директорию.
-    print('bomj')

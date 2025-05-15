@@ -51,8 +51,8 @@ class Ui_MainWindow(object):
         self.tarif_e.setObjectName(u"tarif_e")
         self.smeta_action = QAction(MainWindow)
         self.smeta_action.setObjectName(u"smeta_action")
-        self.spisok_action = QAction(MainWindow)
-        self.spisok_action.setObjectName(u"spisok_action")
+        self.plateji_action = QAction(MainWindow)
+        self.plateji_action.setObjectName(u"plateji_action")
         self.memberCont_action = QAction(MainWindow)
         self.memberCont_action.setObjectName(u"memberCont_action")
         self.bilingContrib_action = QAction(MainWindow)
@@ -194,10 +194,10 @@ class Ui_MainWindow(object):
         self.rabota_with_BD.addAction(self.tarif_e)
         self.rabota_with_BD.addAction(self.memberCont_action)
         self.rabota_with_BD.addAction(self.bilingContrib_action)
-        self.vigruzki.addAction(self.spisok_action)
         self.vigruzki.addAction(self.smeta_action)
         self.vigruzki.addAction(self.qr_action)
         self.vigruzki.addAction(self.doljniki_action)
+        self.vigruzki.addAction(self.plateji_action)
         self.org_info.addAction(self.bank_info)
 
         self.retranslateUi(MainWindow)
@@ -235,8 +235,8 @@ class Ui_MainWindow(object):
                                                         u"\u0412\u0432\u043e\u0434 \u0434\u0430\u043d\u043d\u044b\u0445 \u043f\u043e \u0442\u0430\u0440\u0438\u0444\u0430\u043c",
                                                         None))
         self.smeta_action.setText(QCoreApplication.translate("MainWindow", u"\u0421\u043c\u0435\u0442\u0430", None))
-        self.spisok_action.setText(
-            QCoreApplication.translate("MainWindow", u"\u0421\u043f\u0438\u0441\u043e\u043a", None))
+        self.plateji_action.setText(
+            QCoreApplication.translate("MainWindow", u"\u041f\u043b\u0430\u0442\u0435\u0436\u0438", None))
         self.memberCont_action.setText(QCoreApplication.translate("MainWindow",
                                                                   u"\u0412\u0432\u043e\u0434 \u0440\u0430\u0437\u043c\u0435\u0440\u0430 \u0447\u043b\u0435\u043d\u0441\u043a\u043e\u0433\u043e \u0432\u0437\u043d\u043e\u0441\u0430",
                                                                   None))

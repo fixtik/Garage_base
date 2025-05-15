@@ -110,7 +110,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         # self.ui.vigruzki.setDisabled(True)
         # self.ui.spisok_action.triggered.connect(ui.vigruzki_functions.spisok_action())
         self.ui.smeta_action.triggered.connect(self.smeta)
-        self.ui.spisok_action.setDisabled(True)
+        self.ui.plateji_action.triggered.connect(self.show_plateji)
         self.ui.qr_action.triggered.connect(self.show_qr_statusbar)
         self.ui.doljniki_action.triggered.connect(self.doljniki)
         # -------------
@@ -247,6 +247,12 @@ class Form_frontend(QtWidgets.QMainWindow):
             self.bilingCont = ui.contribute_functions.Biling_contrib_ui(db=self.db)
             self.bilingCont.mainForm = self
             self.bilingCont.show()
+
+    def show_plateji(self):
+        if self.db:
+            self.plateji = ui.vigruzki_functions.Vigruzka_kontrib_ui(db=self.db)
+            self.plateji.mainForm = self
+            self.plateji.show()
 
     def smeta(self):
         """Генерируем смету"""
