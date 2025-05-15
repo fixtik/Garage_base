@@ -264,13 +264,17 @@ class Vigruzka_kontrib_ui(QtWidgets.QWidget):
         ws.title = "Платежи терминал" if self.sender().objectName() == self.ui.vigruzitNal_pushButton.objectName() else "Платежи безнал"  # меняем название листа
         topik = ['№ п/п', 'Ряд', 'Гараж', 'Дата платежа', 'Номер чека', 'Период', 'Взнос', 'Электричество']
         ws.append(topik)
+        if self.sender().objectName() == self.ui.vigruzitNal_pushButton.objectName():
+            contribs = self.ui.nal_tableView.model().items
+        else:
+            contribs = self.ui.beznal_tableView.model().items
 
-        contribs = self.ui.nal_tableView.model().items
         for contrib in contribs:
             stroka = [contrib.id, contrib.num_row, contrib.num_bild,
                       datetime.datetime.strptime(contrib.pay_date, "%Y-%m-%d").strftime("%d.%m.%Y"),
                       contrib.bill_number, contrib.period, contrib.vznos, contrib.electric]
             ws.append(stroka)
+
         if self.sender().objectName() == self.ui.vigruzitNal_pushButton.objectName():
             file_name = f'{constants.DEFAULT_PLATEJI_DIR_PASS}Платежи терминал {datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")}.xlsx'
         else:
