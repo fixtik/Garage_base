@@ -229,11 +229,11 @@ class Vigruzka_kontrib_ui(QtWidgets.QWidget):
         """заполнение данных tableview"""
         self.ui.nal_tableView.model().clearItemData()
         if self.db:
-            sql = sqlite_qwer.sql_selectvigruzka_contrib_nal(self.ui.nachaloPeriodaNal_dateEdit.date().toPython(),
-                                                             self.ui.konecPeriodaNal_dateEdit.date().toPython(),
-                                                             1,
-                                                             self.ui.billNumberOt_lineEdit.text(),
-                                                             self.ui.billNumberDo_lineEdit.text())
+            sql = sqlite_qwer.sql_select_vigruzka_contrib_nal(self.ui.nachaloPeriodaNal_dateEdit.date().toPython(),
+                                                              self.ui.konecPeriodaNal_dateEdit.date().toPython(),
+                                                              1,
+                                                              self.ui.billNumberOt_lineEdit.text(),
+                                                              self.ui.billNumberDo_lineEdit.text())
             cont_id = 1
             if self.db.execute(sql):
                 for obj in self.db.cursor.fetchall():
@@ -244,9 +244,9 @@ class Vigruzka_kontrib_ui(QtWidgets.QWidget):
     def fill_beznaltableview(self):
         self.ui.beznal_tableView.model().clearItemData()
         if self.db:
-            sql = sqlite_qwer.sql_selectvigruzka_contrib_nal(self.ui.nachaloPeriodaBeznal_dateEdit.date().toPython(),
-                                                             self.ui.konecPeriodaBeznal_dateEdit.date().toPython(),
-                                                             2)
+            sql = sqlite_qwer.sql_select_vigruzka_contrib_nal(self.ui.nachaloPeriodaBeznal_dateEdit.date().toPython(),
+                                                              self.ui.konecPeriodaBeznal_dateEdit.date().toPython(),
+                                                              2)
             cont_id = 1
             if self.db.execute(sql):
                 for obj in self.db.cursor.fetchall():
@@ -262,7 +262,8 @@ class Vigruzka_kontrib_ui(QtWidgets.QWidget):
         wb = Workbook()  # создаем книгу
         ws = wb.active  # делаем единственный лист активным
         ws.title = "Платежи терминал" if self.sender().objectName() == self.ui.vigruzitNal_pushButton.objectName() else "Платежи безнал"  # меняем название листа
-        topik = ['№ п/п', 'Ряд', 'Гараж', 'Дата платежа', 'Номер чека', 'Период', 'Взнос', 'Электричество']
+        topik = ['№ п/п', 'Ряд', 'Гараж', 'Дата платежа', 'Номер чека', 'Период', 'Взнос', 'Электричество',
+                 'Другие платежи']
         ws.append(topik)
         if self.sender().objectName() == self.ui.vigruzitNal_pushButton.objectName():
             contribs = self.ui.nal_tableView.model().items
@@ -272,7 +273,7 @@ class Vigruzka_kontrib_ui(QtWidgets.QWidget):
         for contrib in contribs:
             stroka = [contrib.id, contrib.num_row, contrib.num_bild,
                       datetime.datetime.strptime(contrib.pay_date, "%Y-%m-%d").strftime("%d.%m.%Y"),
-                      contrib.bill_number, contrib.period, contrib.vznos, contrib.electric]
+                      contrib.bill_number, contrib.period, contrib.vznos, contrib.electric, contrib.another]
             ws.append(stroka)
 
         if self.sender().objectName() == self.ui.vigruzitNal_pushButton.objectName():
@@ -303,6 +304,7 @@ class VigruzkaContrib:
     period: str  # период за который совершен платеж
     vznos: str  # сумма платежа
     electric: str  # сумма платежа за электричество
+    another: str  # другие платежи
 
 
 @dataclass

@@ -313,7 +313,8 @@ class PlatejiTableViewModelNal(DBTableView):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.header = ['id', 'Ряд', 'Гараж', 'Дата платежа', 'Номер чека', 'Период', 'Взнос', 'Электричество']
+        self.header = ['id', 'Ряд', 'Гараж', 'Дата платежа', 'Номер чека', 'Период', 'Взнос', 'Электричество',
+                       'Другие платежи']
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -337,6 +338,8 @@ class PlatejiTableViewModelNal(DBTableView):
                 return f'{contrib.vznos}'
             if col == 7:
                 return f'{contrib.electric}'
+            if col == 8:
+                return f'{contrib.another}'
 
 
 class PlatejiTableViewModelBeznal(DBTableView):
@@ -346,7 +349,8 @@ class PlatejiTableViewModelBeznal(DBTableView):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.header = ['id', 'Ряд', 'Гараж', 'Дата платежа', 'Номер чека', 'Период', 'Взнос', 'Электричество']
+        self.header = ['id', 'Ряд', 'Гараж', 'Дата платежа', 'Номер чека', 'Период', 'Взнос', 'Электричество',
+                       'Другие платежи']
 
     def data(self, index: QtCore.QModelIndex, role: QtCore.Qt.ItemDataRole):
         if not index.isValid():
@@ -370,3 +374,5 @@ class PlatejiTableViewModelBeznal(DBTableView):
                 return f'{contrib_beznal.vznos}'
             if col == 7:
                 return f'{contrib_beznal.electric}'
+            if col == 8:
+                return f'{contrib_beznal.another}'

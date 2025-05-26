@@ -840,7 +840,7 @@ def sql_select_doljniki_information():
            "ORDER BY num_row, num_bild;"
 
 
-def sql_selectvigruzka_contrib_nal(nachalo: str, conec: str, pay_kind: int, ot: str = '', do: str = ''):
+def sql_select_vigruzka_contrib_nal(nachalo: str, conec: str, pay_kind: int, ot: str = '', do: str = ''):
     """Запрос для получения данных по наличным платежам"""
     sql = "SELECT " \
           "(SELECT num_row FROM garage_obj WHERE id = id_garage) as num_row, " \
@@ -849,7 +849,8 @@ def sql_selectvigruzka_contrib_nal(nachalo: str, conec: str, pay_kind: int, ot: 
           "(SELECT iif(bill_number , bill_number, '')) as bill_number, " \
           "comment as period, " \
           "(SELECT iif(balance_count = 1, value, '')) as vznos, " \
-          "(SELECT iif(balance_count = 0, value, '')) as electric " \
+          "(SELECT iif((SELECT electric FROM contribution_type WHERE id = id_cont_type) = 1, value, '')) as electric, " \
+          "(SELECT iif((SELECT electric FROM contribution_type WHERE id = id_cont_type) = 0 AND balance_count = 0 , value, '')) as another " \
           "FROM contribution " \
           f"WHERE pay_date >= '{nachalo}' AND pay_date <= '{conec}' AND pay_kind = {pay_kind} "
     sql += f"AND bill_number >= {ot} " if ot else ''
