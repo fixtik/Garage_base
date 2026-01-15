@@ -858,3 +858,10 @@ def sql_select_vigruzka_contrib_nal(nachalo: str, conec: str, pay_kind: int, ot:
     sql += "ORDER BY pay_date ASC;"
 
     return sql
+
+
+def sql_select_vznos_by_garage_id(id: int):
+    return "SELECT " \
+           "value from members_contrib " \
+           f"where size_id = (SELECT size_type_id from garage_obj where id = {id}) " \
+           "and year = strftime('%Y', date('now', '-1 year'));"

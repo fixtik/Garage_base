@@ -358,6 +358,11 @@ class TQR_Thread(QtCore.QThread):
             meterInfo = self.db.cursor.fetchone()
             paymentMeterInfo = paymentMeterInformation(*meterInfo)
 
+            # Вытаскиваем информацию о величине платежа в прошлом году, чтобы посчитать штрафы
+            self.db.execute(sqlite_qwer.sql_select_vznos_by_garage_id(id=id))
+            prev_year_vznos = self.db.cursor.fetchone()
+
+
         except Exception as e:
             ui.dialogs.onShowError(self, title=constants.ERROR_TITLE, msg=constants.ERROR_QR_GENERATION)
             self.flag = False
@@ -373,7 +378,10 @@ class TQR_Thread(QtCore.QThread):
             nachisleno_II = int(paymentGarageInfo.vznos) / 2
         else:
             nachisleno_II = int(paymentGarageInfo.vznos) - raznica
-        dop_vznos = 500 if (int(paymentGarageInfo.dolg)) > 0 else 0  # 500р штрафа за долг с того года
+        prosrochka_I_kvartal = 1000 if int(paymentGarageInfo.dolg) > prev_year_vznos[
+            0] / 2 else 0  # Если не заплатил за 1 квартал
+        dop_vznos = 1000 + prosrochka_I_kvartal if (
+                                                       int(paymentGarageInfo.dolg)) > 0 else 0  # 1000р штрафа за долг с того года
         dop_vznos_I = 1000 if (int(datetime.now().strftime(
             "%m")) > 5 and nachisleno_I > 0) else 0  # 1000 р штрафа если прошло 30.05
         dop_vznos_I_sum = dop_vznos + dop_vznos_I
