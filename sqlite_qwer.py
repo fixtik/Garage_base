@@ -663,14 +663,15 @@ def sql_get_biling_members_contrib_date(size_id: int, year: int):
 
 def sql_get_unic_year():
     """Запрос на получение значений годов, для которых есть данные для выставления счета"""
-    return "SELECT DISTINCT year FROM members_contrib;"
+    return "SELECT DISTINCT year FROM members_contrib ORDER BY year DESC;"
 
 
 def sql_get_data_to_table(year: int):
     """запрос на получение даты выставления счета"""
     return f"SELECT members_contrib.size_id, type_size.width, type_size.len, type_size.height, " \
-           f"members_contrib.year, members_contrib.value, members_contrib.date_biling FROM   type_size " \
-           f" INNER JOIN members_contrib ON type_size.id = members_contrib.size_id WHERE year='{year}';"
+           "members_contrib.year, members_contrib.value, " \
+           "(CASE WHEN members_contrib.date_biling = 0 THEN	members_contrib.date_biling	ELSE strftime('%d.%m.%Y %H:%M:%S', members_contrib.date_biling) END) as date_biling " \
+           f"FROM type_size INNER JOIN members_contrib ON type_size.id = members_contrib.size_id WHERE year='{year}';"
 
 
 def sql_set_billing_by_size_id(value: str, size_id: str) -> str:

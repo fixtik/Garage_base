@@ -246,6 +246,7 @@ class Form_frontend(QtWidgets.QMainWindow):
         if self.db:
             self.bilingCont = ui.contribute_functions.Biling_contrib_ui(db=self.db)
             self.bilingCont.mainForm = self
+            self.bilingCont.resize(500, 320)
             self.bilingCont.show()
 
     def show_plateji(self):

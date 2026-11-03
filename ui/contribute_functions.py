@@ -332,6 +332,7 @@ class Member_contrib_ui(QtWidgets.QWidget):
         self.db = db  # БД
         self.mainForm = None  # Родительская форма
         self.size_ids = []  # Cписок size_id
+        self.css = ui.css  # для красоты
         self.initUI()
 
     def initUI(self):
@@ -349,6 +350,8 @@ class Member_contrib_ui(QtWidgets.QWidget):
         self.ui.year_comboBox.currentTextChanged.connect(self.set_value_to_field)
         self.ui.add_pushButton.clicked.connect(self.addButton_pressed)
         self.set_value_to_field()
+        # add a little bit of spice
+        self.css.SetIcon.icon(self, label=0, window_icon=1)
 
     def setYear(self):
         """Установка диапазона годов"""
@@ -448,6 +451,7 @@ class Biling_contrib_ui(QtWidgets.QWidget):
         self.db = db  # БД
         self.mainForm = None
         self.tb_model = None
+        self.css = ui.css  # для красоты
 
         self.initUI()
 
@@ -462,6 +466,9 @@ class Biling_contrib_ui(QtWidgets.QWidget):
         self.fill_date_bd()
         self.ui.ok_pushButton.clicked.connect(self.biling_contrib)
         self.ui.year_comboBox.currentIndexChanged.connect(self.chandge_year)
+
+        # add a little bit of spice
+        self.css.SetIcon.icon(self, label=0, window_icon=1)
 
     def fill_year(self):
         """Заполнение годами из БД"""
